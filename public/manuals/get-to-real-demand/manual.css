@@ -1,0 +1,219 @@
+/* ── Manual section overrides (shared) ── */
+
+/* Manual shell — drop border radius */
+.manual-shell {
+  border-radius: 0;
+}
+
+/* Breadcrumb — body font, white text, light separator */
+.manual-breadcrumb {
+  font-family: var(--font-body);
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-muted);
+  padding: 22px 32px;
+}
+.manual-breadcrumb a { color: var(--text-muted); }
+.manual-breadcrumb a:hover { color: var(--text-primary); }
+.manual-breadcrumb-sep {
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin: 0 8px;
+}
+.manual-breadcrumb .current {
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+/* Breadcrumb row — split: trail on left, progress on right */
+.manual-breadcrumb {
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+.manual-breadcrumb-trail {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.manual-copy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+  margin-left: 16px;
+  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+}
+.manual-copy-link:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--text-muted);
+}
+.manual-copy-link svg { flex: none; }
+.manual-copy-link.is-copied {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* Section reading-time meta — sits under the section h2 */
+.manual-section-meta {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: -8px 0 24px;
+}
+
+/* Sidebar — hide label, add framed dividers */
+.manual-sidebar {
+  padding: 0;
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+.manual-sidebar-label {
+  display: none;
+}
+.manual-sidebar a {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  font-size: 15px;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border-soft);
+  border-left: 2px solid transparent;
+}
+.manual-sidebar a:last-child {
+  border-bottom: none;
+}
+.manual-sidebar-num {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.04rem;
+  color: var(--text-muted);
+  flex: none;
+}
+.manual-sidebar a.active .manual-sidebar-num { color: var(--gold); }
+.manual-sidebar-title {
+  flex: 1;
+  font-size: 15px;
+}
+
+/* Layout — left nav 300px, sticky */
+.manual-layout {
+  grid-template-columns: 300px 1fr;
+  align-items: start;
+}
+.manual-sidebar {
+  position: sticky;
+  top: var(--header-h);
+  align-self: start;
+  max-height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+}
+
+/* Right content section — wider gutters */
+.manual-content {
+  padding: 40px 64px 56px;
+}
+
+/* Constrain reading width for body content */
+.manual-section {
+  max-width: 760px;
+}
+.manual-section table {
+  max-width: 100%;
+}
+
+/* Notion callout — medium weight body */
+.manual-section .notion-callout p,
+.manual-section .notion-callout strong {
+  font-weight: 500;
+}
+
+/* Prev / next blocks — give each a minimum width */
+.manual-prev-next a {
+  min-width: 300px;
+}
+.manual-prev-next a.prev,
+.manual-prev-next a.next { max-width: none; }
+@media (max-width: 720px) {
+  .manual-prev-next a { min-width: 0; }
+}
+
+/* Section eyebrow + reading time meta — both removed in this design */
+.manual-section-eyebrow,
+.manual-section-meta {
+  display: none;
+}
+
+/* Per-section summary, injected under the section title from manifest */
+.manual-section-summary {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: -4px 0 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+/* Eyebrow chevron icon — replaces the "> " text prefix */
+.manual-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.manual-hero-eyebrow::before { content: none; }
+.manual-hero-eyebrow .eyebrow-chev {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  color: var(--gold);
+}
+
+/* Full-width feature image (introduction) */
+.manual-feature-media {
+  max-width: none;
+  margin: 0 0 32px 0;
+}
+
+/* Prev/next — title 26px, label as eyebrow */
+.manual-prev-next .pn-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.manual-prev-next .pn-label .pn-chev {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.manual-prev-next .next .pn-label { justify-content: flex-end; }
+.manual-prev-next .pn-title {
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+@media (max-width: 640px) {
+  .manual-copy-link .manual-copy-link-label { display: none; }
+  .manual-copy-link { padding: 0 10px; }
+}
