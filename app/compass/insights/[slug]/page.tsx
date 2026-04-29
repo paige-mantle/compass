@@ -50,7 +50,7 @@ export default async function InsightPage({
   const loaded = await loadInsight(slug);
   if (!loaded) notFound();
 
-  const url = `https://heymantle.com/compass/insights/${slug}`;
+  const url = `https://mantle-chi.vercel.app/compass/insights/${slug}`;
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -64,7 +64,7 @@ export default async function InsightPage({
     publisher: {
       "@type": "Organization",
       name: "Mantle",
-      url: "https://heymantle.com",
+      url: "https://mantle-chi.vercel.app",
     },
     mainEntityOfPage: url,
   };
@@ -72,8 +72,8 @@ export default async function InsightPage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: "https://heymantle.com/compass" },
-      { "@type": "ListItem", position: 2, name: "Insights", item: "https://heymantle.com/compass/insights" },
+      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: "https://mantle-chi.vercel.app/compass" },
+      { "@type": "ListItem", position: 2, name: "Insights", item: "https://mantle-chi.vercel.app/compass/insights" },
       { "@type": "ListItem", position: 3, name: loaded.meta.title, item: url },
     ],
   };

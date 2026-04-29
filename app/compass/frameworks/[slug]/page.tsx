@@ -48,22 +48,22 @@ export default async function FrameworkPage({
   const loaded = await loadFramework(slug);
   if (!loaded) notFound();
 
-  const url = `https://heymantle.com/compass/frameworks/${slug}`;
+  const url = `https://mantle-chi.vercel.app/compass/frameworks/${slug}`;
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     headline: loaded.meta.title,
     description: loaded.meta.summary,
     author: { "@type": "Person", name: loaded.meta.author },
-    publisher: { "@type": "Organization", name: "Mantle", url: "https://heymantle.com" },
+    publisher: { "@type": "Organization", name: "Mantle", url: "https://mantle-chi.vercel.app" },
     mainEntityOfPage: url,
   };
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: "https://heymantle.com/compass" },
-      { "@type": "ListItem", position: 2, name: "Frameworks", item: "https://heymantle.com/compass/frameworks" },
+      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: "https://mantle-chi.vercel.app/compass" },
+      { "@type": "ListItem", position: 2, name: "Frameworks", item: "https://mantle-chi.vercel.app/compass/frameworks" },
       { "@type": "ListItem", position: 3, name: loaded.meta.title, item: url },
     ],
   };
