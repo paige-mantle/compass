@@ -25,29 +25,29 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* ── Elevation scale (dark canvas, matched to mantle-staging) ── */
-      --canvas:         #0c0a0e;   /* surface-medium */
-      --surface:        #110f14;   /* surface-high */
-      --surface-raised: #16141a;   /* surface-higher */
-      --surface-elev:   #1e1c23;   /* surface-highest */
+      /* ── Light surfaces (Compass cream theme) ── */
+      --canvas:         #FFFEF2;
+      --surface:        #FAF7E5;
+      --surface-raised: #F2EDD6;
+      --surface-elev:   #EBE5C8;
 
-      /* ── Borders (edge tokens) ── */
-      --border:         #ffffff1c; /* edge-high */
-      --border-soft:    #ffffff12; /* edge-medium */
-      --hairline:       #ffffff08; /* edge-low */
+      /* ── Borders (dark on light) ── */
+      --border:         rgba(17, 15, 20, 0.14);
+      --border-soft:    rgba(17, 15, 20, 0.08);
+      --hairline:       rgba(17, 15, 20, 0.05);
 
-      /* ── Text (fg tokens) ── */
-      --text-primary:   #ffffff;   /* fg-high */
-      --text-secondary: #e2e1eb;   /* fg-medium */
-      --text-muted:     #a2a0b1;   /* fg-low */
-      --text-label:     #5f5d72;   /* fg-lower */
+      /* ── Text ── */
+      --text-primary:   #110f14;
+      --text-secondary: #5e5c5a;
+      --text-muted:     #5e5c5a;
+      --text-label:     #8a8784;
 
       /* ── Brand accent ── */
-      --gold:           #ffbb53;   /* accent-medium */
-      --gold-dim:       #f5ac3d;   /* accent-low */
-      --gold-high:      #ffc66e;   /* accent-high */
-      --gold-soft:      rgba(255, 187, 83, 0.10);
-      --gold-glow:      rgba(255, 187, 83, 0.16);
+      --gold:           #FFC66E;
+      --gold-dim:       #f5b446;
+      --gold-high:      #FFC66E;
+      --gold-soft:      rgba(255, 198, 110, 0.18);
+      --gold-glow:      rgba(255, 198, 110, 0.30);
 
       /* ── Radius ── */
       --r-sm:  4px;
@@ -131,7 +131,7 @@
       justify-content: space-between;
       padding: 0 var(--s-5);
       border-bottom: 1px solid var(--border-soft);
-      background: linear-gradient(180deg, rgba(11, 9, 16, 0.92), rgba(11, 9, 16, 0.72));
+      background: linear-gradient(180deg, rgba(255, 254, 242, 0.92), rgba(255, 254, 242, 0.72));
       backdrop-filter: blur(12px) saturate(140%);
       -webkit-backdrop-filter: blur(12px) saturate(140%);
     }
@@ -162,7 +162,7 @@
       gap: 5px;
       font-family: var(--font-body);
       font-size: 15px;
-      color: #ffffff;
+      color: var(--text-primary);
       font-weight: 400;
       cursor: pointer;
       padding: 4px 0;
@@ -2335,11 +2335,11 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background-color: #1E1C23;
+      background-color: var(--surface-elev);
       background-image:
-        linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%),
-        linear-gradient(45deg, rgba(255,255,255,0.025) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.025) 75%),
-        linear-gradient(45deg, rgba(255,255,255,0.025) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.025) 75%);
+        linear-gradient(135deg, rgba(17, 15, 20, 0.04) 0%, transparent 60%),
+        linear-gradient(45deg, rgba(17, 15, 20, 0.04) 25%, transparent 25%, transparent 75%, rgba(17, 15, 20, 0.04) 75%),
+        linear-gradient(45deg, rgba(17, 15, 20, 0.04) 25%, transparent 25%, transparent 75%, rgba(17, 15, 20, 0.04) 75%);
       background-size: auto, 16px 16px, 16px 16px;
       background-position: 0 0, 0 0, 8px 8px;
       transition: transform 220ms var(--ease, ease);
@@ -2349,7 +2349,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 24 24' fill='none' stroke='white' stroke-opacity='0.16' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='m21 15-5-5L5 21'/></svg>");
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 24 24' fill='none' stroke='black' stroke-opacity='0.18' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='m21 15-5-5L5 21'/></svg>");
       background-repeat: no-repeat;
       background-position: center;
       pointer-events: none;
@@ -2360,7 +2360,7 @@
       font-weight: 500;
       letter-spacing: -0.02em;
       line-height: 1.1;
-      color: #ffffff;
+      color: var(--text-primary);
       max-width: 14ch;
       position: relative;
       z-index: 1;
@@ -2379,8 +2379,8 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       padding: 5px 9px;
-      background: #0a0a0c;
-      color: #ffffff;
+      background: var(--text-primary);
+      color: var(--canvas);
       border-radius: 2px;
     }
     .insights-card-desc {
@@ -2516,7 +2516,7 @@
   <!-- ═══════════ Site header (Mantle Compass) ═══════════ -->
   <header class="site-header">
     <a class="site-brand" href="/compass" aria-label="Mantle Compass">
-      <img class="site-logo" src="/compass-logo-color-white.svg" alt="Mantle Compass" />
+      <img class="site-logo" src="/compass-logo-color-black.svg" alt="Mantle Compass" />
     </a>
     <form class="site-search" role="search" action="#">
       <svg class="site-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>

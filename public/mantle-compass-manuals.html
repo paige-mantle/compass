@@ -25,29 +25,29 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* ── Elevation scale (dark canvas, matched to mantle-staging) ── */
-      --canvas:         #0c0a0e;   /* surface-medium */
-      --surface:        #110f14;   /* surface-high */
-      --surface-raised: #16141a;   /* surface-higher */
-      --surface-elev:   #1e1c23;   /* surface-highest */
+      /* ── Light surfaces (Compass cream theme) ── */
+      --canvas:         #FFFEF2;
+      --surface:        #FAF7E5;
+      --surface-raised: #F2EDD6;
+      --surface-elev:   #EBE5C8;
 
-      /* ── Borders (edge tokens) ── */
-      --border:         #ffffff1c; /* edge-high */
-      --border-soft:    #ffffff12; /* edge-medium */
-      --hairline:       #ffffff08; /* edge-low */
+      /* ── Borders (dark on light) ── */
+      --border:         rgba(17, 15, 20, 0.14);
+      --border-soft:    rgba(17, 15, 20, 0.08);
+      --hairline:       rgba(17, 15, 20, 0.05);
 
-      /* ── Text (fg tokens) ── */
-      --text-primary:   #ffffff;   /* fg-high */
-      --text-secondary: #e2e1eb;   /* fg-medium */
-      --text-muted:     #a2a0b1;   /* fg-low */
-      --text-label:     #5f5d72;   /* fg-lower */
+      /* ── Text ── */
+      --text-primary:   #110f14;
+      --text-secondary: #5e5c5a;
+      --text-muted:     #5e5c5a;
+      --text-label:     #8a8784;
 
       /* ── Brand accent ── */
-      --gold:           #ffbb53;   /* accent-medium */
-      --gold-dim:       #f5ac3d;   /* accent-low */
-      --gold-high:      #ffc66e;   /* accent-high */
-      --gold-soft:      rgba(255, 187, 83, 0.10);
-      --gold-glow:      rgba(255, 187, 83, 0.16);
+      --gold:           #FFC66E;
+      --gold-dim:       #f5b446;
+      --gold-high:      #FFC66E;
+      --gold-soft:      rgba(255, 198, 110, 0.18);
+      --gold-glow:      rgba(255, 198, 110, 0.30);
 
       /* ── Radius ── */
       --r-sm:  4px;
@@ -131,7 +131,7 @@
       justify-content: space-between;
       padding: 0 var(--s-5);
       border-bottom: 1px solid var(--border-soft);
-      background: linear-gradient(180deg, rgba(11, 9, 16, 0.92), rgba(11, 9, 16, 0.72));
+      background: linear-gradient(180deg, rgba(255, 254, 242, 0.92), rgba(255, 254, 242, 0.72));
       backdrop-filter: blur(12px) saturate(140%);
       -webkit-backdrop-filter: blur(12px) saturate(140%);
     }
@@ -162,7 +162,7 @@
       gap: 5px;
       font-family: var(--font-body);
       font-size: 15px;
-      color: #ffffff;
+      color: var(--text-primary);
       font-weight: 400;
       cursor: pointer;
       padding: 4px 0;
@@ -2576,7 +2576,7 @@
   <!-- ═══════════ Site header (Mantle Compass) ═══════════ -->
   <header class="site-header">
     <a class="site-brand" href="/compass" aria-label="Mantle Compass">
-      <img class="site-logo" src="/compass-logo-color-white.svg" alt="Mantle Compass" />
+      <img class="site-logo" src="/compass-logo-color-black.svg" alt="Mantle Compass" />
     </a>
     <form class="site-search" role="search" action="#">
       <svg class="site-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
