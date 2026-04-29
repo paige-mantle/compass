@@ -468,7 +468,7 @@
 .manual-author-name {
   font-family: var(--font-head);
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--text-primary);
   line-height: 1.2;

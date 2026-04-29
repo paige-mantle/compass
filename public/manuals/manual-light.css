@@ -4,10 +4,10 @@
 
 :root {
   /* Surfaces (off-white scale) */
-  --canvas:         #f8f6f0;
-  --surface:        #ffffff;
-  --surface-raised: #fbfaf6;
-  --surface-elev:   #ffffff;
+  --canvas:         #FFFEF2;
+  --surface:        #FAF7E5;
+  --surface-raised: #F2EDD6;
+  --surface-elev:   #EBE5C8;
 
   /* Borders / hairlines */
   --border:         rgba(15, 13, 8, 0.12);
@@ -15,10 +15,10 @@
   --hairline:       rgba(15, 13, 8, 0.04);
 
   /* Text */
-  --text-primary:   #15130d;
-  --text-secondary: #2c2a23;
-  --text-muted:     #69655a;
-  --text-label:     #93907f;
+  --text-primary:   #110f14;
+  --text-secondary: #5e5c5a;
+  --text-muted:     #5e5c5a;
+  --text-label:     #8a8784;
 
   /* Brand accent stays the same hue, but dial back the soft fills
      because they were tuned for a dark canvas */
