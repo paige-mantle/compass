@@ -4,6 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Builder Answers — Mantle Compass</title>
+  <!-- seo:start -->
+  <meta name="description" content="Direct answers to the questions early-stage builders actually ask — positioning, demand, customer discovery, and getting to first traction.">
+  <link rel="canonical" href="https://heymantle.com/compass/answers">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mantle Compass">
+  <meta property="og:title" content="Builder Answers — Mantle Compass">
+  <meta property="og:description" content="Direct answers to the questions early-stage builders actually ask — positioning, demand, customer discovery, and getting to first traction.">
+  <meta property="og:url" content="https://heymantle.com/compass/answers">
+  <meta property="og:image" content="https://heymantle.com/api/og">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Builder Answers — Mantle Compass">
+  <meta name="twitter:description" content="Direct answers to the questions early-stage builders actually ask — positioning, demand, customer discovery, and getting to first traction.">
+  <meta name="twitter:image" content="https://heymantle.com/api/og">
+<!-- seo:end -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -1632,15 +1646,6 @@
       margin-bottom: 12px;
       transition: color var(--t-fast) var(--ease);
     }
-    .compass-hero-eyebrow::before {
-      content: "";
-      flex-shrink: 0;
-      width: 16px;
-      height: 16px;
-      background: currentColor;
-      -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
-              mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
-    }
     .compass-hero-eyebrow:hover { color: var(--gold); }
     .compass-hero-text h1 {
       font-family: var(--font-head);
@@ -2310,30 +2315,112 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 24px;
       padding: 16px 0 80px;
+      padding-bottom: 84px;
     }
+    /* Filter row: filter chips on the left, section search on the right */
+    .compass-filter-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    @media (max-width: 720px) {
+      .compass-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+    }
+
+    .compass-section-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+      width: 100%;
+      max-width: 300px;
+      padding: 0 14px;
+      height: 38px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    @media (max-width: 720px) {
+      .compass-section-search {
+        margin-left: 0;
+        max-width: none;
+      }
+    }
+    .compass-section-search-icon { color: var(--text-muted); flex: none; }
+    .compass-section-search-input {
+      flex: 1 1 auto;
+      height: 100%;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+    }
+    .compass-section-search-input::placeholder { color: var(--text-muted); }
+
+    /* Category filter chips (mirrors frameworks page) */
+    .compass-frameworks-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 0;
+      flex: 1 1 auto;
+    }
+    .compass-frameworks-filter {
+      font-family: 'Geist', var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0;
+      padding: 8px 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+    .compass-frameworks-filter:hover {
+      color: var(--text-primary);
+      border-color: var(--text-muted);
+    }
+    .compass-frameworks-filter.is-active {
+      background: var(--text-primary);
+      color: var(--canvas);
+      border-color: var(--text-primary);
+    }
+    .answers-card[hidden] { display: none; }
+
     .answers-card {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      background: var(--surface);
-      border: 1px solid var(--border-soft);
-      border-radius: 6px;
-      padding: 22px 24px 26px;
+      gap: 10px;
+      background: #1E1C24;
+      border: none;
+      border-radius: 4px;
+      padding: 22px 24px 22px;
       text-decoration: none;
       color: inherit;
       cursor: pointer;
-      transition: transform var(--t-base) var(--ease), border-color var(--t-base) var(--ease), background var(--t-base) var(--ease);
+      transition: transform var(--t-base) var(--ease), background var(--t-base) var(--ease);
     }
     .answers-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.12);
-      background: var(--surface-raised);
+      background: #28252e;
     }
     .answers-card-meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--hairline);
     }
     .answers-card-tags {
       display: inline-flex;
@@ -2343,14 +2430,15 @@
     .answers-card-tag {
       display: inline-flex;
       align-items: center;
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: var(--surface-elev);
+      padding: 5px 9px;
+      border-radius: 2px;
+      background: #0a0a0c;
       font-family: var(--font-mono);
       font-size: 11px;
-      letter-spacing: 0.06rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--text-secondary);
+      color: #ffffff;
     }
     .answers-card-date {
       font-family: var(--font-mono);
@@ -2362,7 +2450,7 @@
     }
     .answers-card-title {
       font-family: var(--font-head);
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 500;
       letter-spacing: -0.015em;
       line-height: 1.25;
@@ -2375,10 +2463,15 @@
       color: var(--text-secondary);
     }
 
-    @media (max-width: 1100px) {
+    /* Answers grid is 4-up on desktop (overrides .compass-insights-grid 3-up). */
+    .compass-insights-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    @media (max-width: 1200px) {
+      .compass-insights-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 900px) {
       .compass-insights-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    @media (max-width: 700px) {
+    @media (max-width: 600px) {
       .compass-insights-grid { grid-template-columns: 1fr; }
     }
 
@@ -2421,13 +2514,71 @@
       .site-search { display: none; }
     }
 
+  
+    /* ─── Mobile optimization (Compass) ─── */
+    @media (max-width: 720px) {
+      .site-header {
+        height: auto;
+        min-height: 56px;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .site-header .site-search { display: none; }
+      .site-actions { gap: 10px; }
+      .sign-in-link { font-size: 13px; }
+      .site-cta { padding: 0 12px; height: 32px; font-size: 13px; }
+      .site-brand .site-logo { height: 22px; }
+
+      .compass-container { padding: 32px 20px !important; }
+      .compass-hero { padding: 0 !important; }
+      .compass-hero-text h1 {
+        font-size: clamp(36px, 11vw, 48px) !important;
+        line-height: 1.05 !important;
+      }
+      .compass-hero-text p { font-size: 16px !important; }
+
+      .compass-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .compass-nav::-webkit-scrollbar { display: none; }
+      .compass-nav a { flex: none; white-space: nowrap; }
+
+      .compass-frameworks-grid,
+      .compass-insights-grid {
+        gap: 24px !important;
+        padding-bottom: 56px !important;
+      }
+      .framework-card-title { font-size: 24px !important; }
+      .framework-card-block { padding: 20px 18px !important; }
+
+      .insights-card-title { font-size: 18px !important; }
+
+      .compass-frameworks-filter {
+        font-size: 13px !important;
+        padding: 6px 12px !important;
+      }
+
+      .compass-manuals-list {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        padding-bottom: 56px !important;
+      }
+
+      .compass-connect { padding: 48px 0 !important; }
+      .compass-news h3 { font-size: 26px !important; }
+    }
+
   </style>
 </head>
 <body>
 
   <!-- ═══════════ Site header (Mantle Compass) ═══════════ -->
   <header class="site-header">
-    <a class="site-brand" href="mantle-compass.html" aria-label="Mantle Compass">
+    <a class="site-brand" href="/compass" aria-label="Mantle Compass">
       <img class="site-logo" src="/compass-logo-color-white.svg" alt="Mantle Compass" />
     </a>
     <form class="site-search" role="search" action="#">
@@ -2436,7 +2587,7 @@
     </form>
 
     <div class="site-actions">
-      <a class="sign-in-link" href="mantle-homepage.html">← Back to Mantle</a>
+      <a class="sign-in-link" href="/">← Back to Mantle</a>
       <a class="site-cta" href="#">Start for free</a>
     </div>
   </header>
@@ -2448,7 +2599,7 @@
         <!-- Hero -->
         <div class="compass-hero">
           <div class="compass-hero-text">
-            <a class="compass-hero-eyebrow" href="mantle-compass.html">Compass</a>
+            <a class="compass-hero-eyebrow" href="/compass">Compass /</a>
             <h1>Builder Answers</h1>
             <p>Curated answers to every question about building, launching, and growing an app.</p>
           </div>
@@ -2456,113 +2607,215 @@
 
         <!-- Section navigation -->
         <nav class="compass-nav" aria-label="Compass sections">
-          <a href="mantle-compass-manuals.html" data-count="8">Manuals</a>
-          <a href="#" data-count="8">Tools</a>
-          <a class="active" href="mantle-compass-answers.html" data-count="9">Answers</a>
-          <a href="mantle-compass-insights.html" data-count="9">Insights</a>
-          <a href="#" data-count="9">Releases</a>
+          <a href="/compass/manuals" data-count="8">Manuals</a>
+          <a href="/compass/frameworks" data-count="8">Frameworks</a>
+          <a class="active" href="/compass/answers" data-count="9">Answers</a>
+          <a href="/compass/insights" data-count="9">Insights</a>
         </nav>
 
-        <!-- Insights blog grid -->
+        <div class="compass-filter-row">
+          <div class="compass-frameworks-filters" role="tablist" aria-label="Filter answers by category">
+            <button class="compass-frameworks-filter is-active" type="button" data-filter="all">All</button>
+            <button class="compass-frameworks-filter" type="button" data-filter="ai">Mantle AI</button>
+            <button class="compass-frameworks-filter" type="button" data-filter="planning">Planning</button>
+            <button class="compass-frameworks-filter" type="button" data-filter="strategy">Strategy</button>
+            <button class="compass-frameworks-filter" type="button" data-filter="growth">Growth</button>
+            <button class="compass-frameworks-filter" type="button" data-filter="workflows">Workflows</button>
+            <button class="compass-frameworks-filter" type="button" data-filter="validation">Validation</button>
+          </div>
+          <form class="compass-section-search" role="search" action="#" id="answers-search">
+            <svg class="compass-section-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="compass-section-search-input" type="search" placeholder="Search for an answer" aria-label="Search for an answer" />
+          </form>
+        </div>
+
+        <!-- Answers grid -->
         <section class="compass-insights-grid">
-          <a class="answers-card" href="#">
+          <a class="answers-card" href="#" data-categories="workflows,ai">
+            <div class="answers-card-title">Do I need my own Supabase account when building with Lovable?</div>
+            <div class="answers-card-desc">When Lovable's bundled storage is enough — and the moment you should bring your own Supabase.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Validate</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Workflows</span>
               </div>
-              <div class="answers-card-date">3 min read</div>
+              <time class="answers-card-date" datetime="2026-04-22">Apr 22, 2026</time>
             </div>
-            <div class="answers-card-title">How do I know if my idea is worth building?</div>
-            <div class="answers-card-desc">A short test for separating real demand from wishful thinking.</div>
           </a>
-          <a class="answers-card" href="#">
+
+          <a class="answers-card" href="#" data-categories="growth">
+            <div class="answers-card-title">Can you get a free Base44 site into Google Search Console?</div>
+            <div class="answers-card-desc">Yes — but there's one verification step most builders skip on a free plan.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Validate</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Growth</span>
               </div>
-              <div class="answers-card-date">4 min read</div>
+              <time class="answers-card-date" datetime="2026-04-18">Apr 18, 2026</time>
             </div>
-            <div class="answers-card-title">How do I find people to interview before I build?</div>
-            <div class="answers-card-desc">Five sources for talking to real prospective users this week.</div>
           </a>
-          <a class="answers-card" href="#">
+
+          <a class="answers-card" href="#" data-categories="growth">
+            <div class="answers-card-title">Can I do SEO on a no-code AI-built site without knowing how to code?</div>
+            <div class="answers-card-desc">On most AI builders, SEO is filling fields, not writing code. Here's the field list.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Validate</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Growth</span>
               </div>
-              <div class="answers-card-date">5 min read</div>
+              <time class="answers-card-date" datetime="2026-04-15">Apr 15, 2026</time>
             </div>
-            <div class="answers-card-title">What questions should I ask in a customer interview?</div>
-            <div class="answers-card-desc">A simple framework for getting honest, useful answers.</div>
           </a>
-          <a class="answers-card" href="#">
+
+          <a class="answers-card" href="#" data-categories="ai">
+            <div class="answers-card-title">How do I write a one-shot prompt that generates a full app?</div>
+            <div class="answers-card-desc">The structure that turns a vague idea into a working scaffold on the first generation.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Build</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Mantle AI</span>
               </div>
-              <div class="answers-card-date">4 min read</div>
+              <time class="answers-card-date" datetime="2026-04-11">Apr 11, 2026</time>
             </div>
-            <div class="answers-card-title">What should and shouldn’t be in my MVP?</div>
-            <div class="answers-card-desc">A scoping rule that keeps your first build small enough to ship.</div>
           </a>
-          <a class="answers-card" href="#">
+
+          <a class="answers-card" href="#" data-categories="growth">
+            <div class="answers-card-title">How do I verify my site in Google Search Console?</div>
+            <div class="answers-card-desc">Skip the meta-tag dance — DNS verification is faster and survives redeploys.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Build</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Growth</span>
               </div>
-              <div class="answers-card-date">5 min read</div>
+              <time class="answers-card-date" datetime="2026-04-08">Apr 08, 2026</time>
             </div>
-            <div class="answers-card-title">How do I decide between building and buying?</div>
-            <div class="answers-card-desc">A decision matrix for when off-the-shelf wins.</div>
           </a>
-          <a class="answers-card" href="#">
+
+          <a class="answers-card" href="#" data-categories="workflows">
+            <div class="answers-card-title">How to write an API that won't break in six months</div>
+            <div class="answers-card-desc">Six months is when shortcuts start charging interest. Write it like it has to last.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Launch</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Workflows</span>
               </div>
-              <div class="answers-card-date">3 min read</div>
+              <time class="answers-card-date" datetime="2026-04-04">Apr 04, 2026</time>
             </div>
-            <div class="answers-card-title">When am I actually ready to launch?</div>
-            <div class="answers-card-desc">Five signals that you’re ready — and three that say wait.</div>
           </a>
-          <a class="answers-card" href="#">
+
+          <a class="answers-card" href="#" data-categories="growth">
+            <div class="answers-card-title">How do I track real visitors to my AI-built site?</div>
+            <div class="answers-card-desc">Free analytics that show real humans, not bots — and integrate without touching code.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Launch</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Growth</span>
               </div>
-              <div class="answers-card-date">5 min read</div>
+              <time class="answers-card-date" datetime="2026-04-01">Apr 01, 2026</time>
             </div>
-            <div class="answers-card-title">How should I price my product when I have no data?</div>
-            <div class="answers-card-desc">Three pricing patterns for early products without comp data.</div>
           </a>
-          <a class="answers-card" href="#">
+
+          <a class="answers-card" href="#" data-categories="workflows">
+            <div class="answers-card-title">How do I add Apple Sign-In to a Base44 app to pass App Store review?</div>
+            <div class="answers-card-desc">The exact Apple Sign-In flow reviewers expect — and the gotchas that cause rejections.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Grow</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Workflows</span>
               </div>
-              <div class="answers-card-date">6 min read</div>
+              <time class="answers-card-date" datetime="2026-03-28">Mar 28, 2026</time>
             </div>
-            <div class="answers-card-title">How do I get my first 100 users?</div>
-            <div class="answers-card-desc">The unscalable channels that actually work before product-market fit.</div>
           </a>
-          <a class="answers-card" href="#">
+
+          <a class="answers-card" href="#" data-categories="validation,planning">
+            <div class="answers-card-title">Are people actually making money from vibe-coded apps?</div>
+            <div class="answers-card-desc">Real revenue numbers from real builders — separated from the X-timeline hype.</div>
             <div class="answers-card-meta">
               <div class="answers-card-tags">
-                <span class="answers-card-tag">Grow</span>
-                <span class="answers-card-tag">Guide</span>
+                <span class="answers-card-tag">Validation</span>
               </div>
-              <div class="answers-card-date">4 min read</div>
+              <time class="answers-card-date" datetime="2026-03-25">Mar 25, 2026</time>
             </div>
-            <div class="answers-card-title">When should I hire my first growth person?</div>
-            <div class="answers-card-desc">The signals it’s time — and the work to do before they arrive.</div>
+          </a>
+
+          <a class="answers-card" href="#" data-categories="workflows">
+            <div class="answers-card-title">Why won't my images display in my AI-built app?</div>
+            <div class="answers-card-desc">The asset-hosting setup that actually works — and the three reasons it usually breaks.</div>
+            <div class="answers-card-meta">
+              <div class="answers-card-tags">
+                <span class="answers-card-tag">Workflows</span>
+              </div>
+              <time class="answers-card-date" datetime="2026-03-21">Mar 21, 2026</time>
+            </div>
+          </a>
+
+          <a class="answers-card" href="#" data-categories="growth">
+            <div class="answers-card-title">How do I market my vibe-coded app to get real users?</div>
+            <div class="answers-card-desc">Channels that work for solo builders without an audience — and the ones that don't.</div>
+            <div class="answers-card-meta">
+              <div class="answers-card-tags">
+                <span class="answers-card-tag">Growth</span>
+              </div>
+              <time class="answers-card-date" datetime="2026-03-18">Mar 18, 2026</time>
+            </div>
+          </a>
+
+          <a class="answers-card" href="#" data-categories="strategy,planning">
+            <div class="answers-card-title">When to build vs buy a feature in your early product</div>
+            <div class="answers-card-desc">A 60-second framework for deciding whether to write code or pay for a tool.</div>
+            <div class="answers-card-meta">
+              <div class="answers-card-tags">
+                <span class="answers-card-tag">Strategy</span>
+              </div>
+              <time class="answers-card-date" datetime="2026-03-14">Mar 14, 2026</time>
+            </div>
+          </a>
+
+          <a class="answers-card" href="#" data-categories="workflows">
+            <div class="answers-card-title">How do I stop my Lovable project from appearing in Discover?</div>
+            <div class="answers-card-desc">The single toggle that pulls your project off the public Discover surface.</div>
+            <div class="answers-card-meta">
+              <div class="answers-card-tags">
+                <span class="answers-card-tag">Workflows</span>
+              </div>
+              <time class="answers-card-date" datetime="2026-03-11">Mar 11, 2026</time>
+            </div>
+          </a>
+
+          <a class="answers-card" href="#" data-categories="workflows">
+            <div class="answers-card-title">Why does my Stripe integration keep breaking in my no-code app?</div>
+            <div class="answers-card-desc">The three Stripe pitfalls that always hit no-code apps — and how to defuse them.</div>
+            <div class="answers-card-meta">
+              <div class="answers-card-tags">
+                <span class="answers-card-tag">Workflows</span>
+              </div>
+              <time class="answers-card-date" datetime="2026-03-07">Mar 07, 2026</time>
+            </div>
+          </a>
+
+          <a class="answers-card" href="#" data-categories="planning,workflows">
+            <div class="answers-card-title">Should I set up Stripe at the beginning of a build or after?</div>
+            <div class="answers-card-desc">Why most builders should wire Stripe last — and the few cases where it has to be first.</div>
+            <div class="answers-card-meta">
+              <div class="answers-card-tags">
+                <span class="answers-card-tag">Planning</span>
+              </div>
+              <time class="answers-card-date" datetime="2026-03-04">Mar 04, 2026</time>
+            </div>
+          </a>
+
+          <a class="answers-card" href="#" data-categories="workflows">
+            <div class="answers-card-title">How do I fix an exposed Supabase key without breaking login?</div>
+            <div class="answers-card-desc">Step-by-step: rotate an exposed key without locking out users mid-session.</div>
+            <div class="answers-card-meta">
+              <div class="answers-card-tags">
+                <span class="answers-card-tag">Workflows</span>
+              </div>
+              <time class="answers-card-date" datetime="2026-02-28">Feb 28, 2026</time>
+            </div>
+          </a>
+
+          <a class="answers-card" href="#" data-categories="workflows">
+            <div class="answers-card-title">How do I add Stripe to my AI-built app?</div>
+            <div class="answers-card-desc">The cleanest way to wire Stripe Checkout into an AI builder — minimal config, full coverage.</div>
+            <div class="answers-card-meta">
+              <div class="answers-card-tags">
+                <span class="answers-card-tag">Workflows</span>
+              </div>
+              <time class="answers-card-date" datetime="2026-02-25">Feb 25, 2026</time>
+            </div>
           </a>
         </section>
 
@@ -2584,5 +2837,42 @@
       </div>
     </section>
 
+<script>
+  (function () {
+    const filterBtns = document.querySelectorAll('.compass-frameworks-filter');
+    const searchInput = document.querySelector('#answers-search input');
+    const cards = document.querySelectorAll('.answers-card');
+    if (!cards.length) return;
+
+    let activeCategory = 'all';
+    let query = '';
+
+    function apply() {
+      const q = query.trim().toLowerCase();
+      cards.forEach((card) => {
+        const cats = (card.dataset.categories || '').split(',').map((s) => s.trim());
+        const inCat = activeCategory === 'all' || cats.includes(activeCategory);
+        const text = (card.innerText || card.textContent || '').toLowerCase();
+        const inSearch = !q || text.includes(q);
+        card.hidden = !(inCat && inSearch);
+      });
+    }
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.dataset.filter;
+        filterBtns.forEach((b) => b.classList.toggle('is-active', b === btn));
+        apply();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        query = searchInput.value;
+        apply();
+      });
+    }
+  })();
+</script>
 </body>
 </html>

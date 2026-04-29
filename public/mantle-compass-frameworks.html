@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mantle Compass — Insights</title>
+  <title>Mantle Compass — Frameworks</title>
   <!-- seo:start -->
-  <meta name="description" content="Short insights on what actually moves early-stage products — drawn from operators, founders, and product leaders.">
-  <link rel="canonical" href="https://heymantle.com/compass/insights">
+  <meta name="description" content="Frameworks and code recipes for building on top of Mantle — schemas, snippets, and worked examples to get you to working code fast.">
+  <link rel="canonical" href="https://heymantle.com/compass/frameworks">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Mantle Compass">
-  <meta property="og:title" content="Insights — Mantle Compass">
-  <meta property="og:description" content="Short insights on what actually moves early-stage products — drawn from operators, founders, and product leaders.">
-  <meta property="og:url" content="https://heymantle.com/compass/insights">
+  <meta property="og:title" content="Frameworks — Mantle Compass">
+  <meta property="og:description" content="Frameworks and code recipes for building on top of Mantle — schemas, snippets, and worked examples to get you to working code fast.">
+  <meta property="og:url" content="https://heymantle.com/compass/frameworks">
   <meta property="og:image" content="https://heymantle.com/api/og">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Insights — Mantle Compass">
-  <meta name="twitter:description" content="Short insights on what actually moves early-stage products — drawn from operators, founders, and product leaders.">
+  <meta name="twitter:title" content="Frameworks — Mantle Compass">
+  <meta name="twitter:description" content="Frameworks and code recipes for building on top of Mantle — schemas, snippets, and worked examples to get you to working code fast.">
   <meta name="twitter:image" content="https://heymantle.com/api/og">
 <!-- seo:end -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -2313,20 +2313,103 @@
     .compass-insights-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 32px 28px;
-      padding: 16px 0 84px;
+      gap: 28px;
+      padding: 16px 0 80px;
     }
     .insights-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform var(--t-base) var(--ease), border-color var(--t-base) var(--ease), background var(--t-base) var(--ease);
+      cursor: pointer;
+    }
+    .insights-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.12);
+      background: var(--surface-raised);
+    }
+    .insights-card-media {
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,187,83,0.55), transparent 60%),
+        radial-gradient(circle at 75% 70%, rgba(140,95,210,0.30), transparent 60%),
+        linear-gradient(135deg, #2a210f 0%, #1a1407 100%);
+    }
+    .insights-card-media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(-45deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 22px 22px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .insights-card-title {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+      color: var(--text-primary);
+    }
+    .insights-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px 24px 24px;
+    }
+    .insights-card-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.05rem;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .insights-card-desc {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 1100px) {
+      .compass-insights-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 700px) {
+      .compass-insights-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Framework cards (Sanity-style: bold colored block + meta below) ── */
+    .compass-frameworks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px 28px;
+      margin-top: 48px;
+      padding-bottom: 84px;
+    }
+    @media (max-width: 1100px) {
+      .compass-frameworks-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 700px) {
+      .compass-frameworks-grid { grid-template-columns: 1fr; }
+    }
+    .framework-card {
       display: flex;
       flex-direction: column;
       gap: 18px;
       text-decoration: none;
       color: inherit;
     }
-    .insights-card:hover .insights-card-block {
-      transform: translateY(-3px);
-    }
-    .insights-card-block {
+    .framework-card-block {
       position: relative;
       aspect-ratio: 16 / 9;
       padding: 28px 28px;
@@ -2335,44 +2418,43 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background-color: #1E1C23;
       background-image:
-        linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%),
-        linear-gradient(45deg, rgba(255,255,255,0.025) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.025) 75%),
-        linear-gradient(45deg, rgba(255,255,255,0.025) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.025) 75%);
-      background-size: auto, 16px 16px, 16px 16px;
-      background-position: 0 0, 0 0, 8px 8px;
+        radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
+      background-size: 6px 6px;
       transition: transform 220ms var(--ease, ease);
     }
-    /* Placeholder image icon centered behind content */
-    .insights-card-block::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 24 24' fill='none' stroke='white' stroke-opacity='0.16' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='m21 15-5-5L5 21'/></svg>");
-      background-repeat: no-repeat;
-      background-position: center;
-      pointer-events: none;
+    .framework-card:hover .framework-card-block {
+      transform: translateY(-3px);
     }
-    .insights-card-title {
+    /* Color variants — set on each card via class */
+    .framework-card-block.is-yellow   { background-color: #FFC66E; }
+    .framework-card-block.is-gray     { background-color: #d8d8d6; }
+    .framework-card-block.is-black    { background-color: #1E1C23; }
+    .framework-card-block.is-red      { background-color: #EE4815; }
+    .framework-card-block.is-teal     { background-color: #76E8FF; }
+    .framework-card-block.is-darkteal { background-color: #2A606B; }
+    .framework-card-block.is-purple   { background-color: #9676FF; }
+
+    .framework-card-title {
       font-family: var(--font-head);
       font-size: 32px;
       font-weight: 500;
       letter-spacing: -0.02em;
       line-height: 1.1;
-      color: #ffffff;
+      color: #0a0a0c;
       max-width: 14ch;
-      position: relative;
-      z-index: 1;
     }
-    .insights-card-tags {
+    .framework-card-block.is-black .framework-card-title,
+    .framework-card-block.is-red .framework-card-title,
+    .framework-card-block.is-darkteal .framework-card-title,
+    .framework-card-block.is-purple .framework-card-title { color: #ffffff; }
+
+    .framework-card-tags {
       display: flex;
       gap: 8px;
       align-self: flex-start;
-      position: relative;
-      z-index: 1;
     }
-    .insights-card-tag {
+    .framework-card-tag {
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 500;
@@ -2383,21 +2465,23 @@
       color: #ffffff;
       border-radius: 2px;
     }
-    .insights-card-desc {
+
+    .framework-card-desc {
       font-family: var(--font-body);
       font-size: 16px;
       line-height: 1.55;
       color: var(--text-secondary);
       margin: 0;
     }
-    .insights-card-date {
+
+    .framework-card-date {
       font-family: var(--font-mono);
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.04em;
       color: var(--text-muted);
     }
-    .insights-card-date-label {
+    .framework-card-date-label {
       color: var(--text-label);
       margin-right: 6px;
       text-transform: uppercase;
@@ -2405,11 +2489,45 @@
       letter-spacing: 0.08em;
     }
 
-    @media (max-width: 1100px) {
-      .compass-insights-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* Category filter chips */
+    .compass-frameworks-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 32px;
     }
-    @media (max-width: 700px) {
-      .compass-insights-grid { grid-template-columns: 1fr; }
+    .compass-frameworks-filter {
+      font-family: 'Geist', var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0;
+      padding: 8px 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+    .compass-frameworks-filter:hover {
+      color: var(--text-primary);
+      border-color: var(--text-muted);
+    }
+    .compass-frameworks-filter.is-active {
+      background: var(--text-primary);
+      color: var(--canvas);
+      border-color: var(--text-primary);
+    }
+    .framework-card[hidden] { display: none; }
+
+    /* Group heading like "Sanity Functions Recipes" */
+    .compass-frameworks-group-label {
+      font-family: var(--font-head);
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-top: 56px;
     }
 
     /* Site search bar (Mantle Compass header) */
@@ -2537,47 +2655,115 @@
         <div class="compass-hero">
           <div class="compass-hero-text">
             <a class="compass-hero-eyebrow" href="/compass">Compass /</a>
-            <h1>Insights</h1>
-            <p>Lessons, frameworks, and field notes from teams shipping real products.</p>
+            <h1>Frameworks</h1>
+            <p>Skills and prompts to help you build, grow, and run your product business with AI.</p>
           </div>
         </div>
 
         <!-- Section navigation -->
         <nav class="compass-nav" aria-label="Compass sections">
           <a href="/compass/manuals" data-count="8">Manuals</a>
-          <a href="/compass/frameworks" data-count="8">Frameworks</a>
+          <a class="active" href="/compass/frameworks" data-count="8">Frameworks</a>
           <a href="/compass/answers" data-count="9">Answers</a>
-          <a class="active" href="/compass/insights" data-count="9">Insights</a>
+          <a href="/compass/insights" data-count="9">Insights</a>
         </nav>
 
-        <!-- Insights blog grid -->
-        <section class="compass-insights-grid">
-          <a class="insights-card" href="/compass/insights/mantle-is-a-thesis">
-            <div class="insights-card-block">
-              <div class="insights-card-title">Mantle is a thesis</div>
-              <div class="insights-card-tags">
-                <span class="insights-card-tag">Thesis</span>
+        <div class="compass-frameworks-filters" role="tablist" aria-label="Filter frameworks by category">
+          <button class="compass-frameworks-filter is-active" type="button" data-filter="all">All</button>
+          <button class="compass-frameworks-filter" type="button" data-filter="ai">Mantle AI</button>
+          <button class="compass-frameworks-filter" type="button" data-filter="planning">Planning</button>
+          <button class="compass-frameworks-filter" type="button" data-filter="strategy">Strategy</button>
+          <button class="compass-frameworks-filter" type="button" data-filter="growth">Growth</button>
+          <button class="compass-frameworks-filter" type="button" data-filter="workflows">Workflows</button>
+          <button class="compass-frameworks-filter" type="button" data-filter="validation">Validation</button>
+        </div>
+
+        <section class="compass-frameworks-grid">
+
+          <a class="framework-card" href="/compass/frameworks/validate-app-demand" data-categories="planning">
+            <div class="framework-card-block is-yellow">
+              <div class="framework-card-title">Validate App Demand</div>
+              <div class="framework-card-tags">
+                <span class="framework-card-tag">Planning</span>
               </div>
             </div>
-            <p class="insights-card-desc">There's a difference between putting five products in one place and building one product that does five things.</p>
-            <div class="insights-card-date">
-              <span class="insights-card-date-label">Added</span>
+            <p class="framework-card-desc">Test if the problem is real, urgent, and worth building before you commit.</p>
+            <div class="framework-card-date">
+              <span class="framework-card-date-label">Added</span>
               <time datetime="2026-04-22">Apr 22, 2026</time>
             </div>
           </a>
-          <a class="insights-card" href="/compass/insights/asa-sasi-acquisition">
-            <div class="insights-card-block">
-              <div class="insights-card-title">Mantle expands with acquisition of ASA and SASI</div>
-              <div class="insights-card-tags">
-                <span class="insights-card-tag">Announcement</span>
+
+          <a class="framework-card" href="/compass/frameworks/app-positioning-one-pager" data-categories="strategy">
+            <div class="framework-card-block is-teal">
+              <div class="framework-card-title">App Positioning 1-Pager</div>
+              <div class="framework-card-tags">
+                <span class="framework-card-tag">Strategy</span>
               </div>
             </div>
-            <p class="insights-card-desc">Mantle has acquired App Store Analytics and Shopify App Store Index from Union Works.</p>
-            <div class="insights-card-date">
-              <span class="insights-card-date-label">Added</span>
+            <p class="framework-card-desc">Clarify who it's for, what it solves, and why someone should choose it.</p>
+            <div class="framework-card-date">
+              <span class="framework-card-date-label">Added</span>
+              <time datetime="2026-04-15">Apr 15, 2026</time>
+            </div>
+          </a>
+
+          <a class="framework-card" href="/compass/frameworks/reddit-research-report" data-categories="growth,validation">
+            <div class="framework-card-block is-black">
+              <div class="framework-card-title">Validate with Reddit Research</div>
+              <div class="framework-card-tags">
+                <span class="framework-card-tag">Growth</span>
+              </div>
+            </div>
+            <p class="framework-card-desc">Use real complaints, frustrations, and language from Reddit to pressure-test whether your idea solves a live problem.</p>
+            <div class="framework-card-date">
+              <span class="framework-card-date-label">Added</span>
               <time datetime="2026-04-08">Apr 08, 2026</time>
             </div>
           </a>
+
+          <a class="framework-card" href="/compass/frameworks/find-product-feature-gaps" data-categories="ai">
+            <div class="framework-card-block is-red">
+              <div class="framework-card-title">Find Product Feature Gaps</div>
+              <div class="framework-card-tags">
+                <span class="framework-card-tag">Mantle AI</span>
+              </div>
+            </div>
+            <p class="framework-card-desc">Identify missing features, weak spots, and opportunities based on your product and competitors.</p>
+            <div class="framework-card-date">
+              <span class="framework-card-date-label">Added</span>
+              <time datetime="2026-03-28">Mar 28, 2026</time>
+            </div>
+          </a>
+
+          <a class="framework-card" href="/compass/frameworks/pricing-strategy-audit" data-categories="ai">
+            <div class="framework-card-block is-darkteal">
+              <div class="framework-card-title">Pricing Strategy Audit</div>
+              <div class="framework-card-tags">
+                <span class="framework-card-tag">Mantle AI</span>
+              </div>
+            </div>
+            <p class="framework-card-desc">Review your pricing model, plans, and positioning to improve conversion and revenue.</p>
+            <div class="framework-card-date">
+              <span class="framework-card-date-label">Added</span>
+              <time datetime="2026-03-19">Mar 19, 2026</time>
+            </div>
+          </a>
+
+          <a class="framework-card" href="/compass/frameworks/lifecycle-flow-planner" data-categories="ai">
+            <div class="framework-card-block is-purple">
+              <div class="framework-card-title">Lifecycle Flow Planner</div>
+              <div class="framework-card-tags">
+                <span class="framework-card-tag">Mantle AI</span>
+              </div>
+            </div>
+            <p class="framework-card-desc">Build onboarding, upgrade, retention, and reactivation flows that keep users moving.</p>
+            <div class="framework-card-date">
+              <span class="framework-card-date-label">Added</span>
+              <time datetime="2026-03-11">Mar 11, 2026</time>
+            </div>
+          </a>
+
         </section>
 
         <!-- Newsletter + community -->
@@ -2598,5 +2784,23 @@
       </div>
     </section>
 
+<script>
+  (function () {
+    const filters = document.querySelectorAll('.compass-frameworks-filter');
+    const cards = document.querySelectorAll('.framework-card');
+    if (!filters.length || !cards.length) return;
+    filters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.filter;
+        filters.forEach((b) => b.classList.toggle('is-active', b === btn));
+        cards.forEach((card) => {
+          const cats = (card.dataset.categories || '').split(',').map((s) => s.trim());
+          const show = target === 'all' || cats.includes(target);
+          card.hidden = !show;
+        });
+      });
+    });
+  })();
+</script>
 </body>
 </html>

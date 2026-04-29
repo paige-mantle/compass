@@ -1,27 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mantle Compass — Insights</title>
-  <!-- seo:start -->
-  <meta name="description" content="Short insights on what actually moves early-stage products — drawn from operators, founders, and product leaders.">
-  <link rel="canonical" href="https://heymantle.com/compass/insights">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Mantle Compass">
-  <meta property="og:title" content="Insights — Mantle Compass">
-  <meta property="og:description" content="Short insights on what actually moves early-stage products — drawn from operators, founders, and product leaders.">
-  <meta property="og:url" content="https://heymantle.com/compass/insights">
-  <meta property="og:image" content="https://heymantle.com/api/og">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Insights — Mantle Compass">
-  <meta name="twitter:description" content="Short insights on what actually moves early-stage products — drawn from operators, founders, and product leaders.">
-  <meta name="twitter:image" content="https://heymantle.com/api/og">
-<!-- seo:end -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -50,9 +26,9 @@
       --gold-glow:      rgba(255, 187, 83, 0.16);
 
       /* ── Radius ── */
-      --r-sm:  4px;
-      --r-md:  6px;
-      --r-lg:  6px;
+      --r-sm:  8px;
+      --r-md:  0.75rem;
+      --r-lg:  0.75rem;
 
       /* ── Spacing (8-point) ── */
       --s-1:  8px;
@@ -189,7 +165,7 @@
       width: min(1200px, calc(100vw - 48px));
       background: #15131c;
       border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 6px;
+      border-radius: 12px;
       box-shadow:
         0 1px 0 rgba(255,255,255,0.04) inset,
         0 30px 60px -20px rgba(0,0,0,0.6),
@@ -441,7 +417,7 @@
         linear-gradient(135deg, #1d1628 0%, #120d1c 100%);
       /* Pull image out of the card's padding so only text stays padded */
       margin: -16px -16px 8px;
-      border-radius: 6px 6px 0 0;
+      border-radius: 0.75rem 0.75rem 0 0;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     /* Subtle diagonal hatch pattern on media */
@@ -524,7 +500,7 @@
       gap: 10px;
       height: 34px;
       padding: 0 14px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid var(--gold);
       background: var(--gold);
       color: #000;
@@ -1112,7 +1088,7 @@
       gap: 12px;
       height: 42px;
       padding: 0 18px;
-      border-radius: 6px;
+      border-radius: 10px;
       border: 1px solid transparent;
       font-family: var(--font-body);
       font-size: 15px;
@@ -1329,7 +1305,7 @@
     }
     .uc-workflow-feature-title {
       font-family: var(--font-head);
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 500;
       color: var(--text-primary);
       letter-spacing: -0.015em;
@@ -1514,7 +1490,7 @@
     }
     .uc-final-cta p {
       font-family: var(--font-body);
-      font-size: 17px;
+      font-size: 18px;
       color: var(--text-secondary);
       max-width: 620px;
       margin-bottom: var(--s-4);
@@ -1532,13 +1508,8 @@
     .compass-container {
       max-width: 1320px;
       margin: 0 auto;
-      padding: 0;
+      padding: var(--s-5) var(--s-4) 0;
     }
-    .compass-container > *:not(.compass-hero) {
-      margin-top: 0;
-      padding-top: 40px;
-    }
-    .compass-container > .compass-nav { padding-top: 0; }
 
     .compass-layout {
       display: grid;
@@ -1561,7 +1532,7 @@
       align-items: center;
       gap: 12px;
       padding: 10px 12px;
-      border-radius: 6px;
+      border-radius: 0.5rem;
       font-family: var(--font-body);
       font-size: 16px;
       color: var(--text-secondary);
@@ -1594,7 +1565,7 @@
       margin-top: 32px;
       padding: 20px;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 0.75rem;
       background: var(--surface);
     }
     .compass-sidebar-cta h5 {
@@ -1627,43 +1598,38 @@
 
     /* Hero header */
     .compass-hero {
-      display: block;
-      padding-top: 40px;
-      padding-bottom: 40px;
-    }
-    .compass-hero-eyebrow {
-      display: inline-flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
       align-items: center;
-      gap: 12px;
-      font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      line-height: 1.8;
-      text-transform: uppercase;
-      color: var(--gold-high);
-      text-decoration: none;
-      margin-bottom: 12px;
-      transition: color var(--t-fast) var(--ease);
+      padding-bottom: 0;
     }
-    .compass-hero-eyebrow:hover { color: var(--gold); }
     .compass-hero-text h1 {
       font-family: var(--font-head);
-      font-size: 56px;
+      font-size: clamp(48px, 6vw, 80px);
       font-weight: 400;
       letter-spacing: -0.028em;
+      line-height: 1.05;
       color: var(--text-primary);
-      margin-bottom: 16px;
-      line-height: 1;
+      margin-bottom: 24px;
     }
     .compass-hero-text p {
       font-family: var(--font-body);
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.5;
       color: var(--text-secondary);
-      max-width: 720px;
+      max-width: 580px;
     }
-    .compass-hero-graphic { display: none; }
+    .compass-hero-graphic {
+      aspect-ratio: 16 / 5;
+      max-height: 240px;
+      border-radius: 0;
+      background:
+        linear-gradient(0deg, transparent 49%, rgba(255,255,255,0.04) 50%, transparent 51%),
+        linear-gradient(90deg, transparent 49%, rgba(255,255,255,0.04) 50%, transparent 51%);
+      background-size: 40px 40px;
+      position: relative;
+    }
 
     /* Hero featured + collections split */
     .compass-feature {
@@ -1799,7 +1765,7 @@
       letter-spacing: -0.01em;
       text-transform: none;
       color: var(--text-primary);
-      padding: 18px 18px;
+      padding: 22px 18px;
       border-radius: 0;
       border-right: 1px solid var(--border-soft);
       white-space: nowrap;
@@ -1947,7 +1913,7 @@
     }
     .compass-blog-feature-media {
       aspect-ratio: 16 / 9;
-      border-radius: 6px;
+      border-radius: 0.75rem;
       background:
         radial-gradient(circle at 40% 50%, rgba(255,187,83,0.12), transparent 55%),
         radial-gradient(circle at 80% 60%, rgba(120,80,180,0.20), transparent 55%),
@@ -2011,7 +1977,7 @@
     }
     .compass-blog-item-thumb {
       aspect-ratio: 1 / 1;
-      border-radius: 6px;
+      border-radius: 0.5rem;
       background:
         radial-gradient(circle at 30% 30%, rgba(255,187,83,0.14), transparent 55%),
         radial-gradient(circle at 75% 75%, rgba(120,80,180,0.20), transparent 55%),
@@ -2037,21 +2003,23 @@
       color: var(--text-muted);
     }
 
-    /* Newsletter */
+    /* Newsletter + community */
     .compass-connect {
-      display: block;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
       padding: 56px 0;
       border-bottom: 1px solid var(--border-soft);
     }
     .compass-news h3 {
       font-family: var(--font-head);
-      font-size: 38px;
-      font-weight: 400;
-      letter-spacing: -0.02em;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.018em;
       color: var(--text-primary);
-      margin-bottom: 24px;
-      max-width: 540px;
-      line-height: 1.15;
+      margin-bottom: 20px;
+      max-width: 360px;
+      line-height: 1.25;
     }
     .compass-news-form {
       display: flex;
@@ -2070,39 +2038,26 @@
       gap: 10px;
     }
     .compass-news-input {
-      flex: 0 0 400px;
-      width: 400px;
-      max-width: 100%;
-      height: 42px;
-      padding: 0 16px;
+      flex: 1;
+      padding: 12px 14px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 0.5rem;
       color: var(--text-primary);
       font-family: var(--font-body);
-      font-size: 15px;
-      outline: none;
-      transition: border-color var(--t-fast) var(--ease);
+      font-size: 14px;
     }
-    .compass-news-input:focus { border-color: var(--gold); }
     .compass-news-submit {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 42px;
-      padding: 0 18px;
-      border-radius: 6px;
+      padding: 12px 22px;
+      border-radius: 999px;
       background: var(--gold);
-      color: #000;
+      color: #1a1320;
       border: 1px solid var(--gold);
       font-family: var(--font-body);
-      font-size: 15px;
+      font-size: 13.5px;
       font-weight: 500;
-      line-height: 1;
       cursor: pointer;
-      transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
     }
-    .compass-news-submit:hover { background: var(--gold-dim); border-color: var(--gold-dim); }
     .compass-news-legal {
       font-family: var(--font-body);
       font-size: 12px;
@@ -2123,7 +2078,7 @@
     }
     .compass-community-icon {
       width: 48px; height: 48px;
-      border-radius: 6px;
+      border-radius: 0.5rem;
       border: 1px solid var(--border);
       display: grid;
       place-items: center;
@@ -2247,7 +2202,7 @@
 
     .compass-manual-media {
       aspect-ratio: 16 / 10;
-      border-radius: 6px;
+      border-radius: 0.75rem;
       background:
         radial-gradient(circle at 30% 40%, rgba(255,187,83,0.10), transparent 55%),
         radial-gradient(circle at 80% 70%, rgba(140,95,210,0.22), transparent 55%),
@@ -2286,7 +2241,7 @@
     .compass-manual-row:hover .compass-manual-title { color: var(--gold); }
     .compass-manual-desc {
       font-family: var(--font-body);
-      font-size: 17px;
+      font-size: 18px;
       line-height: 1.55;
       color: var(--text-secondary);
       max-width: 560px;
@@ -2309,108 +2264,487 @@
       .compass-manual-media { aspect-ratio: 16 / 9; }
     }
 
-    /* ───────── Insights grid (blog listing) ───────── */
-    .compass-insights-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 32px 28px;
-      padding: 16px 0 84px;
-    }
-    .insights-card {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      text-decoration: none;
-      color: inherit;
-    }
-    .insights-card:hover .insights-card-block {
-      transform: translateY(-3px);
-    }
-    .insights-card-block {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      padding: 28px 28px;
-      border-radius: 4px;
+    /* ───────── Manual detail page (section page) ───────── */
+    .manual-shell {
+      max-width: 1320px;
+      margin: 40px auto 80px;
+      padding: 0;
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      background: var(--surface);
       overflow: hidden;
+    }
+
+    .manual-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 18px 32px;
+      border-bottom: 1px solid var(--border-soft);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.04rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .manual-breadcrumb a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color var(--t-fast) var(--ease);
+    }
+    .manual-breadcrumb a:hover { color: var(--gold); }
+    .manual-breadcrumb-sep {
+      color: var(--text-label);
+      opacity: 0.7;
+    }
+    .manual-breadcrumb .current {
+      color: var(--text-primary);
+    }
+
+    .manual-hero {
+      padding: 40px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .manual-hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      letter-spacing: 0.05rem;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .manual-hero-eyebrow::before {
+      content: "> ";
+      color: var(--gold);
+    }
+    .manual-hero h1 {
+      font-family: var(--font-head);
+      font-size: 56px;
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .manual-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      align-items: stretch;
+    }
+
+    .manual-sidebar {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      background-color: #1E1C23;
-      background-image:
-        linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%),
-        linear-gradient(45deg, rgba(255,255,255,0.025) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.025) 75%),
-        linear-gradient(45deg, rgba(255,255,255,0.025) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.025) 75%);
-      background-size: auto, 16px 16px, 16px 16px;
-      background-position: 0 0, 0 0, 8px 8px;
-      transition: transform 220ms var(--ease, ease);
+      padding: 24px 0;
+      border-right: 1px solid var(--border-soft);
+      align-self: stretch;
     }
-    /* Placeholder image icon centered behind content */
-    .insights-card-block::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 24 24' fill='none' stroke='white' stroke-opacity='0.16' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='m21 15-5-5L5 21'/></svg>");
-      background-repeat: no-repeat;
-      background-position: center;
-      pointer-events: none;
+    .manual-sidebar-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06rem;
+      text-transform: uppercase;
+      color: var(--text-label);
+      padding: 0 28px 14px;
     }
-    .insights-card-title {
+    .manual-sidebar a {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text-secondary);
+      padding: 12px 28px;
+      border-left: 2px solid transparent;
+      text-decoration: none;
+      transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+    }
+    .manual-sidebar a:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .manual-sidebar a.active {
+      color: var(--text-primary);
+      font-weight: 500;
+      border-left-color: var(--gold);
+      background: rgba(255, 187, 83, 0.04);
+    }
+
+    .manual-content {
+      padding: 40px 84px 56px;
+      padding-left: 84px;
+      padding-right: 84px;
+      min-width: 0;
+    }
+    .manual-section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.06rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .manual-section h1 {
       font-family: var(--font-head);
-      font-size: 32px;
+      font-size: 44px;
       font-weight: 500;
       letter-spacing: -0.02em;
       line-height: 1.1;
-      color: #ffffff;
-      max-width: 14ch;
-      position: relative;
-      z-index: 1;
+      color: var(--text-primary);
+      margin-bottom: 16px;
     }
-    .insights-card-tags {
-      display: flex;
-      gap: 8px;
-      align-self: flex-start;
-      position: relative;
-      z-index: 1;
-    }
-    .insights-card-tag {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 5px 9px;
-      background: #0a0a0c;
-      color: #ffffff;
-      border-radius: 2px;
-    }
-    .insights-card-desc {
+    .manual-section-lead {
       font-family: var(--font-body);
-      font-size: 16px;
-      line-height: 1.55;
+      font-size: 20px;
+      line-height: 1.5;
       color: var(--text-secondary);
-      margin: 0;
+      margin-bottom: 28px;
     }
-    .insights-card-date {
-      font-family: var(--font-mono);
-      font-size: 14px;
+    .manual-section p {
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+    .manual-section ul li {
+      line-height: 1.5;
+      padding: 4px 0 4px 22px;
+    }
+    .manual-section .notion-checklist li { padding: 4px 0; }
+    .manual-section h2 {
+      font-family: var(--font-head);
+      font-size: 36px;
       font-weight: 500;
-      letter-spacing: 0.04em;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin: 36px 0 14px;
+    }
+    .manual-section h3 {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin: 26px 0 10px;
+    }
+    .manual-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+    }
+    .manual-section ul li {
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      padding: 8px 0 8px 22px;
+      position: relative;
+    }
+    .manual-section ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+    .manual-section blockquote {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      padding: 18px 24px;
+      border-left: 2px solid var(--gold);
+      background: rgba(255, 187, 83, 0.04);
+      border-radius: 0 6px 6px 0;
+      margin: 24px 0;
+    }
+    .manual-section blockquote p { margin: 0; font: inherit; color: inherit; }
+
+    /* ── Notion-style components ── */
+    .manual-section h4 {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin: 22px 0 8px;
+    }
+    .manual-section strong { color: var(--text-primary); font-weight: 600; }
+    .manual-section .notion-divider {
+      border: none;
+      border-top: 1px solid var(--border-soft);
+      margin: 40px 0;
+    }
+    .manual-section .notion-callout {
+      display: flex;
+      gap: 14px;
+      padding: 18px 20px;
+      background: rgba(255, 187, 83, 0.06);
+      border: 1px solid rgba(255, 187, 83, 0.18);
+      border-radius: 6px;
+      margin: 24px 0;
+    }
+    .manual-section .notion-callout-icon {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      font-size: 18px;
+      line-height: 22px;
+    }
+    .manual-section .notion-callout-content { flex: 1; min-width: 0; }
+    .manual-section .notion-callout-content > *:last-child { margin-bottom: 0; }
+    .manual-section .notion-callout p { margin-bottom: 8px; font-size: 16px; }
+    .manual-section .notion-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0;
+    }
+    .manual-section .notion-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 6px 0;
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    .manual-section .notion-checklist li::before { content: none; }
+    .manual-section .notion-checklist label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .manual-section .notion-checklist input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      flex: none;
+      width: 18px;
+      height: 18px;
+      margin-top: 4px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--surface);
+      cursor: pointer;
+      position: relative;
+      transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+    }
+    .manual-section .notion-checklist input[type="checkbox"]:checked {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+    .manual-section .notion-checklist input[type="checkbox"]:checked::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 1px;
+      width: 6px;
+      height: 11px;
+      border: solid #000;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .manual-section .notion-checklist input[type="checkbox"]:checked ~ span {
+      text-decoration: line-through;
       color: var(--text-muted);
     }
-    .insights-card-date-label {
-      color: var(--text-label);
-      margin-right: 6px;
+    .manual-section .notion-toggle {
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      margin: 24px 0;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.015);
+    }
+    .manual-section .notion-toggle > summary {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      cursor: pointer;
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      list-style: none;
+      user-select: none;
+    }
+    .manual-section .notion-toggle > summary::-webkit-details-marker { display: none; }
+    .manual-section .notion-toggle > summary::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      flex: none;
+      background: currentColor;
+      -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
+              mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
+      transition: transform var(--t-fast) var(--ease);
+      color: var(--text-muted);
+    }
+    .manual-section .notion-toggle[open] > summary::before { transform: rotate(90deg); }
+    .manual-section .notion-toggle .notion-toggle-body {
+      padding: 4px 18px 18px;
+      border-top: 1px solid var(--border-soft);
+    }
+    .manual-section .notion-prompt {
+      margin: 24px 0;
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .manual-section .notion-prompt-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-soft);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .manual-section .notion-prompt-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
       font-size: 11px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+    }
+    .manual-section .notion-prompt-copy:hover { border-color: var(--gold); color: var(--gold); }
+    .manual-section .notion-prompt-copy.is-copied { border-color: var(--gold); color: var(--gold); }
+    .manual-section .notion-prompt textarea {
+      display: block;
+      width: 100%;
+      min-height: 280px;
+      padding: 16px;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      resize: vertical;
+    }
+    .manual-section .notion-case {
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      padding: 28px 30px;
+      margin: 32px 0;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .manual-section .notion-case h2 { margin-top: 0; }
+    .manual-section .notion-case > *:last-child { margin-bottom: 0; }
+    .manual-section .notion-case h3 { margin-top: 20px; }
+
+    /* Feature image for the introduction (top of right column) */
+    .manual-feature-media {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 0 32px auto;
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,187,83,0.45), transparent 60%),
+        radial-gradient(circle at 75% 70%, rgba(140,95,210,0.30), transparent 60%),
+        linear-gradient(135deg, #2a210f 0%, #1a1407 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .manual-feature-media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(-45deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 22px 22px;
+      opacity: 0.55;
+      pointer-events: none;
     }
 
+    /* Prev/next navigation at bottom of section content */
+    .manual-prev-next {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 56px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-soft);
+    }
+    .manual-prev-next a {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      max-width: 48%;
+      transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+    }
+    .manual-prev-next a:hover {
+      border-color: rgba(255,187,83,0.5);
+      background: rgba(255,187,83,0.04);
+    }
+    .manual-prev-next a.next { text-align: right; align-items: flex-end; }
+    .manual-prev-next .pn-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.05rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .manual-prev-next .pn-title {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+    .manual-prev-next .placeholder { visibility: hidden; }
+
     @media (max-width: 1100px) {
-      .compass-insights-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .manual-content {
+        padding-left: 56px;
+        padding-right: 56px;
+      }
     }
-    @media (max-width: 700px) {
-      .compass-insights-grid { grid-template-columns: 1fr; }
+    @media (max-width: 860px) {
+      .manual-shell { margin: 16px; border-radius: 8px; }
+      .manual-hero { padding: 24px; }
+      .manual-hero h1 { font-size: 40px; }
+      .manual-breadcrumb { padding: 14px 20px; }
+      .manual-layout { grid-template-columns: 1fr; }
+      .manual-sidebar { border-right: none; border-bottom: 1px solid var(--border-soft); padding: 16px 0; position: static; max-height: none; }
+      .manual-content {
+        padding: 28px 24px;
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .manual-section h1 { font-size: 32px; }
+      .manual-section h2 { font-size: 26px; margin: 28px 0 12px; }
+      .manual-section h3 { font-size: 19px; }
+      .manual-section p,
+      .manual-section ul li { font-size: 16px; }
+      .manual-feature-media { max-width: 100%; }
     }
+
 
     /* Site search bar (Mantle Compass header) */
     .site-search {
@@ -2423,7 +2757,7 @@
       padding: 0 14px;
       margin: 0 24px;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 10px;
       background: rgba(255, 255, 255, 0.03);
       transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
     }
@@ -2451,152 +2785,3 @@
       .site-search { display: none; }
     }
 
-  
-    /* ─── Mobile optimization (Compass) ─── */
-    @media (max-width: 720px) {
-      .site-header {
-        height: auto;
-        min-height: 56px;
-        padding: 10px 16px;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .site-header .site-search { display: none; }
-      .site-actions { gap: 10px; }
-      .sign-in-link { font-size: 13px; }
-      .site-cta { padding: 0 12px; height: 32px; font-size: 13px; }
-      .site-brand .site-logo { height: 22px; }
-
-      .compass-container { padding: 32px 20px !important; }
-      .compass-hero { padding: 0 !important; }
-      .compass-hero-text h1 {
-        font-size: clamp(36px, 11vw, 48px) !important;
-        line-height: 1.05 !important;
-      }
-      .compass-hero-text p { font-size: 16px !important; }
-
-      .compass-nav {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-      .compass-nav::-webkit-scrollbar { display: none; }
-      .compass-nav a { flex: none; white-space: nowrap; }
-
-      .compass-frameworks-grid,
-      .compass-insights-grid {
-        gap: 24px !important;
-        padding-bottom: 56px !important;
-      }
-      .framework-card-title { font-size: 24px !important; }
-      .framework-card-block { padding: 20px 18px !important; }
-
-      .insights-card-title { font-size: 18px !important; }
-
-      .compass-frameworks-filter {
-        font-size: 13px !important;
-        padding: 6px 12px !important;
-      }
-
-      .compass-manuals-list {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
-        padding-bottom: 56px !important;
-      }
-
-      .compass-connect { padding: 48px 0 !important; }
-      .compass-news h3 { font-size: 26px !important; }
-    }
-
-  </style>
-</head>
-<body>
-
-  <!-- ═══════════ Site header (Mantle Compass) ═══════════ -->
-  <header class="site-header">
-    <a class="site-brand" href="/compass" aria-label="Mantle Compass">
-      <img class="site-logo" src="/compass-logo-color-white.svg" alt="Mantle Compass" />
-    </a>
-    <form class="site-search" role="search" action="#">
-      <svg class="site-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input class="site-search-input" type="search" placeholder="Search Compass" aria-label="Search Compass" />
-    </form>
-
-    <div class="site-actions">
-      <a class="sign-in-link" href="/">← Back to Mantle</a>
-      <a class="site-cta" href="#">Start for free</a>
-    </div>
-  </header>
-
-    <!-- ═══════════ PAGE: Compass (resource hub, dark mode) ═══════════ -->
-    <section class="page compass is-active" data-page="compass" data-layout="wide">
-      <div class="compass-container">
-
-        <!-- Hero -->
-        <div class="compass-hero">
-          <div class="compass-hero-text">
-            <a class="compass-hero-eyebrow" href="/compass">Compass /</a>
-            <h1>Insights</h1>
-            <p>Lessons, frameworks, and field notes from teams shipping real products.</p>
-          </div>
-        </div>
-
-        <!-- Section navigation -->
-        <nav class="compass-nav" aria-label="Compass sections">
-          <a href="/compass/manuals" data-count="8">Manuals</a>
-          <a href="/compass/frameworks" data-count="8">Frameworks</a>
-          <a href="/compass/answers" data-count="9">Answers</a>
-          <a class="active" href="/compass/insights" data-count="9">Insights</a>
-        </nav>
-
-        <!-- Insights blog grid -->
-        <section class="compass-insights-grid">
-          <a class="insights-card" href="/compass/insights/mantle-is-a-thesis">
-            <div class="insights-card-block">
-              <div class="insights-card-title">Mantle is a thesis</div>
-              <div class="insights-card-tags">
-                <span class="insights-card-tag">Thesis</span>
-              </div>
-            </div>
-            <p class="insights-card-desc">There's a difference between putting five products in one place and building one product that does five things.</p>
-            <div class="insights-card-date">
-              <span class="insights-card-date-label">Added</span>
-              <time datetime="2026-04-22">Apr 22, 2026</time>
-            </div>
-          </a>
-          <a class="insights-card" href="/compass/insights/asa-sasi-acquisition">
-            <div class="insights-card-block">
-              <div class="insights-card-title">Mantle expands with acquisition of ASA and SASI</div>
-              <div class="insights-card-tags">
-                <span class="insights-card-tag">Announcement</span>
-              </div>
-            </div>
-            <p class="insights-card-desc">Mantle has acquired App Store Analytics and Shopify App Store Index from Union Works.</p>
-            <div class="insights-card-date">
-              <span class="insights-card-date-label">Added</span>
-              <time datetime="2026-04-08">Apr 08, 2026</time>
-            </div>
-          </a>
-        </section>
-
-        <!-- Newsletter + community -->
-        <section class="compass-connect">
-          <div class="compass-news">
-            <h3>Subscribe to our newsletter to receive monthly updates</h3>
-            <div class="compass-news-form">
-              <div class="compass-news-label">Email *</div>
-              <div class="compass-news-row">
-                <input class="compass-news-input" type="email" placeholder="Enter your email" />
-                <button class="compass-news-submit">Submit</button>
-              </div>
-              <div class="compass-news-legal">By clicking "Submit", you agree to opt in to Mantle's mailing list and agree to our ToS and Privacy Policy.</div>
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </section>
-
-</body>
-</html>

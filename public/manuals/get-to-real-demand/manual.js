@@ -104,8 +104,58 @@
                '<span class="manual-sidebar-title">' + s.title + '</span>' +
              '</a>';
     }).join('');
-    sidebar.innerHTML = '<div class="manual-sidebar-label">Sections</div>' + links;
+    var subscribeHtml =
+      '<div class="manual-sidebar-subscribe" data-subscribe>' +
+        '<div class="manual-sidebar-subscribe-title">15k+ serious builders read this newsletter</div>' +
+        '<div class="manual-sidebar-subscribe-desc">Weekly manuals, frameworks, and field notes.</div>' +
+        '<form class="manual-sidebar-subscribe-form" data-subscribe-form novalidate>' +
+          '<input class="manual-sidebar-subscribe-input" type="email" placeholder="Enter your email" required aria-label="Email address" />' +
+          '<button class="manual-sidebar-subscribe-button" type="submit">Get on the list</button>' +
+        '</form>' +
+      '</div>';
+    sidebar.innerHTML = '<div class="manual-sidebar-label">Sections</div>' + links + subscribeHtml;
   }
+
+  // ── Sidebar subscribe: reveal once 50% of the article has been scrolled past ──
+  (function () {
+    var subscribe = document.querySelector('[data-subscribe]');
+    var article = document.querySelector('.manual-content');
+    if (!subscribe || !article) return;
+    var ticking = false;
+    function check() {
+      ticking = false;
+      var rect = article.getBoundingClientRect();
+      var articleTop = rect.top + window.pageYOffset;
+      var articleHeight = article.offsetHeight;
+      var halfwayY = articleTop + articleHeight * 0.5;
+      var viewportMid = window.pageYOffset + window.innerHeight * 0.5;
+      if (viewportMid >= halfwayY) subscribe.classList.add('is-visible');
+      else subscribe.classList.remove('is-visible');
+    }
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(check);
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    check();
+    var form = subscribe.querySelector('[data-subscribe-form]');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var input = form.querySelector('input[type="email"]');
+        var btn = form.querySelector('button[type="submit"]');
+        if (!input || !input.value) return;
+        if (btn) {
+          btn.textContent = 'Subscribed ✓';
+          btn.disabled = true;
+          input.value = '';
+        }
+      });
+    }
+  })();
 
   // ── Section summary: inject below the section heading from manifest ──
   if (current.summary) {
