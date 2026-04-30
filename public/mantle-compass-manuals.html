@@ -2331,10 +2331,13 @@
       letter-spacing: 0.5px;
       line-height: 1.2;
       text-transform: uppercase;
-      color: inherit;
-      opacity: 0.85;
-      order: 2;
+      padding: 5px 9px;
+      background: #1E1C23;
+      color: #ffffff;
+      border-radius: 2px;
+      order: 0;
     }
+    .compass-manual-row.is-locked .compass-manual-kicker { opacity: 0.85; }
     .compass-manual-title {
       font-family: var(--font-head);
       font-size: 30px;
@@ -2350,7 +2353,6 @@
     /* Locked state for coming-soon manuals */
     .compass-manual-row.is-locked { cursor: default; }
     .compass-manual-row.is-locked .compass-manual-title,
-    .compass-manual-row.is-locked .compass-manual-kicker { opacity: 0.55; }
 
     @media (max-width: 1100px) {
       .compass-manuals-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -2622,7 +2624,7 @@
 
         <!-- Manuals stacked list -->
         <section class="compass-manuals-list">
-          <a class="compass-manual-row" href="#">
+          <a class="compass-manual-row" href="/manuals/operate-like-a-founder/">
             <div class="compass-manual-media" style="background-image: url('/manual-images/yellow-archway-scene.webp');"></div>
             <div class="compass-manual-text">
               <div class="compass-manual-kicker">Manual 001</div>
@@ -2640,8 +2642,8 @@
               <div class="compass-manual-link">Read the manual →</div>
             </div>
           </a>
-          <a class="compass-manual-row" href="#">
-            <div class="compass-manual-media" style="background-image: url('/manual-images/3d-glowing-m-cube.webp');"></div>
+          <a class="compass-manual-row" href="/manuals/build-your-first-mvp/">
+            <div class="compass-manual-media" style="background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.20), transparent 55%), #75E9FF;"></div>
             <div class="compass-manual-text">
               <div class="compass-manual-kicker">Manual 003</div>
               <div class="compass-manual-title">Build your first MVP</div>
@@ -2649,17 +2651,14 @@
               <div class="compass-manual-link">Read the manual →</div>
             </div>
           </a>
-          <a class="compass-manual-row is-locked" href="#" data-notify="Polish your product">
-            <div class="compass-manual-media" style="background-image: url('/manual-images/colored-cube-network.webp');">
+          <a class="compass-manual-row" href="/manuals/polish-your-product/">
+            <div class="compass-manual-media" style="background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.22), transparent 55%), #1F5863;">
             </div>
             <div class="compass-manual-text">
               <div class="compass-manual-kicker">Manual 004</div>
               <div class="compass-manual-title">Polish your product</div>
               <div class="compass-manual-desc">Crafting authentic experiences that resonate deeply.</div>
-              <div class="compass-manual-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-                Get notified
-              </div>
+              <div class="compass-manual-link">Read the manual →</div>
             </div>
           </a>
           <a class="compass-manual-row is-locked" href="#" data-notify="Soft launch your app">
@@ -2735,14 +2734,7 @@
         <section class="compass-connect">
           <div class="compass-news">
             <h3>Subscribe to our newsletter to receive monthly updates</h3>
-            <div class="compass-news-form">
-              <div class="compass-news-label">Email *</div>
-              <div class="compass-news-row">
-                <input class="compass-news-input" type="email" placeholder="Enter your email" />
-                <button class="compass-news-submit">Submit</button>
-              </div>
-              <div class="compass-news-legal">By clicking "Submit", you agree to opt in to Mantle's mailing list and agree to our ToS and Privacy Policy.</div>
-            </div>
+            <mantle-newsletter></mantle-newsletter>
           </div>
         </section>
 
@@ -2796,5 +2788,6 @@
       }
     })();
   </script>
+  <script src="/mantle-newsletter.js" defer></script>
 </body>
 </html>

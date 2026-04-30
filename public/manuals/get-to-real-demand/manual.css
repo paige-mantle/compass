@@ -62,11 +62,9 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1.4px);
-  background-size: 18px 18px;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 6px 6px;
   pointer-events: none;
-  opacity: 0.85;
 }
 .manual-hero > * { position: relative; z-index: 1; }
 .manual-hero h1,
@@ -82,6 +80,30 @@
 .manual-hero .manual-copy-link:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.55);
+}
+
+/* Light hero variant — accent fill with the same white-to-dark radial
+   fade used on the manual cover cards, plus dark text. The shared dot
+   overlay (.manual-hero::before) sits on top so the texture matches. */
+.manual-hero--light {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), transparent 55%),
+    radial-gradient(circle at 75% 80%, rgba(0, 0, 0, 0.20), transparent 55%),
+    var(--gold);
+}
+.manual-hero--light h1,
+.manual-hero--light .manual-hero-trail .current,
+.manual-hero--light .manual-hero-trail a { color: #110f14 !important; }
+.manual-hero--light .manual-hero-trail,
+.manual-hero--light .manual-hero-trail-sep { color: rgba(17, 15, 20, 0.65) !important; }
+.manual-hero--light .manual-hero-trail a:hover { color: #000000 !important; }
+.manual-hero--light .manual-copy-link {
+  color: #110f14;
+  border-color: rgba(17, 15, 20, 0.35);
+}
+.manual-hero--light .manual-copy-link:hover {
+  background: rgba(17, 15, 20, 0.06);
+  border-color: rgba(17, 15, 20, 0.55);
 }
 .manual-section {
   padding: 40px 0 56px 84px;
@@ -347,9 +369,9 @@ body:has(.manual-shell) {
   border-collapse: separate;
   border-spacing: 0;
   border: 1px solid color-mix(in srgb, var(--gold) 20%, transparent);
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 }
 .manual-section table th,
@@ -406,7 +428,7 @@ body:has(.manual-shell) {
   --code-edge-soft: rgba(255, 255, 255, 0.07);
   margin: 24px 0;
   border: 1px solid var(--code-edge);
-  border-radius: 8px;
+  border-radius: 4px;
   background: var(--code-bg);
   overflow: hidden;
 }
@@ -494,6 +516,24 @@ body:has(.manual-shell) {
   background: color-mix(in srgb, var(--gold) 6%, transparent);
   border-left-color: var(--gold);
 }
+/* Pull-quote with citation underneath: <blockquote><p>quote</p><p>Source ...</p></blockquote> */
+.manual-section blockquote p:first-child {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: var(--gold);
+}
+.manual-section blockquote p + p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-top: 12px;
+  color: var(--text-muted);
+}
+.manual-section blockquote p + p strong { font-weight: 500; }
 
 /* Content headings: 500 (medium) */
 .manual-section h1,
@@ -629,8 +669,8 @@ body:has(.manual-shell) {
 
 /* Heading scale — applies across all sections */
 .manual-hero h1 {
-  font-size: 48px;
-  line-height: 1.05;
+  font-size: 38px;
+  line-height: 1.1;
 }
 .manual-section h1 {
   font-size: 38px;
