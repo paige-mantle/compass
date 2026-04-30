@@ -146,7 +146,7 @@
     }
     .site-brand .site-logo {
       display: block;
-      height: 28px;
+      height: 38px;
       width: auto;
     }
 
@@ -574,7 +574,7 @@
 
     .brand-mark {
       width: 22px;
-      height: 22px;
+      height: 28px;
       border-radius: 6px;
       background: radial-gradient(circle at 30% 30%, var(--gold) 0%, var(--gold-dim) 70%);
       box-shadow: 0 0 12px var(--gold-glow), inset 0 0 0 1px rgba(255,255,255,0.08);
@@ -913,7 +913,7 @@
 
     .card-icon {
       width: 22px;
-      height: 22px;
+      height: 28px;
       color: var(--text-muted);
       margin-bottom: var(--s-5);
       stroke-width: 1.5;
@@ -1251,7 +1251,7 @@
     .uc-pillar:hover .uc-pillar-icon { color: var(--gold); }
     .uc-pillar-icon {
       width: 22px;
-      height: 22px;
+      height: 28px;
       color: var(--text-muted);
       stroke-width: 1.5;
       margin-bottom: var(--s-4);
@@ -1322,7 +1322,7 @@
     .uc-workflow-feature:first-child { border-top: none; padding-top: 0; }
     .uc-workflow-feature-icon {
       width: 22px;
-      height: 22px;
+      height: 28px;
       color: var(--text-secondary);
       flex-shrink: 0;
       margin-top: 3px;
@@ -1393,7 +1393,7 @@
     }
     .uc-workflow-mock-avatar {
       width: 28px;
-      height: 28px;
+      height: 38px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), var(--gold-dim));
     }
@@ -1638,18 +1638,18 @@
       font-family: var(--font-mono);
       font-size: 14px;
       font-weight: 500;
-      letter-spacing: 0.05em;
-      line-height: 1.8;
+      letter-spacing: 0.5px;
+      line-height: 1.6;
       text-transform: uppercase;
       color: var(--gold-high);
       text-decoration: none;
       margin-bottom: 12px;
-      transition: color var(--t-fast) var(--ease);
+      transition: color 0.15s ease;
     }
     .compass-hero-eyebrow:hover { color: var(--gold); }
     .compass-hero-text h1 {
       font-family: var(--font-head);
-      font-size: 56px;
+      font-size: 52px;
       font-weight: 500;
       letter-spacing: -0.028em;
       color: var(--text-primary);
@@ -1658,7 +1658,7 @@
     }
     .compass-hero-text p {
       font-family: var(--font-body);
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.5;
       color: var(--text-secondary);
       max-width: 720px;
@@ -1866,7 +1866,7 @@
       align-items: center;
       justify-content: center;
       min-width: 22px;
-      height: 22px;
+      height: 28px;
       padding: 0 7px;
       border-radius: 999px;
       background: var(--surface-raised);
@@ -2326,9 +2326,9 @@
       align-items: center;
       align-self: flex-start;
       font-family: var(--font-mono);
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 500;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.5px;
       line-height: 1.2;
       text-transform: uppercase;
       color: inherit;
@@ -2337,7 +2337,7 @@
     }
     .compass-manual-title {
       font-family: var(--font-head);
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 500;
       letter-spacing: -0.02em;
       line-height: 1.05;
@@ -2407,7 +2407,7 @@
       top: 12px;
       right: 12px;
       width: 28px;
-      height: 28px;
+      height: 38px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -2525,7 +2525,7 @@
       .site-actions { gap: 10px; }
       .sign-in-link { font-size: 13px; }
       .site-cta { padding: 0 12px; height: 32px; font-size: 13px; }
-      .site-brand .site-logo { height: 22px; }
+      .site-brand .site-logo { height: 28px; }
 
       .compass-container { padding: 32px 20px !important; }
       .compass-hero { padding: 0 !important; }
@@ -2555,9 +2555,19 @@
       .insights-card-title { font-size: 18px !important; }
 
       .compass-frameworks-filter {
-        font-size: 13px !important;
-        padding: 6px 12px !important;
-      }
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
 
       .compass-manuals-list {
         grid-template-columns: 1fr !important;
@@ -2584,7 +2594,7 @@
     </form>
 
     <div class="site-actions">
-      <a class="sign-in-link" href="/">← Back to Mantle</a>
+      <a class="sign-in-link" href="/">Back to Mantle</a>
       <a class="site-cta" href="#">Start for free</a>
     </div>
   </header>
@@ -2625,7 +2635,7 @@
             <div class="compass-manual-media" style="background-image: url('/manual-images/yellow-planet-system.webp');"></div>
             <div class="compass-manual-text">
               <div class="compass-manual-kicker">Manual 002</div>
-              <div class="compass-manual-title">Get to real demand</div>
+              <div class="compass-manual-title">Find real demand</div>
               <div class="compass-manual-desc">Clarify actual market demand and how to achieve it.</div>
               <div class="compass-manual-link">Read the manual →</div>
             </div>

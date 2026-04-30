@@ -89,10 +89,9 @@ html, body {
   background: rgba(15, 13, 8, 0.04);
 }
 
-/* Sidebar: white surface, full border outline, divider on every row including
-   the last so "Define your positioning" gets a closing border too. */
+/* Sidebar: matches the page canvas (cream) for a seamless content surface. */
 .manual-sidebar {
-  background: #ffffff;
+  background: var(--canvas);
   border-top: 1px solid var(--border) !important;
   border-bottom: 1px solid var(--border) !important;
   border-right: 1px solid var(--border);

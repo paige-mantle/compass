@@ -2,21 +2,25 @@
   // ── Manifest: change the manual once, every section page picks it up ──
   var MANIFEST = {
     slug: 'get-to-real-demand',
-    title: 'Get to real demand',
+    title: 'Find real demand',
     number: '002',
     basePath: '/manuals/get-to-real-demand/',
     sections: [
-      { slug: '',                         title: 'Introduction',             isIntro: true },
-      { slug: 'start-with-the-problem',   title: 'Start with the problem',
+      { slug: '',                          title: 'Introduction',             isIntro: true },
+      { slug: 'start-with-the-problem',    title: 'Start with the problem',
         summary: 'Pin down the specific problem, who has it, and how badly it hurts before you propose a solution.' },
-      { slug: 'find-your-ideal-customer', title: 'Find your ideal customer',
+      { slug: 'find-your-ideal-customer',  title: 'Find your ideal customer',
         summary: 'Pick a specific person with real urgency — specificity is leverage when you have no traction yet.' },
-      { slug: 'validate-your-app-idea',   title: 'Validate your app idea',
+      { slug: 'validate-your-app-idea',    title: 'Validate your app idea',
         summary: 'Run small, fast tests that produce evidence — not opinions — about whether to keep going.' },
-      { slug: 'capture-early-users',      title: 'Capture early users',
+      { slug: 'capture-early-users',       title: 'Capture early users',
         summary: 'Build a small pipeline of real users you can talk to, learn from, and ship to weekly.' },
-      { slug: 'define-your-positioning',  title: 'Define your positioning',
-        summary: 'Write a one-line positioning statement so sharp the right customer recognizes themselves in it.' }
+      { slug: 'define-your-positioning',   title: 'Define your positioning',
+        summary: 'Write a one-line positioning statement so sharp the right customer recognizes themselves in it.' },
+      { slug: 'the-new-alternative',       title: 'The new alternative is AI',
+        summary: 'Most builders compete with another product. Today the real competitor is whatever the customer can do themselves with AI.' },
+      { slug: 'does-your-idea-have-a-moat', title: 'Does your idea have a moat?',
+        summary: 'Speed of building has collapsed. Durable advantage now comes from data, network, distribution, or trust — not feature parity.' }
     ]
   };
 
@@ -37,23 +41,31 @@
     ? MANIFEST.title + ' | Mantle Compass'
     : MANIFEST.title + ' — ' + current.title + ' | Mantle Compass';
 
-  // ── Breadcrumb: "Compass / Manuals / [Manual name]" + progress indicator ──
+  // ── Breadcrumb row: removed — collapse the empty container so it takes no space ──
   var bc = document.querySelector('.manual-breadcrumb');
   if (bc) {
-    bc.innerHTML =
-      '<div class="manual-breadcrumb-trail">' +
-        '<a href="/mantle-compass.html">Compass</a>' +
-        '<span class="manual-breadcrumb-sep">/</span>' +
-        '<a href="/mantle-compass-manuals.html">Manuals</a>' +
-        '<span class="manual-breadcrumb-sep">/</span>' +
-        '<span class="current">' + MANIFEST.title + '</span>' +
-      '</div>' +
-      '<button type="button" class="manual-copy-link" aria-live="polite">' +
-        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>' +
-        '<span class="manual-copy-link-label">Copy link</span>' +
-      '</button>';
+    bc.innerHTML = '';
+    bc.style.display = 'none';
+  }
 
-    var copyBtn = bc.querySelector('.manual-copy-link');
+  // ── Hero: trail (Manuals / [Manual name]) + copy-link button + h1 ──
+  var hero = document.querySelector('.manual-hero');
+  if (hero) {
+    hero.innerHTML =
+      '<div class="manual-hero-row">' +
+        '<div class="manual-hero-trail">' +
+          '<a href="/compass/manuals">Manuals</a>' +
+          '<span class="manual-hero-trail-sep">/</span>' +
+          '<a class="current" href="' + MANIFEST.basePath + '">' + MANIFEST.title + '</a>' +
+        '</div>' +
+        '<button type="button" class="manual-copy-link" aria-live="polite">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>' +
+          '<span class="manual-copy-link-label">Copy link</span>' +
+        '</button>' +
+      '</div>' +
+      '<h1>' + MANIFEST.title + '</h1>';
+
+    var copyBtn = hero.querySelector('.manual-copy-link');
     var copyLabel = copyBtn && copyBtn.querySelector('.manual-copy-link-label');
     if (copyBtn) {
       copyBtn.addEventListener('click', function () {
@@ -82,15 +94,6 @@
         }
       });
     }
-  }
-
-  // ── Hero: H1 = manual title; eyebrow = Operating Manual ### ──
-  var eyebrowChev = '<svg class="eyebrow-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
-  var hero = document.querySelector('.manual-hero');
-  if (hero) {
-    hero.innerHTML =
-      '<div class="manual-hero-eyebrow">' + eyebrowChev + '<span>Manual ' + MANIFEST.number + '</span></div>' +
-      '<h1>' + MANIFEST.title + '</h1>';
   }
 
   // ── Sidebar: "› 00 Introduction" style ──
