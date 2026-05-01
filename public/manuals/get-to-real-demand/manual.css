@@ -672,6 +672,95 @@ body:has(.manual-shell) {
   font-size: 38px;
   line-height: 1.1;
 }
+.manual-hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+/* Shared eyebrow style — gold mono uppercase with a > chevron prefix.
+   Mirrors the eyebrow used across mantle-results / mantle-ops / etc. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: var(--gold-high);
+}
+.eyebrow::before {
+  content: "";
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
+}
+
+/* Hero eyebrow + section breadcrumbs — Geist Mono, 0.5px tracking,
+   uppercase. Inherits color from the hero variant (white on dark,
+   black on light gold). */
+.manual-hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+.manual-hero--light .manual-hero-eyebrow { color: #110f14; }
+
+.manual-hero-summary {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-top: 14px;
+  max-width: 60ch;
+  color: #ffffff;
+}
+.manual-hero--light .manual-hero-summary { color: #110f14; }
+
+/* Sidebar manual header — replaces the old "Sections" label. */
+.manual-sidebar-head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+.manual-sidebar a.manual-sidebar-trail,
+.manual-sidebar a.manual-sidebar-trail:hover {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75) !important;
+  text-decoration: none;
+  padding: 0 !important;
+  border: none !important;
+  border-left: none !important;
+  border-bottom: none !important;
+  background: transparent !important;
+  transition: none !important;
+  transform: none !important;
+}
+.manual-sidebar-manual {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0;
+}
 .manual-section h1 {
   font-size: 38px;
   line-height: 1.1;

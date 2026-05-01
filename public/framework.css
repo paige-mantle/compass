@@ -1,9 +1,114 @@
 /* Framework detail page — extends insight.css.
    Layout: prose on the left, sticky code stack on the right. */
 
+.framework-shell .insight-ribbon,
+.framework-shell .insight-ribbon--link,
+.framework-shell .insight-ribbon--link:hover { color: #8A3E00; }
+
+/* Fill-in-the-blank placeholders in code blocks: e.g. [INSERT IDEA]. */
+.framework-code-placeholder { color: #FFC66E; }
+
+/* End-of-article CTA card linking to a related manual section. Color
+   variant tokens match each manual's cover. */
+.framework-cta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 40px 0 8px;
+  padding: 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 150ms cubic-bezier(0.2, 0, 0, 1);
+  color: #ffffff;
+}
+.framework-cta-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 6px 6px;
+  pointer-events: none;
+}
+.framework-cta-card > * { position: relative; z-index: 1; }
+.framework-cta-card:hover { transform: translateY(-2px); }
+.framework-cta-card-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 4px;
+}
+.framework-cta-card-title {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  color: #ffffff;
+}
+.framework-cta-card-desc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 56ch;
+  color: rgba(255, 255, 255, 0.85);
+}
+.framework-cta-card-cta {
+  display: none;
+}
+
+/* Purple variant — matches the "Find real demand" manual cover. */
+.framework-cta-card--purple {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), transparent 55%),
+    radial-gradient(circle at 75% 80%, rgba(0, 0, 0, 0.22), transparent 55%),
+    #9676FF;
+}
+
+/* "Best for" check-icon list. */
+ul.framework-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 18px;
+}
+ul.framework-checklist li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+ul.framework-checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--gold);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12l4 4 10-10'/></svg>") no-repeat center / 14px 14px;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12l4 4 10-10'/></svg>") no-repeat center / 14px 14px;
+}
+
+/* Hero with a full-viewport divider underneath. The pseudo-element bleeds
+   past the shell's horizontal padding so the line spans edge-to-edge. */
 .framework-shell .insight-hero {
-  border-bottom: 1px solid var(--border);
+  position: relative;
+  border-bottom: none;
   padding-bottom: 32px;
+}
+.framework-shell .insight-hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 1px;
+  background: var(--border);
 }
 
 .framework-layout {
@@ -13,6 +118,8 @@
   align-items: start;
   margin-top: 40px;
 }
+.framework-content { align-self: start; }
+.framework-content > *:first-child { margin-top: 0; }
 
 @media (max-width: 1100px) {
   .framework-layout {
@@ -131,14 +238,15 @@
   font-size: 12.5px;
   line-height: 1.65;
   color: var(--code-fg);
-  overflow-x: auto;
+  overflow-x: hidden;
 }
 
 .framework-code-line {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr);
   align-items: baseline;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .framework-code-lineno {
