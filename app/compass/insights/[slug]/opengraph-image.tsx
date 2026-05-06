@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { OG_CONTENT_TYPE, OG_SIZE, OGImage } from "@/app/og-image-template";
-import { loadInsight } from "@/lib/insights/content";
+import { loadInsight } from "@/compass/lib/insights/content";
 
 export const alt = "Mantle Compass insight";
 export const size = OG_SIZE;

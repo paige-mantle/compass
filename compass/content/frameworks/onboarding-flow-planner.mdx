@@ -1,0 +1,109 @@
+---
+title: "Onboarding Flow Planner"
+slug: onboarding-flow-planner
+summary: "Use Mantle AI to build a practical onboarding automation that helps new installs become active customers."
+ribbon: "Frameworks"
+author: "Mantle Team"
+authorRole: "Mantle"
+blockColor: "purple"
+tags: ["Mantle AI"]
+published: true
+codeBlocks:
+  - filename: onboarding-flow-planner.prompt.md
+    language: prompt
+    code: |
+      I want you to help me design an onboarding automation flow for Mantle.
+
+      My goal is to improve activation for new customers after they install my app.
+
+      Please create a Mantle flow that:
+
+      - targets newly installed customers
+      - starts when a customer installs the app
+      - sends a welcome email immediately
+      - waits 2 days
+      - checks whether the customer has become active / completed a key activation event
+      - if they have not activated, sends a follow-up email with setup guidance
+      - waits another 3 days
+      - checks again whether they activated
+      - if they still have not activated, creates an internal task for the team to follow up
+      - if they have activated at any checkpoint, ends the flow
+
+      Please structure the result as:
+
+      - Flow objective
+      - Recommended trigger
+      - Entry conditions
+      - Step-by-step flow logic
+      - Branch conditions
+      - Suggested email copy for each email
+      - Suggested internal task title and description
+      - Potential improvements or variants
+
+      Important:
+
+      - Keep the logic compatible with Mantle-style automations
+      - Use clear, implementation-ready step names
+      - Make reasonable assumptions where needed, and clearly label them
+      - If "activation event" is ambiguous, suggest 3 example activation events I could use
+      - Keep it practical and concise
+---
+
+## Description
+
+Use Mantle AI to build a practical onboarding automation that helps new installs become active customers.
+
+This prompt is designed to turn a blank page into a clear activation flow inside Mantle.
+
+Less guessing. Faster setup. Better activation.
+
+## Best for
+
+<ul className="framework-checklist">
+  <li>improving post-install activation</li>
+  <li>reducing drop-off after signup</li>
+  <li>creating welcome + follow-up flows</li>
+  <li>building first lifecycle automations</li>
+  <li>turning installs into active users</li>
+</ul>
+
+## Use with
+
+- **Mantle AI** inside your dashboard
+- best for **Shopify apps, SaaS, and product-led tools**
+
+## How to use
+
+Paste the prompt into Mantle AI.
+
+The output should give you:
+
+- flow objective
+- trigger + entry rules
+- step-by-step automation logic
+- branch conditions
+- suggested email copy
+- internal follow-up tasks
+- improvement ideas
+
+## What to look for
+
+<ul className="framework-checklist">
+  <li>fast time-to-value</li>
+  <li>clear activation milestone</li>
+  <li>helpful follow-up nudges</li>
+  <li>internal alerts for stuck users</li>
+  <li>simple logic your team can maintain</li>
+</ul>
+
+## Why it works
+
+Most onboarding flows fail because they stop at welcome emails.
+
+Good onboarding reacts to behavior, nudges inactive users, and escalates high-intent accounts that stall.
+
+## Reminder
+
+Do not optimize opens and clicks first.
+
+Optimize for activation.

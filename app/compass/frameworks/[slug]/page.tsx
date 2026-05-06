@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { FrameworkShell } from "@/components/frameworks/FrameworkShell";
-import { listFrameworks, loadFramework } from "@/lib/frameworks/content";
+import { FrameworkShell } from "@/compass/components/frameworks/FrameworkShell";
+import { listFrameworks, loadFramework } from "@/compass/lib/frameworks/content";
 
 type Params = { slug: string };
 

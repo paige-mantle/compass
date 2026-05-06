@@ -1,5 +1,15 @@
 /* ── Manual section overrides (shared) ── */
 
+/* Local pixel display face (Geist Pixel Square) — used for the manual
+   hero title. Self-hosted from /public/fonts so we don't depend on a
+   network webfont for the pixel rendering. */
+@font-face {
+  font-family: "Geist Pixel Square";
+  src: url("/fonts/GeistPixel-Square.otf") format("opentype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 /* Default accent — overridden per-manual by an inline CSS variable on
    .manual-shell (see ManualShell.tsx + manifest.json `accent` field).
    All accent references below resolve through var(--gold). */
@@ -10,51 +20,62 @@
   --gold-soft:   color-mix(in srgb, var(--gold) 18%, transparent);
   --gold-glow:   color-mix(in srgb, var(--gold) 30%, transparent);
 }
-/* Top nav bar: keep the white/light Compass header on manual pages too */
+/* Top nav bar: keep the white/light Compass header on manual pages too.
+   Bottom hairline matches the canonical structural border (#5E5C5A).
+   Fixed (not sticky) so it stays pinned regardless of scroll-container
+   nesting on the manual pages. */
 .site-header {
   background: #ffffff !important;
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24) !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
 }
+/* The manual-shell margin-top below offsets content past the fixed
+   header. Sidebar already uses var(--header-h) for its own top. */
 
-/* Left sidebar: dark surface with light text + purple hover/active */
+/* Left sidebar: deep ink surface with light text. */
 .manual-sidebar {
-  background: #1E1C23;
+  background: #110F14;
 }
 .manual-sidebar a {
-  color: #d4d2dc;
-  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.7);
+  border-bottom-color: rgba(255, 255, 255, 0.10) !important;
 }
 .manual-sidebar-num {
   color: rgba(255, 255, 255, 0.45);
 }
 .manual-sidebar a:hover {
-  color: var(--gold) !important;
-  background: color-mix(in srgb, var(--gold) 10%, transparent) !important;
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.04) !important;
 }
 .manual-sidebar a:hover .manual-sidebar-num {
-  color: var(--gold);
+  color: rgba(255, 255, 255, 0.7);
 }
 .manual-sidebar a.active {
-  background: color-mix(in srgb, var(--gold) 16%, transparent) !important;
-  color: var(--gold) !important;
-  border-left-color: var(--gold) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  border-left: 2px solid transparent !important;
+  font-weight: 400 !important;
+}
+.manual-sidebar a.active .manual-sidebar-title {
+  font-weight: 400 !important;
 }
 .manual-sidebar a.active .manual-sidebar-num {
-  color: var(--gold);
+  color: #ffffff;
 }
 
-/* Hero band: cream strip above the article body, white content surface */
+/* Hero band sits above the article body — content area inherits the
+   page surface (no own background). */
 .manual-content {
   padding: 0;
-  background: #ffffff;
 }
 .manual-hero {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255, 187, 83, 0.18), transparent 55%),
-    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--gold) 60%, #000), transparent 55%),
-    var(--gold);
-  padding: 40px 84px;
-  border-bottom: none;
+  background: #D7D7D5;
+  padding: 0;
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
   position: relative;
   overflow: hidden;
 }
@@ -62,9 +83,11 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-  background-size: 6px 6px;
   pointer-events: none;
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05  0 0 0 0 0.04  0 0 0 0 0.03  0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 320px 320px;
 }
 .manual-hero > * { position: relative; z-index: 1; }
 .manual-hero h1,
@@ -75,21 +98,15 @@
 .manual-hero-trail a:hover { color: #ffffff !important; }
 .manual-hero .manual-copy-link {
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.35);
 }
 .manual-hero .manual-copy-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.55);
+  opacity: 0.7;
 }
 
-/* Light hero variant — accent fill with the same white-to-dark radial
-   fade used on the manual cover cards, plus dark text. The shared dot
-   overlay (.manual-hero::before) sits on top so the texture matches. */
+/* Light hero variant — flat accent fill (no radial overlay) with dark
+   text. The grain ::before still sits on top for paper texture. */
 .manual-hero--light {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), transparent 55%),
-    radial-gradient(circle at 75% 80%, rgba(0, 0, 0, 0.20), transparent 55%),
-    var(--gold);
+  background: #D7D7D5;
 }
 .manual-hero--light h1,
 .manual-hero--light .manual-hero-trail .current,
@@ -99,17 +116,39 @@
 .manual-hero--light .manual-hero-trail a:hover { color: #000000 !important; }
 .manual-hero--light .manual-copy-link {
   color: #110f14;
-  border-color: rgba(17, 15, 20, 0.35);
 }
 .manual-hero--light .manual-copy-link:hover {
-  background: rgba(17, 15, 20, 0.06);
-  border-color: rgba(17, 15, 20, 0.55);
+  opacity: 0.7;
 }
+/* Single-column intro paragraph — sits inside .manual-section. */
+.manual-intro {
+  margin-bottom: 32px;
+}
+.manual-section .manual-intro p {
+  font-family: "Geist", var(--font-body);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #5E5C5A;
+  margin: 0;
+}
+
 .manual-section {
-  padding: 40px 0 56px 84px;
+  padding: 40px 40px 40px 64px;
+  max-width: 880px;
 }
 .manual-prev-next {
-  padding: 40px 40px 40px 84px;
+  padding: 40px;
+  max-width: none;
+  width: 100%;
+  border-top: 1px solid rgba(94, 92, 90, 0.24);
+}
+
+/* Right-side content surface: no own bg or grain — the page-level
+   paper texture (applied to body) shows straight through. */
+.manual-content {
+  position: relative;
+  background-color: transparent;
 }
 
 /* Subscribe callout (lives in the dark sidebar) — light text, outlined
@@ -165,25 +204,34 @@
 }
 
 
-/* Manual shell — drop border radius + outer border, white surface, full width */
+/* Manual shell — drop border radius + outer border, full width. The
+   page surface paints through the body, not the shell, so the grain
+   is visible everywhere the inner layers are transparent. */
 .manual-shell {
   border-radius: 0;
   border: none;
-  background: #ffffff;
+  background: transparent;
   max-width: none;
   margin: 0 auto;
 }
+/* Page-level paper surface: #F5F5F5 with the SVG grain layered
+   directly as a background-image on the body. No pseudo-element,
+   no blend mode — the grain colour is baked into the SVG so the
+   composite is one flat surface that always paints behind content. */
 body:has(.manual-shell) {
-  background: #ffffff;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.82  0 0 0 0 0.82  0 0 0 0 0.82  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 280px 280px;
+  background-attachment: fixed;
 }
 
 /* Logo: bumped to 38px to match other Compass pages */
 .site-brand .site-logo { height: 38px; width: auto; }
 
-/* Hero: 40px from the top, hairline divider below */
+/* Hero: 40px on every side, structural divider below. */
 .manual-hero {
-  padding: 40px 64px;
-  border-bottom: 1px solid var(--border-soft);
+  padding: 0;
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
 }
 
 /* Sidebar nav: drop the top border so it flows from the hero divider */
@@ -191,9 +239,9 @@ body:has(.manual-shell) {
   border-top: none !important;
 }
 
-/* Right content pane: clean white surface */
+/* Right content pane: transparent (page-level surface shows through) */
 .manual-content {
-  background: #ffffff;
+  background: transparent;
 }
 
 /* Hero: trail row (manuals / [manual title]) on the left, copy-link on the right */
@@ -202,7 +250,67 @@ body:has(.manual-shell) {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
+  margin: 0;
+  padding: 0 40px;
+  height: 64px;
+  flex: none;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
+}
+.manual-hero-row-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.manual-hero-trail {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #5E5C5A;
+  text-decoration: none;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.manual-hero-trail:hover { opacity: 0.7; }
+/* H1 title band — two columns: title (with section number) on the
+   left, intro paragraph on the right. Both align to top. */
+.manual-hero-title {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 40px;
+  margin: 0;
+  padding: 40px;
+}
+.manual-hero-title-main {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.manual-hero-intro {
+  font-family: "Geist", var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #5E5C5A;
+  margin: 0;
+}
+.manual-hero .manual-hero-title h1 {
+  margin: 0;
+  line-height: 1;
+  font-size: 38px;
+  font-family: "Geist Pixel Square", var(--font-head);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.manual-hero-title-num {
+  font-family: "Geist Pixel Square", var(--font-head);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.55;
 }
 .manual-hero-trail {
   display: inline-flex;
@@ -261,26 +369,35 @@ body:has(.manual-shell) {
   flex-wrap: wrap;
   min-width: 0;
 }
+/* Copy link — uppercase mono utility, no underline. */
 .manual-copy-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  gap: 6px;
+  height: auto;
+  padding: 0;
+  border: none;
   background: transparent;
   color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.2;
   cursor: pointer;
   white-space: nowrap;
   flex: none;
   margin-left: 16px;
-  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+  text-decoration: none;
+  transition: opacity var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
 }
+.manual-copy-link:hover {
+  opacity: 0.7;
+  background: transparent;
+  text-decoration: none;
+}
+.manual-copy-link svg { width: 14px; height: 14px; }
 .manual-copy-link:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: var(--text-muted);
@@ -312,19 +429,20 @@ body:has(.manual-shell) {
 }
 .manual-sidebar a {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   align-items: baseline;
-  font-size: 16px;
-  padding: 16px 28px;
-  border-bottom: 1px solid var(--border-soft);
+  font-size: 15px;
+  padding: 12px 22px;
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
   border-left: 2px solid transparent;
 }
 .manual-sidebar a:last-child {
-  border-bottom: none;
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
 }
 .manual-sidebar-num {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 400;
   letter-spacing: 0.04rem;
   color: var(--text-muted);
   flex: none;
@@ -335,21 +453,69 @@ body:has(.manual-shell) {
   font-size: 16px;
 }
 
-/* Layout — left nav 380px, sticky and full viewport height */
+/* Layout — left nav is fixed (out of normal flow), so the grid is a
+   single column shifted right by the sidebar width. Right column is
+   the only scrollable surface (the page itself scrolls behind the
+   pinned sidebar). */
 .manual-shell { overflow: visible; max-width: none; }
 .manual-layout {
-  grid-template-columns: 380px 1fr;
-  align-items: start;
+  display: block;
+  margin-left: 368px;
 }
+/* Left nav: fixed to the viewport so only the right column scrolls.
+   Pinned below the top header (var(--header-h)) and locked to full
+   viewport height; if the nav content overflows, the sidebar handles
+   its own internal scroll. */
 .manual-sidebar {
-  position: sticky;
-  top: var(--header-h);
-  align-self: start;
+  position: fixed;
+  top: 0;
+  left: 48px;
+  width: 320px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--header-h));
   overflow-y: auto;
-  border-radius: 0 0 0 12px;
+  border-radius: 0;
+}
+/* Vertical brand rail — sits at the very left edge. Mantle logo fills
+   the top square; vertical manual title runs beneath it. */
+.manual-rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #FFC66E;
+  border-right: 1px solid rgba(94, 92, 90, 0.24);
+  z-index: 1;
+}
+.manual-rail-logo {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
+}
+.manual-rail-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.manual-rail-text {
+  font-family: "Manrope", var(--font-head);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: #110F14;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  margin: 24px 0;
 }
 .manual-sidebar:first-child { border-top-left-radius: 0; }
 
@@ -358,29 +524,26 @@ body:has(.manual-shell) {
   padding: 0;
 }
 
-/* Constrain reading width for body content */
-.manual-section {
-  max-width: 780px;
-}
+/* Reading width is set on the canonical .manual-section rule above. */
 .manual-section table {
   width: 100%;
   max-width: 100%;
   margin: 24px 0;
   border-collapse: separate;
   border-spacing: 0;
-  border: 1px solid color-mix(in srgb, var(--gold) 20%, transparent);
-  border-radius: 4px;
+  border: 1px solid rgba(94, 92, 90, 0.24);
+  border-radius: 0;
   overflow: hidden;
   font-size: 16px;
   line-height: 1.5;
 }
 .manual-section table th,
 .manual-section table td {
-  padding: 12px 16px;
+  padding: 8px 12px;
   text-align: left;
   vertical-align: top;
-  border-bottom: 1px solid color-mix(in srgb, var(--gold) 16%, transparent);
-  border-right: 1px solid color-mix(in srgb, var(--gold) 10%, transparent);
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
+  border-right: 1px solid rgba(94, 92, 90, 0.24);
   color: var(--text-secondary);
 }
 .manual-section table th:last-child,
@@ -390,28 +553,33 @@ body:has(.manual-shell) {
 .manual-section table tr:last-child td {
   border-bottom: none;
 }
+.manual-section table {
+  background: rgba(216, 216, 214, 0.24);
+}
 .manual-section table thead th {
-  background: color-mix(in srgb, var(--gold) 10%, transparent);
-  color: var(--text-primary);
-  font-family: var(--font-head);
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  border-bottom: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+  background: #E7E7E7;
+  color: #110F14 !important;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
 }
 .manual-section table tbody tr:hover td {
-  background: color-mix(in srgb, var(--gold) 4%, transparent);
+  background: rgba(15, 13, 8, 0.025);
 }
 .manual-section table a {
   color: var(--text-primary);
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--gold) 45%, transparent);
+  text-decoration-color: rgba(15, 13, 8, 0.35);
   text-underline-offset: 3px;
   transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 .manual-section table a:hover {
-  color: var(--gold);
-  text-decoration-color: var(--gold);
+  color: var(--text-primary);
+  text-decoration-color: var(--text-primary);
 }
 .manual-section table strong {
   color: var(--text-primary);
@@ -500,30 +668,34 @@ body:has(.manual-shell) {
   box-shadow: inset 0 0 0 1px var(--gold);
 }
 
-/* Notion callout & blockquote — purple-tinted to match the manual cover */
+/* Notion callout & blockquote — white card on the paper canvas, neutral
+   1px frame, square corners. */
 .manual-section .notion-callout {
-  background: color-mix(in srgb, var(--gold) 8%, transparent) !important;
-  border-color: color-mix(in srgb, var(--gold) 20%, transparent) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(94, 92, 90, 0.24) !important;
+  border-radius: 0 !important;
 }
+.manual-section .notion-callout,
 .manual-section .notion-callout p,
 .manual-section .notion-callout strong,
 .manual-section blockquote,
 .manual-section blockquote p,
 .manual-section blockquote strong {
-  font-weight: 500;
+  font-family: "Geist Pixel Square", var(--font-head);
+  font-weight: 400;
 }
 .manual-section blockquote {
-  background: color-mix(in srgb, var(--gold) 6%, transparent);
+  background: #ffffff;
   border-left-color: var(--gold);
 }
 /* Pull-quote with citation underneath: <blockquote><p>quote</p><p>Source ...</p></blockquote> */
 .manual-section blockquote p:first-child {
-  font-family: var(--font-head);
+  font-family: "Geist Pixel Square", var(--font-head);
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.3;
-  letter-spacing: -0.012em;
-  color: var(--gold);
+  letter-spacing: 0;
+  color: #110F14;
 }
 .manual-section blockquote p + p {
   font-family: var(--font-body);
@@ -535,12 +707,17 @@ body:has(.manual-shell) {
 }
 .manual-section blockquote p + p strong { font-weight: 500; }
 
-/* Content headings: 500 (medium) */
+/* Content headings: h1–h3 medium, smaller subheadings (h4–h6)
+   semi-bold so they still read as labels. */
 .manual-section h1,
 .manual-section h2,
-.manual-section h3,
-.manual-section h4 {
+.manual-section h3 {
   font-weight: 500;
+}
+.manual-section h4,
+.manual-section h5,
+.manual-section h6 {
+  font-weight: 600;
 }
 
 /* Lists ────────────────────────────────────────────────────── */
@@ -677,7 +854,7 @@ body:has(.manual-shell) {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 0;
 }
 /* Shared eyebrow style — gold mono uppercase with a > chevron prefix.
    Mirrors the eyebrow used across mantle-results / mantle-ops / etc. */
@@ -706,14 +883,19 @@ body:has(.manual-shell) {
 /* Hero eyebrow + section breadcrumbs — Geist Mono, 0.5px tracking,
    uppercase. Inherits color from the hero variant (white on dark,
    black on light gold). */
-.manual-hero-eyebrow {
+.manual-hero-eyebrow,
+.manual-hero-updated,
+.manual-hero .manual-copy-link {
   font-family: var(--font-mono);
   font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.85);
+  color: #5E5C5A;
 }
-.manual-hero--light .manual-hero-eyebrow { color: #110f14; }
+.manual-hero--light .manual-hero-eyebrow,
+.manual-hero--light .manual-hero-updated,
+.manual-hero--light .manual-copy-link { color: #5E5C5A; }
 
 .manual-hero-summary {
   font-family: var(--font-body);
@@ -722,18 +904,21 @@ body:has(.manual-shell) {
   line-height: 1.5;
   margin-top: 14px;
   max-width: 60ch;
-  color: #ffffff;
+  color: #5e5c5a;
 }
-.manual-hero--light .manual-hero-summary { color: #110f14; }
+.manual-hero--light .manual-hero-summary { color: #5e5c5a; }
 
 /* Sidebar manual header — replaces the old "Sections" label. */
 .manual-sidebar-head {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 20px;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px;
+  height: 64px;
+  flex: none;
   margin-bottom: 0;
-  border-bottom: none;
+  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
 }
 .manual-sidebar a.manual-sidebar-trail,
 .manual-sidebar a.manual-sidebar-trail:hover {
@@ -742,7 +927,7 @@ body:has(.manual-shell) {
   font-size: 14px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75) !important;
+  color: #5E5C5A !important;
   text-decoration: none;
   padding: 0 !important;
   border: none !important;
@@ -754,7 +939,7 @@ body:has(.manual-shell) {
 }
 .manual-sidebar-manual {
   font-family: var(--font-head);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.018em;
   line-height: 1.2;
@@ -767,7 +952,7 @@ body:has(.manual-shell) {
   margin-bottom: 18px;
 }
 .manual-section h2 {
-  font-size: 34px;
+  font-size: 30px;
   line-height: 1.2;
   margin: 32px 0 16px;
 }
@@ -776,20 +961,21 @@ body:has(.manual-shell) {
   margin: 24px 0 8px;
 }
 .manual-section h4 {
-  font-size: 17px;
+  font-size: 22px;
+  letter-spacing: -0.02em;
   margin: 20px 0 6px;
 }
 @media (max-width: 860px) {
   .manual-hero h1 { font-size: 36px; }
   .manual-section h1 { font-size: 30px; }
-  .manual-section h2 { font-size: 24px; margin: 26px 0 10px; }
+  .manual-section h2 { font-size: 26px; margin: 26px 0 10px; }
   .manual-section h3 { font-size: 18px; }
-  .manual-section h4 { font-size: 16px; }
+  .manual-section h4 { font-size: 18px; }
 }
 
 /* Prev / next blocks — give each a minimum width */
 .manual-prev-next a {
-  min-width: 300px;
+  min-width: 440px;
 }
 .manual-prev-next a.prev,
 .manual-prev-next a.next { max-width: none; }
@@ -939,11 +1125,11 @@ body:has(.manual-shell) {
     border-radius: 0;
   }
   .manual-sidebar a {
-    padding: 12px 20px;
-    font-size: 14px;
+    padding: 12px 22px;
+    font-size: 15px;
   }
   .manual-sidebar-num {
-    font-size: 13px;
+    font-size: 15px;
   }
   .manual-content {
     padding: 28px 20px !important;
@@ -1258,4 +1444,159 @@ body:has(.manual-shell) {
 @media (max-width: 640px) {
   .manual-copy-link .manual-copy-link-label { display: none; }
   .manual-copy-link { padding: 0 10px; }
+}
+
+/* ───── Canonical text palette ─────
+   Headings + pull-quotes use the deepest ink (#110F14); body copy and
+   inline links share a single mid-gray (#5E5C5A). Kept at the bottom
+   of the file so they win over earlier color rules. */
+.manual-section h1,
+.manual-section h2,
+.manual-section h3,
+.manual-section h4,
+.manual-section h5,
+.manual-section h6,
+.manual-section .notion-callout,
+.manual-section .notion-callout p,
+.manual-section .notion-callout strong,
+.manual-section blockquote,
+.manual-section blockquote p,
+.manual-section blockquote p:first-child,
+.manual-section blockquote strong,
+.manual-section .manual-intro h2,
+.manual-hero-title h1,
+.manual-hero-title-num,
+.manual-section strong {
+  color: #110F14 !important;
+}
+.manual-sidebar-manual {
+  color: #ffffff !important;
+}
+.manual-section,
+.manual-section p,
+.manual-section li,
+.manual-section td,
+.manual-section th,
+.manual-section a,
+.manual-section blockquote p + p,
+.manual-section .manual-intro p {
+  color: #5E5C5A !important;
+}
+
+
+/* Sidebar foot — last-updated + copy-link pinned to bottom of the
+   left nav, side-by-side with space between. */
+.manual-sidebar-foot {
+  margin-top: auto;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid rgba(94, 92, 90, 0.24);
+}
+.manual-sidebar-updated {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #5E5C5A;
+  margin: 0;
+}
+.manual-sidebar-foot .manual-copy-link {
+  font-family: "Geist", var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #5E5C5A;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+/* ───── Mobile + tablet ─────
+   Below 900px the fixed rail + fixed sidebar layout collapses to a
+   single-column flow:
+     • rail becomes a horizontal strip at the top (logo + title)
+     • sidebar moves below the rail, position:static, full width
+     • content fills the rest, no left margin
+     • hero title 2-col grid stacks; paddings tighten progressively. */
+@media (max-width: 900px) {
+  .manual-rail {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 48px;
+    border-right: none;
+    border-bottom: 1px solid rgba(94, 92, 90, 0.24);
+    padding-right: 16px;
+  }
+  .manual-rail-logo {
+    border-bottom: none;
+    border-right: 1px solid rgba(94, 92, 90, 0.24);
+  }
+  .manual-rail-text {
+    writing-mode: horizontal-tb;
+    transform: none;
+    margin: 0 0 0 16px;
+    font-size: 16px;
+  }
+  .manual-sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    left: auto;
+    top: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(94, 92, 90, 0.24);
+  }
+  .manual-sidebar-head { height: auto; padding: 16px 20px; }
+  .manual-layout { margin-left: 0; }
+  .manual-shell { margin: 0; }
+
+  .manual-hero-title {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px 20px;
+  }
+  .manual-hero .manual-hero-title h1 { font-size: 30px; }
+  .manual-hero-title-num { font-size: 30px; }
+  .manual-hero-intro { font-size: 16px; }
+
+  .manual-section { padding: 24px 20px 40px; max-width: none; }
+  .manual-prev-next { padding: 24px 20px 40px; }
+  .manual-prev-next a { min-width: 0; }
+
+  .manual-section .notion-callout { padding: 16px 18px; }
+  .manual-section blockquote { max-width: 100%; padding: 14px 18px; }
+  .manual-section table { font-size: 14px; }
+  .manual-section table th,
+  .manual-section table td { padding: 6px 10px; }
+}
+
+@media (max-width: 480px) {
+  .manual-hero-title { padding: 20px 16px; }
+  .manual-hero .manual-hero-title h1 { font-size: 26px; }
+  .manual-hero-title-num { font-size: 26px; }
+  .manual-section { padding: 20px 16px 32px; }
+  .manual-prev-next { padding: 20px 16px 32px; flex-direction: column; gap: 12px; }
+  .manual-prev-next a { width: 100%; }
+  .manual-prev-next .placeholder { display: none; }
+  .manual-sidebar-num { font-size: 14px; }
+  .manual-sidebar a { font-size: 14px; padding: 12px 16px; }
+}
+
+/* Section lede — first paragraph after the (hidden) H1 reads at 22px,
+   full width, sits above the rest of the body copy. */
+.manual-section h1 + p {
+  font-size: 22px;
+  line-height: 1.45;
+  max-width: none;
+  margin-bottom: 24px;
 }

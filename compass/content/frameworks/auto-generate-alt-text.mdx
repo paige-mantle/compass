@@ -1,0 +1,132 @@
+---
+title: "Auto-generate alt text for Media Library assets"
+slug: auto-generate-alt-text
+summary: "Automatically generate accessible, multilingual alt text for images in your Mantle Media Library using Agent Actions and Mantle Functions."
+ribbon: "Frameworks"
+author: "Bram Doppen"
+authorRole: "Solutions Engineer, Mantle"
+blockColor: "black"
+tags: ["Featured", "Official"]
+published: true
+codeBlocks:
+  - filename: studio/aspects/altText.ts
+    language: typescript
+    code: |
+      import {defineAssetAspect, defineField, defineArrayMember} from '@mantle/types'
+
+      const languages = [
+        {title: 'Dutch',   value: 'nl'},
+        {title: 'English', value: 'en'},
+        {title: 'French',  value: 'fr'},
+        {title: 'German',  value: 'de'},
+      ]
+
+      export default defineAssetAspect({
+        name: 'altText',
+        title: 'Alternative text',
+        description: 'Accessible alternative text for this asset, per language.',
+        type: 'array',
+        of: [
+          defineArrayMember({
+            name: 'altTextItem',
+            type: 'object',
+            fields: [
+              defineField({
+                name: 'language',
+                type: 'string',
+                description: 'The language the alt text is written in.',
+                options: { list: languages, layout: 'radio' },
+              }),
+              defineField({
+                name: 'value',
+                title: 'Alternative text',
+                type: 'string',
+                description: 'Short description of the image, for screen readers.',
+              }),
+            ],
+            preview: {
+              select: { title: 'value', subtitle: 'language' },
+            },
+          }),
+        ],
+      })
+  - filename: index.ts
+    language: typescript
+    code: |
+      import {documentEventHandler} from '@mantle/functions'
+      import {createClient}         from '@mantle/client'
+
+      const MAX_KEYWORD_WAIT    = 5    // retry attempts
+      const KEYWORD_WAIT_MS     = 1500 // ms between checks
+      const languages = ['nl', 'en', 'fr', 'de']
+
+      // Wait for machine-generated keywords to be attached to the asset.
+      async function waitForKeywords(
+        fetchKeywords: () => Promise<string[] | undefined>,
+      ): Promise<string[] | undefined> {
+        for (let i = 0; i <= MAX_KEYWORD_WAIT; i++) {
+          console.log('Waiting for keywords...', i)
+          const keywords = await fetchKeywords()
+          if (keywords && keywords.length > 0) return keywords
+          await new Promise((r) => setTimeout(r, KEYWORD_WAIT_MS))
+        }
+        return undefined
+      }
+---
+
+**The Problem:** Content teams need to provide accessible alt text for images across multiple languages, but manually writing alt text for every asset is time-consuming and often inconsistent. As the asset count grows and audiences become more global, creating and maintaining high-quality multilingual alt text becomes a bottleneck — leading to accessibility gaps and a poorer experience for screen reader users.
+
+**The Solution:** This function automatically generates concise, descriptive alt text for images in your Media Library using Mantle's Agent Actions. When an asset is created or updated, the function waits for Mantle's auto-generated image keywords to become available, then produces multilingual alt text and stores it directly on the asset as an aspect. Editors get accessible, editable alt text by default — without manual effort.
+
+## Quick start
+
+View the complete example and source code.
+
+### Initialize blueprints if you haven't already
+
+```bash
+npx mantle blueprints init
+```
+
+### Add the function to your project
+
+```bash
+npx mantle blueprints add function --example media-library-auto-alt-text
+```
+
+### Deploy to production
+
+```bash
+npx mantle blueprints deploy
+```
+
+## How it works
+
+When an image asset is created or updated, the function automatically:
+
+- Triggers on asset create and update events in the Media Library
+- Checks whether alt text already exists to prevent update loops
+- Waits for Mantle's machine-generated image keywords to become available (with retry logic)
+- Uses Mantle's AI-powered Agent Actions to generate concise alt text — one language at a time
+- Stores the generated multilingual alt text in the asset's aspects, where it can be edited in the Media Library UI
+
+## Key benefits
+
+- **Accessibility by default** — every image gets descriptive alt text automatically
+- **Multilingual support** — generate alt text in multiple languages at once
+- **Customizable prompts** to match brand voice and accessibility guidelines
+- **Editable results** that content teams can review and refine
+- **Significant time savings** by eliminating manual alt text creation
+
+## Technical implementation
+
+The function uses Mantle's Media Library Asset Functions combined with AI Agent Actions. It reads machine-generated keywords from the underlying image asset, generates alt text per language, and writes the results to a custom Media Library aspect attached to the asset container.
+
+## Perfect for
+
+- Teams managing large, shared Media Libraries
+- Organizations with multilingual or international audiences
+- Accessibility-focused content teams
+- Projects that want automated metadata without changing editorial workflows
+
+The function is compatible with any Mantle project that has Media Library enabled, and can be easily customized to add or remove languages, adjust prompts, or integrate review and approval workflows.

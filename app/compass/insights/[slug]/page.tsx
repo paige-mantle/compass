@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { InsightShell } from "@/components/insights/InsightShell";
-import { insightMdxComponents } from "@/components/insights/mdx-components";
-import { listInsights, loadInsight } from "@/lib/insights/content";
+import { InsightShell } from "@/compass/components/insights/InsightShell";
+import { insightMdxComponents } from "@/compass/components/insights/mdx-components";
+import { listInsights, loadInsight } from "@/compass/lib/insights/content";
 
 type Params = { slug: string };
 

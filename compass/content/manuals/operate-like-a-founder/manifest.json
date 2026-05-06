@@ -1,0 +1,16 @@
+{
+  "slug": "operate-like-a-founder",
+  "title": "Operate like a founder",
+  "number": "001",
+  "accent": "#FFBB53",
+  "heroVariant": "light",
+  "sections": [
+    { "slug": "",                          "title": "Overview",                    "isIntro": true, "file": "00-introduction.mdx" },
+    { "slug": "the-new-era-of-software",   "title": "The new era of software",                     "file": "01-vibe-coding-vs-real-products.mdx" },
+    { "slug": "vibe-coding-vs-real-products", "title": "Vibe coding vs real products",             "file": "02-the-shift-in-how-software-gets-built.mdx" },
+    { "slug": "thinking-like-a-founder",   "title": "Thinking like a founder",                     "file": "03-youre-not-a-vibe-coder.mdx" },
+    { "slug": "what-actually-matters-early", "title": "What actually matters early",               "file": "04-outcomes-over-features.mdx" },
+    { "slug": "running-the-business",      "title": "Running the business",                        "file": "05-what-to-do-next.mdx" },
+    { "slug": "whats-next",                "title": "What's next?",                                "file": "06-do-you-need-a-cofounder.mdx" }
+  ]
+}

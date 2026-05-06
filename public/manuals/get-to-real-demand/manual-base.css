@@ -2359,7 +2359,7 @@
       display: flex;
       flex-direction: column;
       padding: 24px 0;
-      border-right: 1px solid var(--border-soft);
+      border-right: 1px solid rgba(94, 92, 90, 0.24);
       align-self: stretch;
     }
     .manual-sidebar-label {
@@ -2422,8 +2422,8 @@
     }
     .manual-section p {
       font-family: var(--font-body);
-      font-size: 18px;
-      line-height: 1.5;
+      font-size: 17px;
+      line-height: 1.55;
       color: var(--text-secondary);
       margin-bottom: 14px;
     }
@@ -2440,7 +2440,7 @@
       line-height: 1.15;
       color: var(--text-primary);
       margin: 36px 0 14px;
-      max-width: 60%;
+      max-width: 80%;
     }
     .manual-section h3 { max-width: 60%; }
     /* Section title now lives in the hero — hide any leading h1 from MDX. */
@@ -2480,19 +2480,20 @@
       color: var(--text-primary);
       letter-spacing: -0.01em;
       padding: 18px 24px;
-      border-left: 2px solid var(--gold);
+      border-left: 6px solid var(--gold);
       background: rgba(255, 187, 83, 0.04);
-      border-radius: 0 4px 4px 0;
+      border-radius: 0;
       margin: 24px 0;
+      max-width: 90%;
     }
     .manual-section blockquote p { margin: 0; font: inherit; color: inherit; }
 
     /* ── Notion-style components ── */
     .manual-section h4 {
       font-family: var(--font-head);
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 500;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
       color: var(--text-primary);
       margin: 22px 0 8px;
     }
@@ -2718,8 +2719,8 @@
       flex-direction: column;
       gap: 4px;
       padding: 14px 18px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border: 1px solid rgba(94, 92, 90, 0.24);
+      border-radius: 0;
       text-decoration: none;
       max-width: 48%;
       transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
