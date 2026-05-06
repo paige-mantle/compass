@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Mantle Compass — Research Charts (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════
+   LIGHT TEAL PALETTE
+══════════════════════════════════════ */
+:root {
+  --sky-hue: 180;
+
+  --color-sky-fg-100: oklch(12% 0.015 var(--sky-hue));
+  --color-sky-fg-200: oklch(20% 0.02  var(--sky-hue));
+  --color-sky-fg-300: oklch(33% 0.02  var(--sky-hue));
+  --color-sky-fg-400: oklch(47% 0.02  var(--sky-hue));
+  --color-sky-fg-500: oklch(59% 0.015 var(--sky-hue));
+
+  --color-sky-accent-100: oklch(66% 0.14 var(--sky-hue));
+  --color-sky-accent-200: oklch(56% 0.12 var(--sky-hue));
+
+  --font-heading: 'Geist', 'Inter', sans-serif;
+  --font-body:    'Geist', 'Inter', sans-serif;
+  --font-mono:    'Geist Mono', 'Courier New', monospace;
+
+  --bg-page:       oklch(97% 0.007 var(--sky-hue));
+  --bg-card:       #ffffff;
+  --bg-chart:      oklch(95.5% 0.013 var(--sky-hue));
+  --bg-annot:      oklch(92.5% 0.022 var(--sky-hue));
+
+  --border-card:   oklch(88% 0.018 var(--sky-hue));
+  --border-accent: oklch(64% 0.1 var(--sky-hue));
+
+  --text-heading:  var(--color-sky-fg-100);
+  --text-body:     var(--color-sky-fg-300);
+  --text-muted:    var(--color-sky-fg-400);
+  --text-dimmer:   var(--color-sky-fg-500);
+
+  --accent:        var(--color-sky-accent-100);
+  --accent-mid:    oklch(66% 0.14 var(--sky-hue) / 0.5);
+  --connector:     oklch(64% 0.1  var(--sky-hue) / 0.5);
+  --baseline:      oklch(86% 0.018 var(--sky-hue));
+
+  --bar-a:         var(--color-sky-accent-100);
+  --bar-b:         oklch(66% 0.14 var(--sky-hue) / 0.14);
+  --bar-b-bdr:     oklch(66% 0.14 var(--sky-hue) / 0.4);
+
+  --bar-tier-top:  var(--color-sky-accent-100);
+  --bar-tier-mid:  oklch(66% 0.14 var(--sky-hue) / 0.42);
+  --bar-tier-bot:  oklch(66% 0.14 var(--sky-hue) / 0.18);
+
+  --chart-h: 220px;
+
+  /* ── Mantle formula chart palette ── */
+  --green:       #ffbb53;
+  --green-deep:  #d48900;
+  --green-faint: #fffbe8;
+  --ink:         #0c0817;
+  --muted:       #7a6a3a;
+  --bg-airops:   #fffbf0;
+}
+
+/* ══ STAT CARDS (Charts 9 & 10) ══ */
+.stat-cards-row {
+  display: flex;
+  gap: 40px;
+  width: 900px;
+}
+.stat-card {
+  flex: 1;
+  border-radius: 10px;
+  padding: 26px 26px 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  min-height: 420px;
+}
+.stat-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.stat-tag {
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1.5px solid rgba(0,0,0,0.22);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.65);
+  letter-spacing: 0.01em;
+}
+.stat-num {
+  font-family: var(--font-mono);
+  font-size: 60px;
+  font-weight: 500;
+  color: #0f1a18;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin-bottom: 8px;
+}
+.stat-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(0,0,0,0.48);
+  margin-bottom: 28px;
+}
+.stat-chart-area {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  padding-bottom: 0;
+}
+/* grouped bars (card 9) */
+.stat-bar-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  flex: 1;
+}
+.stat-bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+}
+.stat-bar-val {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: rgba(255,255,255,0.8);
+}
+/* wave bars (card 10) */
+.wave-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  width: 100%;
+  flex: 1;
+}
+.wave-bar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-page);
+  font-family: var(--font-body);
+  padding: 60px 40px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+/* ══ SHARED CARD ══ */
+.card {
+  width: 900px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: 6px;
+  padding: 32px 36px 44px;
+  position: relative;
+  box-shadow: 0 1px 2px oklch(0% 0 0 / 0.05), 0 3px 10px oklch(0% 0 0 / 0.07);
+}
+
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--text-heading);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.card-source {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.chart-area {
+  background: var(--bg-chart);
+  border: 1.5px solid var(--border-card);
+  border-radius: 4px;
+  position: relative;
+  overflow: visible;
+}
+
+.brand-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  border: 1.5px solid var(--border-card);
+  border-radius: 3px;
+  padding: 4px 10px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  white-space: nowrap;
+}
+.brand-badge b { font-weight: 600; color: var(--color-sky-accent-200); }
+
+.y-label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+}
+
+/* annotation card */
+.ann {
+  background: var(--bg-annot);
+  border: 1.5px solid var(--border-accent);
+  border-radius: 6px;
+  padding: 10px 14px;
+  min-width: 156px;
+}
+.ann-num {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text-heading);
+  line-height: 1;
+}
+.ann-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.conn-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
+
+/* ══════════════════════════════════════
+   CHART 1 — Stacked bar
+══════════════════════════════════════ */
+.c1-wrap {
+  padding: 28px 32px 28px 60px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+.c1-yaxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: var(--chart-h);
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+.c1-yaxis span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1;
+}
+.c1-bar {
+  width: 72px;
+  height: var(--chart-h);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.c1-bar-t { flex: 85; background: var(--bar-tier-top); }
+.c1-bar-m { flex: 13; background: var(--bar-tier-mid); border-top: 1.5px solid oklch(0% 0 0 / 0.08); }
+.c1-bar-b { flex: 2;  background: var(--bar-tier-bot); border-top: 1.5px solid oklch(0% 0 0 / 0.1); }
+
+.c1-anns {
+  flex: 1;
+  height: var(--chart-h);
+  position: relative;
+}
+.c1-ann-row {
+  position: absolute;
+  left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+}
+
+/* ══════════════════════════════════════
+   CHART 3 — Comparison bars
+══════════════════════════════════════ */
+.c3-outer { padding: 28px 48px 0 64px; }
+.c3-bars {
+  display: flex;
+  align-items: stretch;
+  gap: 48px;
+  height: var(--chart-h);
+}
+.c3-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.c3-val {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text-heading);
+  margin-bottom: 7px;
+}
+.c3-val-b { color: var(--text-body); }
+.c3-foot { display: flex; flex-direction: column; }
+.c3-baseline { height: 1.5px; background: var(--baseline); }
+.c3-xlabels { display: flex; gap: 48px; padding: 10px 0 28px; }
+.c3-xlabel {
+  width: 140px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+/* ══════════════════════════════════════
+   CHART 5 — Grouped bars
+══════════════════════════════════════ */
+.c5-outer { padding: 28px 32px 0 64px; }
+.c5-bars { display: flex; align-items: stretch; gap: 20px; height: var(--chart-h); }
+.c5-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.c5-pair { display: flex; align-items: flex-end; gap: 4px; }
+.c5-bar-col { display: flex; flex-direction: column; align-items: center; }
+.c5-val {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-heading);
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+.c5-val-b { color: var(--text-body); }
+.c5-foot { display: flex; flex-direction: column; }
+.c5-baseline { height: 1.5px; background: var(--baseline); }
+.c5-xlabels { display: flex; gap: 20px; padding: 10px 0 16px; }
+.c5-xlabel {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+.c5-legend { display: flex; gap: 18px; padding-bottom: 20px; }
+.c5-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.c5-swatch { width: 13px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* ══════════════════════════════════════
+   CHART 6 — Horizontal bar (startup failures)
+══════════════════════════════════════ */
+.c6-outer { padding: 28px 36px; }
+.c6-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 13px;
+}
+.c6-row:last-child { margin-bottom: 0; }
+.c6-label {
+  width: 152px;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  color: var(--text-body);
+  text-align: right;
+  line-height: 1.35;
+}
+.c6-label-hi {
+  color: var(--text-heading);
+  font-weight: 500;
+}
+.c6-bar-track {
+  flex: 1;
+  height: 30px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: oklch(66% 0.14 var(--sky-hue) / 0.08);
+}
+.c6-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--bar-b);
+  border: 1.5px solid var(--bar-b-bdr);
+}
+.c6-bar-fill-hi {
+  background: var(--bar-a);
+  border: none;
+  opacity: 0.9;
+}
+.c6-pct {
+  width: 32px;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+}
+.c6-pct-hi {
+  color: var(--text-heading);
+  font-weight: 500;
+}
+
+/* ══════════════════════════════════════
+   CHART 7 — PMF benchmark
+══════════════════════════════════════ */
+.c7-outer { padding: 32px 32px 36px; }
+
+.c7-question {
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.c7-bar {
+  display: flex;
+  height: 56px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1.5px solid var(--border-card);
+}
+.c7-seg-a {
+  width: 40%;
+  background: var(--bar-a);
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+/* threshold marker — right edge of seg-a */
+.c7-seg-a::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -12px;
+  height: calc(100% + 12px);
+  width: 2px;
+  background: var(--text-heading);
+  opacity: 0.35;
+}
+.c7-seg-b {
+  width: 35%;
+  background: oklch(66% 0.14 var(--sky-hue) / 0.3);
+  border-left: 1.5px solid oklch(66% 0.14 var(--sky-hue) / 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c7-seg-c {
+  flex: 1;
+  background: oklch(66% 0.14 var(--sky-hue) / 0.1);
+  border-left: 1.5px solid oklch(66% 0.14 var(--sky-hue) / 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c7-seg-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: #ffffff;
+}
+.c7-seg-num-dk {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.c7-threshold-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding-left: calc(40% - 1px);
+}
+.c7-threshold-label span {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--text-heading);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.c7-threshold-tick {
+  width: 2px;
+  height: 8px;
+  background: var(--text-heading);
+  opacity: 0.35;
+  flex-shrink: 0;
+}
+
+.c7-xlabels {
+  display: flex;
+  margin-top: 9px;
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.c7-xlabels div:nth-child(1) { width: 40%; }
+.c7-xlabels div:nth-child(2) { width: 35%; }
+.c7-xlabels div:nth-child(3) { flex: 1; }
+
+.c7-cards {
+  display: flex;
+  gap: 20px;
+  margin-top: 28px;
+}
+.c7-card {
+  flex: 1;
+  background: var(--bg-annot);
+  border: 1.5px solid var(--border-accent);
+  border-radius: 6px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+}
+.c7-card-num {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-heading);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.c7-card-lbl {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.3;
+  margin-top: auto;
+}
+
+/* ══════════════════════════════════════
+   CHART 8 — Validation sequence flow
+══════════════════════════════════════ */
+.c8-outer {
+  padding: 24px;
+}
+
+.c8-flow {
+  display: flex;
+  align-items: stretch;
+}
+
+.c8-node {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-annot);
+  border: 1.5px solid var(--border-accent);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.c8-node-end {
+  background: var(--bar-a);
+  border-color: var(--bar-a);
+  opacity: 0.92;
+}
+
+.c8-step {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.c8-step-end { color: oklch(95% 0.04 180); }
+
+.c8-name {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.c8-name-end { color: #ffffff; }
+
+.c8-divider {
+  height: 1px;
+  background: var(--border-accent);
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.c8-divider-end { background: oklch(95% 0.04 180 / 0.4); }
+
+.c8-q {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.2;
+  flex: 1;
+}
+
+.c8-q-end { color: oklch(95% 0.04 180 / 0.85); }
+
+/* arrow connector between nodes */
+.c8-conn {
+  width: 18px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 8px; /* optical centre with node text */
+}
+
+/* progress track below */
+.c8-track {
+  margin-top: 20px;
+  height: 3px;
+  background: var(--border-card);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.c8-track-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right,
+    oklch(66% 0.14 180 / 0.3),
+    oklch(66% 0.14 180));
+  border-radius: 99px;
+}
+
+.c8-labels {
+  display: flex;
+  margin-top: 8px;
+}
+
+.c8-label-start,
+.c8-label-end {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-dimmer);
+  letter-spacing: 0.01em;
+}
+
+.c8-label-end { margin-left: auto; padding-right: 120px; }
+
+/* ══ INSIGHT CARDS (reference-style) ══ */
+.insight-row {
+  display: flex;
+  gap: 18px;
+  width: 900px;
+}
+.ic {
+  flex: 1;
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+}
+.ic-1 { background: #ffbb53; }
+.ic-2 { background: #c0b4f4; }
+.ic-3 { background: #93c4bc; }
+
+.ic-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.48);
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.ic-metric {
+  font-family: var(--font-mono);
+  font-size: 50px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.0;
+  color: rgba(0,0,0,0.88);
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.ic-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.52);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+.ic-chart-area {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  min-height: 130px;
+  margin-bottom: 20px;
+}
+.ic-bar-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  flex: 1;
+}
+.ic-bar-a {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  background: rgba(0,0,0,0.65);
+}
+.ic-bar-b {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  background: rgba(0,0,0,0.2);
+}
+.ic-wave-bar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  background: rgba(0,0,0,0.28);
+  min-width: 0;
+}
+.ic-wave-bar.peak { background: rgba(0,0,0,0.72); }
+.ic-cta {
+  background: rgba(0,0,0,0.82);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  width: 100%;
+  flex-shrink: 0;
+}
+.ic-cta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════
+   AIROPS FORMULA CHARTS
+══════════════════════════════════════ */
+
+/* Shared card */
+.chart {
+  width: 860px;
+  background: var(--bg-airops);
+  padding: 60px 68px 52px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(12,8,23,0.05), 0 6px 20px rgba(12,8,23,0.07);
+}
+
+/* Headline */
+.chart-title {
+  font-family: 'Geist', 'Inter', sans-serif;
+  font-size: 64px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.08;
+  margin-bottom: 44px;
+  letter-spacing: -0.025em;
+}
+
+/* Formula stack */
+.formula {
+  display: flex;
+  flex-direction: column;
+}
+.f-box {
+  border: 2px solid var(--green);
+  background: #fff;
+  padding: 22px 32px;
+  text-align: center;
+  font-family: 'Geist', 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.f-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -18px 0;
+  position: relative;
+  z-index: 10;
+}
+.f-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  background: var(--green-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Geist Mono', 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--green);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.f-box-result {
+  background: var(--green-deep);
+  border-color: var(--green-deep);
+  color: #fff;
+  font-family: 'Geist', 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  padding: 26px 32px;
+  letter-spacing: -0.01em;
+}
+.f-circle-eq {
+  background: var(--bg-airops);
+}
+
+/* Mantle badge */
+.airops-badge {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: #fff;
+  border: 1.5px solid #ded9d7;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.airops-badge-text {
+  font-family: 'Geist Mono', 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.airops-o {
+  position: relative;
+  display: inline-block;
+}
+.airops-o::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  transform: scale(0.7);
+}
+
+/* Eyebrow label */
+.chart-eyebrow {
+  font-family: 'Geist Mono', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d48900;
+  margin-bottom: 14px;
+}
+
+/* Two-column variant */
+.two-col {
+  display: flex;
+  gap: 20px;
+  margin-top: 0;
+}
+.col-stack {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.col-label {
+  font-family: 'Geist Mono', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  text-align: center;
+}
+.col-sep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  flex-shrink: 0;
+  padding-top: 28px;
+}
+.col-sep-sym {
+  font-family: 'Geist Mono', 'Courier New', monospace;
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--green);
+  line-height: 1;
+}
+.f-box-sm {
+  border: 2px solid var(--green);
+  background: #fff;
+  padding: 16px 20px;
+  text-align: center;
+  font-family: 'Geist', 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.f-connector-sm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -14px 0;
+  position: relative;
+  z-index: 10;
+}
+.f-circle-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  background: var(--green-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Geist Mono', 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--green);
+}
+
+/* Result row (full-width below two-col) */
+.result-row {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.result-eq {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: -18px;
+  position: relative;
+  z-index: 10;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     CHART 1: Stacked bar
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">85% of brand mentions in AI search<br/>come from third-party content</h2>
+  <div class="chart-area">
+    <div class="y-label" style="left:18px;top:calc(28px + var(--chart-h)/2)">% of attribution for brand mentions</div>
+    <div class="c1-wrap">
+
+      <div class="c1-yaxis">
+        <span>100</span>
+        <span>50</span>
+        <span>0</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+        <div class="c1-bar">
+          <div class="c1-bar-t"></div>
+          <div class="c1-bar-m"></div>
+          <div class="c1-bar-b"></div>
+        </div>
+        <div style="font-family:var(--font-body);font-size:11px;color:var(--text-muted);margin-top:10px;letter-spacing:0.02em">Visibility type</div>
+      </div>
+
+      <div class="c1-anns">
+        <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible" viewBox="0 0 300 220" preserveAspectRatio="none">
+          <circle cx="8" cy="93" r="2.5" fill="var(--accent)"/>
+          <line x1="8" y1="93" x2="32" y2="55" stroke="var(--connector)" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="8" cy="201" r="2.5" fill="var(--accent-mid)"/>
+          <line x1="8" y1="201" x2="32" y2="140" stroke="var(--connector)" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="8" cy="218" r="2.5" fill="var(--bar-tier-bot)" stroke="var(--connector)" stroke-width="1"/>
+          <line x1="8" y1="218" x2="32" y2="210" stroke="var(--connector)" stroke-width="1" stroke-dasharray="3,3"/>
+        </svg>
+        <div class="c1-ann-row" style="top:55px;padding-left:32px">
+          <div class="ann"><div class="ann-num">85%</div><div class="ann-label">third-party domains</div></div>
+        </div>
+        <div class="c1-ann-row" style="top:140px;padding-left:32px">
+          <div class="ann"><div class="ann-num">13%</div><div class="ann-label">brand-owned domain</div></div>
+        </div>
+        <div class="c1-ann-row" style="top:210px;padding-left:32px">
+          <div class="ann"><div class="ann-num">2%</div><div class="ann-label">uncited</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+
+<!-- ═══════════════════════════════════
+     CHART 2: Pie chart
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">UGC influences 48% of AI search answers</h2>
+  <div class="chart-area" style="padding:32px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:28px">
+
+      <div style="background:var(--bg-annot);border:1.5px solid var(--border-accent);border-radius:6px;padding:14px 16px;width:162px;flex-shrink:0">
+        <div style="font-family:var(--font-heading);font-size:13px;font-weight:400;letter-spacing:-0.01em;color:var(--text-heading);margin-bottom:6px">48% UGC domains</div>
+        <div style="font-family:var(--font-body);font-size:11px;color:var(--text-body);line-height:1.55">The most cited domains are Reddit, Youtube, LinkedIn and Wikipedia</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:12px">
+          <div class="conn-dot" style="background:var(--accent-mid)"></div>
+          <div style="flex:1;height:0;border-top:1.5px dashed var(--connector)"></div>
+        </div>
+      </div>
+
+      <div style="flex-shrink:0">
+        <svg width="190" height="190" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="90" fill="var(--bar-b)" stroke="var(--border-accent)" stroke-width="1.5"/>
+          <path d="M100,100 L100,10 A90,90 0 1,1 88.6,189.3 Z" fill="var(--bar-a)" opacity="0.88"/>
+          <circle cx="100" cy="100" r="3" fill="var(--bg-chart)"/>
+          <line x1="100" y1="100" x2="100" y2="10" stroke="var(--bg-chart)" stroke-width="1.5"/>
+          <line x1="100" y1="100" x2="88.6" y2="189.3" stroke="var(--bg-chart)" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <div style="background:var(--bg-annot);border:1.5px solid var(--border-accent);border-radius:6px;padding:14px 16px;width:162px;flex-shrink:0">
+        <div style="font-family:var(--font-heading);font-size:13px;font-weight:400;letter-spacing:-0.01em;color:var(--text-heading);margin-bottom:6px">52%<br/>Brand domains</div>
+        <div style="font-family:var(--font-body);font-size:11px;color:var(--text-body);line-height:1.55">Split across owned and third party sites</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:12px">
+          <div style="flex:1;height:0;border-top:1.5px dashed var(--connector)"></div>
+          <div class="conn-dot" style="background:var(--accent)"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+
+<!-- ═══════════════════════════════════
+     CHART 3: Comparison bars
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">Your content is 3x more likely to<br/>get cited if it's less than 3 months old</h2>
+  <div class="chart-area">
+    <div class="y-label" style="left:18px;top:calc(28px + var(--chart-h)/2)">Citation rate</div>
+    <div class="c3-outer">
+      <div class="c3-bars">
+        <div class="c3-group">
+          <div class="c3-val">35%</div>
+          <div style="width:140px;height:200px;background:var(--bar-a);border-radius:6px 6px 0 0;opacity:0.9"></div>
+        </div>
+        <div class="c3-group">
+          <div class="c3-val c3-val-b">13%</div>
+          <div style="width:140px;height:75px;background:var(--bar-b);border:1.5px solid var(--bar-b-bdr);border-radius:6px 6px 0 0"></div>
+        </div>
+      </div>
+      <div class="c3-foot">
+        <div class="c3-baseline"></div>
+        <div class="c3-xlabels">
+          <div class="c3-xlabel">&lt;3 months</div>
+          <div class="c3-xlabel">9–12+ months</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+
+<!-- ═══════════════════════════════════
+     CHART 4: Compounding flow
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">The compounding effect of<br/>brand recognition</h2>
+  <div class="chart-area" style="height:440px;position:relative;overflow:hidden">
+
+    <div style="position:absolute;left:32px;top:50%;transform:translateY(-50%);background:var(--bg-annot);border:1.5px solid var(--border-accent);border-radius:10px;padding:18px 20px;width:220px">
+      <div style="font-size:18px;margin-bottom:10px">🔍</div>
+      <div style="font-family:var(--font-heading);font-size:14px;font-weight:400;letter-spacing:-0.01em;color:var(--text-heading);line-height:1.35;margin-bottom:8px">Owned content<br/>establishes presence</div>
+      <div style="font-family:var(--font-body);font-size:11px;color:var(--text-body);line-height:1.6">Builds the foundation and anchors brand in key conversations</div>
+    </div>
+
+    <div style="position:absolute;right:32px;top:28px;background:var(--bg-annot);border:1.5px solid var(--border-accent);border-radius:10px;padding:18px 20px;width:220px">
+      <div style="font-size:18px;margin-bottom:10px">🏆</div>
+      <div style="font-family:var(--font-heading);font-size:14px;font-weight:400;letter-spacing:-0.01em;color:var(--text-heading);line-height:1.35;margin-bottom:8px">Earned coverage<br/>validates credibility</div>
+      <div style="font-family:var(--font-body);font-size:11px;color:var(--text-body);line-height:1.6">Reinforces brand expertise and authority through third-party validation</div>
+    </div>
+
+    <div style="position:absolute;right:32px;bottom:28px;background:var(--bg-annot);border:1.5px solid var(--border-accent);border-radius:10px;padding:18px 20px;width:220px">
+      <div style="font-size:18px;margin-bottom:10px;color:var(--accent)">✦</div>
+      <div style="font-family:var(--font-heading);font-size:14px;font-weight:400;letter-spacing:-0.01em;color:var(--text-heading);line-height:1.35;margin-bottom:8px">Brand recognition<br/>compounds in AI search</div>
+      <div style="font-family:var(--font-body);font-size:11px;color:var(--text-body);line-height:1.6">AI amplifies established credibility, extending recognition in AI search</div>
+    </div>
+
+    <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none"
+         viewBox="0 0 716 440" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <marker id="arr4l" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+          <path d="M0,0 L0,7 L8,3.5 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+      <path d="M252,220 C340,220 380,108 458,108"
+            stroke="var(--connector)" stroke-width="1.5" fill="none" marker-end="url(#arr4l)"/>
+      <path d="M574,192 C574,215 574,228 574,250"
+            stroke="var(--connector)" stroke-width="1.5" fill="none" marker-end="url(#arr4l)"/>
+      <path d="M458,332 C380,332 300,280 252,224"
+            stroke="var(--connector)" stroke-width="1.5" fill="none" marker-end="url(#arr4l)"/>
+    </svg>
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+
+<!-- ═══════════════════════════════════
+     CHART 5: Grouped bars
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">Structural attributes:<br/>ChatGPT-cited vs top Google SERPS</h2>
+  <div class="chart-area">
+    <div class="y-label" style="left:18px;top:calc(28px + var(--chart-h)/2)">Citation rate</div>
+    <div class="c5-outer">
+      <div class="c5-bars">
+
+        <div class="c5-group">
+          <div class="c5-pair">
+            <div class="c5-bar-col">
+              <div class="c5-val">86.8%</div>
+              <div style="width:38px;height:208px;background:var(--bar-a);border-radius:4px 4px 0 0;opacity:0.88"></div>
+            </div>
+            <div class="c5-bar-col">
+              <div class="c5-val c5-val-b">64.2%</div>
+              <div style="width:38px;height:154px;background:var(--bar-b);border:1.5px solid var(--bar-b-bdr);border-radius:4px 4px 0 0"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="c5-group">
+          <div class="c5-pair">
+            <div class="c5-bar-col">
+              <div class="c5-val">78.3%</div>
+              <div style="width:38px;height:188px;background:var(--bar-a);border-radius:4px 4px 0 0;opacity:0.88"></div>
+            </div>
+            <div class="c5-bar-col">
+              <div class="c5-val c5-val-b">26.8%</div>
+              <div style="width:38px;height:64px;background:var(--bar-b);border:1.5px solid var(--bar-b-bdr);border-radius:4px 4px 0 0"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="c5-group">
+          <div class="c5-pair">
+            <div class="c5-bar-col">
+              <div class="c5-val">68.7%</div>
+              <div style="width:38px;height:165px;background:var(--bar-a);border-radius:4px 4px 0 0;opacity:0.88"></div>
+            </div>
+            <div class="c5-bar-col">
+              <div class="c5-val c5-val-b">23.9%</div>
+              <div style="width:38px;height:57px;background:var(--bar-b);border:1.5px solid var(--bar-b-bdr);border-radius:4px 4px 0 0"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="c5-group">
+          <div class="c5-pair">
+            <div class="c5-bar-col">
+              <div class="c5-val">60.5%</div>
+              <div style="width:38px;height:145px;background:var(--bar-a);border-radius:4px 4px 0 0;opacity:0.88"></div>
+            </div>
+            <div class="c5-bar-col">
+              <div class="c5-val c5-val-b">24.5%</div>
+              <div style="width:38px;height:59px;background:var(--bar-b);border:1.5px solid var(--bar-b-bdr);border-radius:4px 4px 0 0"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="c5-foot">
+        <div class="c5-baseline"></div>
+        <div class="c5-xlabels">
+          <div class="c5-xlabel">Single H1 present</div>
+          <div class="c5-xlabel">Lists sections exist</div>
+          <div class="c5-xlabel">Proper heading alignment</div>
+          <div class="c5-xlabel">Rich schema</div>
+        </div>
+        <div class="c5-legend">
+          <div class="c5-legend-item">
+            <div class="c5-swatch" style="background:var(--bar-a);opacity:0.88"></div>
+            ChatGPT-Cited
+          </div>
+          <div class="c5-legend-item">
+            <div class="c5-swatch" style="background:var(--bar-b);border:1.5px solid var(--bar-b-bdr)"></div>
+            Google only
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+
+<!-- ═══════════════════════════════════
+     CHART 6: Top reasons startups fail
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">35% of startups fail because<br/>there's no market need</h2>
+  <p class="card-source">Source: CB Insights startup failure analysis — validation is not optional.</p>
+  <div class="chart-area">
+    <div class="c6-outer">
+
+      <div class="c6-row">
+        <div class="c6-label c6-label-hi">No market need</div>
+        <div class="c6-bar-track">
+          <div class="c6-bar-fill c6-bar-fill-hi" style="width:100%"></div>
+        </div>
+        <div class="c6-pct c6-pct-hi">35%</div>
+      </div>
+
+      <div class="c6-row">
+        <div class="c6-label">Ran out of cash</div>
+        <div class="c6-bar-track">
+          <div class="c6-bar-fill" style="width:82.9%"></div>
+        </div>
+        <div class="c6-pct">29%</div>
+      </div>
+
+      <div class="c6-row">
+        <div class="c6-label">Not the right team</div>
+        <div class="c6-bar-track">
+          <div class="c6-bar-fill" style="width:65.7%"></div>
+        </div>
+        <div class="c6-pct">23%</div>
+      </div>
+
+      <div class="c6-row">
+        <div class="c6-label">Got outcompeted</div>
+        <div class="c6-bar-track">
+          <div class="c6-bar-fill" style="width:54.3%"></div>
+        </div>
+        <div class="c6-pct">19%</div>
+      </div>
+
+      <div class="c6-row">
+        <div class="c6-label">Pricing / cost issues</div>
+        <div class="c6-bar-track">
+          <div class="c6-bar-fill" style="width:51.4%"></div>
+        </div>
+        <div class="c6-pct">18%</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+
+<!-- ═══════════════════════════════════
+     CHART 7: PMF benchmark
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">40% "very disappointed" is the<br/>product-market fit threshold</h2>
+  <p class="card-source">Source: Sean Ellis benchmark, cited by First Round Review.</p>
+  <div class="chart-area">
+    <div class="c7-outer">
+
+      <p class="c7-question">How would you feel if you could no longer use this product?</p>
+
+      <!-- threshold label sits above bar at the 40% mark -->
+      <div class="c7-threshold-label">
+        <div class="c7-threshold-tick"></div>
+        <span>PMF threshold</span>
+      </div>
+
+      <div class="c7-bar">
+        <div class="c7-seg-a">
+          <span class="c7-seg-num">40%</span>
+        </div>
+        <div class="c7-seg-b">
+          <span class="c7-seg-num-dk">35%</span>
+        </div>
+        <div class="c7-seg-c">
+          <span class="c7-seg-num-dk">25%</span>
+        </div>
+      </div>
+
+      <div class="c7-xlabels">
+        <div>Very disappointed</div>
+        <div>Somewhat disappointed</div>
+        <div>Not disappointed</div>
+      </div>
+
+      <div class="c7-cards">
+        <div class="c7-card">
+          <div class="c7-card-num">≥ 40%</div>
+          <div class="c7-card-lbl">Users who'd be "very disappointed" — the minimum bar for strong PMF</div>
+        </div>
+        <div class="c7-card">
+          <div class="c7-card-num">2×</div>
+          <div class="c7-card-lbl">Companies above the threshold grow approximately twice as fast as those below it</div>
+        </div>
+        <div class="c7-card">
+          <div class="c7-card-num">NPS &gt; 50</div>
+          <div class="c7-card-lbl">Companies clearing the 40% threshold typically score above 50 on Net Promoter Score</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════
+     CHART 8: Validation sequence
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">The validation sequence</h2>
+  <p class="card-source">Instead of guessing, follow a structured path — each stage answers a different risk before you build.</p>
+  <div class="chart-area">
+    <div class="c8-outer">
+
+      <div class="c8-flow">
+
+        <!-- Step 1 -->
+        <div class="c8-node">
+          <div class="c8-step">01</div>
+          <div class="c8-name">Problem</div>
+          <div class="c8-divider"></div>
+          <div class="c8-q">Is this real?</div>
+        </div>
+
+        <!-- Arrow 1 -->
+        <div class="c8-conn">
+          <div style="width:100%;height:1.5px;background:var(--border-accent)"></div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="c8-node">
+          <div class="c8-step">02</div>
+          <div class="c8-name">Customer</div>
+          <div class="c8-divider"></div>
+          <div class="c8-q">Who actually feels it?</div>
+        </div>
+
+        <!-- Arrow 2 -->
+        <div class="c8-conn">
+          <div style="width:100%;height:1.5px;background:var(--border-accent)"></div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="c8-node">
+          <div class="c8-step">03</div>
+          <div class="c8-name">Demand</div>
+          <div class="c8-divider"></div>
+          <div class="c8-q">Do they care enough?</div>
+        </div>
+
+        <!-- Arrow 3 -->
+        <div class="c8-conn">
+          <div style="width:100%;height:1.5px;background:var(--border-accent)"></div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="c8-node">
+          <div class="c8-step">04</div>
+          <div class="c8-name">Channels</div>
+          <div class="c8-divider"></div>
+          <div class="c8-q">Can you reach them?</div>
+        </div>
+
+        <!-- Arrow 4 -->
+        <div class="c8-conn">
+          <div style="width:100%;height:1.5px;background:var(--border-accent)"></div>
+        </div>
+
+        <!-- Step 5 — end node, teal fill -->
+        <div class="c8-node c8-node-end">
+          <div class="c8-step c8-step-end">05</div>
+          <div class="c8-name c8-name-end">Decision</div>
+          <div class="c8-divider c8-divider-end"></div>
+          <div class="c8-q c8-q-end">Is this worth building?</div>
+        </div>
+
+      </div>
+
+      <!-- Progress track -->
+      <div class="c8-track">
+        <div class="c8-track-fill"></div>
+      </div>
+      <div class="c8-labels">
+        <span class="c8-label-start">Start with the problem</span>
+        <span class="c8-label-end">Earn the right to build</span>
+      </div>
+
+    </div>
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════
+     CHARTS 9 & 10 — Stat Cards (side by side)
+════════════════════════════════════ -->
+<div class="stat-cards-row">
+
+  <!-- Card 9 — Activation benchmark (teal) -->
+  <div class="stat-card" style="background:#6FA89A;">
+    <div class="stat-tags">
+      <span class="stat-tag">Benchmark</span>
+      <span class="stat-tag">Activation</span>
+    </div>
+    <div class="stat-num">+38.7%</div>
+    <div class="stat-desc">Higher activation rate</div>
+
+    <div class="stat-chart-area" style="padding-top:28px;">
+      <!-- 6 grouped A/B bars -->
+      <div class="stat-bar-group">
+        <div class="stat-bar" style="height:100px;background:rgba(10,30,26,0.85);">
+          <span class="stat-bar-val">1.3m</span>
+        </div>
+        <div class="stat-bar" style="height:52px;background:rgba(10,30,26,0.3);border:1.5px solid rgba(10,30,26,0.22);border-bottom:none;">
+        </div>
+      </div>
+      <div class="stat-bar-group">
+        <div class="stat-bar" style="height:188px;background:rgba(10,30,26,0.82);">
+          <span class="stat-bar-val">2.7m</span>
+        </div>
+        <div class="stat-bar" style="height:88px;background:rgba(10,30,26,0.3);border:1.5px solid rgba(10,30,26,0.22);border-bottom:none;">
+        </div>
+      </div>
+      <div class="stat-bar-group">
+        <div class="stat-bar" style="height:134px;background:rgba(10,30,26,0.75);">
+          <span class="stat-bar-val">1.7m</span>
+        </div>
+        <div class="stat-bar" style="height:64px;background:rgba(10,30,26,0.3);border:1.5px solid rgba(10,30,26,0.22);border-bottom:none;">
+        </div>
+      </div>
+      <div class="stat-bar-group">
+        <div class="stat-bar" style="height:162px;background:rgba(10,30,26,0.68);">
+          <span class="stat-bar-val">2.1m</span>
+        </div>
+        <div class="stat-bar" style="height:70px;background:rgba(10,30,26,0.3);border:1.5px solid rgba(10,30,26,0.22);border-bottom:none;">
+        </div>
+      </div>
+      <div class="stat-bar-group">
+        <div class="stat-bar" style="height:230px;background:rgba(10,30,26,0.6);">
+          <span class="stat-bar-val">3.1m</span>
+        </div>
+        <div class="stat-bar" style="height:94px;background:rgba(10,30,26,0.3);border:1.5px solid rgba(10,30,26,0.22);border-bottom:none;">
+        </div>
+      </div>
+      <div class="stat-bar-group">
+        <div class="stat-bar" style="height:192px;background:rgba(10,30,26,0.52);">
+          <span class="stat-bar-val">2.5m</span>
+        </div>
+        <div class="stat-bar" style="height:82px;background:rgba(10,30,26,0.3);border:1.5px solid rgba(10,30,26,0.22);border-bottom:none;">
+        </div>
+      </div>
+    </div>
+    <div class="brand-badge" style="position:static;margin-top:10px;display:inline-flex;align-self:flex-end;margin-right:0;margin-bottom:12px;background:rgba(255,255,255,0.18);border-color:rgba(0,0,0,0.15);"><b>Mantle</b>Compass</div>
+  </div>
+
+  <!-- Card 10 — Growth trajectory (gold) -->
+  <div class="stat-card" style="background:#E8B84A;">
+    <div class="stat-tags">
+      <span class="stat-tag">Benchmark</span>
+      <span class="stat-tag">Growth</span>
+    </div>
+    <div class="stat-num">+2.3×</div>
+    <div class="stat-desc">Faster to consistent revenue</div>
+
+    <div class="stat-chart-area wave-bars" id="wave-chart" style="padding-top:0;gap:2px;"></div>
+    <div class="brand-badge" style="position:static;margin-top:10px;display:inline-flex;align-self:flex-end;margin-right:0;margin-bottom:12px;background:rgba(255,255,255,0.18);border-color:rgba(0,0,0,0.15);"><b>Mantle</b>Compass</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════
+     CHART 11 — Retention heatmap card
+════════════════════════════════════ -->
+<div class="card">
+  <h2 class="card-title">Products validated early retain<br/>2× more users at 90 days</h2>
+  <p class="card-source">Source: MantleCompass cohort analysis across 400+ early-stage SaaS products.</p>
+  <div class="chart-area" style="padding:32px 40px 28px 56px;overflow:hidden;">
+
+    <!-- Retention comparison: two cohorts, week-by-week -->
+    <div style="display:flex;flex-direction:column;gap:0;position:relative;">
+
+      <!-- Chart SVG — self-contained with y-axis labels and grid inside viewBox -->
+      <svg viewBox="0 0 820 240" width="100%" height="240" style="display:block;overflow:hidden;" preserveAspectRatio="xMidYMid meet">
+
+        <!-- Y-axis labels -->
+        <text x="0"  y="6"   font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace" text-anchor="end">100%</text>
+        <text x="0"  y="61"  font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace" text-anchor="end"> 75%</text>
+        <text x="0"  y="116" font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace" text-anchor="end"> 50%</text>
+        <text x="0"  y="171" font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace" text-anchor="end"> 25%</text>
+        <text x="0"  y="220" font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace" text-anchor="end">  0%</text>
+
+        <!-- Grid lines (x=10 leaves space for y-labels) -->
+        <line x1="10" y1="1"   x2="820" y2="1"   stroke="oklch(88% 0.018 180)" stroke-width="1"/>
+        <line x1="10" y1="55"  x2="820" y2="55"  stroke="oklch(88% 0.018 180)" stroke-width="1"/>
+        <line x1="10" y1="110" x2="820" y2="110" stroke="oklch(88% 0.018 180)" stroke-width="1"/>
+        <line x1="10" y1="165" x2="820" y2="165" stroke="oklch(88% 0.018 180)" stroke-width="1"/>
+        <line x1="10" y1="218" x2="820" y2="218" stroke="oklch(64% 0.1 180 / 0.5)" stroke-width="1.5"/>
+
+        <!-- Validated cohort area (teal, above) -->
+        <path d="M10,4 C70,6 130,14 190,24 C255,34 315,44 375,52 C435,60 495,66 555,70 C615,74 675,76 735,78 L820,80 L820,218 L10,218 Z"
+              fill="oklch(66% 0.14 180 / 0.12)" />
+        <path d="M10,4 C70,6 130,14 190,24 C255,34 315,44 375,52 C435,60 495,66 555,70 C615,74 675,76 735,78 L820,80"
+              fill="none" stroke="oklch(66% 0.14 180)" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Unvalidated cohort area (muted, below) -->
+        <path d="M10,4 C70,14 130,38 190,72 C255,108 315,132 375,150 C435,166 495,178 555,186 C615,192 675,198 735,202 L820,204 L820,218 L10,218 Z"
+              fill="oklch(66% 0.14 180 / 0.05)" />
+        <path d="M10,4 C70,14 130,38 190,72 C255,108 315,132 375,150 C435,166 495,178 555,186 C615,192 675,198 735,202 L820,204"
+              fill="none" stroke="oklch(66% 0.14 180 / 0.4)" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4"/>
+
+        <!-- Endpoint dots -->
+        <circle cx="820" cy="80"  r="5" fill="oklch(66% 0.14 180)"/>
+        <circle cx="820" cy="204" r="5" fill="oklch(66% 0.14 180 / 0.5)"/>
+
+        <!-- X-axis day labels -->
+        <text x="10"  y="234" font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace">Day 1</text>
+        <text x="200" y="234" font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace">Day 14</text>
+        <text x="375" y="234" font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace">Day 30</text>
+        <text x="555" y="234" font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace">Day 60</text>
+        <text x="735" y="234" font-size="9" fill="oklch(47% 0.02 180)" font-family="monospace">Day 90</text>
+      </svg>
+    </div>
+
+    <!-- Legend + end-point annotations -->
+    <div style="display:flex;align-items:center;gap:32px;margin-top:20px;padding-left:4px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:28px;height:2.5px;background:var(--accent);border-radius:2px;"></div>
+        <span style="font-family:var(--font-body);font-size:12px;color:var(--text-body);">Validated early — <b style="color:var(--text-heading);font-weight:600;">58% retained at 90d</b></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:28px;height:2px;background:oklch(66% 0.14 180 / 0.4);border-radius:2px;border-top:2px dashed oklch(66% 0.14 180 / 0.4);"></div>
+        <span style="font-family:var(--font-body);font-size:12px;color:var(--text-body);">No validation — <b style="color:var(--text-heading);font-weight:600;">28% retained at 90d</b></span>
+      </div>
+    </div>
+
+  </div>
+  <div class="brand-badge"><b>Mantle</b>Compass</div>
+</div>
+
+<script>
+// Generate wave bars for Card 10
+(function() {
+  const container = document.getElementById('wave-chart');
+  if (!container) return;
+  const n = 50;
+  for (let i = 0; i < n; i++) {
+    const t = i / (n - 1);
+    // Sigmoid growth curve with slight noise
+    const sigmoid = 1 / (1 + Math.exp(-10 * (t - 0.45)));
+    const noise = (Math.sin(i * 2.3) * 0.04 + Math.sin(i * 5.7) * 0.02);
+    const h = Math.round((30 + sigmoid * 200 + noise * 20));
+    const bar = document.createElement('div');
+    bar.className = 'wave-bar';
+    bar.style.height = h + 'px';
+    bar.style.background = 'rgba(80,50,0,0.35)';
+    bar.style.borderRadius = '2px 2px 0 0';
+    container.appendChild(bar);
+  }
+})();
+
+// Wave bars for Insight Card 2
+(function() {
+  const c = document.getElementById('ic-wave-2');
+  if (!c) return;
+  const n = 28;
+  for (let i = 0; i < n; i++) {
+    const t = i / (n - 1);
+    const sig = 1 / (1 + Math.exp(-10 * (t - 0.5)));
+    const noise = Math.sin(i * 2.3) * 0.03;
+    const h = Math.round(10 + sig * 118 + noise * 8);
+    const bar = document.createElement('div');
+    bar.className = 'ic-wave-bar' + (i >= 12 && i <= 15 ? ' peak' : '');
+    bar.style.height = h + 'px';
+    c.appendChild(bar);
+  }
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     INSIGHT STAT CARDS
+═══════════════════════════════════════════════════════ -->
+<div class="insight-row">
+
+  <!-- Card 1 — Activation Rate (mustard) -->
+  <div class="ic ic-1">
+    <div class="ic-label">Activation Rate</div>
+    <div class="ic-metric">+38.7%</div>
+    <div class="ic-desc">Products validated early achieve higher activation rates consistently across all cohorts.</div>
+    <div class="ic-chart-area">
+      <div class="ic-bar-group">
+        <div class="ic-bar-a" style="height:87px"></div>
+        <div class="ic-bar-b" style="height:57px"></div>
+      </div>
+      <div class="ic-bar-group">
+        <div class="ic-bar-a" style="height:95px"></div>
+        <div class="ic-bar-b" style="height:60px"></div>
+      </div>
+      <div class="ic-bar-group">
+        <div class="ic-bar-a" style="height:100px"></div>
+        <div class="ic-bar-b" style="height:63px"></div>
+      </div>
+      <div class="ic-bar-group">
+        <div class="ic-bar-a" style="height:107px"></div>
+        <div class="ic-bar-b" style="height:65px"></div>
+      </div>
+      <div class="ic-bar-group">
+        <div class="ic-bar-a" style="height:119px"></div>
+        <div class="ic-bar-b" style="height:68px"></div>
+      </div>
+    </div>
+    <button class="ic-cta"><div class="ic-cta-dot"></div>See more insights</button>
+  </div>
+
+  <!-- Card 2 — Revenue Speed (lavender, wave) -->
+  <div class="ic ic-2">
+    <div class="ic-label">Time to Revenue</div>
+    <div class="ic-metric">+2.3×</div>
+    <div class="ic-desc">Teams using validation frameworks reach consistent revenue 2.3× faster than peers.</div>
+    <div class="ic-chart-area" id="ic-wave-2"></div>
+    <button class="ic-cta"><div class="ic-cta-dot"></div>See more insights</button>
+  </div>
+
+  <!-- Card 3 — 90-Day Retention (sage, SVG lines) -->
+  <div class="ic ic-3">
+    <div class="ic-label">90-Day Retention</div>
+    <div class="ic-metric">58%</div>
+    <div class="ic-desc">Retention rate for products validated before launch vs. intuition-only cohorts.</div>
+    <div class="ic-chart-area" style="display:block;padding:0;">
+      <svg viewBox="0 0 240 130" width="100%" height="130" style="display:block;overflow:visible;">
+        <line x1="0" y1="126" x2="240" y2="126" stroke="rgba(0,0,0,0.14)" stroke-width="1"/>
+        <path d="M 0,4 C 50,4 80,47 120,68 C 160,86 200,93 240,96 L 240,126 L 0,126 Z"
+              fill="rgba(0,0,0,0.07)"/>
+        <path d="M 0,4 C 50,4 80,47 120,68 C 160,86 200,93 240,96"
+              fill="none" stroke="rgba(0,0,0,0.28)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <path d="M 0,4 C 100,4 100,36 160,43 C 195,47 218,51 240,54 L 240,126 L 0,126 Z"
+              fill="rgba(0,0,0,0.16)"/>
+        <path d="M 0,4 C 100,4 100,36 160,43 C 195,47 218,51 240,54"
+              fill="none" stroke="rgba(0,0,0,0.68)" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="240" cy="54"  r="4" fill="rgba(0,0,0,0.68)"/>
+        <circle cx="240" cy="96" r="3" fill="rgba(0,0,0,0.3)"/>
+        <text x="234" y="47"  font-family="Geist Mono,monospace" font-size="9" fill="rgba(0,0,0,0.7)" font-weight="500" text-anchor="end">58%</text>
+        <text x="234" y="111" font-family="Geist Mono,monospace" font-size="9" fill="rgba(0,0,0,0.38)" text-anchor="end">28%</text>
+      </svg>
+    </div>
+    <button class="ic-cta"><div class="ic-cta-dot"></div>See more insights</button>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     AIROPS FORMULA CHARTS
+═══════════════════════════════════════════════════════ -->
+
+<!-- CHART A — 3 Principles of Quality Content -->
+<div class="chart">
+  <h2 class="chart-title">3 Principles of<br>Quality Content</h2>
+
+  <div class="formula">
+    <div class="f-box">Information-gain content</div>
+
+    <div class="f-connector">
+      <div class="f-circle">+</div>
+    </div>
+
+    <div class="f-box">Humans in the loop</div>
+
+    <div class="f-connector">
+      <div class="f-circle">+</div>
+    </div>
+
+    <div class="f-box">High-velocity updates</div>
+
+    <div class="f-connector">
+      <div class="f-circle f-circle-eq">=</div>
+    </div>
+
+    <div class="f-box f-box-result">Quality content</div>
+  </div>
+
+  <div class="airops-badge">
+    <span class="airops-badge-text"><b style="font-weight:600;">Mantle</b>Compass</span>
+  </div>
+</div>
+
+
+<!-- CHART B — The AI Content Stack That Scales -->
+<div class="chart">
+  <h2 class="chart-title">The AI Content<br>Stack That Scales</h2>
+
+  <div class="formula">
+    <div class="f-box">AI-generated first draft</div>
+
+    <div class="f-connector">
+      <div class="f-circle">+</div>
+    </div>
+
+    <div class="f-box">Expert review &amp; fact-checking</div>
+
+    <div class="f-connector">
+      <div class="f-circle">+</div>
+    </div>
+
+    <div class="f-box">Continuous performance optimisation</div>
+
+    <div class="f-connector">
+      <div class="f-circle f-circle-eq">=</div>
+    </div>
+
+    <div class="f-box f-box-result">10× content output, zero quality drop</div>
+  </div>
+
+  <div class="airops-badge">
+    <span class="airops-badge-text"><b style="font-weight:600;">Mantle</b>Compass</span>
+  </div>
+</div>
+
+
+<!-- CHART C — 4 Signals AI Search Rewards -->
+<div class="chart">
+  <h2 class="chart-title">4 Signals AI<br>Search Rewards</h2>
+
+  <div class="formula">
+    <div class="f-box">Original research &amp; proprietary data</div>
+
+    <div class="f-connector">
+      <div class="f-circle">+</div>
+    </div>
+
+    <div class="f-box">Named authors with demonstrable expertise</div>
+
+    <div class="f-connector">
+      <div class="f-circle">+</div>
+    </div>
+
+    <div class="f-box">Third-party citations &amp; backlinks</div>
+
+    <div class="f-connector">
+      <div class="f-circle">+</div>
+    </div>
+
+    <div class="f-box">Freshness — updated within 90 days</div>
+
+    <div class="f-connector">
+      <div class="f-circle f-circle-eq">=</div>
+    </div>
+
+    <div class="f-box f-box-result">AI search visibility</div>
+  </div>
+
+  <div class="airops-badge">
+    <span class="airops-badge-text"><b style="font-weight:600;">Mantle</b>Compass</span>
+  </div>
+</div>
+
+
+<!-- CHART D — How Content Authority Compounds -->
+<div class="chart">
+  <div class="chart-eyebrow">The flywheel</div>
+  <h2 class="chart-title">How Content<br>Authority Compounds</h2>
+
+  <div class="two-col">
+
+    <div class="col-stack">
+      <div class="col-label">You publish</div>
+      <div class="f-box-sm">Topic cluster content</div>
+      <div class="f-connector-sm"><div class="f-circle-sm">+</div></div>
+      <div class="f-box-sm">Internal linking structure</div>
+      <div class="f-connector-sm"><div class="f-circle-sm">+</div></div>
+      <div class="f-box-sm">Consistent publishing cadence</div>
+    </div>
+
+    <div class="col-sep">
+      <span class="col-sep-sym">→</span>
+    </div>
+
+    <div class="col-stack">
+      <div class="col-label">You earn</div>
+      <div class="f-box-sm">Topical authority</div>
+      <div class="f-connector-sm"><div class="f-circle-sm">+</div></div>
+      <div class="f-box-sm">Organic backlinks</div>
+      <div class="f-connector-sm"><div class="f-circle-sm">+</div></div>
+      <div class="f-box-sm">AI search citations</div>
+    </div>
+
+  </div>
+
+  <div class="result-row">
+    <div class="result-eq">
+      <div class="f-circle f-circle-eq">=</div>
+    </div>
+    <div class="f-box f-box-result" style="width:100%;margin-top:0;">Compounding organic reach</div>
+  </div>
+
+  <div class="airops-badge">
+    <span class="airops-badge-text"><b style="font-weight:600;">Mantle</b>Compass</span>
+  </div>
+</div>
+
+
+</body>
+</html>

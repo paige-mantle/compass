@@ -45,6 +45,19 @@ Compass ships these static files via `public/`:
 These stay in `public/` because Next and Astro both serve that folder identically. When porting
 to Astro, copy the contents to Astro's `public/` and the URLs in CSS / `<link>` tags don't change.
 
+## URL conventions
+
+- **Manuals stay at `/manuals/...`** (decided 2026-05-06). Frameworks and insights
+  remain under `/compass/frameworks/...` and `/compass/insights/...`. When porting
+  to Astro, the same shape is preserved.
+
+## legacy/
+
+`compass/legacy/static-prototypes/` holds early static HTML mockups
+(`mantle-compass.html`, `mantle-homepage.html`, `mantle-newsletter.js`, etc.) that
+predate the Next.js app. They live here as reference material and are no longer
+shipped with the build (used to live in `public/`).
+
 ## Astro porting notes
 
 Designed to lift cleanly into an Astro app:
