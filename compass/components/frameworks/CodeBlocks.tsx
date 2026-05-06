@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import type { FrameworkCodeBlock } from "@/compass/lib/frameworks/content";
+import type { FrameworkCodeBlock } from "../../lib/frameworks/content";
 
 /**
  * Split a line into plain segments and [PLACEHOLDER] segments so we can

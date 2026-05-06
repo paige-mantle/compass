@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import type { InsightMeta } from "@/compass/lib/insights/content";
-import { CompassHeader } from "@/compass/components/shared/CompassHeader";
+import type { InsightMeta } from "../../lib/insights/content";
+import { CompassHeader } from "../shared/CompassHeader";
 import { TableOfContents } from "./TableOfContents";
 
 function authorInitials(name: string): string {

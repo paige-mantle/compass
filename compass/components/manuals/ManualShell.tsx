@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import type { ManualManifest, ManualSection } from "@/compass/lib/manuals/content";
+import type { ManualManifest, ManualSection } from "../../lib/manuals/content";
 import { ManualCopyLink } from "./ManualCopyLink";
 
 function pad2(n: number) {

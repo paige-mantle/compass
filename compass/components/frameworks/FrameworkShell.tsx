@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { CompassHeader } from "@/compass/components/shared/CompassHeader";
-import type { FrameworkMeta } from "@/compass/lib/frameworks/content";
+import { CompassHeader } from "../shared/CompassHeader";
+import type { FrameworkMeta } from "../../lib/frameworks/content";
 import { CodeBlocks } from "./CodeBlocks";
 
 function authorInitials(name: string): string {
