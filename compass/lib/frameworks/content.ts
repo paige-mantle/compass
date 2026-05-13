@@ -23,6 +23,8 @@ export type FrameworkFrontmatter = {
   tags?: string[];
   codeBlocks?: FrameworkCodeBlock[];
   published?: boolean;
+  /** Human-readable last-updated date, e.g. "May 11, 2026". */
+  lastUpdated?: string;
 };
 
 export type FrameworkMeta = FrameworkFrontmatter & {

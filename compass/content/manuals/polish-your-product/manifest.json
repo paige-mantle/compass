@@ -1,9 +1,0 @@
-{
-  "slug": "polish-your-product",
-  "title": "Polish your product",
-  "number": "004",
-  "accent": "#1F5863",
-  "sections": [
-    { "slug": "", "title": "Introduction", "isIntro": true, "file": "00-introduction.mdx" }
-  ]
-}

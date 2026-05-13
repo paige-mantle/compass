@@ -1,0 +1,45 @@
+{
+  "slug": "operate",
+  "title": "Operate",
+  "number": "6",
+  "accent": "#5CD055",
+  "heroVariant": "light",
+  "sections": [
+    {
+      "slug": "",
+      "title": "Overview",
+      "isIntro": true,
+      "file": "00-operate.mdx"
+    },
+    {
+      "slug": "understand-your-operating-loop",
+      "title": "Understand your operating loop",
+      "file": "01-understand-your-operating-loop.mdx"
+    },
+    {
+      "slug": "add-product-analytics",
+      "title": "Add product analytics",
+      "file": "02-add-product-analytics.mdx"
+    },
+    {
+      "slug": "manage-churn-and-customer-health",
+      "title": "Manage churn and customer health",
+      "file": "03-manage-churn-and-customer-health.mdx"
+    },
+    {
+      "slug": "set-up-customer-support",
+      "title": "Set up customer support",
+      "file": "04-set-up-customer-support.mdx"
+    },
+    {
+      "slug": "keep-your-app-running",
+      "title": "Keep your app running",
+      "file": "05-keep-your-app-running.mdx"
+    },
+    {
+      "slug": "expand-the-business",
+      "title": "Expand the business",
+      "file": "06-expand-the-business.mdx"
+    }
+  ]
+}

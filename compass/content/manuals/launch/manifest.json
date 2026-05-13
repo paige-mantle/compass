@@ -1,0 +1,40 @@
+{
+  "slug": "launch",
+  "title": "Launch",
+  "number": "3",
+  "accent": "#FFC66E",
+  "heroVariant": "light",
+  "sections": [
+    {
+      "slug": "",
+      "title": "Overview",
+      "isIntro": true,
+      "file": "00-launch.mdx"
+    },
+    {
+      "slug": "analytics-and-error-tracking",
+      "title": "Analytics and error tracking",
+      "file": "01-analytics-and-error-tracking.mdx"
+    },
+    {
+      "slug": "get-your-first-users",
+      "title": "Get your first users",
+      "file": "02-get-your-first-users.mdx"
+    },
+    {
+      "slug": "set-up-onboarding",
+      "title": "Set up onboarding",
+      "file": "03-set-up-onboarding.mdx"
+    },
+    {
+      "slug": "soft-launch",
+      "title": "Soft launch",
+      "file": "04-soft-launch.mdx"
+    },
+    {
+      "slug": "iterate-on-feedback",
+      "title": "Iterate on feedback",
+      "file": "05-iterate-on-feedback.mdx"
+    }
+  ]
+}

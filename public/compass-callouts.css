@@ -1,0 +1,231 @@
+/* ─────────────────────────────────────────────────────────────────────────
+ * Manual callouts — Field Note · Reality Check · Common Failure ·
+ * Decision Point · Founder Shift.
+ *
+ * One editorial system, five voices. Same shell — accent-tinted background,
+ * 1px hairline border tinted by the same accent, rounded corners — so all
+ * five read as members of the same family. Differentiation is structural
+ * (icon, label, internal layout), not chromatic.
+ *
+ * Per-manual accent is driven by `--gold`, set on `.manual-shell` from
+ * `manifest.accent` (Reality #FFBB53, Shape #7AB8D1, etc.). All tinted
+ * surfaces and borders flow from that variable via `color-mix()` so each
+ * manual gets its own callout palette without per-manual CSS overrides.
+ *
+ * Scoped to `.manual-section` so specificity beats the Tailwind utility
+ * classes baked into the components and the !important color rules in
+ * manual.css.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/* ───── Shared shell — applies to every callout. ───── */
+.manual-section .callout {
+  margin: 32px 0;
+  padding: 22px 24px !important;
+  background: color-mix(in srgb, var(--gold, #FFBB53) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 32%, transparent) !important;
+  border-radius: 0.625rem;
+  color: var(--text-primary);
+}
+
+/* Header — inline pill with icon + uppercase mono label. The pill picks
+   up the manual's accent at higher saturation so the label registers as
+   the focal element. */
+.manual-section .callout-header {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 5px 11px 5px 9px;
+  background: color-mix(in srgb, var(--gold, #FFBB53) 22%, transparent);
+  border-radius: 999px;
+  width: fit-content;
+  align-self: flex-start;
+}
+.manual-section .callout-label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  /* Label/icon ink mixes the accent with deep ink so it stays legible
+     against the tinted pill on warm AND cool accents. */
+  color: color-mix(in srgb, var(--gold, #FFBB53) 35%, #1f1813) !important;
+  line-height: 1.2;
+}
+.manual-section .callout-icon {
+  color: color-mix(in srgb, var(--gold, #FFBB53) 35%, #1f1813);
+  flex: none;
+}
+
+/* Body — Geist 17px, matches the prose. */
+.manual-section .callout-body,
+.manual-section .callout-body p {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--text-primary);
+}
+.manual-section .callout-body > * + * { margin-top: 12px; }
+.manual-section .callout-body p { margin: 0; }
+.manual-section .callout-body strong { font-weight: 600; }
+
+/* ───── FIELD NOTE — single column, family chrome. Component pins a
+   narrow max-width; we override so the note matches the prose measure. */
+.manual-section .callout-field-note {
+  max-width: none !important;
+  border-left-width: 1px !important;
+  padding-top: 22px !important;
+  padding-bottom: 22px !important;
+}
+
+/* ───── REALITY CHECK — same chrome, louder body. ───── */
+.manual-section .callout-reality-check {
+  padding-top: 26px !important;
+  padding-bottom: 26px !important;
+  margin: 36px 0;
+}
+.manual-section .callout-reality-check .callout-body,
+.manual-section .callout-reality-check .callout-body p {
+  font-size: 19px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* ───── COMMON FAILURE — pill sits inline (override component's
+   absolute "case-file" positioning so it joins the family rhythm). */
+.manual-section .callout-common-failure {
+  padding-top: 22px !important;
+}
+.manual-section .callout-common-failure .callout-header {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+/* ───── DECISION POINT — header row + two-column fork. */
+.manual-section .callout-decision-point .callout-header {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 28%, transparent);
+}
+.manual-section .callout-decision-point .callout-body {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 20px !important;
+  margin-top: 0 !important;
+}
+@media (min-width: 768px) {
+  .manual-section .callout-decision-point .callout-body {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 !important;
+  }
+}
+.manual-section .callout-decision-point .callout-fork-option {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+}
+@media (min-width: 768px) {
+  .manual-section .callout-decision-point .callout-fork-option-a {
+    padding-right: 24px !important;
+  }
+  .manual-section .callout-decision-point .callout-fork-option-b {
+    padding-left: 24px !important;
+    border-left: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 28%, transparent) !important;
+  }
+}
+.manual-section .callout-decision-point .callout-fork-option > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.manual-section .callout-decision-point .callout-fork-option > p:first-child,
+.manual-section .callout-decision-point .callout-fork-option > div > p:first-child {
+  margin: 0;
+  line-height: 1.3;
+}
+.manual-section .callout-decision-point .callout-fork-option > p:first-child strong,
+.manual-section .callout-decision-point .callout-fork-option > div > p:first-child strong {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--text-primary);
+}
+.manual-section .callout-decision-point .callout-fork-option p {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--text-secondary, #5e5c5a) !important;
+}
+
+/* ───── FOUNDER SHIFT — from | arrow | to. Arrow picks up the manual's
+   accent so the directional cue carries the chapter's color identity. */
+.manual-section .callout-founder-shift .callout-header {
+  margin-bottom: 18px;
+}
+.manual-section .callout-founder-shift .callout-shift-arrow {
+  color: color-mix(in srgb, var(--gold, #FFBB53) 50%, #1f1813) !important;
+  flex: none;
+}
+.manual-section .callout-founder-shift .callout-shift-from > div > p:first-child,
+.manual-section .callout-founder-shift .callout-shift-to > div > p:first-child {
+  margin: 0 0 6px;
+  line-height: 1;
+}
+.manual-section .callout-founder-shift .callout-shift-from > div > p:first-child strong,
+.manual-section .callout-founder-shift .callout-shift-to > div > p:first-child strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #5e5c5a !important;
+}
+.manual-section .callout-founder-shift .callout-shift-from p,
+.manual-section .callout-founder-shift .callout-shift-to p {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--text-primary) !important;
+}
+
+/* Arrow rotates 90° on stacked mobile so the metaphor survives. */
+@media (max-width: 767px) {
+  .manual-section .callout-founder-shift .callout-shift-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+/* ───── Generic <Callout> (notion-callout shim) — also accent-tinted
+   so it reads as part of the family but with a lighter touch (no pill
+   header, accent left-stripe instead). ───── */
+.manual-section .notion-callout {
+  display: block;
+  margin: 28px 0;
+  padding: 18px 22px;
+  background: color-mix(in srgb, var(--gold, #FFBB53) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 24%, transparent);
+  border-left: 3px solid color-mix(in srgb, var(--gold, #FFBB53) 55%, transparent);
+  border-radius: 0.5rem;
+}
+.manual-section .notion-callout > .notion-callout-content > *:last-child {
+  margin-bottom: 0;
+}
+.manual-section .notion-callout p {
+  margin: 0 0 10px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+.manual-section .notion-callout p:last-child {
+  margin-bottom: 0;
+}

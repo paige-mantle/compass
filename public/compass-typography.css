@@ -1,0 +1,247 @@
+/* ─── Compass typography — Mantle-aligned recipes ─────────────
+   Normalizes the editorial type recipes across the five static
+   Compass pages. Mirrors the conventions used by Mantle's
+   marketing site + the React `CompassText` component:
+
+     • Headings → Manrope, weight 500, tracking-tight (-0.025em),
+                  leading tightest/tighter, color text-primary.
+     • Body     → Geist, weight 400, leading loose (1.5),
+                  color text-primary.
+     • Eyebrows → Geist Mono, weight 500, tracking-wider (0.05em),
+                  uppercase, leading-loose-ish, color text-muted.
+
+   IMPORTANT — what this file does NOT do:
+     • Does NOT set explicit font-size on any class. Per-page rules
+       are still free to pick their own size (e.g. a small inline
+       tag inside a card, a giant hero h1). This sweep locks
+       *family / weight / tracking / case / leading / color* so the
+       editorial voice is uniform, while leaving size choices to
+       the page that owns the layout.
+     • Does NOT touch the Compass MDX pages (manual chapters,
+       framework articles, insight articles) — those render through
+       Tailwind + the React `Compass*` components which already
+       follow the same recipes.
+
+   Load order: linked in each static page AFTER its inline <style>
+   block, so equal-specificity selectors here win the cascade. The
+   selectors below match the existing single-class shape used in
+   each page, so we don't escalate specificity.
+*/
+
+/* ─── Eyebrow recipe ─────────────────────────────────────────
+   `.compass-eyebrow` is the canonical class for every mono-
+   uppercase editorial label across Compass. Use it for any new
+   eyebrow surface; the listed legacy aliases (`.compass-blog-
+   tag`, `.compass-news-label`, etc.) are kept on the same rule
+   only so existing static-page markup keeps rendering correctly
+   while the surfaces are migrated to the canonical class.
+
+   The shared recipe matches the Mantle pattern:
+     Geist Mono · 500 · letter-spacing 0.05em · uppercase ·
+     leading 1.6 · color text-muted.
+
+   Pages remain free to set their own font-size + margin per
+   context (see e.g. `.compass-blog-tag`'s absolute positioning).
+*/
+.compass-eyebrow,
+.compass-blog-tag,
+.compass-news-label,
+.compass-meta,
+.compass-hero-eyebrow,
+.compass-feature-visual-label,
+.compass-feature-item-kicker,
+.compass-manual-kicker,
+.compass-section-label,
+.compass-site-footer-eyebrow,
+.compass-site-footer-col h5,
+.compass-footer-col h5 {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* Accent variant — tints the eyebrow deep amber (Mantle's "warm
+   editorial" tone, but legible on a light surface). Uses the
+   darker `--gold-fg` foreground token introduced in
+   compass-base.css; the bright `--gold` is reserved for solid
+   fills (button backgrounds, M-logo, card tints) where dark
+   text sits on top. */
+.compass-eyebrow.compass-eyebrow--accent,
+.compass-hero-eyebrow,
+.compass-blog-tag {
+  color: var(--gold-fg, #8A3E00);
+}
+
+/* The chevron-right prefix was removed from ALL eyebrows.
+   It now only appears where the new Mantle design uses
+   `<PromptHeading>` — currently `.compass-hero-eyebrow` (the
+   subheading above each page's hero h1). New surfaces that
+   want the prompt-style eyebrow should either use that class
+   or, in React, render `<CompassPromptHeading>`. */
+/* Matches CompassPromptHeading sizing exactly:
+   16x16 icon + `calc(var(--spacing) * 3)` (= 12px) gap. */
+.compass-hero-eyebrow {
+  /* Override the inline-flex / gap from per-page styles so the
+     ::before icon's margin-right behaves as the canonical gap. */
+  gap: calc(var(--spacing) * 3);
+}
+.compass-hero-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: calc(var(--spacing) * 3);
+  vertical-align: -0.18em;
+  background-color: currentColor;
+  -webkit-mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+          mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+/* ─── Heading recipe ─────────────────────────────────────────
+   Lock all heading elements inside the page's main + footer
+   surfaces to Manrope / weight 500 / tracking-tight. Per-page
+   font-size + line-height overrides still apply.
+
+   The `:where()` wrapper keeps specificity at 0 so any page rule
+   that targets a specific class (e.g. `.compass-news h3`) still
+   wins for size/leading details.
+*/
+:where(main h1, main h2, main h3, main h4, main h5, main h6,
+       footer h1, footer h2, footer h3, footer h4, footer h5,
+       footer h6) {
+  font-family: var(--font-head);
+  /* Mantle Text.astro heading base = `font-heading font-normal`
+     (Manrope 400). Pages that want a heavier display weight
+     can override per-element. */
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+/* Default leading scale for headings — tightest for display
+   (h1), tighter for h2, tight for h3+. Matches Mantle's
+   SIZE_LEADING_DEFAULTS / TYPE_LEADING_DEFAULTS from
+   CompassText.tsx. */
+:where(main h1, footer h1) { line-height: 1.1; }
+:where(main h2, footer h2) { line-height: 1.15; }
+:where(main h3, main h4, footer h3, footer h4) { line-height: 1.2; }
+
+/* ─── Body recipe ────────────────────────────────────────────
+   Geist + leading-loose by default. Pages that explicitly set
+   their own line-height on a class still win (we kept this at
+   zero-specificity via :where()).
+*/
+:where(main p, footer p) {
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+/* ─── Heading-mono variant (rare — used for section labels that
+       look like big eyebrows). Same recipe but uppercase + wider
+       tracking, no size override. */
+.compass-section-label-mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ─── Frameworks group label — the "Sanity Functions Recipes"
+       style heading on the frameworks index. Not an eyebrow; it's
+       a true h2-shaped label. Lock it to the heading recipe
+       (family + weight + tracking) but leave size to the page. */
+.compass-frameworks-group-label {
+  font-family: var(--font-head);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+/* Standard card border-radius — every Compass card (manual,
+   framework, insight, answer, blog) uses the same 8px Mantle
+   default. Matches `Card.astro`'s `rounded: "default"` =
+   `rounded-xl`. */
+.compass-blog-item,
+.framework-card,
+.answers-card,
+.insights-card,
+.compass-manual-row,
+.compass-blog-item-thumb,
+.framework-card-block,
+.insights-card-block,
+.answers-card-block {
+  border-radius: 8px;
+}
+
+/* Cards that contain colored child blocks (framework / insight
+   tile blocks, blog item thumbnails) clip the children to the
+   rounded corner. */
+.compass-blog-item,
+.framework-card,
+.answers-card,
+.insights-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.compass-manual-row {
+  position: relative;
+}
+
+/* Card hover — lift only. The card rises ~3px on hover with a
+   soft drop shadow underneath, matching the blog/feature card
+   hover treatment on the marketing site. No background change,
+   no border-color change, no brightness bump, no title color
+   change — only the lift signals interactivity. */
+.compass-blog-item,
+.compass-blog-feature,
+.compass-feature-item,
+.framework-card,
+.answers-card,
+.insights-card,
+.compass-manual-row {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  will-change: transform;
+}
+.compass-blog-item:hover,
+.compass-blog-feature:hover,
+.compass-feature-item:hover,
+.framework-card:hover,
+.answers-card:hover,
+.insights-card:hover,
+.compass-manual-row:hover {
+  transform: translateY(-3px) !important;
+  box-shadow:
+    0 8px 24px -12px rgba(15, 13, 8, 0.18),
+    0 2px 6px -2px rgba(15, 13, 8, 0.08) !important;
+  /* Hold bg / border / filter steady — only the lift moves. */
+  filter: none !important;
+  top: 0 !important;
+}
+
+/* Framework cards have a saturated colored block — keep it
+   anchored under the lifted card without a brightness bump or
+   its own translate. The outer card lift carries it along. */
+.framework-card:hover .framework-card-block {
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Reset all title-color-on-hover effects so card titles stay
+   the same color whether hovered or not. */
+.compass-manual-row:hover .compass-manual-title,
+.compass-blog-item:hover .compass-blog-item-title,
+.answers-card:hover .answers-card-title,
+.insights-card:hover .insights-card-title {
+  color: var(--text-primary) !important;
+}

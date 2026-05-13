@@ -3,12 +3,16 @@
    Geist Mono (mono). Dark canvas, gold accent. */
 
 :root {
-  --canvas:         #FFFEF2;
-  --surface:        #FAF7E5;
-  --surface-raised: #F2EDD6;
-  --surface-elev:   #EBE5C8;
+  /* Compass clean-white theme (matches /public/compass-base.css).
+     Page bg is pure white; raised tiers shift to subtle neutral
+     grays. Warmth comes from the gold accent + clay text + ambient
+     glow, not from a tinted surface. */
+  --canvas:         #FFFFFF;
+  --surface:        #FAFAFA;
+  --surface-raised: #F5F5F5;
+  --surface-elev:   #EBEBEC;
 
-  --border:         rgba(17, 15, 20, 0.14);
+  --border:         #110f1424;
   --border-soft:    rgba(17, 15, 20, 0.08);
   --hairline:       rgba(17, 15, 20, 0.05);
 
@@ -21,12 +25,18 @@
   --gold-dim:       #f5b446;
   --gold-high:      #FFC66E;
   --gold-soft:      rgba(255, 198, 110, 0.18);
+  --gold-fg:        #8A3E00;
 
   --r-sm: 8px;
   --r-md: 0.75rem;
   --s-3: 16px;
   --s-4: 24px;
   --s-5: 32px;
+
+  /* Tailwind v4 spacing unit — matches app/globals.css so
+     `calc(var(--spacing) * N)` formulas resolve identically
+     on the React framework/insight article pages. */
+  --spacing: 4px;
 
   --header-h: 64px;
 
@@ -35,7 +45,16 @@
   --font-mono: 'Geist Mono', ui-monospace, monospace;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@layer legacy {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+}
+
+@font-face {
+  font-family: "Geist Pixel Square";
+  src: url("/fonts/GeistPixel-Square.otf") format("opentype");
+  font-weight: 100 900;
+  font-display: swap;
+}
 
 html, body {
   background: var(--canvas);
@@ -54,11 +73,25 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--s-5);
-  border-bottom: 1px solid var(--border-soft);
-  background: linear-gradient(180deg, rgba(255, 254, 242, 0.92), rgba(255, 254, 242, 0.72));
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  padding-inline: max(16px, calc((100% - 1320px) / 2 + 16px));
+  /* Mobile: solid page-surface bg so content can't scroll
+     through the header. Desktop: transparent — hero / BgFx
+     ambient flow through. Matches new-Mantle globals.css. */
+  background: var(--canvas);
+  border: none;
+}
+@media (min-width: 640px) {
+  .site-header {
+    padding-inline: max(24px, calc((100% - 1320px) / 2 + 24px));
+  }
+}
+@media (min-width: 768px) {
+  .site-header {
+    padding-inline: max(32px, calc((100% - 1320px) / 2 + 32px));
+  }
+}
+@media (min-width: 1024px) {
+  .site-header { background: transparent; }
 }
 
 .site-brand {
@@ -75,6 +108,9 @@ html, body {
   width: auto;
 }
 
+/* Site search field — light-theme appropriate bg + border so
+   the input is visible on the white page surface. Hidden on
+   narrow viewports so brand + CTA can breathe. */
 .site-search {
   display: flex;
   align-items: center;
@@ -84,9 +120,14 @@ html, body {
   height: 36px;
   padding: 0 14px;
   margin: 0 24px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-soft);
   border-radius: 6px;
-  background: rgba(255,255,255,0.03);
+  background: var(--surface);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.site-search:focus-within {
+  border-color: var(--text-muted);
+  background: var(--surface-raised);
 }
 .site-search-icon {
   flex: none;
@@ -94,6 +135,7 @@ html, body {
 }
 .site-search-input {
   flex: 1 1 auto;
+  min-width: 0;
   height: 100%;
   background: transparent;
   border: 0;
@@ -104,6 +146,9 @@ html, body {
 }
 .site-search-input::placeholder {
   color: var(--text-muted);
+}
+@media (max-width: 860px) {
+  .site-search { display: none; }
 }
 
 .site-actions {
@@ -169,10 +214,11 @@ html, body {
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #5e5c5a;
   margin-bottom: 40px;
 }
 .insight-breadcrumb a {
@@ -193,6 +239,20 @@ html, body {
   max-width: 900px;
   margin: 0 0 56px;
   text-align: left;
+  position: relative;
+  padding-bottom: 32px;
+}
+/* Full-viewport divider underneath the hero — bleeds past the
+   shell's horizontal padding so it spans edge-to-edge. */
+.insight-hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 1px;
+  background: var(--border);
 }
 
 /* Eyebrow — matches .compass-hero-eyebrow on the rest of the site:
@@ -202,11 +262,11 @@ html, body {
   align-items: center;
   gap: 12px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #ffc66e;
+  color: #5e5c5a;
   margin-bottom: 16px;
 }
 .insight-ribbon::after {
@@ -223,20 +283,21 @@ html, body {
 }
 
 .insight-hero h1 {
-  font-family: var(--font-head);
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
+  font-family: "Geist Pixel Square", var(--font-head);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
   margin: 0 0 20px;
   color: var(--text-primary);
 }
 
 .insight-summary {
   font-family: var(--font-body);
-  font-size: 19px;
-  line-height: 1.55;
-  color: var(--text-secondary);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #5e5c5a;
   margin: 0 0 28px;
   max-width: 64ch;
 }
@@ -264,7 +325,7 @@ html, body {
   font-family: var(--font-head);
   font-weight: 500;
   font-size: 16px;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.018em;
 }
 .insight-byline-meta {
   display: flex;
@@ -295,10 +356,11 @@ html, body {
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #5e5c5a;
 }
 .insight-meta-sep { color: var(--text-label); }
 
@@ -318,10 +380,9 @@ html, body {
 
 .insight-content {
   font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--text-secondary);
-  max-width: 800px;
 }
 
 .insight-content p {
@@ -348,7 +409,7 @@ html, body {
   font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.018em;
+  letter-spacing: -0.025em;
   color: var(--text-primary);
   margin: 2.2em 0 0.6em;
   scroll-margin-top: 90px;
@@ -359,7 +420,7 @@ html, body {
   font-size: clamp(20px, 2vw, 22px);
   font-weight: 500;
   line-height: 1.3;
-  letter-spacing: -0.012em;
+  letter-spacing: -0.018em;
   color: var(--text-primary);
   margin: 1.8em 0 0.4em;
   scroll-margin-top: 90px;
@@ -418,8 +479,8 @@ html, body {
 
 .insight-toc-label {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 14px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-muted);
   padding: 16px 28px 12px;
@@ -484,8 +545,11 @@ html, body {
 .insight-back {
   margin: 96px 0 0;
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.04em;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5e5c5a;
 }
 .insight-back a {
   color: var(--text-muted);

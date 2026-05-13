@@ -18,6 +18,8 @@ export default function FrameworksLayout({ children }: { children: ReactNode }) 
       <link rel="stylesheet" href="/insight.css" />
       {/* eslint-disable-next-line @next/next/no-css-tags */}
       <link rel="stylesheet" href="/framework.css" />
+      {/* eslint-disable-next-line @next/next/no-css-tags */}
+      <link rel="stylesheet" href="/compass-content.css" />
       {children}
     </>
   );

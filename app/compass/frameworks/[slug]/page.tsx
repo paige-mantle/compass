@@ -2,7 +2,15 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { FrameworkShell } from "@/compass/components/frameworks/FrameworkShell";
+import { PairsWith, PairItem } from "@/compass/components/frameworks/PairsWith";
 import { listFrameworks, loadFramework } from "@/compass/lib/frameworks/content";
+
+// Components available inside framework MDX files. Keep tight — frameworks
+// render as editorial recipe pages, not full UI surfaces.
+const frameworkMdxComponents = {
+  PairsWith,
+  PairItem,
+};
 
 type Params = { slug: string };
 
@@ -69,7 +77,7 @@ export default async function FrameworkPage({
   };
 
   return (
-    <FrameworkShell meta={loaded.meta}>
+    <FrameworkShell meta={loaded.meta} shareUrl={url}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
@@ -80,6 +88,7 @@ export default async function FrameworkPage({
       />
       <MDXRemote
         source={loaded.source}
+        components={frameworkMdxComponents}
         options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
       />
     </FrameworkShell>

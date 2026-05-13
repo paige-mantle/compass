@@ -4,13 +4,8 @@ import { useEffect, useState } from "react";
 
 type Heading = { depth: 2 | 3; id: string; text: string };
 
-function pad2(n: number) {
-  return n < 10 ? "0" + n : "" + n;
-}
-
 export function TableOfContents({ headings }: { headings: Heading[] }) {
-  // Only h2s get numbered "section" entries; h3s render as nested children of
-  // the preceding h2 in the manual-sidebar style.
+  // Only h2s get top-level entries; h3s render under the preceding h2.
   const topLevel = headings.filter((h) => h.depth === 2);
 
   const [activeId, setActiveId] = useState<string | null>(
@@ -42,13 +37,15 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
   if (topLevel.length === 0) return null;
 
   return (
-    <nav className="insight-toc" aria-label="On this page">
-      <div className="insight-toc-label">On this page</div>
-      <ol className="insight-toc-list">
-        {topLevel.map((h, i) => {
+    <nav aria-label="Jump to section">
+      <h2 className="mb-4 font-heading text-xl font-normal tracking-tight text-fg-high">
+        Jump to section
+      </h2>
+      <ol className="m-0 flex list-none flex-col gap-3 p-0">
+        {topLevel.map((h) => {
           const active = activeId === h.id;
           return (
-            <li key={h.id} className={active ? "active" : undefined}>
+            <li key={h.id}>
               <a
                 href={`#${h.id}`}
                 onClick={(e) => {
@@ -59,9 +56,15 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
                   history.replaceState(null, "", `#${h.id}`);
                   setActiveId(h.id);
                 }}
+                className={[
+                  "block font-sans text-[16px] leading-snug no-underline",
+                  "transition-colors duration-150",
+                  active
+                    ? "text-fg-high"
+                    : "text-fg-medium hover:text-fg-high",
+                ].join(" ")}
               >
-                <span className="insight-toc-num">{pad2(i + 1)}</span>
-                <span className="insight-toc-title">{h.text}</span>
+                {h.text}
               </a>
             </li>
           );

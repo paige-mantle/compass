@@ -1,0 +1,50 @@
+{
+  "slug": "shape",
+  "title": "Shape",
+  "number": "1",
+  "accent": "#76E8FF",
+  "heroVariant": "light",
+  "sections": [
+    {
+      "slug": "",
+      "title": "Overview",
+      "isIntro": true,
+      "file": "00-shape.mdx"
+    },
+    {
+      "slug": "define-the-problem",
+      "title": "Define the problem",
+      "file": "01-define-the-problem.mdx"
+    },
+    {
+      "slug": "map-existing-solutions",
+      "title": "Map the existing solutions",
+      "file": "02-map-existing-solutions.mdx"
+    },
+    {
+      "slug": "find-your-customer",
+      "title": "Find your customer",
+      "file": "03-find-your-customer.mdx"
+    },
+    {
+      "slug": "decide-if-its-worth-building",
+      "title": "Decide if it's worth building",
+      "file": "04-decide-if-its-worth-building.mdx"
+    },
+    {
+      "slug": "test-demand-without-building",
+      "title": "Test demand without building",
+      "file": "05-test-demand-without-building.mdx"
+    },
+    {
+      "slug": "write-your-product-definition",
+      "title": "Write your product definition",
+      "file": "06-write-your-product-definition.mdx"
+    },
+    {
+      "slug": "name-your-app",
+      "title": "Name your app",
+      "file": "07-name-your-app.mdx"
+    }
+  ]
+}

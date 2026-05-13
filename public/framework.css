@@ -2,8 +2,8 @@
    Layout: prose on the left, sticky code stack on the right. */
 
 .framework-shell .insight-ribbon,
-.framework-shell .insight-ribbon--link,
-.framework-shell .insight-ribbon--link:hover { color: #8A3E00; }
+.framework-shell .insight-ribbon--link { color: #5e5c5a; }
+.framework-shell .insight-ribbon--link:hover { color: var(--text-primary); }
 
 /* Fill-in-the-blank placeholders in code blocks: e.g. [INSERT IDEA]. */
 .framework-code-placeholder { color: #FFC66E; }
@@ -46,7 +46,7 @@
   font-size: 28px;
   font-weight: 500;
   line-height: 1.15;
-  letter-spacing: -0.018em;
+  letter-spacing: -0.025em;
   color: #ffffff;
 }
 .framework-cta-card-desc {
@@ -131,8 +131,8 @@ ul.framework-checklist li::before {
 .framework-content {
   /* Prose stays comfortable; cap a bit narrower than blog body */
   max-width: 64ch;
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 18px;
+  line-height: 1.7;
 }
 
 .framework-content h2 {

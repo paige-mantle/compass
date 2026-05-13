@@ -19,6 +19,8 @@ export default function InsightsLayout({ children }: { children: ReactNode }) {
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap"
       />
+      {/* eslint-disable-next-line @next/next/no-css-tags */}
+      <link rel="stylesheet" href="/compass-content.css" />
       {children}
     </>
   );

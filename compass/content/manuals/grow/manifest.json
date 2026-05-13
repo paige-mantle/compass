@@ -1,0 +1,55 @@
+{
+  "slug": "grow",
+  "title": "Grow",
+  "number": "5",
+  "accent": "#EE5249",
+  "heroVariant": "light",
+  "sections": [
+    {
+      "slug": "",
+      "title": "Overview",
+      "isIntro": true,
+      "file": "00-grow.mdx"
+    },
+    {
+      "slug": "position-your-product",
+      "title": "Position your product",
+      "file": "01-position-your-product.mdx"
+    },
+    {
+      "slug": "tell-a-consistent-story",
+      "title": "Tell a consistent story",
+      "file": "02-tell-a-consistent-story.mdx"
+    },
+    {
+      "slug": "know-your-numbers",
+      "title": "Know your numbers",
+      "file": "03-know-your-numbers.mdx"
+    },
+    {
+      "slug": "identify-growth-levers",
+      "title": "Identify growth levers",
+      "file": "04-identify-growth-levers.mdx"
+    },
+    {
+      "slug": "choose-your-sales-motion",
+      "title": "Choose your sales motion",
+      "file": "05-choose-your-sales-motion.mdx"
+    },
+    {
+      "slug": "build-your-acquisition-channel",
+      "title": "Build your acquisition channel",
+      "file": "06-build-your-acquisition-channel.mdx"
+    },
+    {
+      "slug": "build-a-referral-loop",
+      "title": "Build a referral loop",
+      "file": "07-build-a-referral-loop.mdx"
+    },
+    {
+      "slug": "run-your-outreach-process",
+      "title": "Run your outreach process",
+      "file": "08-run-your-outreach-process.mdx"
+    }
+  ]
+}

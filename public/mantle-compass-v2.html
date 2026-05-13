@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mantle Compass v2 — The founder's handbook for AI builders</title>
+  <meta name="description" content="Mantle Compass — the founder's handbook for AI builders. Operating manuals, frameworks, and answers on positioning, demand, and shipping AI products that earn revenue.">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/compass-base.css" />
+  <style>
+    /* ═══════ Shared media-block treatment (matches compass-feature-visual / compass-blog-feature-media) ═══════ */
+    .media-dark {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,187,83,0.14), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(120,80,180,0.18), transparent 55%),
+        linear-gradient(135deg, #1d1628 0%, #120d1c 100%);
+    }
+    .media-dark::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(45deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(-45deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 18px 18px;
+      opacity: 0.6;
+    }
+
+    /* ═══════ Shared kicker (matches compass-feature-item-kicker / compass-hero-eyebrow) ═══════ */
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      text-transform: uppercase;
+      color: #8A3E00;
+    }
+    .kicker-sm {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #8A3E00;
+    }
+
+    /* ═══════ Shared tag (matches compass-blog-tag) ═══════ */
+    .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 5px 9px;
+      background: var(--text-primary);
+      color: var(--canvas);
+      border-radius: 2px;
+    }
+    .tag-light {
+      background: var(--canvas);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    /* ═══════ Shared avatar (matches compass-blog-author-avatar) ═══════ */
+    .av {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffd596 0%, #ffba52 100%);
+      color: #1a1320;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .av-sm { width: 28px; height: 28px; font-size: 11px; }
+
+    /* ═══════ Hero ═══════ */
+    .v2-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 56px;
+      padding-top: 56px;
+      padding-bottom: 56px;
+      align-items: stretch;
+    }
+    .v2-hero-text { display: flex; flex-direction: column; justify-content: center; }
+    .v2-hero-eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      text-transform: uppercase;
+      color: #8A3E00;
+      margin-bottom: 12px;
+      text-decoration: none;
+    }
+    .v2-hero h1 {
+      font-family: var(--font-head);
+      font-size: 54px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--text-primary);
+      margin: 0 0 20px;
+    }
+    .v2-hero h1 .accent {
+      background-image: linear-gradient(transparent 62%, var(--gold-glow) 62%);
+      padding: 0 2px;
+    }
+    .v2-hero-lede {
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.3;
+      color: var(--text-primary);
+      max-width: 60ch;
+      margin: 0 0 28px;
+    }
+    .v2-hero-actions { display: inline-flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+
+    /* Buttons match compass-news-submit: 42px height, 6px radius */
+    .v2-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 42px;
+      padding: 0 18px;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+    }
+    .v2-btn-primary { background: var(--gold); color: #000; border: 1px solid var(--gold); }
+    .v2-btn-primary:hover { background: var(--gold-dim); border-color: var(--gold-dim); }
+    .v2-btn-ghost { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+    .v2-btn-ghost:hover { border-color: var(--text-muted); }
+
+    .v2-hero-proof {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .v2-hero-proof-dots { display: inline-flex; }
+    .v2-hero-proof-dots .av { margin-left: -6px; border: 2px solid var(--canvas); }
+    .v2-hero-proof-dots .av:first-child { margin-left: 0; }
+
+    /* Hero right column: featured manual + Arvid quote, stacked */
+    .v2-hero-aside { display: flex; flex-direction: column; gap: 16px; }
+
+    /* Featured tile — dark gradient like compass-feature-visual, gold accents */
+    .v2-featured-tile {
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid var(--border-soft);
+      color: var(--canvas);
+      padding: 28px 28px 30px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+    }
+    .v2-featured-tile .tag { background: var(--gold); color: #1a1320; }
+    .v2-featured-title {
+      position: relative;
+      font-family: var(--font-head);
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.12;
+      color: var(--canvas);
+      margin: 20px 0 12px;
+      max-width: 20ch;
+    }
+    .v2-featured-desc {
+      position: relative;
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.5;
+      color: rgba(248,248,246,0.72);
+      max-width: 40ch;
+    }
+    .v2-featured-link {
+      position: relative;
+      margin-top: auto;
+      padding-top: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--gold);
+      transition: transform var(--t-fast) var(--ease);
+    }
+    .v2-featured-tile:hover .v2-featured-link { transform: translateX(2px); }
+    .v2-featured-M {
+      position: absolute;
+      bottom: -52px;
+      right: -22px;
+      font-family: var(--font-head);
+      font-weight: 500;
+      font-size: 280px;
+      line-height: 1;
+      letter-spacing: -0.045em;
+      color: rgba(255, 198, 110, 0.18);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Quote — uses canvas background like a card */
+    .v2-quote {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      padding: 20px 22px;
+      margin: 0;
+    }
+    .v2-quote blockquote {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }
+    .v2-quote figcaption {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .v2-quote figcaption strong { color: var(--text-primary); font-weight: 500; }
+
+    /* ═══════ Section frame ═══════ */
+    .v2-section { padding: 56px 0; border-top: 1px solid var(--border-soft); }
+    .v2-section-head {
+      margin-bottom: 32px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .v2-section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #8A3E00;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .v2-section h2 {
+      font-family: var(--font-head);
+      font-size: clamp(28px, 3.2vw, 38px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin: 0 0 10px;
+    }
+    .v2-section-lede {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.45;
+      color: var(--text-secondary);
+      max-width: 60ch;
+      margin: 0;
+    }
+    .v2-section-link {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--gold);
+      text-decoration: none;
+      transition: transform var(--t-fast) var(--ease);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .v2-section-link:hover { transform: translateX(2px); }
+
+    /* ═══════ Stages — bordered grid like compass-explore-grid ═══════ */
+    .v2-stages {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-top: 1px solid var(--border-soft);
+      border-left: 1px solid var(--border-soft);
+    }
+    .v2-stage {
+      position: relative;
+      display: block;
+      min-height: 180px;
+      padding: 24px;
+      border-bottom: 1px solid var(--border-soft);
+      border-right: 1px solid var(--border-soft);
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: background var(--t-fast) var(--ease);
+    }
+    .v2-stage:hover { background: var(--surface); }
+    .v2-stage-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .v2-stage-title {
+      font-family: var(--font-head);
+      font-size: 19px;
+      font-weight: 500;
+      letter-spacing: -0.022em;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .v2-stage-desc {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--text-secondary);
+    }
+    .v2-stage-reads {
+      position: absolute;
+      bottom: 20px;
+      left: 24px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--gold);
+    }
+
+    /* ═══════ Foundation manuals — cream cards with hairlines, gold kicker ═══════ */
+    .v2-manuals {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .v2-manual {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 260px;
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+    }
+    .v2-manual:hover { background: var(--surface-raised); border-color: rgba(17,15,20,0.18); }
+    .v2-manual-num {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #8A3E00;
+      margin-bottom: 24px;
+    }
+    .v2-manual-title {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin: 0 0 10px;
+    }
+    .v2-manual-desc {
+      font-family: var(--font-body);
+      font-size: 14.5px;
+      line-height: 1.45;
+      color: var(--text-secondary);
+    }
+    .v2-manual-meta {
+      margin-top: auto;
+      padding-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--gold);
+    }
+
+    /* ═══════ Latest grid (matches compass-blog-grid spirit) ═══════ */
+    .v2-latest {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 56px;
+    }
+    .v2-latest-feature { display: block; text-decoration: none; color: inherit; }
+    .v2-latest-feature-media {
+      aspect-ratio: 16 / 10;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .v2-latest-feature-media .tag {
+      position: absolute;
+      top: 12px; left: 12px;
+      z-index: 2;
+    }
+    .v2-latest-feature-title {
+      font-family: var(--font-head);
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .v2-latest-feature-excerpt {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .v2-latest-side {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .v2-latest-item {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 18px;
+      align-items: start;
+      text-decoration: none;
+      color: inherit;
+    }
+    .v2-latest-item-body { display: flex; flex-direction: column; }
+    .v2-latest-item-title {
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .v2-latest-item-meta {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+    .v2-latest-item-meta strong { color: var(--text-primary); font-weight: 500; }
+    .v2-latest-item-thumb {
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      border: 1px solid var(--border-soft);
+      position: relative;
+      overflow: hidden;
+    }
+    .v2-latest-item-thumb .tag {
+      position: absolute;
+      top: 8px; left: 8px;
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+
+    /* ═══════ Newsletter — matches compass-connect / compass-news exactly ═══════ */
+    .v2-news {
+      padding: 56px 0;
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: end;
+    }
+    .v2-news h3 {
+      font-family: var(--font-head);
+      font-size: 38px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin: 8px 0 12px;
+      max-width: 540px;
+    }
+    .v2-news p {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      max-width: 56ch;
+      margin: 0;
+    }
+    .v2-news-form { display: flex; flex-direction: column; gap: 10px; }
+    .v2-news-row { display: flex; gap: 10px; }
+    .v2-news-input {
+      flex: 0 0 360px;
+      width: 360px;
+      max-width: 100%;
+      height: 42px;
+      padding: 0 16px;
+      background: var(--canvas);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 15px;
+      outline: none;
+      transition: border-color var(--t-fast) var(--ease);
+    }
+    .v2-news-input:focus { border-color: var(--gold); }
+    .v2-news-legal {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* ═══════ Responsive ═══════ */
+    @media (max-width: 1024px) {
+      .v2-hero { grid-template-columns: 1fr; gap: 32px; }
+      .v2-stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .v2-manuals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .v2-latest { grid-template-columns: 1fr; gap: 36px; }
+      .v2-news { grid-template-columns: 1fr; gap: 24px; }
+      .v2-hero h1 { font-size: 44px; }
+      .v2-news h3 { font-size: 30px; }
+    }
+    @media (max-width: 640px) {
+      .v2-stages { grid-template-columns: 1fr; }
+      .v2-manuals { grid-template-columns: 1fr; }
+      .v2-hero h1 { font-size: clamp(34px, 9vw, 44px); }
+      .v2-news-input { flex: 1; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ Site header ═══════════ -->
+  <header class="site-header">
+    <a class="site-brand" href="/compass" aria-label="Mantle Compass">
+      <img class="site-logo" src="/compass-logo-color-black.svg" alt="Mantle Compass" />
+    </a>
+    <form class="site-search" role="search" action="#">
+      <svg class="site-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input class="site-search-input" type="search" placeholder="Search Compass" aria-label="Search Compass" />
+    </form>
+    <div class="site-actions">
+      <a class="sign-in-link" href="/">Back to Mantle</a>
+      <a class="site-cta" href="#subscribe">Get the newsletter</a>
+    </div>
+  </header>
+
+  <section class="page compass is-active" data-page="compass" data-layout="wide">
+    <main class="compass-container">
+
+      <!-- ═══════════ Hero ═══════════ -->
+      <div class="v2-hero">
+        <div class="v2-hero-text">
+          <a class="v2-hero-eyebrow" href="/compass">Compass / For AI Builders</a>
+          <h1>The founder's handbook<br/>for <span class="accent">AI builders</span>.</h1>
+          <p class="v2-hero-lede">Honest playbooks on evals, distribution, pricing, and product-market fit — written by founders shipping AI products in 2026, not 2021.</p>
+          <div class="v2-hero-actions">
+            <a class="v2-btn v2-btn-primary" href="/manuals/think-like-a-founder/">Read Manual 001 →</a>
+            <a class="v2-btn v2-btn-ghost" href="#stages">Find your stage</a>
+          </div>
+          <div class="v2-hero-proof">
+            <span class="v2-hero-proof-dots">
+              <span class="av av-sm">JG</span>
+              <span class="av av-sm">KM</span>
+              <span class="av av-sm">SS</span>
+            </span>
+            <span>Read weekly by 4,200+ AI founders &amp; builders.</span>
+          </div>
+        </div>
+
+        <aside class="v2-hero-aside">
+          <a class="v2-featured-tile media-dark" href="/manuals/think-like-a-founder/">
+            <span class="tag" style="position:relative; align-self:flex-start;">Manual 001</span>
+            <div class="v2-featured-title">Think like a founder, ship like an engineer.</div>
+            <div class="v2-featured-desc">Why most AI side-projects stall at the demo — and the operating cadence that gets them to revenue.</div>
+            <span class="v2-featured-link">Read the manual →</span>
+            <span class="v2-featured-M" aria-hidden="true">M</span>
+          </a>
+
+          <figure class="v2-quote">
+            <blockquote>"Compass is the only AI-builder resource I send to founders without a disclaimer. It's specific, current, and actually useful."</blockquote>
+            <figcaption>
+              <span class="av av-sm">AK</span>
+              <span><strong>Arvid Kahl</strong> · indie hacker &amp; author, <em>The Embedded Entrepreneur</em></span>
+            </figcaption>
+          </figure>
+        </aside>
+      </div>
+
+      <!-- ═══════════ Stages — primary entry ═══════════ -->
+      <section class="v2-section" id="stages">
+        <div class="v2-section-head">
+          <div>
+            <div class="v2-section-eyebrow">Start here</div>
+            <h2>Where are you right now?</h2>
+            <p class="v2-section-lede">Pick the stage you're actually in. We'll point you at the three things worth reading first.</p>
+          </div>
+        </div>
+        <div class="v2-stages">
+          <a class="v2-stage" href="#">
+            <div class="v2-stage-num">Stage 01</div>
+            <div class="v2-stage-title">I have an idea</div>
+            <div class="v2-stage-desc">Pressure-test it before you build.</div>
+            <div class="v2-stage-reads">3 reads →</div>
+          </a>
+          <a class="v2-stage" href="#">
+            <div class="v2-stage-num">Stage 02</div>
+            <div class="v2-stage-title">I have a prototype</div>
+            <div class="v2-stage-desc">Turn the demo into something usable.</div>
+            <div class="v2-stage-reads">4 reads →</div>
+          </a>
+          <a class="v2-stage" href="#">
+            <div class="v2-stage-num">Stage 03</div>
+            <div class="v2-stage-title">I'm ready to launch</div>
+            <div class="v2-stage-desc">Position, price, and get first users.</div>
+            <div class="v2-stage-reads">6 reads →</div>
+          </a>
+          <a class="v2-stage" href="#">
+            <div class="v2-stage-num">Stage 04</div>
+            <div class="v2-stage-title">I have users</div>
+            <div class="v2-stage-desc">Retention, evals, and the wall at $10k MRR.</div>
+            <div class="v2-stage-reads">5 reads →</div>
+          </a>
+          <a class="v2-stage" href="#">
+            <div class="v2-stage-num">Stage 05</div>
+            <div class="v2-stage-title">I want a real business</div>
+            <div class="v2-stage-desc">Operate, hire, and avoid AI-margin traps.</div>
+            <div class="v2-stage-reads">4 reads →</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ═══════════ Latest from the library ═══════════ -->
+      <section class="v2-section">
+        <div class="v2-section-head">
+          <div>
+            <div class="v2-section-eyebrow">Latest</div>
+            <h2>Fresh from the library.</h2>
+          </div>
+          <a class="v2-section-link" href="/compass/answers">Browse all 33 →</a>
+        </div>
+        <div class="v2-latest">
+          <a class="v2-latest-feature" href="/compass/insights/mantle-is-a-thesis">
+            <div class="v2-latest-feature-media media-dark">
+              <span class="tag">Thesis</span>
+            </div>
+            <div class="v2-latest-feature-title">The AI-builder margin trap: why your $20/mo SaaS is a $4 token bill in disguise.</div>
+            <p class="v2-latest-feature-excerpt">Why token economics are quietly eating AI startups alive — and the four pricing moves we're seeing founders use to claw the margin back.</p>
+            <div class="v2-latest-item-meta">
+              <span class="av av-sm">JG</span>
+              <strong>Jordan Gutsche</strong>
+              <span>· May 6, 2026</span>
+            </div>
+          </a>
+
+          <div class="v2-latest-side">
+            <a class="v2-latest-item" href="#">
+              <div class="v2-latest-item-body">
+                <div class="v2-latest-item-title">How do I know if my AI idea has real demand?</div>
+                <div class="v2-latest-item-meta">
+                  <span class="av av-sm">JG</span>
+                  <strong>Jordan Gutsche</strong>
+                  <span>· May 5</span>
+                </div>
+              </div>
+              <div class="v2-latest-item-thumb media-dark">
+                <span class="tag">Answer</span>
+              </div>
+            </a>
+            <a class="v2-latest-item" href="#">
+              <div class="v2-latest-item-body">
+                <div class="v2-latest-item-title">The 4 signals of product-market fit for AI tools.</div>
+                <div class="v2-latest-item-meta">
+                  <span class="av av-sm">KM</span>
+                  <strong>Kelsey McKeon</strong>
+                  <span>· May 3</span>
+                </div>
+              </div>
+              <div class="v2-latest-item-thumb media-dark">
+                <span class="tag">Framework</span>
+              </div>
+            </a>
+            <a class="v2-latest-item" href="#">
+              <div class="v2-latest-item-body">
+                <div class="v2-latest-item-title">What we're seeing across 200+ AI launches this quarter.</div>
+                <div class="v2-latest-item-meta">
+                  <span class="av av-sm">SS</span>
+                  <strong>Sarah Sherman</strong>
+                  <span>· May 1</span>
+                </div>
+              </div>
+              <div class="v2-latest-item-thumb media-dark">
+                <span class="tag">Insight</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ Newsletter ═══════════ -->
+      <section class="v2-news" id="subscribe">
+        <div>
+          <div class="v2-section-eyebrow">The Compass Weekly</div>
+          <h3>One email. Friday morning. No fluff.</h3>
+          <p>A new manual or framework each week, plus the one AI-builder thing worth your attention. Written, not generated.</p>
+        </div>
+        <div>
+          <form class="v2-news-form">
+            <div class="v2-news-row">
+              <input class="v2-news-input" type="email" placeholder="you@startup.com" aria-label="Email"/>
+              <button type="submit" class="v2-btn v2-btn-primary">Subscribe</button>
+            </div>
+            <div class="v2-news-legal">4,200+ readers · We never sell your email · Unsubscribe anytime</div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </section>
+
+  <script src="/mantle-newsletter.js" defer></script>
+</body>
+</html>

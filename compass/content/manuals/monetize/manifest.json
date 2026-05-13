@@ -1,0 +1,50 @@
+{
+  "slug": "monetize",
+  "title": "Monetize",
+  "number": "4",
+  "accent": "#98FF76",
+  "heroVariant": "light",
+  "sections": [
+    {
+      "slug": "",
+      "title": "Overview",
+      "isIntro": true,
+      "file": "00-monetize.mdx"
+    },
+    {
+      "slug": "choose-your-pricing-model",
+      "title": "Choose your pricing model",
+      "file": "01-choose-your-pricing-model.mdx"
+    },
+    {
+      "slug": "design-your-pricing-and-plans",
+      "title": "Design your pricing and plans",
+      "file": "02-design-your-pricing-and-plans.mdx"
+    },
+    {
+      "slug": "define-your-conversion-moment",
+      "title": "Define your conversion moment",
+      "file": "03-define-your-conversion-moment.mdx"
+    },
+    {
+      "slug": "convert-free-users-to-paid",
+      "title": "Convert free users to paid",
+      "file": "04-convert-free-users-to-paid.mdx"
+    },
+    {
+      "slug": "set-up-revenue-triggers",
+      "title": "Set up revenue triggers",
+      "file": "05-set-up-revenue-triggers.mdx"
+    },
+    {
+      "slug": "lifecycle-emails",
+      "title": "Lifecycle emails",
+      "file": "06-lifecycle-emails.mdx"
+    },
+    {
+      "slug": "keep-users-coming-back",
+      "title": "Keep users coming back",
+      "file": "07-keep-users-coming-back.mdx"
+    }
+  ]
+}

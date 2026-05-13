@@ -1,0 +1,40 @@
+{
+  "slug": "reality",
+  "title": "Reality",
+  "number": "0",
+  "accent": "#FFBB53",
+  "heroVariant": "light",
+  "sections": [
+    {
+      "slug": "",
+      "title": "Overview",
+      "isIntro": true,
+      "file": "00-reality.mdx"
+    },
+    {
+      "slug": "what-changed",
+      "title": "What AI changed",
+      "file": "01-what-changed.mdx"
+    },
+    {
+      "slug": "who-this-is-for",
+      "title": "Who this is for",
+      "file": "02-who-this-is-for.mdx"
+    },
+    {
+      "slug": "can-you-build-a-real-business",
+      "title": "Can this be a real business?",
+      "file": "03-can-you-build-a-real-business.mdx"
+    },
+    {
+      "slug": "youre-not-just-a-builder",
+      "title": "You're a founder now",
+      "file": "04-youre-not-just-a-builder.mdx"
+    },
+    {
+      "slug": "how-to-use-this-guide",
+      "title": "How to use this guide",
+      "file": "05-how-to-use-this-guide.mdx"
+    }
+  ]
+}

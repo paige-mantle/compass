@@ -23,7 +23,7 @@ function renderLine(line: string) {
     typeof p === "string" ? (
       <Fragment key={i}>{p}</Fragment>
     ) : (
-      <span key={i} className="framework-code-placeholder">
+      <span key={i} className="text-accent">
         {p.ph}
       </span>
     ),
@@ -33,7 +33,7 @@ function renderLine(line: string) {
 export function CodeBlocks({ blocks }: { blocks: FrameworkCodeBlock[] }) {
   if (blocks.length === 0) return null;
   return (
-    <div className="framework-code-stack">
+    <div className="flex flex-col gap-6">
       {blocks.map((b, i) => (
         <CodeCard key={`${b.filename}-${i}`} block={b} />
       ))}
@@ -56,14 +56,29 @@ function CodeCard({ block }: { block: FrameworkCodeBlock }) {
   };
 
   return (
-    <figure className="framework-code-card">
-      <figcaption className="framework-code-header">
-        <span className="framework-code-filename">{block.filename}</span>
+    <figure
+      className="m-0 overflow-hidden rounded-md border border-white/[0.08]
+                 bg-[#0c0a0e] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]"
+    >
+      <figcaption
+        className="flex items-center justify-between gap-3 border-b
+                   border-white/[0.07] bg-[#0f0d12] py-3 pl-5 pr-3"
+      >
+        <span className="overflow-hidden truncate whitespace-nowrap font-mono text-[12px] tracking-[0.02em] text-[#b8b6c4]">
+          {block.filename}
+        </span>
         <button
           type="button"
-          className={`framework-code-copy${copied ? " is-copied" : ""}`}
           onClick={onCopy}
           aria-label={copied ? "Copied" : "Copy code to clipboard"}
+          className={[
+            "inline-flex cursor-pointer items-center gap-1.5 rounded border",
+            "px-[9px] py-[5px] font-mono text-[11px] font-medium uppercase",
+            "tracking-wider transition-colors duration-150",
+            copied
+              ? "border-accent bg-transparent text-accent"
+              : "border-white/[0.07] bg-transparent text-[#a2a0b1] hover:border-[#a2a0b1] hover:bg-white/[0.04] hover:text-[#e2e1eb]",
+          ].join(" ")}
         >
           {copied ? (
             <>
@@ -77,6 +92,7 @@ function CodeCard({ block }: { block: FrameworkCodeBlock }) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 aria-hidden="true"
+                className="flex-none"
               >
                 <path d="M20 6 9 17l-5-5" />
               </svg>
@@ -94,6 +110,7 @@ function CodeCard({ block }: { block: FrameworkCodeBlock }) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 aria-hidden="true"
+                className="flex-none"
               >
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
@@ -103,12 +120,20 @@ function CodeCard({ block }: { block: FrameworkCodeBlock }) {
           )}
         </button>
       </figcaption>
-      <pre className={`framework-code-pre lang-${block.language}`}>
-        <code>
+      <pre
+        className={`m-0 overflow-x-hidden py-7 font-mono text-[13px] leading-[1.85] text-[#e2e1eb] lang-${block.language}`}
+      >
+        <code className="block">
           {lines.map((line, i) => (
-            <span className="framework-code-line" key={i}>
-              <span className="framework-code-lineno">{i + 1}</span>
-              <span className="framework-code-content">
+            <span
+              className="grid items-baseline whitespace-pre-wrap break-words
+                         grid-cols-[52px_minmax(0,1fr)]"
+              key={i}
+            >
+              <span className="select-none pr-4 text-right text-[11.5px] text-[#56546a]">
+                {i + 1}
+              </span>
+              <span className="pr-6">
                 {line ? renderLine(line) : " "}
               </span>
             </span>

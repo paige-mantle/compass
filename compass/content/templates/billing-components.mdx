@@ -1,0 +1,189 @@
+---
+title: "Polaris Billing Components"
+slug: billing-components
+description: "Reusable Polaris-compatible billing and subscription components for Shopify apps built with Mantle."
+ribbon: "Templates"
+author: "Mantle Team"
+authorRole: "Mantle"
+blockColor: "graphite"
+category: "Billing"
+format: "Component"
+tools: ["Claude Code", "Cursor", "Codex", "Mantle", "Shopify"]
+tags:
+  - Polaris
+  - Shopify
+  - Billing
+  - Subscriptions
+  - Components
+  - SaaS
+published: true
+lastUpdated: "May 12, 2026"
+bestFor:
+  - Shopify apps
+  - SaaS billing interfaces
+  - Embedded app experiences
+  - Pricing page development
+  - Subscription management
+  - Faster internal tooling
+  - Product teams shipping quickly
+includes:
+  - Pricing cards
+  - Plan comparison tables
+  - Subscription management
+  - Upgrade prompts
+  - Billing states
+  - Usage meters
+  - Customer billing flows
+  - Hosted billing experiences
+pairsWellWith:
+  - Pricing strategy methods
+  - SaaS onboarding systems
+  - Upgrade flow templates
+  - Subscription lifecycle methods
+  - App launch checklists
+  - Shopify App Store screen systems
+codeBlocks:
+  - filename: "Install"
+    language: "bash"
+    code: |
+      npm install @heymantle/polaris-billing
+  - filename: "app/routes/billing.tsx"
+    language: "tsx"
+    code: |
+      import { MantleProvider } from "@heymantle/react";
+      import {
+        PricingCards,
+        SubscriptionSummary,
+        UsageMeter,
+      } from "@heymantle/polaris-billing";
+
+      export default function BillingPage() {
+        return (
+          <MantleProvider
+            appId={process.env.MANTLE_APP_ID!}
+            customerApiToken={customerApiToken}
+          >
+            <SubscriptionSummary />
+            <UsageMeter feature="api_calls" />
+            <PricingCards
+              onSubscribe={(plan) => upgradeTo(plan.id)}
+            />
+          </MantleProvider>
+        );
+      }
+  - filename: "Upgrade prompt"
+    language: "tsx"
+    code: |
+      import { UpgradePrompt } from "@heymantle/polaris-billing";
+
+      <UpgradePrompt
+        trigger="feature_locked"
+        feature="Custom domains"
+        recommendedPlan="growth"
+      />
+---
+
+Reusable Polaris-compatible billing and subscription components for Shopify apps built with Mantle.
+
+Built for teams that want to move faster without rebuilding common SaaS billing patterns from scratch. Production-ready components for pricing, subscriptions, upgrades, usage states, customer billing, and plan management.
+
+---
+
+## What it includes
+
+- Pricing components
+- Subscription management UI
+- Plan comparison layouts
+- Usage-based billing states
+- Upgrade and downgrade flows
+- Empty, loading, and error states
+- Polaris-compatible components
+- Mantle-connected billing patterns
+
+---
+
+## Best for
+
+- Shopify apps
+- SaaS billing interfaces
+- Embedded app experiences
+- Pricing page development
+- Subscription management
+- Faster internal tooling
+- Product teams shipping quickly
+
+---
+
+## How it works
+
+The components are designed to plug directly into Mantle-powered apps and Shopify workflows.
+
+Use them as:
+
+- production-ready billing UI
+- pricing page starters
+- reusable SaaS foundations
+- customizable Polaris patterns
+
+Most components connect directly with Mantle plans, subscriptions, customers, billing actions, and usage data.
+
+---
+
+## Preview
+
+Live, embeddable previews of every component — pricing cards, plan comparison, usage meters, subscription state banners, and upgrade modals — are documented on the Mantle site. Drop them into your app and adapt to your specific pricing model.
+
+> **Open in Mantle** — see live, interactive previews for every component at [heymantle.com/polaris-billing](https://heymantle.com/polaris-billing).
+
+---
+
+## Includes components for
+
+- Pricing cards
+- Plan comparison tables
+- Subscription management
+- Upgrade prompts
+- Billing states
+- Usage meters
+- Customer billing flows
+- Hosted billing experiences
+
+---
+
+## Built for Mantle
+
+Works alongside Mantle features including:
+
+- plans and billing
+- hosted billing
+- flex billing
+- customer management
+- analytics
+- email and automation systems
+
+---
+
+## Developer-friendly
+
+Works with:
+
+- React
+- Polaris
+- Shopify apps
+- Mantle APIs
+- Claude Code
+- Cursor
+- Codex
+
+Install via npm and connect through the Mantle provider to surface customer, subscription, billing, and plan data directly in your app.
+
+---
+
+## Pairs well with
+
+- [Pricing strategy methods](#)
+- [SaaS onboarding systems](#)
+- [Upgrade flow templates](#)
+- [Subscription lifecycle methods](#)
+- [App launch checklists](#)
+- [Shopify App Store screen systems](#)

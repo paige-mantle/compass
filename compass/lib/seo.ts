@@ -19,8 +19,8 @@ type SectionFrontmatter = {
 /** Public URL for a section page. Pass an empty section for the intro. */
 export function manualSectionUrl(manualSlug: string, sectionSlug: string) {
   return sectionSlug
-    ? `${SITE_ORIGIN}/manuals/${manualSlug}/${sectionSlug}`
-    : `${SITE_ORIGIN}/manuals/${manualSlug}`;
+    ? `${SITE_ORIGIN}/compass/${manualSlug}/${sectionSlug}`
+    : `${SITE_ORIGIN}/compass/${manualSlug}`;
 }
 
 /**
@@ -32,8 +32,8 @@ export function buildSectionMetadata(loaded: LoadedSection): Metadata {
   const fm = loaded.frontmatter as SectionFrontmatter;
   const isIntro = !loaded.section.slug;
   const path = isIntro
-    ? `/manuals/${loaded.manifest.slug}`
-    : `/manuals/${loaded.manifest.slug}/${loaded.section.slug}`;
+    ? `/compass/${loaded.manifest.slug}`
+    : `/compass/${loaded.manifest.slug}/${loaded.section.slug}`;
 
   const title = isIntro
     ? loaded.manifest.title
@@ -75,7 +75,7 @@ export function buildSectionJsonLd(loaded: LoadedSection) {
     isPartOf: {
       "@type": "Book",
       name: loaded.manifest.title,
-      url: `${SITE_ORIGIN}/manuals/${loaded.manifest.slug}`,
+      url: `${SITE_ORIGIN}/compass/${loaded.manifest.slug}`,
     },
     publisher: {
       "@type": "Organization",
@@ -97,7 +97,7 @@ export function buildSectionJsonLd(loaded: LoadedSection) {
       "@type": "ListItem",
       position: 3,
       name: loaded.manifest.title,
-      item: `${SITE_ORIGIN}/manuals/${loaded.manifest.slug}`,
+      item: `${SITE_ORIGIN}/compass/${loaded.manifest.slug}`,
     },
   ];
   if (!isIntro) {
