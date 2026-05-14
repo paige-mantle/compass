@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { CompassLayout } from "../shared/CompassLayout";
 import { CompassPromptHeading } from "../shared/CompassPromptHeading";
-import type { FrameworkMeta } from "../../lib/frameworks/content";
+import type { FrameworkMeta } from "../../lib/methods/content";
 import { CodeBlocks } from "./CodeBlocks";
 import { CopyLinkButton } from "./CopyLinkButton";
 import { PreviewTabs } from "./PreviewTabs";

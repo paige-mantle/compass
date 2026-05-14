@@ -114,10 +114,14 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
       "Turn a fuzzy idea into a sharp product thesis. Position the problem, validate real demand, and decide what the first version should be before you build anything.",
   },
   {
-    /* Build is kept in the cover grid but flagged `comingSoon: true`
-       because its MDX content directory was removed. Re-author chapters
-       under `compass/content/manuals/build/` and flip the flag to
-       false to publish. */
+    /* The next four manuals (Build through Operate) are roadmap
+       placeholders. The earlier draft MDX was removed because it
+       wasn't going forward, but the cover slots stay in the grid so
+       visitors can see the full Compass arc — flip `comingSoon` to
+       false + author chapters under `compass/content/manuals/<slug>/`
+       as each manual is written. Summaries are intentionally short
+       (one line) — long-form descriptions live on the home row-list
+       only after the chapters exist. */
     slug: "build",
     href: "/compass/build",
     manifestTitle: "Build",
@@ -128,6 +132,46 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     comingSoon: true,
     summary:
       "How to actually ship the first version — opinionated guidance on scope, stack choices, and the AI-native workflows that make a small team feel like ten.",
+  },
+  {
+    slug: "launch",
+    href: "/compass/launch",
+    manifestTitle: "Launch",
+    coverTitle: "Launch",
+    ordinal: "004",
+    accent: "warm",
+    motif: "funnel-paths",
+    comingSoon: true,
+  },
+  {
+    slug: "monetize",
+    href: "/compass/monetize",
+    manifestTitle: "Monetize",
+    coverTitle: "Monetize",
+    ordinal: "005",
+    accent: "orange",
+    motif: "magnetic-field",
+    comingSoon: true,
+  },
+  {
+    slug: "grow",
+    href: "/compass/grow",
+    manifestTitle: "Grow",
+    coverTitle: "Grow",
+    ordinal: "006",
+    accent: "cyan",
+    motif: "sine-wave",
+    comingSoon: true,
+  },
+  {
+    slug: "operate",
+    href: "/compass/operate",
+    manifestTitle: "Operate",
+    coverTitle: "Operate",
+    ordinal: "007",
+    accent: "white",
+    motif: "helix-coil",
+    comingSoon: true,
   },
 ];
 

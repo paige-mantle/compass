@@ -40,7 +40,14 @@ const ICON_COLOR: Record<PromptColor, string> = {
 
 const TEXT_COLOR_CLASS: Record<PromptColor, string> = {
   fg: "text-fg-medium",
-  accent: "text-accent-high",
+  /* Gold #FFBB53 — `text-accent` resolves through `--color-accent` →
+     `--color-accent-medium` and matches the next-gen `var(--gold)`
+     value used on every Mantle marketing-page eyebrow
+     (.mm-card-kicker, .nav-trigger hover, etc.). Previously
+     `text-accent-high` (#FFC66E) was a half-shade lighter than the
+     canonical Mantle gold; aligned here so Compass + Mantle eyebrows
+     read identically. */
+  accent: "text-accent",
   "accent-alt": "text-accent-alt-high",
 };
 

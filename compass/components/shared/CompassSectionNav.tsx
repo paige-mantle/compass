@@ -97,7 +97,13 @@ export function CompassSectionNav({
               "transition-colors duration-150",
               active
                 ? "text-fg-high"
-                : "text-fg-high hover:text-accent-fg-medium",
+                /* Inactive tabs: white text, hover to gold — matches
+                   the next-gen `.site-nav > a { color: #fff }` +
+                   `.site-nav > a:hover { color: var(--gold) }` recipe
+                   used on every Mantle marketing page. Previously
+                   `text-accent-fg-medium` (#8A3E00, deep orange)
+                   diverged from the rest of the Mantle nav system. */
+                : "text-fg-high hover:text-accent",
             ].join(" ")}
           >
             <span>{item.label}</span>

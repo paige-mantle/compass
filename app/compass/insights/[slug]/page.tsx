@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import { InsightShell } from "@/compass/components/insights/InsightShell";
 import { insightMdxComponents } from "@/compass/components/insights/mdx-components";
 import { listInsights, loadInsight } from "@/compass/lib/insights/content";
+import { SITE_ORIGIN } from "@/compass/lib/seo";
 
 type Params = { slug: string };
 
@@ -50,7 +51,10 @@ export default async function InsightPage({
   const loaded = await loadInsight(slug);
   if (!loaded) notFound();
 
-  const url = `https://mantle-chi.vercel.app/compass/insights/${slug}`;
+  /* All JSON-LD URLs resolve through `SITE_ORIGIN` (heymantle.com).
+     Was hardcoded to the preview deploy — leaked into every social
+     share + Google indexing. */
+  const url = `${SITE_ORIGIN}/compass/insights/${slug}`;
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -64,7 +68,7 @@ export default async function InsightPage({
     publisher: {
       "@type": "Organization",
       name: "Mantle",
-      url: "https://mantle-chi.vercel.app",
+      url: SITE_ORIGIN,
     },
     mainEntityOfPage: url,
   };
@@ -72,8 +76,8 @@ export default async function InsightPage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: "https://mantle-chi.vercel.app/compass" },
-      { "@type": "ListItem", position: 2, name: "Insights", item: "https://mantle-chi.vercel.app/compass/insights" },
+      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: `${SITE_ORIGIN}/compass` },
+      { "@type": "ListItem", position: 2, name: "Insights", item: `${SITE_ORIGIN}/compass/insights` },
       { "@type": "ListItem", position: 3, name: loaded.meta.title, item: url },
     ],
   };

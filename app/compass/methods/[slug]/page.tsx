@@ -9,6 +9,7 @@ import {
   RelatedCard,
 } from "@/compass/components/methods/RelatedCards";
 import { listFrameworks, loadFramework } from "@/compass/lib/methods/content";
+import { SITE_ORIGIN } from "@/compass/lib/seo";
 
 // Components available inside framework MDX files. Keep tight — frameworks
 // render as editorial recipe pages, not full UI surfaces.
@@ -65,22 +66,29 @@ export default async function FrameworkPage({
   const loaded = await loadFramework(slug);
   if (!loaded) notFound();
 
-  const url = `https://mantle-chi.vercel.app/compass/methods/${slug}`;
+  /* All JSON-LD URLs resolve through the canonical `SITE_ORIGIN`
+     (`https://heymantle.com`). Previously hardcoded to the preview
+     deploy (`mantle-chi.vercel.app`) which leaked into every social
+     share + every Google indexing result. */
+  const url = `${SITE_ORIGIN}/compass/methods/${slug}`;
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     headline: loaded.meta.title,
     description: loaded.meta.summary,
     author: { "@type": "Person", name: loaded.meta.author },
-    publisher: { "@type": "Organization", name: "Mantle", url: "https://mantle-chi.vercel.app" },
+    publisher: { "@type": "Organization", name: "Mantle", url: SITE_ORIGIN },
     mainEntityOfPage: url,
   };
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: "https://mantle-chi.vercel.app/compass" },
-      { "@type": "ListItem", position: 2, name: "Frameworks", item: "https://mantle-chi.vercel.app/compass/methods" },
+      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: `${SITE_ORIGIN}/compass` },
+      /* Section was renamed from "Frameworks" to "Methods" —
+         breadcrumb label now matches the live URL + nav copy so
+         Google indexes the correct category name. */
+      { "@type": "ListItem", position: 2, name: "Methods", item: `${SITE_ORIGIN}/compass/methods` },
       { "@type": "ListItem", position: 3, name: loaded.meta.title, item: url },
     ],
   };

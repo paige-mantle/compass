@@ -268,7 +268,19 @@
       background-size: 240px 240px;
     }
 
-    /* ───────── Site header ───────── */
+    /* ───────── Site header ─────────
+       Mirrors the next-gen Mantle marketing header
+       (mantle-homepage.html `.site-header`): dark glass surface with
+       backdrop blur, sticky to the viewport top, hairline divider,
+       white nav text, gold hover.
+
+       Color values are hardcoded against `rgba(12, 10, 14, ...)` —
+       the Mantle canonical dark surface — rather than tokens, because
+       the header is a "chrome" surface that always reads dark
+       regardless of whether the page beneath uses the dark Mantle
+       theme or the `.compass-light-theme` scope (methods + templates
+       detail + manual chapters). One header treatment across every
+       Compass surface. */
     .site-header {
       position: sticky;
       top: 0;
@@ -277,17 +289,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      /* Responsive horizontal padding that ALSO centers content
-         within a 1320px band on wide viewports — mirrors Mantle's
-         Header.astro pattern (`mx-auto max-w-330 px-4 sm:px-6
-         md:px-8`) without requiring an inner wrapper. */
+      /* Responsive horizontal padding that centers content within a
+         1320px band on wide viewports. Matches the inner-content
+         container so brand + nav line up with the hero / grid below. */
       padding-inline: max(16px, calc((100% - 1320px) / 2 + 16px));
-      /* Mobile: solid page-surface bg so content can't scroll
-         through the header. Desktop: transparent — hero / BgFx
-         ambient flow through. Matches the new-Mantle pattern
-         (see globals.css `#header` rules). */
-      background: var(--canvas);
+      /* Dark glass — 92% → 72% vertical gradient with a 12px blur
+         and 140% saturate boost. Identical to next-gen .site-header. */
+      background: linear-gradient(180deg, rgba(12, 10, 14, 0.92), rgba(12, 10, 14, 0.72));
+      backdrop-filter: blur(12px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(140%);
       border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     @media (min-width: 640px) {
       .site-header {
@@ -299,16 +311,15 @@
         padding-inline: max(32px, calc((100% - 1320px) / 2 + 32px));
       }
     }
-    @media (min-width: 1024px) {
-      .site-header { background: transparent; }
-    }
 
     .site-brand {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       font-family: var(--font-heading);
-      color: var(--text-primary);
+      /* Brand stays white on the dark glass header. Logo SVG carries
+         its own internal palette (Mantle wordmark = white, tile = gold). */
+      color: #fff;
       text-decoration: none;
     }
     .site-brand .site-logo {
@@ -329,7 +340,9 @@
       gap: 5px;
       font-family: var(--font-body);
       font-size: 15px;
-      color: var(--text-primary);
+      /* White on dark glass — matches next-gen `.site-nav > a` exactly.
+         Hover transitions to gold (canonical Mantle accent). */
+      color: #fff;
       font-weight: 400;
       cursor: pointer;
       padding: 4px 0;
@@ -677,10 +690,13 @@
     .sign-in-link {
       font-family: var(--font-body);
       font-size: 15px;
-      color: var(--text-primary);
+      /* White on dark glass header — hover to gold. Matches next-gen
+         pattern; site-header is always dark regardless of page theme. */
+      color: #fff;
       font-weight: 500;
       cursor: pointer;
       transition: color var(--t-fast) var(--ease);
+      text-decoration: none;
     }
     .sign-in-link:hover { color: var(--gold); }
 

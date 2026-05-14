@@ -13,7 +13,16 @@ import { AuthorCard } from "@/compass/components/manuals/AuthorCard";
 import { PromptToggle } from "@/compass/components/manuals/PromptToggle";
 import { TLDR } from "@/compass/components/manuals/TLDR";
 
-export const metadata = { title: "Callouts & blocks — preview" };
+/**
+ * Design-system preview surface — not user-facing content.
+ * `noindex` keeps it out of search results so demo URLs don't
+ * pollute Google. `nofollow` so crawlers don't follow internal
+ * links from here into the rest of Compass.
+ */
+export const metadata = {
+  title: "Callouts & blocks — preview",
+  robots: { index: false, follow: false },
+};
 
 export default function CalloutsPreviewPage() {
   return (

@@ -16,8 +16,17 @@ import type { NextConfig } from "next";
  * here.
  */
 const nextConfig: NextConfig = {
-  typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
+  /* TypeScript + ESLint errors fail the build. Previously both were
+     set to ignore, which silently masked real bugs — notably two
+     stale `import ... from "../../lib/frameworks/content"` paths that
+     went unnoticed because the build never type-checked them. With
+     strict checking on, future renames / breaking changes surface at
+     build time instead of in production.
+     The `react/no-unescaped-entities` ESLint rule is disabled in
+     `eslint.config.mjs` because it flags every quote/apostrophe in
+     JSX text — noise in a content-heavy codebase. */
+  typescript: { ignoreBuildErrors: false },
+  eslint: { ignoreDuringBuilds: false },
 
   async redirects() {
     return [
