@@ -299,8 +299,20 @@ export function ManualShell({
             the bottom of the viewport when a chapter is shorter than
             the screen. min-h-[calc(100vh-...)] gives the column at
             least the visible viewport so the nav can be pushed down;
-            the body section grows via `flex-1` to fill any slack. */}
-        <article className="flex min-h-[calc(100vh-50px)] flex-col">
+            the body section grows via `flex-1` to fill any slack.
+
+            `compass-light-theme` re-scopes fg/surface/edge tokens to
+            light values for the article subtree (defined in
+            app/globals.css @layer base): `--color-fg-high` → near-
+            black, `--color-surface-medium` → white. The hero title
+            number prefix, h1, subheading, and the prose below all
+            consume `text-fg-high` / `text-fg-medium` utilities which
+            now resolve to dark text on a light surface. The dark
+            sidebar (TOC + brand rail) is a SIBLING of <article>, not
+            a descendant, so the scope doesn't bleed into it — its
+            own `bg-surface-lowest` + explicit `text-white` classes
+            keep it dark. */}
+        <article className="compass-light-theme flex min-h-[calc(100vh-50px)] flex-col">
           {/* Hero header — no background tint; blends into the page
               surface so the hero reads as a continuation of the body
               content rather than an inset panel. Single bottom hairline
