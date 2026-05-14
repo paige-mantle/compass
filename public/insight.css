@@ -40,9 +40,14 @@
 
   --header-h: 64px;
 
-  --font-heading: 'Manrope', -apple-system, system-ui, sans-serif;
-  --font-body: 'Geist', -apple-system, system-ui, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  /* Type stacks lead with the `next/font/google` CSS variables exposed
+     on <body> by the React root layout (--font-manrope, --font-geist-sans,
+     --font-geist-mono). React routes resolve self-hosted faces; static
+     HTML pages fall through to the literal name via their own Google
+     Fonts <link>. */
+  --font-heading: var(--font-manrope, 'Manrope'), -apple-system, system-ui, sans-serif;
+  --font-body:    var(--font-geist-sans, 'Geist'), -apple-system, system-ui, sans-serif;
+  --font-mono:    var(--font-geist-mono, 'Geist Mono'), ui-monospace, monospace;
 }
 
 @layer legacy {

@@ -49,44 +49,26 @@ import type { ReactNode } from "react";
 export default function CompassLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      {/* External Google Fonts <link> is still required here because the
-          static stylesheets in /public (compass-base.css,
-          compass-manual-base.css, compass-manual.css, insight.css,
-          customer.css) reference `'Manrope'` / `'Geist'` / `'Geist Mono'`
-          as LITERAL font-family strings. `next/font/google` (root layout)
-          serves the same faces under renamed CSS variables
-          (`--font-manrope` / `--font-geist-sans` / `--font-geist-mono`)
-          — those resolve in React components via the @theme stacks in
-          `globals.css`, but the literal names in the static CSS files
-          would fall back to system sans without this stylesheet. When
-          all five static CSS files migrate their `font-family`
-          declarations to `var(--font-*)`, this <link> can be removed. */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin=""
-      />
-      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap"
-      />
+      {/* Fonts are fully self-hosted via `next/font/google` in
+          `app/layout.tsx` (Geist, Geist Mono, Manrope). The CSS
+          variables `--font-geist-sans` / `--font-geist-mono` /
+          `--font-manrope` are exposed on <body> and lead every
+          `--font-*` stack in both `app/globals.css` (@theme) and the
+          /public/*.css mirror tokens. No external Google Fonts
+          stylesheet — zero DNS, zero render-blocking. */}
       {/* eslint-disable-next-line @next/next/no-css-tags */}
       <link rel="stylesheet" href="/compass-base.css" />
-      {/* compass-manual-base.css is misnamed — despite the `manual` in
-          its filename, it ships the GLOBAL body rules (html/body
-          background, font-family, base color, body grain texture, root
-          font-size) that every Compass route depends on. Removing it
-          from non-manual routes collapses the body background to the
-          UA default. compass-manual.css sits alongside it for the
-          manual-section / hero / sidebar chrome. Both are loaded here
-          (Compass parent) until the global body rules get extracted
-          out into globals.css. */}
+      {/* compass-globals.css carries the cream-canvas overrides + the
+          `html { font-size: 16px }` rule that every Compass surface
+          depends on. Must load AFTER compass-base.css so the cream
+          `--canvas` wins over compass-base.css's pure-white value.
+          Previously these rules lived at the top of
+          compass-manual-base.css, which forced every non-manual route
+          to drag in 116KB of manual chrome too. The manual-page CSS
+          (compass-manual-base.css + compass-manual.css) now loads only
+          on /compass/[manual]/* via that route's own layout. */}
       {/* eslint-disable-next-line @next/next/no-css-tags */}
-      <link rel="stylesheet" href="/compass-manual-base.css" />
-      {/* eslint-disable-next-line @next/next/no-css-tags */}
-      <link rel="stylesheet" href="/compass-manual.css" />
+      <link rel="stylesheet" href="/compass-globals.css" />
       {children}
     </>
   );

@@ -29,33 +29,22 @@ import type { ReactNode } from "react";
 export default function TemplatesLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      {/* External Google Fonts <link> is still required here because
-          /public/compass-base.css references `'Manrope'` / `'Geist'` /
-          `'Geist Mono'` as LITERAL font-family strings. See
-          `app/compass/layout.tsx` for the full explanation. When the
-          static CSS migrates to `var(--font-*)`, this <link> can be
-          removed and `next/font/google` will fully self-host. */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin=""
-      />
-      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap"
-      />
+      {/* Fonts fully self-hosted via `next/font/google` in
+          `app/layout.tsx`. `/public/compass-base.css` (and the other
+          mirror stylesheets in /public) now lead their `--font-*`
+          stacks with `var(--font-manrope, 'Manrope')` etc., so the
+          self-hosted faces resolve through the cascade — no external
+          Google Fonts <link> needed on /templates either. */}
       {/* eslint-disable-next-line @next/next/no-css-tags */}
       <link rel="stylesheet" href="/compass-base.css" />
-      {/* compass-manual-base.css ships the GLOBAL body rules (html/body
-          background, font-family, base color, root font-size) every
-          Compass surface depends on — including /templates. See the
-          parent Compass layout for the full explanation. */}
+      {/* compass-globals.css carries the cream-canvas overrides + the
+          `html { font-size: 16px }` rule shared with every Compass
+          surface. Must load AFTER compass-base.css so the cream
+          `--canvas` wins. The manual-page CSS bundles
+          (compass-manual-base.css + compass-manual.css) are no longer
+          loaded here — they're scoped to /compass/[manual]/* now. */}
       {/* eslint-disable-next-line @next/next/no-css-tags */}
-      <link rel="stylesheet" href="/compass-manual-base.css" />
-      {/* eslint-disable-next-line @next/next/no-css-tags */}
-      <link rel="stylesheet" href="/compass-manual.css" />
+      <link rel="stylesheet" href="/compass-globals.css" />
       {children}
     </>
   );

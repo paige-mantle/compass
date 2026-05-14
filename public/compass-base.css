@@ -206,11 +206,22 @@
          byte-for-byte so static pages resolve the same families
          as React routes. `--font-sans` is the canonical name; the
          legacy `--font-body` alias points to it for any inline
-         CSS still using the older variable name. */
-      --font-sans:    'Geist', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      --font-mono:    'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --font-heading: 'Manrope', 'Inter var', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      --font-display: 'Geist Pixel Line', 'Manrope', ui-sans-serif, sans-serif;
+         CSS still using the older variable name.
+
+         Each stack leads with the `next/font/google` CSS variable
+         (`--font-geist-sans` / `--font-geist-mono` / `--font-manrope`)
+         that the root layout exposes on `<body>`. When this stylesheet
+         is consumed by a React route, the var() resolves to the
+         self-hosted face — zero DNS, zero CLS, no `<link
+         rel="stylesheet" href="fonts.googleapis.com/...">` needed.
+         The literal `'Geist'` / `'Manrope'` names inside the var()
+         fallback handle static HTML pages that load this file
+         directly: those pages keep their own Google Fonts <link>
+         in their own <head>, so the literal names still resolve. */
+      --font-sans:    var(--font-geist-sans, 'Geist'), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      --font-mono:    var(--font-geist-mono, 'Geist Mono'), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --font-heading: var(--font-manrope, 'Manrope'), 'Inter var', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      --font-display: 'Geist Pixel Line', var(--font-manrope, 'Manrope'), ui-sans-serif, sans-serif;
       --font-body:    var(--font-sans);
     }
 
