@@ -102,6 +102,10 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     comingSoon: false,
   },
   {
+    /* Build is kept in the cover grid but flagged `comingSoon: true`
+       because its MDX content directory was removed. Re-author chapters
+       under `compass/content/manuals/build/` and flip the flag to
+       false to publish. */
     slug: "build",
     href: "/compass/build",
     manifestTitle: "Build",
@@ -109,46 +113,6 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     ordinal: "003",
     accent: "cyan",
     motif: "circuit-path",
-    comingSoon: false,
-  },
-  {
-    slug: "launch",
-    href: "/compass/launch",
-    manifestTitle: "Launch",
-    coverTitle: "Launch",
-    ordinal: "004",
-    accent: "warm",
-    motif: "funnel-paths",
-    comingSoon: true,
-  },
-  {
-    slug: "monetize",
-    href: "/compass/monetize",
-    manifestTitle: "Monetize",
-    coverTitle: "Monetize",
-    ordinal: "005",
-    accent: "orange",
-    motif: "magnetic-field",
-    comingSoon: true,
-  },
-  {
-    slug: "grow",
-    href: "/compass/grow",
-    manifestTitle: "Grow",
-    coverTitle: "Grow",
-    ordinal: "006",
-    accent: "cyan",
-    motif: "sine-wave",
-    comingSoon: true,
-  },
-  {
-    slug: "operate",
-    href: "/compass/operate",
-    manifestTitle: "Operate",
-    coverTitle: "Operate",
-    ordinal: "007",
-    accent: "white",
-    motif: "helix-coil",
     comingSoon: true,
   },
 ];
