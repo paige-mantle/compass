@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from "react";
 import type { ManualManifest, ManualSection } from "../../lib/manuals/content";
 import { ManualCopyLink } from "./ManualCopyLink";
 import { ManualShareButton } from "./ManualShareButton";
+import { ManualShareSection } from "./ManualShareSection";
 import { ManualMobileNav } from "./ManualMobileNav";
 import { CompassPromptHeading } from "../shared/CompassPromptHeading";
 
@@ -28,6 +29,24 @@ function hrefFor(manualSlug: string, s: ManualSection) {
   return `/compass/${manualSlug}/${s.slug ? s.slug + "/" : ""}`;
 }
 
+/**
+ * Prev/Next chapter nav link — refined recipe.
+ *
+ * Layout: each link occupies its own column inside a 2-col grid (no
+ * more `flex-1 basis-1/2` which let one link bleed into the empty
+ * slot when the other was missing). Direction-pinned alignment
+ * (left for prev / right for next) so they read as bookends. The
+ * label row uses font-mono `Previous · Next` micro-caps; the title
+ * sits below as a smaller font-heading line (text-xl → text-2xl)
+ * instead of the previous text-3xl display face, because the prev/
+ * next nav is wayfinding, not headline content. Chevron sits
+ * outboard of the title for both directions and translates 2px on
+ * hover. Inactive end (no prev or no next) renders a quiet
+ * placeholder so the grid stays balanced.
+ *
+ * Mobile (≤720px): the grid collapses to a single column, prev
+ * stacks above next, both align left.
+ */
 function PrevNextLink({
   href,
   direction,
@@ -42,62 +61,100 @@ function PrevNextLink({
   number?: string;
 }) {
   const chevron = direction === "prev" ? "M15 18l-6-6 6-6" : "M9 6l6 6-6 6";
-  const Label = (
-    <span
-      className={[
-        "mb-4 inline-flex items-center gap-2 font-mono text-xs",
-        "font-medium uppercase tracking-wider text-fg-medium",
-        direction === "next" ? "justify-end" : "",
-      ].join(" ")}
-    >
-      {direction === "prev" ? (
-        <>
-          <Chevron path={chevron} />
-          {label}
-        </>
-      ) : (
-        <>
-          {label}
-          <Chevron path={chevron} />
-        </>
-      )}
-    </span>
-  );
+  const isPrev = direction === "prev";
+
   return (
     <Link
       href={href}
       className={[
-        "group flex flex-1 basis-1/2 flex-col px-10 py-8 text-fg-high",
-        "no-underline transition-colors duration-150",
-        "hover:bg-accent/[0.08]",
-        direction === "next"
-          ? "border-l border-fg-medium/25 max-[720px]:border-l-0 text-right"
-          : "",
+        "group flex flex-col gap-3 rounded-xl px-6 py-6 no-underline",
+        "border border-edge-medium bg-transparent",
+        "transition-colors duration-150",
+        "hover:border-edge-high hover:bg-white/[0.02]",
+        /* On desktop, "next" aligns right; on mobile both columns
+           collapse to a single column so titles stay left-aligned. */
+        isPrev ? "items-start text-left" : "items-end text-right",
+        "max-[720px]:items-start max-[720px]:text-left",
       ].join(" ")}
     >
-      {Label}
+      {/* Micro-label row — "Previous chapter" / "Next chapter" in
+          uppercase mono, with the chevron sitting outboard so the
+          direction reads at a glance. Translates 2px on hover. */}
       <span
         className={[
-          "inline-flex items-baseline gap-3 leading-snug text-fg-high",
-          "group-hover:text-accent transition-colors duration-150",
-          direction === "next" ? "justify-end" : "",
+          "inline-flex items-center gap-2",
+          "font-mono text-xs font-medium uppercase tracking-wider text-fg-medium",
+          "transition-transform duration-200 ease-out",
+          isPrev
+            ? "group-hover:-translate-x-0.5"
+            : "group-hover:translate-x-0.5",
         ].join(" ")}
       >
-        {number && direction === "prev" ? (
-          <span className="font-display text-3xl font-normal text-fg-medium leading-none">
+        {isPrev ? (
+          <>
+            <Chevron path={chevron} />
+            <span>{label}</span>
+          </>
+        ) : (
+          <>
+            <span>{label}</span>
+            <Chevron path={chevron} />
+          </>
+        )}
+      </span>
+
+      {/* Title row — font-heading at text-xl (md: text-2xl). Smaller
+          than the chapter h1 (display 5xl/7xl) on purpose: this nav
+          is wayfinding, not headline content. Optional `number`
+          ordinal renders ahead of (prev) / after (next) the title
+          in muted ink so the chapter index reads quietly. */}
+      <span
+        className={[
+          "inline-flex items-baseline gap-2",
+          "font-heading text-xl font-medium leading-snug tracking-tight",
+          "text-fg-high transition-colors duration-150",
+          "group-hover:text-accent",
+          "md:text-2xl",
+          isPrev ? "" : "justify-end max-[720px]:justify-start",
+        ].join(" ")}
+      >
+        {number && isPrev ? (
+          <span className="font-mono text-xs font-medium tracking-wider text-fg-low leading-none">
             {number}
           </span>
         ) : null}
-        <span className="font-display text-3xl font-normal tracking-tight leading-tightest">
-          {title}
-        </span>
-        {number && direction === "next" ? (
-          <span className="font-display text-3xl font-normal text-fg-medium leading-none">
+        <span className="line-clamp-2">{title}</span>
+        {number && !isPrev ? (
+          <span className="font-mono text-xs font-medium tracking-wider text-fg-low leading-none">
             {number}
           </span>
         ) : null}
       </span>
     </Link>
+  );
+}
+
+/**
+ * Placeholder column when there's no `prev` (first chapter) or
+ * `next` (last chapter). Keeps the 2-col grid balanced so the
+ * remaining link stays anchored to its side of the row. Renders an
+ * empty bordered card with a muted "Start of manual" / "End of
+ * manual" label so the slot doesn't read as broken.
+ */
+function PrevNextPlaceholder({ label, align }: { label: string; align: "left" | "right" }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={[
+        "hidden md:flex flex-col gap-3 rounded-xl px-6 py-6",
+        "border border-dashed border-edge-medium",
+        align === "right" ? "items-end text-right" : "items-start text-left",
+      ].join(" ")}
+    >
+      <span className="font-mono text-xs font-medium uppercase tracking-wider text-fg-lower">
+        {label}
+      </span>
+    </div>
   );
 }
 
@@ -384,11 +441,35 @@ export function ManualShell({
               when a chapter is shorter than the viewport. */}
           <section className="manual-section mx-auto w-full max-w-[56ch] flex-1 px-6 pt-12 pb-4 max-[720px]:px-5 max-[720px]:pt-8 max-[720px]:pb-4">
             {children}
+
+            {/* Share section — sits at the end of the chapter body
+                inside the same 56ch column as the prose, so the
+                buttons align with the editorial measure. Light-theme
+                bordered icon recipe (matches the next-gen share
+                pattern). Built from the chapter's path + title for
+                pre-filled tweet / email / clipboard. */}
+            <ManualShareSection
+              title={current.isIntro ? manifest.title : `${manifest.title} — ${current.title}`}
+              href={`/compass/${manifest.slug}${current.slug ? `/${current.slug}` : ""}`}
+            />
           </section>
 
+          {/* Prev/Next nav — 2-col grid at md+, single col on mobile.
+              Each column is bordered (or dashed when empty). When
+              there's no prev (first chapter) the placeholder column
+              keeps the next link anchored to the right edge; when
+              there's no next (last chapter) we fall through to a
+              "Back to all manuals" card so the journey has a defined
+              end. Padding gives breathing room below the share
+              section. */}
           <nav
-            className="mt-14 flex w-full max-w-none border-t border-fg-medium/25 max-[720px]:flex-col max-[720px]:gap-3 max-[720px]:px-4 max-[720px]:pb-8"
             aria-label="Section navigation"
+            className="
+              mx-auto mt-10 grid w-full max-w-[840px] grid-cols-1 gap-4
+              px-6 pb-12
+              md:grid-cols-2
+              max-[720px]:px-5 max-[720px]:pb-8
+            "
           >
             {prev ? (
               <PrevNextLink
@@ -398,10 +479,7 @@ export function ManualShell({
                 title={prev.title}
               />
             ) : (
-              <span
-                aria-hidden="true"
-                className="flex-1 basis-1/2 max-[720px]:hidden"
-              />
+              <PrevNextPlaceholder label="Start of manual" align="left" />
             )}
             {next ? (
               <PrevNextLink
