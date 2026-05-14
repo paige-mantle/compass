@@ -71,6 +71,14 @@ export type ManualCoverEntry = {
     | "sine-wave"
     | "helix-coil";
   comingSoon: boolean;
+  /**
+   * One- or two-sentence summary shown on the row-stacked manual list
+   * (Compass home). Cover-grid `/compass/manuals` doesn't render this
+   * — it's specifically for the home-page row layout where each manual
+   * gets editorial breathing room. Coming-soon manuals can omit it
+   * (the row will show "Coming soon" eyebrow instead).
+   */
+  summary?: string;
 };
 
 /**
@@ -90,6 +98,8 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     accent: "gold",
     motif: "vanishing-grid",
     comingSoon: false,
+    summary:
+      "Reset what you think founder work looks like in the AI era. A starter manual on builder identity, real markets, and what the rest of Compass assumes you already believe.",
   },
   {
     slug: "shape",
@@ -100,6 +110,8 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     accent: "lilac",
     motif: "nested-ovals",
     comingSoon: false,
+    summary:
+      "Turn a fuzzy idea into a sharp product thesis. Position the problem, validate real demand, and decide what the first version should be before you build anything.",
   },
   {
     /* Build is kept in the cover grid but flagged `comingSoon: true`
@@ -114,6 +126,8 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     accent: "cyan",
     motif: "circuit-path",
     comingSoon: true,
+    summary:
+      "How to actually ship the first version — opinionated guidance on scope, stack choices, and the AI-native workflows that make a small team feel like ten.",
   },
 ];
 
