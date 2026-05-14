@@ -805,7 +805,17 @@
     position: relative;
     margin: 56px 0 40px !important;
     padding: 26px 24px 30px !important;
+    /* Explicit rgba fallback for browsers that fail the
+       `@supports (color: color-mix(in lab, ...))` check Lightning
+       CSS auto-adds — without this, the auto-generated fallback
+       picks `var(--gold)` as the substitute, which makes the whole
+       card a solid gold rectangle. The rgba below uses the default
+       gold (#FFBB53) at 8% — per-chapter accent override only
+       kicks in once the progressive color-mix rule applies. */
+    background: rgba(255, 187, 83, 0.08) !important;
     background: color-mix(in srgb, var(--gold, #FFBB53) 8%, transparent) !important;
+    /* Same rgba fallback for the border (48% of default gold). */
+    border: 1px solid rgba(255, 187, 83, 0.48) !important;
     border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 48%, transparent) !important;
     border-radius: var(--rounded-2xl) !important;
     color: var(--color-fg-high);
@@ -862,7 +872,18 @@
     letter-spacing: 0.05em;
     line-height: var(--leading-none);
     text-transform: uppercase;
-    color: color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14) !important;
+    /* Static dark hex instead of `color-mix(in srgb, var(--gold) 20%,
+       #110f14)`. Tailwind v4 / Lightning CSS auto-generates a
+       fallback for color-mix declarations by picking the FIRST color
+       of the mix (`var(--gold)`) as the fallback. For the label, that
+       produces gold-on-gold (invisible text) in any browser that
+       fails the `@supports (color: color-mix(in lab, red, red))`
+       check Lightning adds — including browsers that support srgb
+       color-mix but not lab. Visual difference between
+       color-mix-with-20%-gold and pure #110f14 at 13px on a gold
+       pill is imperceptible, so we hardcode and dodge the fallback
+       bug entirely. */
+    color: #110F14 !important;
   }
 
   /* Body — Mantle next-gen recipe: text-base / leading-normal /
@@ -1182,7 +1203,9 @@
     gap: 6px;
     padding: 5px 10px 4px;
     background: var(--gold, #FFBB53);
-    color: color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14);
+    /* Static dark — same Lightning-CSS color-mix fallback issue as
+       `.callout-label`. See that rule for the long explanation. */
+    color: #110F14;
     border: 0;
     border-radius: var(--rounded-md);
     cursor: pointer;
