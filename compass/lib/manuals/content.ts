@@ -59,8 +59,11 @@ export type ManualCoverEntry = {
   coverTitle: string;
   /** Three-digit ordinal, "001"–"007". */
   ordinal: string;
-  /** Maps to `.acc-*` class in compass-base.css `--cover-accent-*`. */
-  accent: "gold" | "lilac" | "cyan" | "warm" | "orange" | "white";
+  /** Compass canonical accent — one of the `CardAccent` palette
+   *  names defined in `compass/lib/card-accents.ts`. The same
+   *  palette is shared with method + template cards so the same
+   *  name = the same color across every Compass surface. */
+  accent: import("../card-accents").CardAccent;
   /** Used to map to the inline SVG graphic in `CoverArt`. */
   motif:
     | "vanishing-grid"
@@ -144,22 +147,29 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     comingSoon: true,
   },
   {
+    /* `accent: "red"` (was `"orange"`, which resolved to the same
+       #FFC66E as Foundation's gold — visually identical). Mapped to
+       the canonical Mantle red (#EE5249) so Monetize is unambiguous
+       in the cover grid. */
     slug: "monetize",
     href: "/compass/monetize",
     manifestTitle: "Monetize",
     coverTitle: "Monetize",
     ordinal: "005",
-    accent: "orange",
+    accent: "red",
     motif: "magnetic-field",
     comingSoon: true,
   },
   {
+    /* `accent: "green"` (was `"cyan"`, which duplicated Build's
+       accent). Mapped to the canonical Mantle spring green (#5CD055)
+       so Grow has its own slot in the visual ramp. */
     slug: "grow",
     href: "/compass/grow",
     manifestTitle: "Grow",
     coverTitle: "Grow",
     ordinal: "006",
-    accent: "cyan",
+    accent: "green",
     motif: "sine-wave",
     comingSoon: true,
   },

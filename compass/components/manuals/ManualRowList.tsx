@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CoverArt } from "./CoverArt";
 import type { ManualCoverEntry } from "../../lib/manuals/content";
+import { CARD_ACCENT_VAR_CLASS, CARD_PILL_CLASS } from "../../lib/card-accents";
 
 /**
  * Manual row list — the "row-stacked vertical card" layout for the
@@ -29,15 +30,6 @@ import type { ManualCoverEntry } from "../../lib/manuals/content";
  * matching the pattern used in `<ManualCoverGrid>`.
  */
 
-const ACC_CLASS: Record<ManualCoverEntry["accent"], string> = {
-  gold:   "[--cover-accent:var(--cover-accent-gold)]",
-  lilac:  "[--cover-accent:var(--cover-accent-lilac)]",
-  cyan:   "[--cover-accent:var(--cover-accent-cyan)]",
-  warm:   "[--cover-accent:var(--cover-accent-warm)]",
-  orange: "[--cover-accent:var(--cover-accent-orange)]",
-  white:  "[--cover-accent:var(--cover-accent-white)]",
-};
-
 export function ManualRowList({ covers }: { covers: ManualCoverEntry[] }) {
   return (
     <section aria-label="Operating manuals" className="flex flex-col">
@@ -65,7 +57,7 @@ function ManualRow({
     isFirst ? "border-t border-edge-medium" : "",
     "transition-colors duration-200 ease-out",
     "no-underline",
-    ACC_CLASS[cover.accent],
+    CARD_ACCENT_VAR_CLASS[cover.accent],
     cover.comingSoon
       ? "cursor-default text-fg-medium"
       : "cursor-pointer text-fg-high hover:bg-white/[0.012]",
@@ -127,13 +119,17 @@ function ManualRow({
         >
           Manual {cover.ordinal}
           {cover.comingSoon ? (
+            /* Coming-soon pill — canonical Compass pill recipe from
+               `card-accents.ts`. Same shape + chrome as method tag
+               pills + insight ribbons + every other Compass pill on
+               a dark surface. */
             <span
-              className="
-                ml-3 inline-flex items-center rounded-full
-                border border-white/15 bg-white/[0.04]
-                px-2 py-0.5
-                text-[10px] tracking-[0.08em] leading-none text-white/70
-              "
+              className={[
+                "ml-3 inline-flex items-center rounded-md",
+                "px-2 py-0.5",
+                "text-[10px] font-medium tracking-[0.08em] leading-none uppercase",
+                CARD_PILL_CLASS.black,
+              ].join(" ")}
             >
               Coming soon
             </span>

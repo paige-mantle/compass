@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CoverArt } from "./CoverArt";
 import type { ManualCoverEntry } from "../../lib/manuals/content";
+import { CARD_ACCENT_VAR_CLASS, CARD_PILL_CLASS } from "../../lib/card-accents";
 
 /**
  * Manual cover grid — the visual centerpiece of /compass/manuals.
@@ -41,20 +42,6 @@ export function ManualCoverGrid({ covers }: { covers: ManualCoverEntry[] }) {
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────
- * Per-cover accent token mapping. Each class sets `--cover-accent`
- * on the card scope to the matching `--cover-accent-*` global token
- * (declared in compass-base.css :root, mirrored to globals.css).
- * ──────────────────────────────────────────────────────────────── */
-const ACC_CLASS: Record<ManualCoverEntry["accent"], string> = {
-  gold: "[--cover-accent:var(--cover-accent-gold)]",
-  lilac: "[--cover-accent:var(--cover-accent-lilac)]",
-  cyan: "[--cover-accent:var(--cover-accent-cyan)]",
-  warm: "[--cover-accent:var(--cover-accent-warm)]",
-  orange: "[--cover-accent:var(--cover-accent-orange)]",
-  white: "[--cover-accent:var(--cover-accent-white)]",
-};
-
 /* Shared shell classes. Uses canonical `--color-surface-highest`
    (= #1E1C23 in the Mantle dark theme) for the card surface, and
    the canonical `rounded-xl` (= 8px) card radius from the Mantle
@@ -69,7 +56,16 @@ const SHELL_CLASSES = [
 ];
 
 function ManualCover({ cover }: { cover: ManualCoverEntry }) {
-  const className = [...SHELL_CLASSES, ACC_CLASS[cover.accent]].join(" ");
+  /* `CARD_ACCENT_VAR_CLASS[accent]` sets `--cover-accent` on the
+     card container to the chapter's accent color (sourced from the
+     Mantle canonical palette). The inline <CoverArt> SVG inherits
+     this via `text-[color:var(--cover-accent)]` since the SVG uses
+     `currentColor`. Source of truth is `compass/lib/card-accents.ts`
+     — no parallel cover-accent map here. */
+  const className = [
+    ...SHELL_CLASSES,
+    CARD_ACCENT_VAR_CLASS[cover.accent],
+  ].join(" ");
 
   const inner = (
     <>
@@ -86,25 +82,22 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
         }}
       />
       {cover.comingSoon ? (
-        /* Coming-soon pill — deliberately neutral so it reads as a
-           muted status chip and doesn't compete with the cover-accent
-           SVG art behind it. Previously this pill inherited
-           `--cover-accent` for both border + text, which gave the
-           top-right corner two saturated accent shapes fighting for
-           attention. White/70 type on a subtle white/[0.04] surface
-           with a white/15 hairline border reads as "info, not
-           decoration." */
+        /* Coming-soon pill — uses the canonical Compass pill recipe
+           from `compass/lib/card-accents.ts`. The cover surface is
+           always dark (--color-surface-highest), so all manual cover
+           pills use the `dark` variant directly rather than going
+           through `CARD_PILL_CLASS[accent]`. Single source of truth
+           shared with method tag pills, template tag pills, and
+           insight ribbons. */
         <span
-          className="
-            absolute right-3 top-3 z-10
-            inline-flex items-center rounded-full
-            border border-white/15
-            bg-white/[0.04] backdrop-blur-[2px]
-            px-2.5 py-1
-            font-mono text-[10px] font-medium uppercase
-            tracking-[0.1em] leading-none
-            text-white/70
-          "
+          className={[
+            "absolute right-3 top-3 z-10",
+            "inline-flex items-center rounded-md",
+            "px-2.5 py-1",
+            "font-mono text-[10px] font-medium uppercase",
+            "tracking-[0.1em] leading-none",
+            CARD_PILL_CLASS.black,
+          ].join(" ")}
         >
           Coming soon
         </span>
