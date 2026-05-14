@@ -1,37 +1,31 @@
 import Link from "next/link";
 import type { FrameworkMeta } from "../../lib/methods/content";
+import {
+  CARD_BG_CLASS,
+  CARD_TEXT_CLASS,
+  CARD_TAG_CLASS,
+  DEFAULT_CARD_ACCENT,
+} from "../../lib/card-accents";
 
 /**
  * Method card grid — listing surface for `/compass/methods`.
  *
- * Same `.framework-card` recipe as `TemplateCardGrid`: 16:9
- * colored block with dot-grid bg, title + tag pills inside, then
- * the description and a small "Added <date>" line outside.
+ * Each card has a 16:9 colored block with a subtle dot-grid texture,
+ * the method title at the top, optional tag pills at the bottom.
+ * Below the block: short description, then a small mono "Added <date>"
+ * line. The colored block is the visual hook — the rest is editorial
+ * meta.
  *
- * Both pages share the recipe because the static `.framework-card`
- * was the canonical card recipe before the migration. Future
- * cleanup: extract a shared `<CompassBlockCard>` that both this
- * component and `TemplateCardGrid` consume.
+ * Visual recipe is shared byte-for-byte with `TemplateCardGrid` —
+ * same JSX shape, same imports from `compass/lib/card-accents.ts`.
+ * Diverging anything here means also diverging it in the template
+ * grid; they're paired on purpose.
+ *
+ * The accent palette is unified across Compass: method cards use
+ * the same color names + values as manual covers (gold / cyan /
+ * lilac / warm / red / white / black / graphite / gray). See
+ * `compass/lib/card-accents.ts` for the canonical map.
  */
-
-const BLOCK_BG: Record<NonNullable<FrameworkMeta["blockColor"]>, string> = {
-  yellow: "bg-[var(--color-accent-medium)]",
-  gray: "bg-[#d8d8d6]",
-  black: "bg-[var(--color-surface-highest)]",
-  orange: "bg-[var(--color-mac-red)]",
-  blue: "bg-[var(--color-teal-high)]",
-  graphite: "bg-[#2A606B]",
-};
-
-const BLOCK_TEXT: Record<NonNullable<FrameworkMeta["blockColor"]>, string> = {
-  yellow: "text-[#0a0810]",
-  gray: "text-[#0a0810]",
-  black: "text-white",
-  orange: "text-white",
-  blue: "text-[#0a0810]",
-  graphite: "text-white",
-};
-
 export function MethodCardGrid({ methods }: { methods: FrameworkMeta[] }) {
   return (
     <section
@@ -46,7 +40,7 @@ export function MethodCardGrid({ methods }: { methods: FrameworkMeta[] }) {
 }
 
 function MethodCard({ method }: { method: FrameworkMeta }) {
-  const color = method.blockColor ?? "yellow";
+  const accent = method.blockColor ?? DEFAULT_CARD_ACCENT;
 
   return (
     <Link
@@ -59,8 +53,8 @@ function MethodCard({ method }: { method: FrameworkMeta }) {
           "flex flex-col justify-between p-7",
           "transition-transform duration-200 ease-out",
           "group-hover:-translate-y-[3px]",
-          BLOCK_BG[color],
-          BLOCK_TEXT[color],
+          CARD_BG_CLASS[accent],
+          CARD_TEXT_CLASS[accent],
         ].join(" ")}
         style={{
           backgroundImage:
@@ -76,18 +70,10 @@ function MethodCard({ method }: { method: FrameworkMeta }) {
             {method.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                /* Tag pill — same shape as the "Works with" tags on
-                   method detail pages (rounded-md, px-2.5 py-1,
-                   text-[12.5px] font-medium, 1px border). bg / text
-                   / border colors adapt to the block: light-tinted
-                   pill on dark blocks, dark-tinted pill on light
-                   blocks. */
                 className={[
                   "inline-flex items-center rounded-md",
                   "px-2.5 py-1 text-[12.5px] font-medium",
-                  color === "black" || color === "orange" || color === "graphite"
-                    ? "border border-white/20 bg-white/10 text-white"
-                    : "border border-black/15 bg-black/5 text-[#0a0810]",
+                  CARD_TAG_CLASS[accent],
                 ].join(" ")}
               >
                 {tag}

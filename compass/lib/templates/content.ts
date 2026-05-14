@@ -56,8 +56,19 @@ export type TemplateFrontmatter = {
   description: string;
   /** Listing card eyebrow — usually the manual / collection name. */
   ribbon?: string;
-  /** Listing card block color (matches FrameworkShell's variant set). */
-  blockColor?: "yellow" | "gray" | "black" | "orange" | "blue" | "graphite";
+  /** Card-block accent — one of the Compass canonical accent names.
+   *  Source of truth in `compass/lib/card-accents.ts`. Shared with
+   *  method cards + manual covers — same name = same color. */
+  blockColor?:
+    | "gold"
+    | "cyan"
+    | "lilac"
+    | "warm"
+    | "red"
+    | "white"
+    | "black"
+    | "graphite"
+    | "gray";
 
   category?: TemplateCategory;
   format?: TemplateFormat;

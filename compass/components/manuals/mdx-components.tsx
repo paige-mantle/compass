@@ -6,6 +6,7 @@ import { Checklist, CheckItem } from "./Checklist";
 import { Placeholder } from "./Placeholder";
 import { TLDR } from "./TLDR";
 import { Quote } from "./Quote";
+import { Prompt } from "./Prompt";
 import {
   FieldNote,
   RealityCheck,
@@ -32,6 +33,7 @@ export const mdxComponents = {
   Placeholder,
   TLDR,
   Quote,
+  Prompt,
   // Semantic callouts (Field Note · Reality Check · Common Failure ·
   // Decision Point · Founder Shift). Styled by callouts.css, loaded in
   // app/manuals/layout.tsx.

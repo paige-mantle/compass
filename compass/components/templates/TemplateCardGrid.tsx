@@ -1,43 +1,24 @@
 import Link from "next/link";
 import type { TemplateMeta } from "../../lib/templates/content";
+import {
+  CARD_BG_CLASS,
+  CARD_TEXT_CLASS,
+  CARD_TAG_CLASS,
+  DEFAULT_CARD_ACCENT,
+} from "../../lib/card-accents";
 
 /**
- * Template card grid — the listing surface for `/templates`.
+ * Template card grid — listing surface for `/templates`.
  *
- * Mirrors the legacy `.framework-card` recipe from
- * `mantle-compass-templates.html` byte-for-byte, in Tailwind:
+ * Shares the recipe byte-for-byte with `MethodCardGrid`: 16:9
+ * colored block with a subtle dot-grid texture, title at the top,
+ * tag pills at the bottom, then description + "Added <date>" line
+ * below the block. The two grids are paired on purpose — if you
+ * change one, change the other.
  *
- *   1. Card is a `<Link>` with vertical flex column, 16px gap
- *   2. Top "block" — 16:9 aspect, 28px padding, dot-grid background,
- *      colored fill (yellow / dark / teal / etc.), translateY lift
- *      on hover
- *   3. Inside the block — title (28px) at the top, tag pills near
- *      the bottom
- *   4. Below the block — description, then a small mono "Added <date>"
- *      footer line
- *
- * Color → text-color mapping mirrors the static-page rules
- * (dark blocks get white text; light blocks get dark text).
+ * Accent palette is unified with manual covers via
+ * `compass/lib/card-accents.ts` — same names, same color values.
  */
-
-const BLOCK_BG: Record<NonNullable<TemplateMeta["blockColor"]>, string> = {
-  yellow: "bg-[#FFC66E]",
-  gray: "bg-[#d8d8d6]",
-  black: "bg-[#1E1C23]",
-  orange: "bg-[#EE4815]",
-  blue: "bg-[#76E8FF]",
-  graphite: "bg-[#2A606B]",
-};
-
-const BLOCK_TEXT: Record<NonNullable<TemplateMeta["blockColor"]>, string> = {
-  yellow: "text-[#0a0810]",
-  gray: "text-[#0a0810]",
-  black: "text-white",
-  orange: "text-white",
-  blue: "text-[#0a0810]",
-  graphite: "text-white",
-};
-
 export function TemplateCardGrid({ templates }: { templates: TemplateMeta[] }) {
   return (
     <section
@@ -52,9 +33,7 @@ export function TemplateCardGrid({ templates }: { templates: TemplateMeta[] }) {
 }
 
 function TemplateCard({ template }: { template: TemplateMeta }) {
-  const color = template.blockColor ?? "yellow";
-  const blockBg = BLOCK_BG[color];
-  const blockText = BLOCK_TEXT[color];
+  const accent = template.blockColor ?? DEFAULT_CARD_ACCENT;
 
   return (
     <Link
@@ -68,8 +47,8 @@ function TemplateCard({ template }: { template: TemplateMeta }) {
           "flex flex-col justify-between p-7",
           "transition-transform duration-200 ease-out",
           "group-hover:-translate-y-[3px]",
-          blockBg,
-          blockText,
+          CARD_BG_CLASS[accent],
+          CARD_TEXT_CLASS[accent],
         ].join(" ")}
         style={{
           backgroundImage:
@@ -85,18 +64,10 @@ function TemplateCard({ template }: { template: TemplateMeta }) {
             {template.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                /* Tag pill — same shape as the "Works with" tags on
-                   template detail pages (rounded-md, px-2.5 py-1,
-                   text-[12.5px] font-medium, 1px border). bg / text
-                   / border colors adapt to the block: light-tinted
-                   pill on dark blocks, dark-tinted pill on light
-                   blocks. */
                 className={[
                   "inline-flex items-center rounded-md",
                   "px-2.5 py-1 text-[12.5px] font-medium",
-                  color === "black" || color === "orange" || color === "graphite"
-                    ? "border border-white/20 bg-white/10 text-white"
-                    : "border border-black/15 bg-black/5 text-[#0a0810]",
+                  CARD_TAG_CLASS[accent],
                 ].join(" ")}
               >
                 {tag}

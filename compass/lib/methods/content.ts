@@ -33,8 +33,20 @@ export type FrameworkFrontmatter = {
   author: string;
   authorRole?: string;
   authorAvatar?: string;
-  /** Color of the listing card block. */
-  blockColor?: "yellow" | "gray" | "black" | "orange" | "blue" | "graphite";
+  /** Card-block accent — one of the Compass canonical accent names.
+   *  Source of truth in `compass/lib/card-accents.ts`. The palette
+   *  is shared across method cards, template cards, and manual
+   *  covers so the same name maps to the same color everywhere. */
+  blockColor?:
+    | "gold"
+    | "cyan"
+    | "lilac"
+    | "warm"
+    | "red"
+    | "white"
+    | "black"
+    | "graphite"
+    | "gray";
   tags?: string[];
   codeBlocks?: FrameworkCodeBlock[];
   published?: boolean;
