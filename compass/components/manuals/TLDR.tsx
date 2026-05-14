@@ -1,35 +1,49 @@
-import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
 
 /**
- * Collapsible TL;DR — a `<details>` block that hides the chapter summary
- * behind a single-line summary control. Keyboard accessible by default
- * (Enter / Space on the summary toggles the disclosure).
+ * TL;DR — Mantle next-gen "Top 10 callouts" v2 spec
+ * (public/mantle-callouts-v2.html, callout #10).
+ *
+ * Static callout (not a collapsible `<details>`) using the canonical
+ * Compass shell — bordered plate w/ chapter-accent tint, filled
+ * accent tag at top-left, optional typed designation bottom-right
+ * via `data-index`. Body text is `text-lg / leading-loose / fg-medium`
+ * so the TL;DR reads as the "stop here if you only have 30 seconds"
+ * summary at the top of a chapter, not as a buried collapsed block.
  *
  * Use in MDX:
  *
  *   <TLDR>
- *   Short summary of the chapter, two or three sentences max.
+ *   CoinTracker's content needs outgrew Ghost, so we migrated
+ *   the entire blog stack to Sanity and rebuilt it around
+ *   structured, scalable content.
  *   </TLDR>
  *
- * Optional `label` prop overrides the default click-to-expand text.
+ *   <TLDR title="The short version" dataIndex="T-01">
+ *   ...
+ *   </TLDR>
+ *
+ * Styling lives in `app/globals.css` `@layer components` →
+ * `.manual-section .callout-tldr`. Mirrors the v2 spec line-for-line.
  */
 export function TLDR({
-  label = "Click me for the TL;DR (too long; didn't read)",
+  title = "TL;DR",
+  dataIndex,
   children,
 }: {
-  label?: string;
+  /** Filled-accent tag at top-left. Defaults to "TL;DR". */
+  title?: string;
+  /** Optional bottom-right designator (e.g. "T-01"). Renders via
+   *  CSS `content: attr(data-index)` when present; absent when null. */
+  dataIndex?: string;
   children: ReactNode;
 }) {
   return (
-    <details className="manual-tldr">
-      <summary className="manual-tldr-summary">
-        <span className="manual-tldr-label">{label}</span>
-        <span className="manual-tldr-chevron" aria-hidden>
-          <ChevronDown strokeWidth={1.5} size={18} />
-        </span>
-      </summary>
-      <div className="manual-tldr-body">{children}</div>
-    </details>
+    <aside className="callout callout-tldr" data-index={dataIndex}>
+      <header className="callout-header">
+        <h3 className="callout-label">{title}</h3>
+      </header>
+      <div className="callout-body">{children}</div>
+    </aside>
   );
 }

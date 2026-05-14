@@ -1006,6 +1006,217 @@
   }
 
   /* ─────────────────────────────────────────────────────────────────
+   * Quote callout — `<blockquote>` + `<cite>` inside the shared shell.
+   * Gold 3px left bar gives it the editorial pull-quote feel without
+   * losing the bordered-card identity. Geist Pixel display face for
+   * the quote itself; mono attribution underneath.
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-quote {
+    padding: 34px 32px 30px !important;
+  }
+  .manual-section .callout-quote .callout-body {
+    position: relative;
+    padding-left: 36px;
+  }
+  .manual-section .callout-quote .callout-body::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--gold, #FFBB53);
+    border-radius: 2px;
+  }
+  .manual-section .callout-quote blockquote {
+    font-family: 'Geist Pixel', var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+    /* Geist Pixel is a pixel-grid face — tighter tracking would
+       crush the bitmap rhythm; hold at 0. */
+    letter-spacing: 0;
+    line-height: var(--leading-tight);
+    color: var(--color-fg-high);
+    margin: 0 0 16px;
+  }
+  .manual-section .callout-quote cite {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-weight: 500;
+    font-size: var(--text-xxs);
+    letter-spacing: 0.05em;
+    line-height: var(--leading-looser);
+    text-transform: uppercase;
+    color: var(--color-fg-low);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * Checklist callout — interactive button rows that toggle a `.done`
+   * state. Each row is a `<button>` for keyboard + screenreader
+   * affordance; checked rows get a filled accent box + line-through
+   * text. Component owns the click handler that toggles `.done` +
+   * `aria-pressed`.
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-checklist .callout-body {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0 !important;
+    margin-top: 0;
+  }
+  .manual-section .callout-checklist .check-item {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 18%, transparent);
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    font-family: inherit;
+    display: grid;
+    /* 22px box column = 20px box + 2px to clear the 1.5px border. */
+    grid-template-columns: 22px 1fr;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 8px 0;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    font-weight: 400;
+  }
+  .manual-section .callout-checklist .check-item:first-child {
+    padding-top: 2px;
+  }
+  .manual-section .callout-checklist .check-item:last-child {
+    border-bottom: 0;
+    padding-bottom: 2px;
+  }
+  .manual-section .callout-checklist .check-item:hover .check-box {
+    border-color: color-mix(in srgb, var(--gold, #FFBB53) 85%, transparent);
+  }
+  .manual-section .callout-checklist .check-box {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid color-mix(in srgb, var(--gold, #FFBB53) 65%, transparent);
+    border-radius: var(--rounded-md);
+    /* Optical center on the cap height of `text-base` + leading-normal. */
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 120ms, border-color 120ms;
+  }
+  .manual-section .callout-checklist .check-item.done .check-box {
+    background: var(--gold, #FFBB53);
+    border-color: var(--gold, #FFBB53);
+  }
+  .manual-section .callout-checklist .check-item.done .check-box::after {
+    content: "";
+    width: 10px;
+    height: 5px;
+    border-left: 1.75px solid color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14);
+    border-bottom: 1.75px solid color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14);
+    transform: rotate(-45deg) translate(1px, -1px);
+  }
+  .manual-section .callout-checklist .check-item.done {
+    color: var(--color-fg-low);
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in srgb, var(--color-fg-low) 35%, transparent);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * Prompt callout — copyable text block. Toolbar row (title + copy
+   * button) above an editable textarea. Reader can copy the prompt
+   * verbatim or edit-then-copy. The copy button flashes a
+   * confirmation when clicked (`.is-copied` state).
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-prompt .callout-body {
+    display: flex !important;
+    flex-direction: column;
+    gap: 12px !important;
+    margin-top: 0;
+  }
+  .manual-section .callout-prompt .prompt-block {
+    position: relative;
+    background: var(--color-surface-highest);
+    border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 40%, transparent);
+    border-radius: var(--rounded-xl);
+    padding: 16px 18px;
+  }
+  .manual-section .callout-prompt .prompt-text {
+    display: block;
+    width: 100%;
+    min-height: 88px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    resize: vertical;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-fg-medium);
+    caret-color: var(--gold, #FFBB53);
+  }
+  .manual-section .callout-prompt .prompt-text::placeholder {
+    color: var(--color-fg-lower);
+  }
+  .manual-section .callout-prompt .prompt-text:focus { outline: 0; }
+  .manual-section .callout-prompt .prompt-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .manual-section .callout-prompt .prompt-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: var(--leading-tighter);
+    color: var(--color-fg-high);
+  }
+  .manual-section .callout-prompt .prompt-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px 4px;
+    background: var(--gold, #FFBB53);
+    color: color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14);
+    border: 0;
+    border-radius: var(--rounded-md);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: var(--text-xxs);
+    letter-spacing: 0.05em;
+    line-height: var(--leading-none);
+    text-transform: uppercase;
+    transition: background 140ms;
+  }
+  .manual-section .callout-prompt .prompt-copy svg { width: 12px; height: 12px; flex: none; }
+  .manual-section .callout-prompt .prompt-copy.is-copied {
+    background: color-mix(in srgb, var(--gold, #FFBB53) 30%, #110f14);
+    /* Hard-coded white — `--color-surface-highest` flipped dark in the
+       canonical token migration, which would now collide with the dark
+       "copied" bg. White stays correct in both themes. */
+    color: #FFFFFF;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * TL;DR callout — base shell with text-lg / leading-loose body.
+   * Reads as the "stop here if you only have 30 seconds" summary.
+   * No collapse, no chevron — visible by default.
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-tldr .callout-body p {
+    font-size: var(--text-lg);
+    line-height: var(--leading-loose);
+  }
+  .manual-section .callout-tldr .callout-body p + p {
+    margin-top: 14px;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
    * Chapter accent overrides — resolves through Compass's canonical
    * `--cover-accent-*` tokens defined in `public/compass-base.css`,
    * which in turn map to Mantle's category-color palette (the same
