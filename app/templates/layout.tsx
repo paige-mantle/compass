@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "@/compass/styles/index.css";
 
 /**
  * Templates layout — mirrors `app/compass/layout.tsx` but for the

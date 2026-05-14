@@ -19,7 +19,16 @@ import {
  */
 export default function CalloutsDemo() {
   return (
-    <article className="callouts-demo max-w-[68ch] mx-auto px-6 py-16">
+    // `manual-section` is REQUIRED — the canonical v2 callout rules in
+    // app/globals.css are scoped `.manual-section .callout` so without
+    // this class the callouts fall back to unstyled <aside> elements.
+    //
+    // `accent-foundation` sets `--gold` to the Foundation orange so
+    // every callout in this single-chapter demo picks up the same
+    // chapter ink (matching the "Manual 001 · Chapter 3" eyebrow).
+    // Swap to `accent-shape` / `-build` / `-launch` / etc. to preview
+    // the demo under a different chapter's color.
+    <article className="callouts-demo manual-section accent-foundation max-w-[68ch] mx-auto px-6 py-16">
       <header className="callouts-demo-header mb-10">
         <p className="callouts-demo-eyebrow">Manual 001 · Chapter 3</p>
         <h1>Founder mode</h1>

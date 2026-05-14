@@ -1,0 +1,521 @@
+/* ──────────────────────────────────────────────────────────────
+   Manual callouts — the full v2 family
+   ──────────────────────────────────────────────────────────────
+
+   The "Top 10 callouts" v2 spec (mirrored byte-for-byte from
+   `public/mantle-callouts-v2.html`):
+
+     • Field Note · Reality Check · Common Failure
+     • Decision Point · Founder Shift
+     • Quote · Checklist · Prompt · TL;DR
+     • Generic <Callout>
+
+   All ten share the canonical Compass callout shell — bordered
+   plate with chapter-accent tint, filled-accent tag floating at
+   the top-left, optional `data-index` typed designator in the
+   bottom-right via CSS `content: attr(data-index)`. Type-specific
+   rules (column layouts on DecisionPoint / FounderShift, the gold
+   left-bar on Quote, the toolbar + textarea on Prompt, the
+   interactive button rows on Checklist) extend the base shell.
+
+   Chapter accent overrides at the bottom of this file flip
+   `--gold` per manual (`accent-foundation`, `accent-shape`, …) so
+   the callout chrome adopts each chapter's identity color
+   automatically — set by `ManualShell` from `manifest.accent`.
+
+   Wrapped in `@layer components` so utility classes still win
+   and the cascade order matches what was previously in
+   `globals.css` byte-for-byte.
+
+   Loaded by the Compass parent layout
+   (`app/compass/layout.tsx`) so every Compass route picks it up.
+   ────────────────────────────────────────────────────────────── */
+@layer components {
+  /* ────────────────────────────────────────────────────────────────
+   * Manual callouts — formerly `/public/compass-callouts.css`.
+   * Field Note · Reality Check · Common Failure · Decision Point ·
+   * Founder Shift · generic <Callout>. Same shell, same eyebrow
+   * header, same body type — only the label string differs.
+   *
+   * `--gold` is a per-manual scope variable set on `.manual-shell`
+   * from `manifest.accent`, so each manual's callouts pick up its
+   * own accent automatically (Reality stays warm gold, Shape gets
+   * its accent, etc.). The fallback `#FFBB53` matches
+   * `--color-accent-medium` in case the manual scope isn't present.
+   *
+   * Scoped to `.manual-section` so specificity beats Tailwind
+   * utility classes and any `!important` rules in compass-manual.css.
+   * ─────────────────────────────────────────────────────────────── */
+  /* Standard card recipe (shared with charts):
+       ▸ 10px radius (--rounded-2xl per Mantle next-gen)
+       ▸ 1px border at chapter-accent 48%
+       ▸ 8% chapter-accent tint for the surface
+       ▸ 56px top margin clears the floating tag
+     Floating filled-accent tag at top-left carries chapter identity;
+     `::after { content: attr(data-index) }` renders an optional
+     typed designation in the bottom-right when the React component
+     passes `data-index` onto the `<aside>`. */
+  .manual-section .callout,
+  .manual-section .notion-callout {
+    display: block;
+    position: relative;
+    margin: 56px 0 40px !important;
+    padding: 26px 24px 30px !important;
+    /* Explicit rgba fallback for browsers that fail the
+       `@supports (color: color-mix(in lab, ...))` check Lightning
+       CSS auto-adds — without this, the auto-generated fallback
+       picks `var(--gold)` as the substitute, which makes the whole
+       card a solid gold rectangle. The rgba below uses the default
+       gold (#FFBB53) at 8% — per-chapter accent override only
+       kicks in once the progressive color-mix rule applies. */
+    background: rgba(255, 187, 83, 0.08) !important;
+    background: color-mix(in srgb, var(--gold, #FFBB53) 8%, transparent) !important;
+    /* Same rgba fallback for the border (48% of default gold). */
+    border: 1px solid rgba(255, 187, 83, 0.48) !important;
+    border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 48%, transparent) !important;
+    border-radius: var(--rounded-2xl) !important;
+    color: var(--color-fg-high);
+  }
+
+  /* Bottom-right typed designation — renders only when `data-index`
+     is set on the `<aside>` (e.g. data-index="F-01"). */
+  .manual-section .callout::after,
+  .manual-section .notion-callout::after {
+    content: attr(data-index);
+    position: absolute;
+    right: 14px;
+    bottom: 10px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: var(--text-xxs);
+    letter-spacing: 0.16em;
+    line-height: var(--leading-none);
+    color: color-mix(in srgb, var(--gold, #FFBB53) 55%, var(--color-fg-lower));
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* Floating accent tag at the card's top-left, half-overlapping the
+     top border. Tag bg is the chapter accent; text is a deep
+     in-family color-mix for AA contrast on every accent. */
+  .manual-section .callout-header {
+    position: absolute !important;
+    top: -11px;
+    left: 18px;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0 !important;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: 0;
+    width: auto;
+  }
+  .manual-section .callout-icon {
+    display: none !important;
+  }
+  .manual-section .callout-label {
+    margin: 0;
+    padding: 5px 11px 4px;
+    background: var(--gold, #FFBB53);
+    border-radius: var(--rounded-md);
+    font-family: var(--font-mono);
+    /* CompassPromptHeading mono recipe at --text-xxs (13px), 500,
+       0.05em. Line-height collapses to 1 — vertical padding handles
+       the breathing on the filled pill. */
+    font-size: var(--text-xxs);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: var(--leading-none);
+    text-transform: uppercase;
+    /* Static dark hex instead of `color-mix(in srgb, var(--gold) 20%,
+       #110f14)`. Tailwind v4 / Lightning CSS auto-generates a
+       fallback for color-mix declarations by picking the FIRST color
+       of the mix (`var(--gold)`) as the fallback. For the label, that
+       produces gold-on-gold (invisible text) in any browser that
+       fails the `@supports (color: color-mix(in lab, red, red))`
+       check Lightning adds — including browsers that support srgb
+       color-mix but not lab. Visual difference between
+       color-mix-with-20%-gold and pure #110f14 at 13px on a gold
+       pill is imperceptible, so we hardcode and dodge the fallback
+       bug entirely. */
+    color: #110F14 !important;
+  }
+
+  /* Body — Mantle next-gen recipe: text-base / leading-normal /
+     fg-medium. Body sits one notch back from headings so the
+     editorial hierarchy reads. */
+  .manual-section .callout-body,
+  .manual-section .callout-body p,
+  .manual-section .notion-callout p {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    letter-spacing: 0;
+    color: var(--color-fg-medium);
+  }
+  .manual-section .callout-body > * + * { margin-top: 12px; }
+  .manual-section .callout-body p { margin: 0; }
+  /* Mantle next-gen `.md strong` → font-medium (500). 600 was
+     too heavy for the editorial body. */
+  .manual-section .callout-body strong { font-weight: 500; }
+  .manual-section .notion-callout > .notion-callout-content > *:last-child {
+    margin-bottom: 0;
+  }
+  .manual-section .notion-callout p { margin: 0 0 10px; }
+  .manual-section .notion-callout p:last-child { margin-bottom: 0; }
+
+  /* DecisionPoint — two-column fork. `align-items: start` top-aligns
+     option A + option B so the kicker baselines share a row
+     regardless of body length. */
+  .manual-section .callout-decision-point .callout-body {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    margin-top: 0;
+    align-items: start !important;
+  }
+  @media (min-width: 768px) {
+    .manual-section .callout-decision-point .callout-body {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 0 !important;
+      align-items: start !important;
+    }
+    .manual-section .callout-decision-point .callout-fork-option-a {
+      padding-right: 28px;
+    }
+    .manual-section .callout-decision-point .callout-fork-option-b {
+      padding-left: 28px;
+      border-left: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 32%, transparent);
+    }
+  }
+  .manual-section .callout-decision-point .callout-fork-option {
+    padding: 0; margin: 0; border: 0;
+  }
+  .manual-section .callout-decision-point .callout-fork-option > div {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  /* React renders <h4> for the kicker (per app/compass/callouts/page.tsx).
+     The `p:first-child strong` selectors are kept as a fallback for any
+     legacy manual still using a markdown <p><strong> heading pattern.
+     Both pathways land on the same Mantle next-gen h4 spec: 500 /
+     leading-tighter / fg-high. */
+  .manual-section .callout-decision-point .callout-fork-option h4,
+  .manual-section .callout-decision-point .callout-fork-option > p:first-child strong,
+  .manual-section .callout-decision-point .callout-fork-option > div > p:first-child strong {
+    display: block;
+    margin: 0 0 8px;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: var(--leading-tighter);
+    text-transform: none;
+    color: var(--color-fg-high);
+  }
+  .manual-section .callout-decision-point .callout-fork-option > p:first-child,
+  .manual-section .callout-decision-point .callout-fork-option > div > p:first-child {
+    margin: 0;
+    line-height: var(--leading-tight);
+  }
+  .manual-section .callout-decision-point .callout-fork-option p {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    margin: 0;
+    color: var(--color-fg-low) !important;
+  }
+
+  /* FounderShift — from | arrow | to. Same top-alignment as
+     DecisionPoint so kickers share a baseline. */
+  .manual-section .callout-founder-shift .callout-body {
+    margin-top: 0;
+    align-items: start !important;
+  }
+  .manual-section .callout-founder-shift .callout-shift-arrow {
+    color: color-mix(in srgb, var(--gold, #FFBB53) 55%, transparent);
+    flex: none;
+    /* SVG line at y=14 in a 28px artwork; kicker baseline lands
+       ~17px from column top (mono 12px × leading-looser 1.6).
+       margin-top: 3px puts the arrow line on the kicker baseline. */
+    margin-top: 3px;
+  }
+  /* Kicker — h4 + legacy strong fallback, both on the canonical mono
+     eyebrow recipe. */
+  .manual-section .callout-founder-shift .callout-shift-from h4,
+  .manual-section .callout-founder-shift .callout-shift-to h4,
+  .manual-section .callout-founder-shift .callout-shift-from > div > p:first-child strong,
+  .manual-section .callout-founder-shift .callout-shift-to > div > p:first-child strong {
+    display: block;
+    margin: 0 0 6px;
+    font-family: var(--font-mono);
+    /* var(--text-xxs) = 13px — canonical micro-label size from the
+       Mantle scale. Was hardcoded 12px, off-scale. */
+    font-size: var(--text-xxs);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: var(--leading-looser);
+    text-transform: uppercase;
+    color: var(--color-fg-low);
+  }
+  .manual-section .callout-founder-shift .callout-shift-from > div > p:first-child,
+  .manual-section .callout-founder-shift .callout-shift-to > div > p:first-child {
+    margin: 0 0 6px;
+    line-height: var(--leading-none);
+  }
+  .manual-section .callout-founder-shift .callout-shift-from p,
+  .manual-section .callout-founder-shift .callout-shift-to p {
+    font-family: var(--font-sans);
+    /* Body — Mantle next-gen 400 / leading-normal / fg-medium. The
+       kicker carries the weight; body stays at editorial-normal. */
+    font-weight: 400;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-fg-medium);
+  }
+  @media (max-width: 767px) {
+    .manual-section .callout-founder-shift .callout-shift-arrow {
+      transform: rotate(90deg);
+      justify-self: center;
+    }
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * Quote callout — `<blockquote>` + `<cite>` inside the shared shell.
+   * Gold 3px left bar gives it the editorial pull-quote feel without
+   * losing the bordered-card identity. Geist Pixel display face for
+   * the quote itself; mono attribution underneath.
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-quote {
+    padding: 34px 32px 30px !important;
+  }
+  .manual-section .callout-quote .callout-body {
+    position: relative;
+    padding-left: 36px;
+  }
+  .manual-section .callout-quote .callout-body::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--gold, #FFBB53);
+    border-radius: 2px;
+  }
+  .manual-section .callout-quote blockquote {
+    font-family: 'Geist Pixel', var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+    /* Geist Pixel is a pixel-grid face — tighter tracking would
+       crush the bitmap rhythm; hold at 0. */
+    letter-spacing: 0;
+    line-height: var(--leading-tight);
+    color: var(--color-fg-high);
+    margin: 0 0 16px;
+  }
+  .manual-section .callout-quote cite {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-weight: 500;
+    font-size: var(--text-xxs);
+    letter-spacing: 0.05em;
+    line-height: var(--leading-looser);
+    text-transform: uppercase;
+    color: var(--color-fg-low);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * Checklist callout — interactive button rows that toggle a `.done`
+   * state. Each row is a `<button>` for keyboard + screenreader
+   * affordance; checked rows get a filled accent box + line-through
+   * text. Component owns the click handler that toggles `.done` +
+   * `aria-pressed`.
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-checklist .callout-body {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0 !important;
+    margin-top: 0;
+  }
+  .manual-section .callout-checklist .check-item {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 18%, transparent);
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    font-family: inherit;
+    display: grid;
+    /* 22px box column = 20px box + 2px to clear the 1.5px border. */
+    grid-template-columns: 22px 1fr;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 8px 0;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    font-weight: 400;
+  }
+  .manual-section .callout-checklist .check-item:first-child {
+    padding-top: 2px;
+  }
+  .manual-section .callout-checklist .check-item:last-child {
+    border-bottom: 0;
+    padding-bottom: 2px;
+  }
+  .manual-section .callout-checklist .check-item:hover .check-box {
+    border-color: color-mix(in srgb, var(--gold, #FFBB53) 85%, transparent);
+  }
+  .manual-section .callout-checklist .check-box {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid color-mix(in srgb, var(--gold, #FFBB53) 65%, transparent);
+    border-radius: var(--rounded-md);
+    /* Optical center on the cap height of `text-base` + leading-normal. */
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 120ms, border-color 120ms;
+  }
+  .manual-section .callout-checklist .check-item.done .check-box {
+    background: var(--gold, #FFBB53);
+    border-color: var(--gold, #FFBB53);
+  }
+  .manual-section .callout-checklist .check-item.done .check-box::after {
+    content: "";
+    width: 10px;
+    height: 5px;
+    border-left: 1.75px solid color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14);
+    border-bottom: 1.75px solid color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14);
+    transform: rotate(-45deg) translate(1px, -1px);
+  }
+  .manual-section .callout-checklist .check-item.done {
+    color: var(--color-fg-low);
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in srgb, var(--color-fg-low) 35%, transparent);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * Prompt callout — copyable text block. Toolbar row (title + copy
+   * button) above an editable textarea. Reader can copy the prompt
+   * verbatim or edit-then-copy. The copy button flashes a
+   * confirmation when clicked (`.is-copied` state).
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-prompt .callout-body {
+    display: flex !important;
+    flex-direction: column;
+    gap: 12px !important;
+    margin-top: 0;
+  }
+  .manual-section .callout-prompt .prompt-block {
+    position: relative;
+    background: var(--color-surface-highest);
+    border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 40%, transparent);
+    border-radius: var(--rounded-xl);
+    padding: 16px 18px;
+  }
+  .manual-section .callout-prompt .prompt-text {
+    display: block;
+    width: 100%;
+    min-height: 88px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    resize: vertical;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-fg-medium);
+    caret-color: var(--gold, #FFBB53);
+  }
+  .manual-section .callout-prompt .prompt-text::placeholder {
+    color: var(--color-fg-lower);
+  }
+  .manual-section .callout-prompt .prompt-text:focus { outline: 0; }
+  .manual-section .callout-prompt .prompt-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .manual-section .callout-prompt .prompt-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: var(--leading-tighter);
+    color: var(--color-fg-high);
+  }
+  .manual-section .callout-prompt .prompt-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px 4px;
+    background: var(--gold, #FFBB53);
+    /* Static dark — same Lightning-CSS color-mix fallback issue as
+       `.callout-label`. See that rule for the long explanation. */
+    color: #110F14;
+    border: 0;
+    border-radius: var(--rounded-md);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: var(--text-xxs);
+    letter-spacing: 0.05em;
+    line-height: var(--leading-none);
+    text-transform: uppercase;
+    transition: background 140ms;
+  }
+  .manual-section .callout-prompt .prompt-copy svg { width: 12px; height: 12px; flex: none; }
+  .manual-section .callout-prompt .prompt-copy.is-copied {
+    background: color-mix(in srgb, var(--gold, #FFBB53) 30%, #110f14);
+    /* Hard-coded white — `--color-surface-highest` flipped dark in the
+       canonical token migration, which would now collide with the dark
+       "copied" bg. White stays correct in both themes. */
+    color: #FFFFFF;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * TL;DR callout — base shell with text-lg / leading-loose body.
+   * Reads as the "stop here if you only have 30 seconds" summary.
+   * No collapse, no chevron — visible by default.
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-tldr .callout-body p {
+    font-size: var(--text-lg);
+    line-height: var(--leading-loose);
+  }
+  .manual-section .callout-tldr .callout-body p + p {
+    margin-top: 14px;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * Chapter accent overrides — resolves through Compass's canonical
+   * `--cover-accent-*` tokens defined in `public/compass-base.css`,
+   * which in turn map to Mantle's category-color palette (the same
+   * source of truth used by the 7 cover SVGs).
+   *
+   * Apply one of these classes to any ancestor of a callout to swap
+   * `--gold` for that chapter's cover accent. Used on the
+   * `/compass/callouts` demo; real manuals get their accent set from
+   * `manifest.accent` on `.manual-shell` via ManualShell.tsx.
+   * ─────────────────────────────────────────────────────────────── */
+  .accent-foundation { --gold: var(--cover-accent-orange); }   /* #FFC66E */
+  .accent-shape      { --gold: var(--cover-accent-cyan); }     /* #76E8FF */
+  .accent-build      { --gold: var(--cover-accent-lilac); }    /* #9676FF */
+  .accent-launch     { --gold: var(--cover-accent-warm); }     /* #EFC62A */
+  /* Monetize / Grow pull straight from Mantle's canonical category
+     palette since compass-base.css doesn't (yet) define a green or
+     red `--cover-accent-*` slot. Same source of truth as the rest of
+     the cover-accent stack — both tokens are defined in the
+     `@theme` block at the top of this file. */
+  .accent-monetize   { --gold: var(--color-green-high); }      /* #98FF76 */
+  .accent-grow       { --gold: var(--color-mac-red); }         /* #EE5249 */
+  .accent-operate    { --gold: var(--cover-accent-white); }    /* #FFFFFF */
+}

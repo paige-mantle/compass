@@ -1,0 +1,41 @@
+/* ──────────────────────────────────────────────────────────────
+   Compass styles — single entry point
+   ──────────────────────────────────────────────────────────────
+
+   Imported once from `app/compass/layout.tsx` (and re-imported
+   from `app/templates/layout.tsx` since /templates is part of the
+   same Compass system). Loads:
+
+     • `./prose.css`    — editorial typography for MDX surfaces
+                          (.manual-section / .framework-content /
+                          .insight-content / table styles)
+     • `./callouts.css` — the full v2 callout family
+                          (Field Note · Reality Check · Common Failure
+                          · Decision Point · Founder Shift · Quote ·
+                          Checklist · Prompt · TL;DR · generic <Callout>
+                          + chapter accent overrides)
+
+   Cross-cutting design tokens (`@theme`), base reset (body, focus,
+   selection), and the `.compass-light-theme` scope live in
+   `app/globals.css` — those affect every page, not just Compass.
+
+   `--gold` is set per-chapter on `.manual-shell` by
+   `ManualShell.tsx` from `manifest.accent`; for non-manual Compass
+   surfaces (methods, templates, insights, home), it falls through
+   to the canonical `--color-accent-medium` (#FFBB53). Chapter
+   accent override classes (`.accent-foundation`, `.accent-shape`,
+   …) live in `callouts.css` so they can be applied to any
+   container that wraps a callout.
+
+   Why this split (vs. all-in-globals.css):
+     1. Ownership is obvious from the file name.
+     2. The 800+ lines of prose + callout rules don't make
+        globals.css unreadable.
+     3. Migration to the Mantle Astro site is a `cp` of these
+        three files into `src/styles/compass/` — content
+        transfers verbatim because both projects use Tailwind v4
+        with the same `@theme` semantics.
+   ────────────────────────────────────────────────────────────── */
+
+@import "./prose.css";
+@import "./callouts.css";

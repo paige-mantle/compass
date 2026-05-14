@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "@/compass/styles/index.css";
 
 /**
  * Compass — single canonical layout for every React-rendered route
@@ -29,11 +30,16 @@ import type { ReactNode } from "react";
  *                                 so they don't bleed onto non-manual
  *                                 Compass pages.
  *
- * MDX prose rules + callout components — formerly loaded via
- * `compass-content.css` and `compass-callouts.css` — now live in
- * `app/globals.css` `@layer components` so they resolve through the
- * canonical token system and load automatically with the rest of
- * the Tailwind v4 bundle.
+ * MDX prose rules + callout components live in
+ * `compass/styles/{prose,callouts}.css` and are bundled via the
+ * single `compass/styles/index.css` entry point (imported at the
+ * top of this file). Two reasons for the split out of `globals.css`:
+ *   1. Ownership: anything Compass-specific lives in
+ *      `compass/styles/`; cross-cutting tokens + base reset stay in
+ *      `app/globals.css`.
+ *   2. Scope: `prose.css` + `callouts.css` ship only on Compass
+ *      routes (here + `app/templates/layout.tsx`), not on every
+ *      page in the app.
  *
  * `compass-typography.css` is intentionally **omitted** here. It only
  * targets the legacy card class names (`.compass-manual-row`,

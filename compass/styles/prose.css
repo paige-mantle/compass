@@ -1,0 +1,382 @@
+/* ──────────────────────────────────────────────────────────────
+   Compass MDX prose typography
+   ──────────────────────────────────────────────────────────────
+
+   Editorial typography for every React Compass detail page —
+   manual chapters, method articles, template articles, insight
+   articles. Three scope classes, applied to the wrapping div in
+   each shell:
+
+     • `.manual-section`    — ManualShell
+     • `.framework-content` — FrameworkShell (also gets .insight-content)
+     • `.insight-content`   — InsightShell, FrameworkShell
+
+   Tables are included in this file because they're MDX-rendered
+   prose elements — same editorial rhythm as paragraphs / headings.
+
+   Token references use the canonical `--color-*` / `--font-*` /
+   `--text-*` / `--leading-*` names from the `@theme` block in
+   `app/globals.css`. Wrapped in `@layer components` so utility
+   classes still win and the cascade order matches what was
+   previously in `globals.css` byte-for-byte.
+
+   Loaded by the Compass parent layout
+   (`app/compass/layout.tsx`) so every Compass route picks it up;
+   not loaded on the Mantle marketing site since `.manual-section`
+   etc. never appear there.
+   ────────────────────────────────────────────────────────────── */
+@layer components {
+  .manual-section,
+  .framework-content,
+  .insight-content {
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    line-height: var(--leading-looser);
+    color: var(--color-fg-high);
+  }
+
+  /* Headings — medium weight Manrope, relaxed tracking so the heading
+     reads with enough heft against the 17px body. -0.01em (not -0.02)
+     keeps the editorial feel without rendering as thin ribbons. */
+  .manual-section h1, .manual-section h2, .manual-section h3,
+  .manual-section h4, .manual-section h5, .manual-section h6,
+  .framework-content h1, .framework-content h2, .framework-content h3,
+  .framework-content h4, .framework-content h5, .framework-content h6,
+  .insight-content h1, .insight-content h2, .insight-content h3,
+  .insight-content h4, .insight-content h5, .insight-content h6 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-fg-high);
+    max-width: none;
+  }
+
+  .manual-section h1, .framework-content h1, .insight-content h1 {
+    font-size: var(--text-6xl);
+    line-height: var(--leading-tightest);
+    margin: 0 0 18px;
+  }
+  .manual-section h2, .framework-content h2, .insight-content h2 {
+    font-size: var(--text-2xl);
+    line-height: 1.25;
+    margin: 48px 0 14px;
+    scroll-margin-top: 90px;
+  }
+  .manual-section h3, .framework-content h3, .insight-content h3 {
+    font-size: var(--text-md);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    margin: 28px 0 8px;
+    scroll-margin-top: 90px;
+  }
+  .manual-section h4, .framework-content h4, .insight-content h4 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin: 20px 0 6px;
+  }
+
+  .manual-section p, .framework-content p, .insight-content p {
+    font-size: var(--text-md);
+    line-height: var(--leading-looser);
+    margin: 0 0 1.25em;
+  }
+  .manual-section ul, .manual-section ol,
+  .framework-content ul, .framework-content ol,
+  .insight-content ul, .insight-content ol {
+    font-size: var(--text-md);
+    line-height: var(--leading-looser);
+  }
+  .manual-section ul li, .manual-section ol li,
+  .framework-content ul li, .framework-content ol li,
+  .insight-content ul li, .insight-content ol li {
+    font-size: var(--text-md);
+    line-height: 1.35;
+    padding: 1px 0;
+  }
+
+  /* Bullet markers — disc/decimal. Resets the chevron arrow ::before
+     that compass-manual.css injects on `.manual-section ul li`. */
+  .manual-section ul { list-style: disc outside; padding-left: 22px; }
+  .manual-section ul li { position: static; padding: 3px 0; }
+  .manual-section ul li::before {
+    content: none; background: none;
+    mask: none; -webkit-mask: none;
+    width: auto; height: auto; position: static;
+  }
+  .manual-section ul li::marker { color: var(--color-fg-low); }
+  .manual-section ol { list-style: decimal outside; padding-left: 22px; }
+  .manual-section ol li { font-size: var(--text-md); padding: 3px 0; }
+  .manual-section ul.contains-task-list,
+  .manual-section .notion-checklist {
+    list-style: none; padding-left: 0;
+  }
+
+  /* Inline links — deep ink + 30% underline, hover deepens to full. */
+  .manual-section a, .framework-content a, .insight-content a {
+    color: var(--color-fg-high);
+    text-decoration: underline;
+    text-decoration-color: rgba(17, 15, 20, 0.3);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+  }
+  .manual-section a:hover, .framework-content a:hover, .insight-content a:hover {
+    text-decoration-color: var(--color-fg-high);
+  }
+
+  .framework-content strong, .insight-content strong {
+    color: var(--color-fg-high);
+    font-weight: 600;
+  }
+  .framework-content em, .insight-content em {
+    color: var(--color-fg-high);
+    font-style: italic;
+  }
+  .framework-content blockquote, .insight-content blockquote {
+    margin: 1.6em 0;
+    padding: 0 0 0 24px;
+    border-left: 2px solid var(--color-accent-high);
+    color: var(--color-fg-high);
+  }
+  .manual-section hr, .framework-content hr, .insight-content hr {
+    border: none;
+    border-top: 1px solid var(--color-edge-high);
+    margin: 3em 0;
+  }
+
+  /* ── Framework editorial refinements ───────────────────────── */
+  .framework-content {
+    font-size: var(--text-md);
+    line-height: 1.55;
+    color: var(--color-fg-high);
+  }
+  .framework-content p {
+    font-size: var(--text-md);
+    line-height: 1.55;
+    margin: 0 0 16px;
+    max-width: 58ch;
+  }
+  .framework-content h2 {
+    margin: 24px 0 14px;
+    padding: 0;
+    border: 0;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+  .framework-content > h2:first-child,
+  .framework-content > *:first-child + h2 {
+    margin-top: 0;
+  }
+  .framework-content h3 {
+    margin: 20px 0 8px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--color-fg-high);
+  }
+
+  /* Micro-label — uppercase mono eyebrow inside framework content */
+  .framework-content .framework-microlabel,
+  .framework-microlabel {
+    display: block;
+    margin: 0 0 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-fg-low);
+  }
+
+  .framework-content ul, .framework-content ol {
+    margin: 0 0 20px;
+    padding: 0 0 0 22px;
+  }
+  .framework-content ul { list-style: disc outside; }
+  .framework-content ol { list-style: decimal outside; }
+  .framework-content ul li, .framework-content ol li {
+    padding: 1px 0;
+    font-size: var(--text-md);
+    line-height: 1.35;
+  }
+  .framework-content ul li::marker, .framework-content ol li::marker {
+    color: var(--color-fg-low);
+  }
+
+  /* "Pairs well with" — grid of related framework cards */
+  .framework-pairs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .framework-pairs li { margin: 0; padding: 0; border: none; }
+  .framework-pairs li::before { display: none; }
+  .framework-pairs a {
+    display: flex; flex-direction: column;
+    gap: 6px; padding: 16px 18px;
+    border: 1px solid var(--color-edge-medium);
+    background: rgba(94, 92, 90, 0.02);
+    color: var(--color-fg-high) !important;
+    text-decoration: none !important;
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  .framework-pairs a:hover {
+    border-color: rgba(94, 92, 90, 0.36);
+    background: rgba(94, 92, 90, 0.05);
+  }
+  .framework-pairs-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-fg-low);
+  }
+  .framework-pairs-title {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    color: var(--color-fg-high);
+  }
+  .framework-pairs-summary {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--color-fg-low);
+  }
+
+  /* `<Chips>` — compact two-column grid of label chips */
+  .framework-chips {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    margin: 12px 0 24px;
+    padding: 0;
+    list-style: none;
+  }
+  .framework-content .framework-chips li,
+  .insight-content .framework-chips li,
+  .manual-section .framework-chips li {
+    margin: 0;
+    padding: 6px 12px;
+    border: 1px solid var(--color-edge-medium);
+    border-radius: 6px;
+    background: rgba(94, 92, 90, 0.02);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    line-height: 1.25;
+    color: var(--color-fg-high);
+  }
+  .framework-chips li::before { display: none; content: none; }
+  .framework-chips li::marker { content: none; }
+
+  /* `<p className="framework-flow">` — inline labeled flow */
+  .framework-content .framework-flow {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 10px 14px; margin: 12px 0 24px; padding: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--color-fg-high);
+    max-width: none;
+  }
+  .framework-content .framework-flow > span {
+    display: inline-flex; align-items: center;
+  }
+  .framework-content .framework-flow > span:not([aria-hidden]) {
+    padding: 6px 12px;
+    border: 1px solid var(--color-edge-medium);
+    border-radius: 6px;
+    background: rgba(94, 92, 90, 0.02);
+    font-weight: 500;
+  }
+  .framework-content .framework-flow > span[aria-hidden] {
+    color: var(--color-fg-low);
+    font-size: 16px;
+  }
+
+  .framework-content code, .insight-content code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--color-surface-higher);
+    border: 1px solid var(--color-edge-medium);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* Manual tables — same coloured-plate recipe as callouts, so the
+     table reads as a member of the same visual family. Uses `--gold`
+     (the per-chapter accent) instead of pinning to `--color-accent-
+     high`, and matches the callout's 1px border / 10px radius / 8%
+     tint chrome. Cell padding bumped to match callout density. */
+  .manual-section table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    background: color-mix(in srgb, var(--gold, #FFBB53) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 48%, transparent);
+    border-radius: var(--rounded-2xl);
+    overflow: hidden;
+  }
+  .manual-section table th, .manual-section table td {
+    padding: 14px 16px;
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    border-bottom: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 20%, transparent);
+    border-right: 0;
+    vertical-align: top;
+    color: var(--color-fg-medium);
+  }
+  .manual-section table tbody tr:last-child td { border-bottom: 0; }
+  .manual-section table thead th {
+    background: color-mix(in srgb, var(--gold, #FFBB53) 22%, transparent);
+    color: var(--color-fg-low) !important;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: var(--leading-looser);
+    text-transform: uppercase;
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 32%, transparent);
+  }
+  .manual-section table thead th,
+  .manual-section table thead th strong,
+  .manual-section table thead th b {
+    font-weight: 500;
+  }
+  .manual-section table tbody td strong { font-weight: 500; }
+  .manual-section table tbody td:first-child {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: var(--text-xs);
+    letter-spacing: 0.05em;
+    line-height: var(--leading-looser);
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--gold, #FFBB53) 65%, var(--color-fg-medium));
+    white-space: nowrap;
+  }
+  .manual-section table tbody tr:hover td {
+    background: color-mix(in srgb, var(--gold, #FFBB53) 6%, transparent);
+  }
+
+  @media (max-width: 860px) {
+    .manual-section h1, .framework-content h1, .insight-content h1 {
+      font-size: var(--text-4xl);
+    }
+    .manual-section h2, .framework-content h2, .insight-content h2 {
+      font-size: var(--text-2xl);
+      margin: 36px 0 12px;
+    }
+    .manual-section h3, .framework-content h3, .insight-content h3 {
+      font-size: 16px;
+    }
+    .framework-content h2 { margin: 24px 0 14px; }
+  }
+}
