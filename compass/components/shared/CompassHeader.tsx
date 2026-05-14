@@ -8,7 +8,7 @@ import { CompassButton } from "./CompassButton";
  *
  * Renders the exact same DOM as the static `<header class="site-header">`
  * markup used by the five static Compass index pages
- * (/compass, /compass/manuals, /compass/methods, etc.). The
+ * (/compass, /manuals, /workflows, etc.). The
  * shared styling lives in /public/compass-base.css under the
  * `.site-header`, `.site-brand`, `.site-search`, `.site-actions`,
  * `.sign-in-link`, and `.site-cta` class rules, so both surfaces

@@ -94,7 +94,7 @@ export type TemplateFrontmatter = {
   pairsWellWith?: string[];
 
   /** Optional code blocks shown in the right-rail of the detail
-      page. Same shape as `FrameworkCodeBlock`. */
+      page. Same shape as `WorkflowCodeBlock`. */
   codeBlocks?: TemplateCodeBlock[];
 
   /** Optional preview image rendered above the code blocks in the

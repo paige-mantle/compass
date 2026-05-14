@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { FrameworkShell } from "@/compass/components/methods/FrameworkShell";
-import { PairsWith, PairItem } from "@/compass/components/methods/PairsWith";
-import { Chips, Chip } from "@/compass/components/methods/Chips";
+import { WorkflowShell } from "@/compass/components/workflows/WorkflowShell";
+import { PairsWith, PairItem } from "@/compass/components/workflows/PairsWith";
+import { Chips, Chip } from "@/compass/components/workflows/Chips";
 import {
   RelatedCards,
   RelatedCard,
-} from "@/compass/components/methods/RelatedCards";
-import { listFrameworks, loadFramework } from "@/compass/lib/methods/content";
+} from "@/compass/components/workflows/RelatedCards";
+import { listWorkflows, loadWorkflow } from "@/compass/lib/workflows/content";
 import { SITE_ORIGIN } from "@/compass/lib/seo";
 
 // Components available inside framework MDX files. Keep tight — frameworks
@@ -25,7 +25,7 @@ const frameworkMdxComponents = {
 type Params = { slug: string };
 
 export async function generateStaticParams() {
-  const items = await listFrameworks();
+  const items = await listWorkflows();
   return items.map((i) => ({ slug: i.slug }));
 }
 
@@ -35,9 +35,9 @@ export async function generateMetadata({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const loaded = await loadFramework(slug);
+  const loaded = await loadWorkflow(slug);
   if (!loaded) return {};
-  const path = `/compass/methods/${slug}`;
+  const path = `/workflows/${slug}`;
   return {
     title: loaded.meta.title,
     description: loaded.meta.summary,
@@ -63,14 +63,14 @@ export default async function FrameworkPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const loaded = await loadFramework(slug);
+  const loaded = await loadWorkflow(slug);
   if (!loaded) notFound();
 
   /* All JSON-LD URLs resolve through the canonical `SITE_ORIGIN`
      (`https://heymantle.com`). Previously hardcoded to the preview
      deploy (`mantle-chi.vercel.app`) which leaked into every social
      share + every Google indexing result. */
-  const url = `${SITE_ORIGIN}/compass/methods/${slug}`;
+  const url = `${SITE_ORIGIN}/workflows/${slug}`;
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
@@ -85,16 +85,16 @@ export default async function FrameworkPage({
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Mantle Compass", item: `${SITE_ORIGIN}/compass` },
-      /* Section was renamed from "Frameworks" to "Methods" —
-         breadcrumb label now matches the live URL + nav copy so
-         Google indexes the correct category name. */
-      { "@type": "ListItem", position: 2, name: "Methods", item: `${SITE_ORIGIN}/compass/methods` },
+      /* Section renamed Frameworks → Methods → Workflows. Breadcrumb
+         label matches the live URL + nav copy so Google indexes the
+         correct category name. */
+      { "@type": "ListItem", position: 2, name: "Workflows", item: `${SITE_ORIGIN}/workflows` },
       { "@type": "ListItem", position: 3, name: loaded.meta.title, item: url },
     ],
   };
 
   return (
-    <FrameworkShell meta={loaded.meta} shareUrl={url} showFooterCta={false}>
+    <WorkflowShell meta={loaded.meta} shareUrl={url} showFooterCta={false}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
@@ -108,6 +108,6 @@ export default async function FrameworkPage({
         components={frameworkMdxComponents}
         options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
       />
-    </FrameworkShell>
+    </WorkflowShell>
   );
 }

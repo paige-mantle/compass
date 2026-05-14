@@ -6,10 +6,10 @@ import { InsightCardGrid } from "@/compass/components/insights/InsightCardGrid";
 import { listInsights } from "@/compass/lib/insights/content";
 
 export const metadata = {
-  title: "Insights — Mantle Compass",
+  title: "Insights for app builders",
   description:
-    "Insights, thinking, and announcements from the Mantle team — on building, shipping, and operating products with AI.",
-  alternates: { canonical: "/compass/insights" },
+    "Founder-minded essays and practical commentary on building, launching, growing, and operating app businesses in the AI era.",
+  alternates: { canonical: "/blog" },
 };
 
 export default async function InsightsIndexPage() {
@@ -22,7 +22,7 @@ export default async function InsightsIndexPage() {
           heading="Insights"
           description="Insights, thinking, and announcements from the Mantle team — on building, shipping, and operating products with AI."
         />
-        <CompassSectionNav currentPath="/compass/insights" />
+        <CompassSectionNav currentPath="/blog" />
         <div className="mt-14 max-[720px]:mt-10">
           <InsightCardGrid insights={insights} />
         </div>

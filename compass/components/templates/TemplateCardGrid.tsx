@@ -10,7 +10,7 @@ import {
 /**
  * Template card grid — listing surface for `/templates`.
  *
- * Shares the recipe byte-for-byte with `MethodCardGrid`: 16:9
+ * Shares the recipe byte-for-byte with `WorkflowCardGrid`: 16:9
  * colored block with a subtle dot-grid texture, title at the top,
  * tag pills at the bottom, then description + "Added <date>" line
  * below the block. The two grids are paired on purpose — if you

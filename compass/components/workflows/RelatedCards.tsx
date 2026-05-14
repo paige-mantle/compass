@@ -13,7 +13,7 @@ import type { ReactNode } from "react";
  *   <RelatedCards>
  *     <RelatedCard
  *       kind="Method"
- *       href="/compass/methods/reddit-research-report"
+ *       href="/workflows/reddit-research-report"
  *       title="Reddit research report"
  *       summary="Pull demand signal out of niche subreddits."
  *     />

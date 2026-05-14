@@ -26,7 +26,7 @@ function formatPublishDate(raw: string): string {
 }
 
 function hrefFor(manualSlug: string, s: ManualSection) {
-  return `/compass/${manualSlug}/${s.slug ? s.slug + "/" : ""}`;
+  return `/manuals/${manualSlug}/${s.slug ? s.slug + "/" : ""}`;
 }
 
 /**
@@ -230,7 +230,7 @@ export function ManualShell({
           style={{ background: "var(--gold)" }}
         >
           <Link
-            href="/compass/manuals"
+            href="/manuals"
             aria-label="Back to Manuals"
             className="block h-12 w-12 flex-none"
             style={{ background: "var(--gold)" }}
@@ -450,7 +450,7 @@ export function ManualShell({
                 pre-filled tweet / email / clipboard. */}
             <ManualShareSection
               title={current.isIntro ? manifest.title : `${manifest.title} — ${current.title}`}
-              href={`/compass/${manifest.slug}${current.slug ? `/${current.slug}` : ""}`}
+              href={`/manuals/${manifest.slug}${current.slug ? `/${current.slug}` : ""}`}
             />
           </section>
 
@@ -490,7 +490,7 @@ export function ManualShell({
               />
             ) : (
               <PrevNextLink
-                href="/compass/manuals"
+                href="/manuals"
                 direction="next"
                 label="Manual complete"
                 title="Back to all manuals"

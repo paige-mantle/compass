@@ -413,7 +413,7 @@
 
    Files:
      • `compass/styles/prose.css`    — .manual-section /
-       .framework-content / .insight-content typography + tables
+       .workflow-content / .insight-content typography + tables
      • `compass/styles/callouts.css` — full v2 callout family +
        chapter accent overrides
      • `compass/styles/index.css`    — entry point that imports both

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { CompassLayout } from "../shared/CompassLayout";
 import { CompassPromptHeading } from "../shared/CompassPromptHeading";
-import type { FrameworkMeta } from "../../lib/methods/content";
+import type { WorkflowMeta } from "../../lib/workflows/content";
 import { CodeBlocks } from "./CodeBlocks";
 import { CopyLinkButton } from "./CopyLinkButton";
 import { PreviewTabs } from "./PreviewTabs";
@@ -30,15 +30,15 @@ const containerInner =
   "mx-auto max-w-[1320px] px-6 max-[1100px]:px-8 max-[720px]:px-5";
 
 
-export function FrameworkShell({
+export function WorkflowShell({
   meta,
   shareUrl,
   children,
-  backHref = "/compass/methods",
+  backHref = "/workflows",
   backLabel = "Methods",
   showFooterCta = true,
 }: {
-  meta: FrameworkMeta;
+  meta: WorkflowMeta;
   shareUrl: string;
   children: ReactNode;
   /** Parent listing URL for the hero back-link. Defaults to the
@@ -71,7 +71,7 @@ export function FrameworkShell({
                 · stacked on mobile
                 · 48px uniform padding around the text content */}
           {/* Hero — matches the static `.compass-hero` recipe used on
-              /compass and /compass/manuals so detail pages and index
+              /compass and /manuals so detail pages and index
               pages render the same hero treatment:
                 · 48px h1 (not text-5xl/text-7xl which scaled to ~72px)
                 · Manrope at font-medium (500), tight tracking
@@ -181,7 +181,7 @@ export function FrameworkShell({
               className={`${containerInner} grid items-start gap-32 pt-0 pb-12 max-[1100px]:!grid-cols-1 max-[1100px]:gap-12 max-[720px]:pb-8`}
               style={{ gridTemplateColumns: "minmax(0, 45fr) minmax(0, 55fr)" }}
             >
-              <div className="insight-content framework-content pt-6 max-[720px]:pt-6 [&>*:first-child]:mt-0">
+              <div className="insight-content workflow-content pt-6 max-[720px]:pt-6 [&>*:first-child]:mt-0">
                 {/* "Works with" — label on its own row, pills stacked
                     below. Pills are plain `<span>`s (not `<li>` items)
                     so no list-marker styling can leak in from

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { FrameworkCodeBlock } from "../../lib/methods/content";
+import type { WorkflowCodeBlock } from "../../lib/workflows/content";
 import { CodeBlocks } from "./CodeBlocks";
 
 /**
@@ -22,7 +22,7 @@ export function PreviewTabs({
   defaultTab = "preview",
 }: {
   previewImage: { src: string; alt: string; caption?: string };
-  blocks: FrameworkCodeBlock[];
+  blocks: WorkflowCodeBlock[];
   defaultTab?: "preview" | "code";
 }) {
   const [tab, setTab] = useState<"preview" | "code">(defaultTab);

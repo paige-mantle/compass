@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { FrameworkMeta } from "../../lib/methods/content";
+import type { WorkflowMeta } from "../../lib/workflows/content";
 import {
   CARD_BG_CLASS,
   CARD_TEXT_CLASS,
@@ -8,7 +8,7 @@ import {
 } from "../../lib/card-accents";
 
 /**
- * Method card grid — listing surface for `/compass/methods`.
+ * Method card grid — listing surface for `/workflows`.
  *
  * Each card has a 16:9 colored block with a subtle dot-grid texture,
  * the method title at the top, optional tag pills at the bottom.
@@ -26,7 +26,7 @@ import {
  * lilac / warm / red / white / black / graphite / gray). See
  * `compass/lib/card-accents.ts` for the canonical map.
  */
-export function MethodCardGrid({ methods }: { methods: FrameworkMeta[] }) {
+export function WorkflowCardGrid({ methods }: { methods: WorkflowMeta[] }) {
   return (
     <section
       aria-label="Methods"
@@ -39,12 +39,12 @@ export function MethodCardGrid({ methods }: { methods: FrameworkMeta[] }) {
   );
 }
 
-function MethodCard({ method }: { method: FrameworkMeta }) {
+function MethodCard({ method }: { method: WorkflowMeta }) {
   const accent = method.blockColor ?? DEFAULT_CARD_ACCENT;
 
   return (
     <Link
-      href={`/compass/methods/${method.slug}`}
+      href={`/workflows/${method.slug}`}
       className="group flex flex-col gap-4 no-underline text-fg-high"
     >
       <div

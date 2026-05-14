@@ -9,11 +9,11 @@ import {
   buildSectionMetadata,
 } from "@/compass/lib/seo";
 
-type Params = { manual: string };
+type Params = { slug: string };
 
 export async function generateStaticParams() {
   const slugs = await listManuals();
-  return slugs.map((manual) => ({ manual }));
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -21,8 +21,8 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }) {
-  const { manual } = await params;
-  const loaded = await loadSection(manual, "");
+  const { slug } = await params;
+  const loaded = await loadSection(slug, "");
   if (!loaded) return {};
   return buildSectionMetadata(loaded);
 }
@@ -32,8 +32,8 @@ export default async function ManualIntroPage({
 }: {
   params: Promise<Params>;
 }) {
-  const { manual } = await params;
-  const loaded = await loadSection(manual, "");
+  const { slug } = await params;
+  const loaded = await loadSection(slug, "");
   if (!loaded) notFound();
 
   const [articleLd, breadcrumbLd] = buildSectionJsonLd(loaded);

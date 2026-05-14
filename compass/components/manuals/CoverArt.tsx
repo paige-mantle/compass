@@ -1,5 +1,5 @@
 /**
- * Inline SVG dictionary for the 7 manual covers on /compass/manuals.
+ * Inline SVG dictionary for the 7 manual covers on /manuals.
  * Each motif is a 320×370 viewBox stroked in `currentColor`, which the
  * parent `ManualCover` paints via the per-cover `--cover-accent`
  * token (mapped through the `acc-*` className). Adding a new manual

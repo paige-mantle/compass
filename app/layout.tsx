@@ -39,26 +39,26 @@ export const metadata: Metadata = {
   // moving Compass to a new subdomain is a one-line change.
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "Mantle Compass — practical manuals for early-stage founders",
+    default: "Mantle Compass | Learn how to build, launch, and grow your app",
     template: "%s | Mantle Compass",
   },
   description:
-    "Mantle Compass — practical manuals for early-stage founders on positioning, real demand, and customer discovery.",
+    "Practical manuals, templates, workflows, and insights for founders building app businesses with AI and Mantle.",
   applicationName: "Mantle Compass",
   openGraph: {
     type: "website",
     siteName: "Mantle Compass",
-    title: "Mantle Compass — practical manuals for early-stage founders",
+    title: "Mantle Compass | Learn how to build, launch, and grow your app",
     description:
-      "Mantle Compass — practical manuals for early-stage founders on positioning, real demand, and customer discovery.",
+      "Practical manuals, templates, workflows, and insights for founders building app businesses with AI and Mantle.",
     url: SITE_ORIGIN,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mantle Compass — practical manuals for early-stage founders",
+    title: "Mantle Compass | Learn how to build, launch, and grow your app",
     description:
-      "Mantle Compass — practical manuals for early-stage founders on positioning, real demand, and customer discovery.",
+      "Practical manuals, templates, workflows, and insights for founders building app businesses with AI and Mantle.",
   },
   alternates: {
     canonical: "/",

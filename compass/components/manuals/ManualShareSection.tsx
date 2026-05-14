@@ -18,7 +18,7 @@ import { Link2, Linkedin, Mail, Check } from "lucide-react";
  *
  * `title` + `href` are passed in by `ManualShell` so each chapter
  * shares its own canonical URL + chapter title (e.g. "Foundation —
- * Who this is for" / "/compass/foundation/who-this-is-for"). The
+ * Who this is for" / "/manuals/foundation/who-this-is-for"). The
  * component constructs the absolute URL against the public origin
  * (heymantle.com) rather than the live deploy URL, so social shares
  * always point at the production canonical, never the preview.
@@ -44,7 +44,7 @@ export function ManualShareSection({
 }: {
   /** Page title — used in tweet text + email subject. */
   title: string;
-  /** Path relative to SITE_ORIGIN (e.g. `/compass/foundation/who-this-is-for`). */
+  /** Path relative to SITE_ORIGIN (e.g. `/manuals/foundation/who-this-is-for`). */
   href: string;
 }) {
   const [copied, setCopied] = useState(false);

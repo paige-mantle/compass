@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { InsightMeta } from "../../lib/insights/content";
 
 /**
- * Insight card grid — listing surface for `/compass/insights`.
+ * Insight card grid — listing surface for `/blog`.
  *
- * Same shape as `TemplateCardGrid` / `MethodCardGrid` but without
+ * Same shape as `TemplateCardGrid` / `WorkflowCardGrid` but without
  * the `blockColor` variant — insight cards all use a neutral dark
  * surface (`--color-surface-higher`) with a subtle accent glow.
  * Title sits at top, ribbon tag bottom, then summary + date below.
@@ -25,7 +25,7 @@ export function InsightCardGrid({ insights }: { insights: InsightMeta[] }) {
 function InsightCard({ insight }: { insight: InsightMeta }) {
   return (
     <Link
-      href={`/compass/insights/${insight.slug}`}
+      href={`/blog/${insight.slug}`}
       className="group flex flex-col gap-4 no-underline text-fg-high"
     >
       <div

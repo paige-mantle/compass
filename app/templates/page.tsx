@@ -6,9 +6,9 @@ import { TemplateCardGrid } from "@/compass/components/templates/TemplateCardGri
 import { listTemplates } from "@/compass/lib/templates/content";
 
 export const metadata = {
-  title: "Templates — Mantle Compass",
+  title: "Templates for app builders",
   description:
-    "Practical templates, components, and AI-assisted workflows for turning product ideas into clearer pages, flows, screens, and systems.",
+    "Practical templates, prompts, checklists, and worksheets for validating, building, launching, and growing your app.",
   alternates: { canonical: "/templates" },
 };
 

@@ -12,7 +12,7 @@ import type { LoadedSection } from "./manuals/content";
 export const SITE_ORIGIN = "https://heymantle.com";
 
 const COMPASS_INDEX_URL = `${SITE_ORIGIN}/compass`;
-const MANUALS_INDEX_URL = `${SITE_ORIGIN}/compass/manuals`;
+const MANUALS_INDEX_URL = `${SITE_ORIGIN}/manuals`;
 
 type SectionFrontmatter = {
   summary?: string;
@@ -22,8 +22,8 @@ type SectionFrontmatter = {
 /** Public URL for a section page. Pass an empty section for the intro. */
 export function manualSectionUrl(manualSlug: string, sectionSlug: string) {
   return sectionSlug
-    ? `${SITE_ORIGIN}/compass/${manualSlug}/${sectionSlug}`
-    : `${SITE_ORIGIN}/compass/${manualSlug}`;
+    ? `${SITE_ORIGIN}/manuals/${manualSlug}/${sectionSlug}`
+    : `${SITE_ORIGIN}/manuals/${manualSlug}`;
 }
 
 /**
@@ -35,8 +35,8 @@ export function buildSectionMetadata(loaded: LoadedSection): Metadata {
   const fm = loaded.frontmatter as SectionFrontmatter;
   const isIntro = !loaded.section.slug;
   const path = isIntro
-    ? `/compass/${loaded.manifest.slug}`
-    : `/compass/${loaded.manifest.slug}/${loaded.section.slug}`;
+    ? `/manuals/${loaded.manifest.slug}`
+    : `/manuals/${loaded.manifest.slug}/${loaded.section.slug}`;
 
   const title = isIntro
     ? loaded.manifest.title
@@ -78,7 +78,7 @@ export function buildSectionJsonLd(loaded: LoadedSection) {
     isPartOf: {
       "@type": "Book",
       name: loaded.manifest.title,
-      url: `${SITE_ORIGIN}/compass/${loaded.manifest.slug}`,
+      url: `${SITE_ORIGIN}/manuals/${loaded.manifest.slug}`,
     },
     publisher: {
       "@type": "Organization",
@@ -100,7 +100,7 @@ export function buildSectionJsonLd(loaded: LoadedSection) {
       "@type": "ListItem",
       position: 3,
       name: loaded.manifest.title,
-      item: `${SITE_ORIGIN}/compass/${loaded.manifest.slug}`,
+      item: `${SITE_ORIGIN}/manuals/${loaded.manifest.slug}`,
     },
   ];
   if (!isIntro) {

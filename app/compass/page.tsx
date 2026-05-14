@@ -10,20 +10,25 @@ import { MANUAL_COVERS } from "@/compass/lib/manuals/content";
 import { listInsights } from "@/compass/lib/insights/content";
 
 export const metadata = {
-  title: "Mantle Compass",
+  /* `absolute` bypasses the `%s | Mantle Compass` template defined in
+     the root layout — the Compass home wants the brand to lead the
+     title, not trail it. */
+  title: {
+    absolute: "Mantle Compass | Learn how to build, launch, and grow your app",
+  },
   description:
-    "Everything you need to go from idea to a real, working product.",
+    "Practical manuals, templates, workflows, and insights for founders building app businesses with AI and Mantle.",
   alternates: { canonical: "/compass" },
 };
 
 /**
  * /compass home — the front page for the Compass resource hub.
  *
- * Intentionally different presentation from `/compass/manuals`:
+ * Intentionally different presentation from `/manuals`:
  *   • Home uses `<ManualRowList>` — landscape rows w/ editorial
  *     copy, one manual per row, narrative ordering. The "here's what
  *     these manuals teach" frame.
- *   • The /compass/manuals index uses `<ManualCoverGrid>` — portrait
+ *   • The /manuals index uses `<ManualCoverGrid>` — portrait
  *     320×440 cover posters in a 4-column grid. The "browse the
  *     catalog" frame.
  *
@@ -63,7 +68,7 @@ export default async function CompassHomePage() {
             next-gen Mantle marketing-site pattern (`mm-link` → arrow). */}
         <div className="mt-8 mb-4 flex justify-end">
           <Link
-            href="/compass/manuals"
+            href="/manuals"
             className="
               inline-flex items-center gap-1.5
               font-sans text-sm font-normal text-accent no-underline
@@ -92,7 +97,7 @@ export default async function CompassHomePage() {
                 What our team is saying
               </h2>
               <Link
-                href="/compass/insights"
+                href="/blog"
                 className="
                   inline-flex items-center gap-1.5
                   font-sans text-sm font-normal text-accent no-underline

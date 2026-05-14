@@ -6,15 +6,15 @@ export const alt = "Mantle Compass manual section";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-type Params = { manual: string; section: string };
+type Params = { slug: string; section: string };
 
 export default async function ManualSectionOG({
   params,
 }: {
   params: Promise<Params>;
 }) {
-  const { manual, section } = await params;
-  const loaded = await loadSection(manual, section);
+  const { slug, section } = await params;
+  const loaded = await loadSection(slug, section);
   if (!loaded) {
     return new ImageResponse(
       (

@@ -61,7 +61,7 @@ export function InsightShell({
         "
       >
         <article>
-          {/* Hero — matches `FrameworkShell` byte-for-byte so insight,
+          {/* Hero — matches `WorkflowShell` byte-for-byte so insight,
               method, and template detail pages all open with the same
               vertical rhythm. `pt-16 pb-12 md:pt-24 md:pb-14` clears
               the 64px sticky header with the same breathing room
@@ -71,13 +71,13 @@ export function InsightShell({
               share. */}
           <header className="relative pt-16 pb-12 md:pt-24 md:pb-14 max-[720px]:pt-12 max-[720px]:pb-8">
             <Link
-              href="/compass/insights"
+              href="/blog"
               aria-label="Back to Insights"
               className="no-underline"
             >
               <CompassPromptHeading text="Insights" color="accent" />
             </Link>
-            {/* Hero recipe shared with FrameworkShell + static
+            {/* Hero recipe shared with WorkflowShell + static
                 `.compass-hero` so methods, templates, insights, and
                 the static compass index pages all render the same
                 hero: 48px h1, font-medium, items-start at lg+. */}
@@ -99,7 +99,7 @@ export function InsightShell({
 
           {/* Author + publish date row — borders top/bottom, ~32px inner
               padding. `border-edge-high/60` matches the section-divider
-              opacity FrameworkShell uses on its article + meta strip
+              opacity WorkflowShell uses on its article + meta strip
               borders so insight, method, and template detail pages all
               render the same hairline weight. */}
           <section
@@ -151,7 +151,7 @@ export function InsightShell({
               right. Inline `gridTemplateColumns` because Tailwind v4's
               arbitrary-value parser was splitting the commas inside
               `minmax(...)` and emitting three column tracks instead of
-              two (same bug we hit on FrameworkShell). The responsive
+              two (same bug we hit on WorkflowShell). The responsive
               collapse to one column at ≤980px still rides on the
               Tailwind class with `!` so it overrides the inline
               style. */}

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 /**
  * `<Chips>` — a compact two-column grid of label chips. Used inside
- * `.framework-content` for "Expected outputs" / "Best used for" style
+ * `.workflow-content` for "Expected outputs" / "Best used for" style
  * lists where a vertical bullet list would feel too heavy. Each chip is
  * a single-line label with a subtle border + neutral fill, sized to
  * read as scannable metadata rather than prose.

@@ -12,7 +12,7 @@ import { CARD_ACCENT_VAR_CLASS, CARD_PILL_CLASS } from "../../lib/card-accents";
  * (kicker / title / summary / arrow link).
  *
  * Intentionally different from `<ManualCoverGrid>` (which lives on
- * `/compass/manuals`): grid uses portrait 320×440 cover posters in
+ * `/manuals`): grid uses portrait 320×440 cover posters in
  * a 4-column grid; row list uses landscape media with editorial
  * description copy beside it. Two presentations of the same data
  * for two surfaces with different jobs.
@@ -87,7 +87,7 @@ function ManualRow({
         }}
       >
         {/* Dot/cross grid texture overlay — same recipe as the
-            cover cards on `/compass/manuals`, keeps the visual
+            cover cards on `/manuals`, keeps the visual
             family consistent. */}
         <span
           aria-hidden

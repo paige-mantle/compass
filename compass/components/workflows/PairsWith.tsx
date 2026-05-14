@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 /**
  * "Pairs well with" — a lightweight grid of related Compass frameworks
  * that complement the current one in a workflow. Renders inside the
- * .framework-content body and is styled by .framework-pairs in
+ * .workflow-content body and is styled by .framework-pairs in
  * compass-content.css.
  *
  * Use in MDX with children-based API (more reliable across MDX versions
@@ -31,7 +31,7 @@ export function PairItem({
 }) {
   return (
     <li>
-      <Link href={`/compass/methods/${slug}`}>
+      <Link href={`/workflows/${slug}`}>
         <span className="framework-pairs-eyebrow">Framework</span>
         <span className="framework-pairs-title">{title}</span>
         {summary ? (

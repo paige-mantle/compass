@@ -3,13 +3,13 @@ import path from "node:path";
 import matter from "gray-matter";
 
 // Reads from `compass/content/methods/` — directory renamed from
-// `frameworks/` to match the `/compass/methods/[slug]` URL. The
-// exported TypeScript types (`FrameworkMeta`, `FrameworkFrontmatter`,
-// `FrameworkCodeBlock`) keep their `Framework*` names for now to
+// `frameworks/` to match the `/workflows/[slug]` URL. The
+// exported TypeScript types (`WorkflowMeta`, `WorkflowFrontmatter`,
+// `WorkflowCodeBlock`) keep their `Framework*` names for now to
 // avoid a breaking churn across every consumer; filesystem only.
 const CONTENT_ROOT = path.join(process.cwd(), "compass", "content", "methods");
 
-export type FrameworkCodeBlock = {
+export type WorkflowCodeBlock = {
   filename: string;
   language: string;
   code: string;
@@ -20,12 +20,12 @@ export type FrameworkCodeBlock = {
     is optional — when absent, the row renders as a static placeholder
     (e.g. "Product screenshots", "Internal notes" that the user fills in
     themselves before running the prompt). */
-export type FrameworkRecommendedResource = {
+export type WorkflowRecommendedResource = {
   label: string;
   url?: string;
 };
 
-export type FrameworkFrontmatter = {
+export type WorkflowFrontmatter = {
   title: string;
   slug: string;
   summary: string;
@@ -48,7 +48,7 @@ export type FrameworkFrontmatter = {
     | "graphite"
     | "gray";
   tags?: string[];
-  codeBlocks?: FrameworkCodeBlock[];
+  codeBlocks?: WorkflowCodeBlock[];
   published?: boolean;
   /** Human-readable last-updated date, e.g. "May 11, 2026". */
   lastUpdated?: string;
@@ -74,22 +74,22 @@ export type FrameworkFrontmatter = {
   };
   /** Right-rail "Recommended resources" block — quick-reference list of
       docs/URLs the prompt expects. */
-  recommendedResources?: FrameworkRecommendedResource[];
+  recommendedResources?: WorkflowRecommendedResource[];
   /** Right-rail "Expected outputs" block — bullet list of artifacts the
       method generates. */
   outputs?: string[];
 };
 
-export type FrameworkMeta = FrameworkFrontmatter & {
+export type WorkflowMeta = WorkflowFrontmatter & {
   file: string;
 };
 
-export type LoadedFramework = {
-  meta: FrameworkMeta;
+export type LoadedWorkflow = {
+  meta: WorkflowMeta;
   source: string;
 };
 
-export async function listFrameworks(): Promise<FrameworkMeta[]> {
+export async function listWorkflows(): Promise<WorkflowMeta[]> {
   let entries: string[];
   try {
     entries = await fs.readdir(CONTENT_ROOT);
@@ -97,11 +97,11 @@ export async function listFrameworks(): Promise<FrameworkMeta[]> {
     return [];
   }
   const files = entries.filter((f) => f.endsWith(".mdx"));
-  const items: FrameworkMeta[] = [];
+  const items: WorkflowMeta[] = [];
   for (const file of files) {
     const raw = await fs.readFile(path.join(CONTENT_ROOT, file), "utf8");
     const { data } = matter(raw);
-    const fm = data as FrameworkFrontmatter;
+    const fm = data as WorkflowFrontmatter;
     if (fm.published === false) continue;
     items.push({ ...fm, file });
   }
@@ -109,10 +109,10 @@ export async function listFrameworks(): Promise<FrameworkMeta[]> {
   return items;
 }
 
-export async function loadFramework(
+export async function loadWorkflow(
   slug: string
-): Promise<LoadedFramework | null> {
-  const items = await listFrameworks();
+): Promise<LoadedWorkflow | null> {
+  const items = await listWorkflows();
   const meta = items.find((i) => i.slug === slug);
   if (!meta) return null;
   const raw = await fs.readFile(path.join(CONTENT_ROOT, meta.file), "utf8");

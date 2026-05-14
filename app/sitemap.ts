@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { listFrameworks } from "@/compass/lib/methods/content";
+import { listWorkflows } from "@/compass/lib/workflows/content";
 import { listInsights } from "@/compass/lib/insights/content";
 import { getManualManifest, listManuals } from "@/compass/lib/manuals/content";
 import { listTemplates } from "@/compass/lib/templates/content";
@@ -24,10 +24,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${SITE_ORIGIN}/compass`,           lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
-    { url: `${SITE_ORIGIN}/compass/manuals`,   lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
-    { url: `${SITE_ORIGIN}/compass/methods`,   lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
+    { url: `${SITE_ORIGIN}/manuals`,   lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
+    { url: `${SITE_ORIGIN}/workflows`,   lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
     { url: `${SITE_ORIGIN}/templates`,         lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
-    { url: `${SITE_ORIGIN}/compass/insights`,  lastModified: now, changeFrequency: "weekly",  priority: 0.7 },
+    { url: `${SITE_ORIGIN}/blog`,  lastModified: now, changeFrequency: "weekly",  priority: 0.7 },
   ];
 
   const manualSlugs = await listManuals();
@@ -36,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const manifest = await getManualManifest(slug);
     if (!manifest) continue;
     manualEntries.push({
-      url: `${SITE_ORIGIN}/compass/${slug}`,
+      url: `${SITE_ORIGIN}/manuals/${slug}`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -44,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const section of manifest.sections) {
       if (!section.slug) continue;
       manualEntries.push({
-        url: `${SITE_ORIGIN}/compass/${slug}/${section.slug}`,
+        url: `${SITE_ORIGIN}/manuals/${slug}/${section.slug}`,
         lastModified: now,
         changeFrequency: "monthly",
         priority: 0.7,
@@ -54,9 +54,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Method (formerly framework) detail pages — pulled dynamically
   // from disk so new methods land in the sitemap without an edit.
-  const methods = await listFrameworks();
+  const methods = await listWorkflows();
   const methodEntries: MetadataRoute.Sitemap = methods.map((m) => ({
-    url: `${SITE_ORIGIN}/compass/methods/${m.slug}`,
+    url: `${SITE_ORIGIN}/workflows/${m.slug}`,
     lastModified: m.lastUpdated ? new Date(m.lastUpdated) : now,
     changeFrequency: "monthly",
     priority: 0.7,
@@ -64,7 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const insights = await listInsights();
   const insightEntries: MetadataRoute.Sitemap = insights.map((i) => ({
-    url: `${SITE_ORIGIN}/compass/insights/${i.slug}`,
+    url: `${SITE_ORIGIN}/blog/${i.slug}`,
     lastModified: new Date(i.date),
     changeFrequency: "yearly",
     priority: 0.7,

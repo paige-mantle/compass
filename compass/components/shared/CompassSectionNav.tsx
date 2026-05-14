@@ -39,10 +39,13 @@ export type SectionNavItem = {
 };
 
 const DEFAULT_ITEMS: SectionNavItem[] = [
-  { href: "/compass/manuals", label: "Manuals", count: 7 },
-  { href: "/compass/methods", label: "Methods", count: 7 },
+  { href: "/manuals", label: "Manuals", count: 7 },
   { href: "/templates", label: "Templates", count: 2 },
-  { href: "/compass/insights", label: "Insights", count: 2 },
+  /* Section was renamed Frameworks → Methods → Workflows. Public
+     label is "Workflows"; route + collection are `/workflows`. */
+  { href: "/workflows", label: "Workflows", count: 5 },
+  /* Insights keeps its nav label but the public route is `/blog`. */
+  { href: "/blog", label: "Insights", count: 2 },
 ];
 
 export function CompassSectionNav({

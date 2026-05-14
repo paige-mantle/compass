@@ -1,6 +1,6 @@
 {
-  "slug": "foundation",
-  "title": "Foundation",
+  "slug": "clarity",
+  "title": "Clarity",
   "number": "0",
   "accent": "#FFBB53",
   "heroVariant": "light",
@@ -9,7 +9,7 @@
       "slug": "",
       "title": "Overview",
       "isIntro": true,
-      "file": "00-foundation.mdx"
+      "file": "00-clarity.mdx"
     },
     {
       "slug": "what-changed",

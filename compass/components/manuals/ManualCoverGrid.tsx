@@ -4,7 +4,7 @@ import type { ManualCoverEntry } from "../../lib/manuals/content";
 import { CARD_ACCENT_VAR_CLASS, CARD_PILL_CLASS } from "../../lib/card-accents";
 
 /**
- * Manual cover grid — the visual centerpiece of /compass/manuals.
+ * Manual cover grid — the visual centerpiece of /manuals.
  * Each cover is a 320 × 440 portrait poster on a dark `--cover-canvas`
  * surface with white-noise grain, full-bleed SVG art in the top 75%,
  * a hairline divider, and a numeral + title label at the bottom.

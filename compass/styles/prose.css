@@ -8,8 +8,8 @@
    each shell:
 
      • `.manual-section`    — ManualShell
-     • `.framework-content` — FrameworkShell (also gets .insight-content)
-     • `.insight-content`   — InsightShell, FrameworkShell
+     • `.workflow-content` — WorkflowShell (also gets .insight-content)
+     • `.insight-content`   — InsightShell, WorkflowShell
 
    Tables are included in this file because they're MDX-rendered
    prose elements — same editorial rhythm as paragraphs / headings.
@@ -27,7 +27,7 @@
    ────────────────────────────────────────────────────────────── */
 @layer components {
   .manual-section,
-  .framework-content,
+  .workflow-content,
   .insight-content {
     font-family: var(--font-sans);
     font-size: var(--text-md);
@@ -40,8 +40,8 @@
      keeps the editorial feel without rendering as thin ribbons. */
   .manual-section h1, .manual-section h2, .manual-section h3,
   .manual-section h4, .manual-section h5, .manual-section h6,
-  .framework-content h1, .framework-content h2, .framework-content h3,
-  .framework-content h4, .framework-content h5, .framework-content h6,
+  .workflow-content h1, .workflow-content h2, .workflow-content h3,
+  .workflow-content h4, .workflow-content h5, .workflow-content h6,
   .insight-content h1, .insight-content h2, .insight-content h3,
   .insight-content h4, .insight-content h5, .insight-content h6 {
     font-family: var(--font-heading);
@@ -51,43 +51,43 @@
     max-width: none;
   }
 
-  .manual-section h1, .framework-content h1, .insight-content h1 {
+  .manual-section h1, .workflow-content h1, .insight-content h1 {
     font-size: var(--text-6xl);
     line-height: var(--leading-tightest);
     margin: 0 0 18px;
   }
-  .manual-section h2, .framework-content h2, .insight-content h2 {
+  .manual-section h2, .workflow-content h2, .insight-content h2 {
     font-size: var(--text-2xl);
     line-height: 1.25;
     margin: 48px 0 14px;
     scroll-margin-top: 90px;
   }
-  .manual-section h3, .framework-content h3, .insight-content h3 {
+  .manual-section h3, .workflow-content h3, .insight-content h3 {
     font-size: var(--text-md);
     font-weight: 600;
     line-height: var(--leading-tight);
     margin: 28px 0 8px;
     scroll-margin-top: 90px;
   }
-  .manual-section h4, .framework-content h4, .insight-content h4 {
+  .manual-section h4, .workflow-content h4, .insight-content h4 {
     font-size: var(--text-sm);
     font-weight: 600;
     margin: 20px 0 6px;
   }
 
-  .manual-section p, .framework-content p, .insight-content p {
+  .manual-section p, .workflow-content p, .insight-content p {
     font-size: var(--text-md);
     line-height: var(--leading-looser);
     margin: 0 0 1.25em;
   }
   .manual-section ul, .manual-section ol,
-  .framework-content ul, .framework-content ol,
+  .workflow-content ul, .workflow-content ol,
   .insight-content ul, .insight-content ol {
     font-size: var(--text-md);
     line-height: var(--leading-looser);
   }
   .manual-section ul li, .manual-section ol li,
-  .framework-content ul li, .framework-content ol li,
+  .workflow-content ul li, .workflow-content ol li,
   .insight-content ul li, .insight-content ol li {
     font-size: var(--text-md);
     line-height: 1.35;
@@ -112,7 +112,7 @@
   }
 
   /* Inline links — deep ink + 30% underline, hover deepens to full. */
-  .manual-section a, .framework-content a, .insight-content a {
+  .manual-section a, .workflow-content a, .insight-content a {
     color: var(--color-fg-high);
     text-decoration: underline;
     text-decoration-color: rgba(17, 15, 20, 0.3);
@@ -120,54 +120,54 @@
     text-underline-offset: 3px;
     transition: text-decoration-color 0.15s ease;
   }
-  .manual-section a:hover, .framework-content a:hover, .insight-content a:hover {
+  .manual-section a:hover, .workflow-content a:hover, .insight-content a:hover {
     text-decoration-color: var(--color-fg-high);
   }
 
-  .framework-content strong, .insight-content strong {
+  .workflow-content strong, .insight-content strong {
     color: var(--color-fg-high);
     font-weight: 600;
   }
-  .framework-content em, .insight-content em {
+  .workflow-content em, .insight-content em {
     color: var(--color-fg-high);
     font-style: italic;
   }
-  .framework-content blockquote, .insight-content blockquote {
+  .workflow-content blockquote, .insight-content blockquote {
     margin: 1.6em 0;
     padding: 0 0 0 24px;
     border-left: 2px solid var(--color-accent-high);
     color: var(--color-fg-high);
   }
-  .manual-section hr, .framework-content hr, .insight-content hr {
+  .manual-section hr, .workflow-content hr, .insight-content hr {
     border: none;
     border-top: 1px solid var(--color-edge-high);
     margin: 3em 0;
   }
 
   /* ── Framework editorial refinements ───────────────────────── */
-  .framework-content {
+  .workflow-content {
     font-size: var(--text-md);
     line-height: 1.55;
     color: var(--color-fg-high);
   }
-  .framework-content p {
+  .workflow-content p {
     font-size: var(--text-md);
     line-height: 1.55;
     margin: 0 0 16px;
     max-width: 58ch;
   }
-  .framework-content h2 {
+  .workflow-content h2 {
     margin: 24px 0 14px;
     padding: 0;
     border: 0;
     font-weight: 500;
     letter-spacing: -0.015em;
   }
-  .framework-content > h2:first-child,
-  .framework-content > *:first-child + h2 {
+  .workflow-content > h2:first-child,
+  .workflow-content > *:first-child + h2 {
     margin-top: 0;
   }
-  .framework-content h3 {
+  .workflow-content h3 {
     margin: 20px 0 8px;
     font-size: var(--text-sm);
     font-weight: 600;
@@ -176,7 +176,7 @@
   }
 
   /* Micro-label — uppercase mono eyebrow inside framework content */
-  .framework-content .framework-microlabel,
+  .workflow-content .framework-microlabel,
   .framework-microlabel {
     display: block;
     margin: 0 0 8px;
@@ -188,18 +188,18 @@
     color: var(--color-fg-low);
   }
 
-  .framework-content ul, .framework-content ol {
+  .workflow-content ul, .workflow-content ol {
     margin: 0 0 20px;
     padding: 0 0 0 22px;
   }
-  .framework-content ul { list-style: disc outside; }
-  .framework-content ol { list-style: decimal outside; }
-  .framework-content ul li, .framework-content ol li {
+  .workflow-content ul { list-style: disc outside; }
+  .workflow-content ol { list-style: decimal outside; }
+  .workflow-content ul li, .workflow-content ol li {
     padding: 1px 0;
     font-size: var(--text-md);
     line-height: 1.35;
   }
-  .framework-content ul li::marker, .framework-content ol li::marker {
+  .workflow-content ul li::marker, .workflow-content ol li::marker {
     color: var(--color-fg-low);
   }
 
@@ -257,7 +257,7 @@
     padding: 0;
     list-style: none;
   }
-  .framework-content .framework-chips li,
+  .workflow-content .framework-chips li,
   .insight-content .framework-chips li,
   .manual-section .framework-chips li {
     margin: 0;
@@ -274,7 +274,7 @@
   .framework-chips li::marker { content: none; }
 
   /* `<p className="framework-flow">` — inline labeled flow */
-  .framework-content .framework-flow {
+  .workflow-content .framework-flow {
     display: flex; flex-wrap: wrap; align-items: center;
     gap: 10px 14px; margin: 12px 0 24px; padding: 0;
     font-family: var(--font-sans);
@@ -283,22 +283,22 @@
     color: var(--color-fg-high);
     max-width: none;
   }
-  .framework-content .framework-flow > span {
+  .workflow-content .framework-flow > span {
     display: inline-flex; align-items: center;
   }
-  .framework-content .framework-flow > span:not([aria-hidden]) {
+  .workflow-content .framework-flow > span:not([aria-hidden]) {
     padding: 6px 12px;
     border: 1px solid var(--color-edge-medium);
     border-radius: 6px;
     background: rgba(94, 92, 90, 0.02);
     font-weight: 500;
   }
-  .framework-content .framework-flow > span[aria-hidden] {
+  .workflow-content .framework-flow > span[aria-hidden] {
     color: var(--color-fg-low);
     font-size: 16px;
   }
 
-  .framework-content code, .insight-content code {
+  .workflow-content code, .insight-content code {
     font-family: var(--font-mono);
     font-size: 0.9em;
     background: var(--color-surface-higher);
@@ -367,16 +367,16 @@
   }
 
   @media (max-width: 860px) {
-    .manual-section h1, .framework-content h1, .insight-content h1 {
+    .manual-section h1, .workflow-content h1, .insight-content h1 {
       font-size: var(--text-4xl);
     }
-    .manual-section h2, .framework-content h2, .insight-content h2 {
+    .manual-section h2, .workflow-content h2, .insight-content h2 {
       font-size: var(--text-2xl);
       margin: 36px 0 12px;
     }
-    .manual-section h3, .framework-content h3, .insight-content h3 {
+    .manual-section h3, .workflow-content h3, .insight-content h3 {
       font-size: 16px;
     }
-    .framework-content h2 { margin: 24px 0 14px; }
+    .workflow-content h2 { margin: 24px 0 14px; }
   }
 }

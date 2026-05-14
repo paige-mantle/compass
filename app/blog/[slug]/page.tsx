@@ -21,7 +21,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const loaded = await loadInsight(slug);
   if (!loaded) return {};
-  const path = `/compass/insights/${slug}`;
+  const path = `/blog/${slug}`;
   return {
     title: loaded.meta.title,
     description: loaded.meta.summary,
@@ -54,7 +54,7 @@ export default async function InsightPage({
   /* All JSON-LD URLs resolve through `SITE_ORIGIN` (heymantle.com).
      Was hardcoded to the preview deploy — leaked into every social
      share + Google indexing. */
-  const url = `${SITE_ORIGIN}/compass/insights/${slug}`;
+  const url = `${SITE_ORIGIN}/blog/${slug}`;
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -77,7 +77,7 @@ export default async function InsightPage({
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Mantle Compass", item: `${SITE_ORIGIN}/compass` },
-      { "@type": "ListItem", position: 2, name: "Insights", item: `${SITE_ORIGIN}/compass/insights` },
+      { "@type": "ListItem", position: 2, name: "Insights", item: `${SITE_ORIGIN}/blog` },
       { "@type": "ListItem", position: 3, name: loaded.meta.title, item: url },
     ],
   };

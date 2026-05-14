@@ -1,16 +1,16 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { FrameworkShell } from "@/compass/components/methods/FrameworkShell";
-import { PairsWith, PairItem } from "@/compass/components/methods/PairsWith";
+import { WorkflowShell } from "@/compass/components/workflows/WorkflowShell";
+import { PairsWith, PairItem } from "@/compass/components/workflows/PairsWith";
 import { listTemplates, loadTemplate } from "@/compass/lib/templates/content";
-import type { FrameworkMeta } from "@/compass/lib/methods/content";
+import type { WorkflowMeta } from "@/compass/lib/workflows/content";
 
-// Template detail pages reuse `FrameworkShell` exactly so the
+// Template detail pages reuse `WorkflowShell` exactly so the
 // layout, typography, sticky right rail, share controls, meta
 // strip, and prev/next nav stay byte-for-byte consistent between
-// `/compass/methods/[slug]` and `/templates/[slug]`. We adapt
-// the template frontmatter into the `FrameworkMeta` shape the
+// `/workflows/[slug]` and `/templates/[slug]`. We adapt
+// the template frontmatter into the `WorkflowMeta` shape the
 // shell expects.
 
 const templateMdxComponents = {
@@ -64,12 +64,12 @@ export default async function TemplatePage({
 
   const url = `https://heymantle.com/templates/${slug}`;
 
-  // Adapt TemplateMeta → FrameworkMeta. Only the field names that
+  // Adapt TemplateMeta → WorkflowMeta. Only the field names that
   // differ between the two systems need mapping (`description` →
   // `summary`); the rest pass through verbatim. The shell uses:
   // title, summary, tags, author, authorRole, authorAvatar,
   // codeBlocks, lastUpdated.
-  const shellMeta: FrameworkMeta = {
+  const shellMeta: WorkflowMeta = {
     title: loaded.meta.title,
     slug: loaded.meta.slug,
     summary: loaded.meta.description,
@@ -80,7 +80,7 @@ export default async function TemplatePage({
     blockColor: loaded.meta.blockColor,
     tags: loaded.meta.tags,
     // Templates use the same "Works with" tag pills as Methods.
-    // Cast through to the FrameworkMeta `tools` field so the shell
+    // Cast through to the WorkflowMeta `tools` field so the shell
     // renders the row above the body content.
     tools: loaded.meta.tools as string[] | undefined,
     codeBlocks: loaded.meta.codeBlocks,
@@ -123,7 +123,7 @@ export default async function TemplatePage({
   };
 
   return (
-    <FrameworkShell
+    <WorkflowShell
       meta={shellMeta}
       shareUrl={url}
       backHref="/templates"
@@ -143,6 +143,6 @@ export default async function TemplatePage({
         components={templateMdxComponents}
         options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
       />
-    </FrameworkShell>
+    </WorkflowShell>
   );
 }

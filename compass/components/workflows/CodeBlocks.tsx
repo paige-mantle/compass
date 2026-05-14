@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useRef, useState } from "react";
-import type { FrameworkCodeBlock } from "../../lib/methods/content";
+import type { WorkflowCodeBlock } from "../../lib/workflows/content";
 
 /**
  * Split a line into plain segments and [PLACEHOLDER] segments so we can
@@ -30,7 +30,7 @@ function renderLine(line: string) {
   );
 }
 
-export function CodeBlocks({ blocks }: { blocks: FrameworkCodeBlock[] }) {
+export function CodeBlocks({ blocks }: { blocks: WorkflowCodeBlock[] }) {
   if (blocks.length === 0) return null;
   return (
     // Every block is always shown — no accordion. They stack with a
@@ -44,7 +44,7 @@ export function CodeBlocks({ blocks }: { blocks: FrameworkCodeBlock[] }) {
   );
 }
 
-function CodeCard({ block }: { block: FrameworkCodeBlock }) {
+function CodeCard({ block }: { block: WorkflowCodeBlock }) {
   const [copied, setCopied] = useState(false);
   // Live prompt text — the contentEditable `<code>` element is the
   // source of truth at edit time, but we keep a ref so the Copy

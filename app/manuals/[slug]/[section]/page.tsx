@@ -13,7 +13,7 @@ import {
   buildSectionMetadata,
 } from "@/compass/lib/seo";
 
-type Params = { manual: string; section: string };
+type Params = { slug: string; section: string };
 
 export async function generateStaticParams() {
   const slugs = await listManuals();
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
     if (!manifest) continue;
     for (const s of manifest.sections) {
       if (!s.slug) continue; // intro is handled by /[manual]/page.tsx
-      all.push({ manual, section: s.slug });
+      all.push({ slug: manual, section: s.slug });
     }
   }
   return all;
@@ -34,8 +34,8 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }) {
-  const { manual, section } = await params;
-  const loaded = await loadSection(manual, section);
+  const { slug, section } = await params;
+  const loaded = await loadSection(slug, section);
   if (!loaded) return {};
   return buildSectionMetadata(loaded);
 }
@@ -45,8 +45,8 @@ export default async function ManualSectionPage({
 }: {
   params: Promise<Params>;
 }) {
-  const { manual, section } = await params;
-  const loaded = await loadSection(manual, section);
+  const { slug, section } = await params;
+  const loaded = await loadSection(slug, section);
   if (!loaded) notFound();
 
   const [articleLd, breadcrumbLd] = buildSectionJsonLd(loaded);
