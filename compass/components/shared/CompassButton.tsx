@@ -97,13 +97,20 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   large: "h-10 rounded-2xl",
 };
 
+/* Tone recipes — byte-for-byte match of Mantle Button.astro
+   `variants.tone`. Primary / insight / secondary intentionally
+   carry NO border (the filled background is the only edge).
+   Explicit `hover:text-*` is added on top of the canonical recipe
+   because compass-base.css `a:hover { color: var(--gold) }` was
+   bleeding gold/purple text into buttons rendered as `<a href>`
+   (especially on manual pages where `--gold` = manifest accent). */
 const TONE_CLASSES = {
   primary:
-    "bg-accent-medium hover:bg-accent-low text-black border border-accent-medium hover:border-accent-low",
+    "bg-accent-medium hover:bg-accent-low text-black hover:text-black",
   insight:
-    "bg-accent-alt-medium hover:bg-accent-alt-low text-white border border-accent-alt-medium hover:border-accent-alt-low",
+    "bg-accent-alt-medium hover:bg-accent-alt-low text-white hover:text-white",
   secondary:
-    "bg-fg-high text-surface-lower border border-fg-high",
+    "bg-fg-high text-surface-lower hover:text-surface-lower",
   outline:
     "bg-transparent border border-fg-lower/70 text-fg-high hover:border-transparent hover:bg-fg-high hover:text-surface-lower",
 } as const;
@@ -173,10 +180,13 @@ export function CompassButton({
     ? (Lucide as unknown as Record<string, React.ComponentType<{ size?: number; color?: string; strokeWidth?: number; className?: string; "aria-hidden"?: boolean }>>)[iconName] ?? null
     : null;
 
+  // Base class string — byte-for-byte match of Mantle Button.astro
+  // `tv({ base: ... })`. `no-underline!` carries `!important` so it
+  // beats any global `a:hover` underline rule when Tag is `<a>`.
   const classes = [
-    "group inline-flex items-center text-xs transition-colors cursor-pointer",
-    "no-underline font-medium leading-none text-center whitespace-nowrap",
-    "gap-x-[var(--button-icon-gap)]",
+    "inline-flex items-center text-xs transition-colors cursor-pointer",
+    "no-underline! font-medium leading-none text-center",
+    "gap-x-[var(--button-icon-gap)] whitespace-nowrap",
     fullWidth ? "w-full" : "",
     SIZE_CLASSES[size],
     TONE_CLASSES[tone],

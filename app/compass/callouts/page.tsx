@@ -19,15 +19,19 @@ export default function CalloutsPreviewPage() {
   return (
     <>
       {/* Manual blocks (Callout/FAQ/Checklist/...) are styled inside the
-          `.manual-section` scope by /public/manuals/.../manual.css, which is
-          loaded by app/manuals/layout.tsx. This page sits outside that
-          layout, so we pull the same stylesheets in directly. */}
-      <link
-        rel="stylesheet"
-        href="/manuals/get-to-real-demand/manual-base.css"
-      />
-      <link rel="stylesheet" href="/manuals/get-to-real-demand/manual.css" />
-      <link rel="stylesheet" href="/compass-content.css" />
+          `.manual-section` scope. Pull the canonical compass-manual-*
+          stylesheets directly so this design-system demo page sees the
+          same rules as the real manual chapters. (Originally loaded
+          from `/manuals/get-to-real-demand/` but those files are now
+          deleted; the canonical copies live at the /public root.) */}
+      {/* eslint-disable-next-line @next/next/no-css-tags */}
+      <link rel="stylesheet" href="/compass-manual-base.css" />
+      {/* eslint-disable-next-line @next/next/no-css-tags */}
+      <link rel="stylesheet" href="/compass-manual.css" />
+      {/* Callout rules live in `app/globals.css` `@layer components`
+          (loaded automatically with the Tailwind v4 bundle) — see the
+          Manual callouts block. No standalone callouts stylesheet
+          anymore. */}
 
       <main
         style={{
@@ -42,7 +46,7 @@ export default function CalloutsPreviewPage() {
           <p className="callouts-demo-eyebrow">Preview · Manual building blocks</p>
           <h1
             style={{
-              fontFamily: "var(--font-display, 'Geist Pixel Square')",
+              fontFamily: "var(--font-display, 'Geist Pixel Line')",
               fontSize: 54,
               fontWeight: 400,
               letterSpacing: "-0.025em",
@@ -64,7 +68,7 @@ export default function CalloutsPreviewPage() {
         {/* ═══════════════════════════════════════════════════════════════
             PART 1 — The 5 new callouts, in editorial flow
             ═══════════════════════════════════════════════════════════ */}
-        <section style={{ marginBottom: 80 }}>
+        <section className="manual-section" style={{ marginBottom: 80, maxWidth: "none" }}>
           <SectionLabel>Part 1 · Semantic callouts</SectionLabel>
 
           <article className="callouts-demo">
@@ -75,12 +79,20 @@ export default function CalloutsPreviewPage() {
               yet a founder.
             </p>
 
-            <FieldNote>
-              <p>
-                A polished sidebar has emotionally manipulated a lot of people
-                into thinking they had product-market fit.
-              </p>
-            </FieldNote>
+            {/* Each callout is wrapped in an accent-* class so it picks
+                up its chapter's cover-series ink via `--gold`. Real
+                manuals get their accent from `manifest.accent` on the
+                `.manual-shell` scope; the demo cycles the palette so
+                every callout family renders in a different chapter
+                color. */}
+            <div className="accent-foundation">
+              <FieldNote>
+                <p>
+                  A polished sidebar has emotionally manipulated a lot of
+                  people into thinking they had product-market fit.
+                </p>
+              </FieldNote>
+            </div>
 
             <p>
               The shipping cadence is impressive, the screens look great, the
@@ -88,48 +100,54 @@ export default function CalloutsPreviewPage() {
               the product earns revenue.
             </p>
 
-            <RealityCheck>
-              <p>
-                Building an app and building a business aren't the same job.
-              </p>
-            </RealityCheck>
+            <div className="accent-shape">
+              <RealityCheck>
+                <p>
+                  Building an app and building a business aren't the same job.
+                </p>
+              </RealityCheck>
+            </div>
 
             <p>
               Once you accept that, the next question is what to do differently
               on Monday. The honest answer is rarely "write more code."
             </p>
 
-            <CommonFailure>
-              <p>
-                Founders launch with short trials because they want faster
-                conversion numbers, but the actual setup takes longer than the
-                trial itself. The users who would have paid never get far enough
-                to see the value.
-              </p>
-            </CommonFailure>
+            <div className="accent-build">
+              <CommonFailure>
+                <p>
+                  Founders launch with short trials because they want faster
+                  conversion numbers, but the actual setup takes longer than
+                  the trial itself. The users who would have paid never get
+                  far enough to see the value.
+                </p>
+              </CommonFailure>
+            </div>
 
             <p>
               Most of this manual is about taking those patterns seriously and
               choosing, deliberately, which one you're not going to repeat.
             </p>
 
-            <DecisionPoint>
-              <div>
-                <h4>Fit your life around the company</h4>
-                <p>
-                  Move fast, raise capital, optimize for outcome. Decisions get
-                  made by the calendar — a launch, a round, a hire.
-                </p>
-              </div>
-              <div>
-                <h4>Fit the company around your life</h4>
-                <p>
-                  Move at your pace, fund from revenue, optimize for ownership.
-                  Decisions get made by the constraint — your time, your
-                  energy.
-                </p>
-              </div>
-            </DecisionPoint>
+            <div className="accent-launch">
+              <DecisionPoint>
+                <div>
+                  <h4>Fit your life around the company</h4>
+                  <p>
+                    Move fast, raise capital, optimize for outcome. Decisions
+                    get made by the calendar — a launch, a round, a hire.
+                  </p>
+                </div>
+                <div>
+                  <h4>Fit the company around your life</h4>
+                  <p>
+                    Move at your pace, fund from revenue, optimize for
+                    ownership. Decisions get made by the constraint — your
+                    time, your energy.
+                  </p>
+                </div>
+              </DecisionPoint>
+            </div>
 
             <p>
               Whichever path you pick, the more important move is the one
@@ -137,22 +155,24 @@ export default function CalloutsPreviewPage() {
               trying to produce.
             </p>
 
-            <FounderShift>
-              <div>
-                <h4>Builder mode</h4>
-                <p>
-                  Ship the next thing. Measure progress in commits, features,
-                  demo polish.
-                </p>
-              </div>
-              <div>
-                <h4>Founder mode</h4>
-                <p>
-                  Earn the next dollar. Measure progress in customer
-                  conversations, revenue, retention.
-                </p>
-              </div>
-            </FounderShift>
+            <div className="accent-monetize">
+              <FounderShift>
+                <div>
+                  <h4>Builder mode</h4>
+                  <p>
+                    Ship the next thing. Measure progress in commits,
+                    features, demo polish.
+                  </p>
+                </div>
+                <div>
+                  <h4>Founder mode</h4>
+                  <p>
+                    Earn the next dollar. Measure progress in customer
+                    conversations, revenue, retention.
+                  </p>
+                </div>
+              </FounderShift>
+            </div>
           </article>
         </section>
 
@@ -179,13 +199,15 @@ export default function CalloutsPreviewPage() {
           </TLDR>
 
           <SubLabel>Callout (notion-callout)</SubLabel>
-          <Callout>
-            <p>
-              <strong>The hard part isn't shipping.</strong> AI made shipping
-              easy. The hard part is figuring out what actually matters before
-              you waste months building the wrong thing.
-            </p>
-          </Callout>
+          <div className="accent-grow">
+            <Callout>
+              <p>
+                <strong>The hard part isn't shipping.</strong> AI made shipping
+                easy. The hard part is figuring out what actually matters before
+                you waste months building the wrong thing.
+              </p>
+            </Callout>
+          </div>
 
           <SubLabel>Checklist</SubLabel>
           <Checklist>

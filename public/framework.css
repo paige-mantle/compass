@@ -42,7 +42,7 @@
   margin-bottom: 4px;
 }
 .framework-cta-card-title {
-  font-family: var(--font-head);
+  font-family: var(--font-heading);
   font-size: 28px;
   font-weight: 500;
   line-height: 1.15;

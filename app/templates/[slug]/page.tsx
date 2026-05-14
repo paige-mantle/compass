@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { FrameworkShell } from "@/compass/components/frameworks/FrameworkShell";
-import { PairsWith, PairItem } from "@/compass/components/frameworks/PairsWith";
+import { FrameworkShell } from "@/compass/components/methods/FrameworkShell";
+import { PairsWith, PairItem } from "@/compass/components/methods/PairsWith";
 import { listTemplates, loadTemplate } from "@/compass/lib/templates/content";
-import type { FrameworkMeta } from "@/compass/lib/frameworks/content";
+import type { FrameworkMeta } from "@/compass/lib/methods/content";
 
 // Template detail pages reuse `FrameworkShell` exactly so the
 // layout, typography, sticky right rail, share controls, meta
 // strip, and prev/next nav stay byte-for-byte consistent between
-// `/compass/frameworks/[slug]` and `/templates/[slug]`. We adapt
+// `/compass/methods/[slug]` and `/templates/[slug]`. We adapt
 // the template frontmatter into the `FrameworkMeta` shape the
 // shell expects.
 
@@ -62,7 +62,7 @@ export default async function TemplatePage({
   const loaded = await loadTemplate(slug);
   if (!loaded) notFound();
 
-  const url = `https://mantle-chi.vercel.app/templates/${slug}`;
+  const url = `https://heymantle.com/templates/${slug}`;
 
   // Adapt TemplateMeta → FrameworkMeta. Only the field names that
   // differ between the two systems need mapping (`description` →
@@ -79,10 +79,15 @@ export default async function TemplatePage({
     authorAvatar: loaded.meta.authorAvatar,
     blockColor: loaded.meta.blockColor,
     tags: loaded.meta.tags,
+    // Templates use the same "Works with" tag pills as Methods.
+    // Cast through to the FrameworkMeta `tools` field so the shell
+    // renders the row above the body content.
+    tools: loaded.meta.tools as string[] | undefined,
     codeBlocks: loaded.meta.codeBlocks,
     published: loaded.meta.published,
     lastUpdated: loaded.meta.lastUpdated,
     file: loaded.meta.file,
+    previewImage: loaded.meta.previewImage,
   };
 
   const articleLd = {
@@ -94,7 +99,7 @@ export default async function TemplatePage({
     publisher: {
       "@type": "Organization",
       name: "Mantle",
-      url: "https://mantle-chi.vercel.app",
+      url: "https://heymantle.com",
     },
     mainEntityOfPage: url,
   };
@@ -106,7 +111,7 @@ export default async function TemplatePage({
         "@type": "ListItem",
         position: 1,
         name: "Templates",
-        item: "https://mantle-chi.vercel.app/templates",
+        item: "https://heymantle.com/templates",
       },
       {
         "@type": "ListItem",

@@ -1,11 +1,11 @@
 /* ── Manual section overrides (shared) ── */
 
-/* Local pixel display face (Geist Pixel Square) — used for the manual
+/* Local pixel display face (Geist Pixel Line) — used for the manual
    hero title. Self-hosted from /public/fonts so we don't depend on a
    network webfont for the pixel rendering. */
 @font-face {
-  font-family: "Geist Pixel Square";
-  src: url("/fonts/GeistPixel-Square.otf") format("opentype");
+  font-family: "Geist Pixel Line";
+  src: url("/fonts/GeistPixel-Line.otf") format("opentype");
   font-weight: 100 900;
   font-display: swap;
 }
@@ -32,99 +32,7 @@
   left: 0;
   right: 0;
   z-index: 50;
-}
-/* The manual-shell margin-top below offsets content past the fixed
-   header. Sidebar already uses var(--header-h) for its own top. */
-
-/* Left sidebar: deep ink surface with light text. */
-.manual-sidebar {
-  background: #110F14;
-}
-.manual-sidebar a {
-  color: rgba(255, 255, 255, 0.7);
-  border-bottom-color: rgba(255, 255, 255, 0.10) !important;
-}
-.manual-sidebar-num {
-  color: rgba(255, 255, 255, 0.45);
-}
-.manual-sidebar a:hover {
-  color: #ffffff !important;
-  background: rgba(255, 255, 255, 0.04) !important;
-}
-.manual-sidebar a:hover .manual-sidebar-num {
-  color: rgba(255, 255, 255, 0.7);
-}
-.manual-sidebar a.active {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #ffffff !important;
-  border-left: 2px solid transparent !important;
-  font-weight: 400 !important;
-}
-.manual-sidebar a.active .manual-sidebar-title {
-  font-weight: 400 !important;
-}
-.manual-sidebar a.active .manual-sidebar-num {
-  color: #ffffff;
-}
-
-/* Hero band sits above the article body — content area inherits the
-   page surface (no own background). */
-.manual-content {
-  padding: 0;
-}
-.manual-hero {
-  background: #D7D7D5;
-  padding: 0;
-  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
-  position: relative;
-  overflow: hidden;
-}
-.manual-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.85;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05  0 0 0 0 0.04  0 0 0 0 0.03  0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  background-size: 320px 320px;
-}
-.manual-hero > * { position: relative; z-index: 1; }
-.manual-hero h1,
-.manual-hero-trail .current,
-.manual-hero-trail a { color: #ffffff !important; }
-.manual-hero-trail,
-.manual-hero-trail-sep { color: rgba(255, 255, 255, 0.75) !important; }
-.manual-hero-trail a:hover { color: #ffffff !important; }
-.manual-hero .manual-copy-link {
-  color: #ffffff;
-}
-.manual-hero .manual-copy-link:hover {
-  opacity: 0.7;
-}
-
-/* Light hero variant — flat accent fill (no radial overlay) with dark
-   text. The grain ::before still sits on top for paper texture. */
-.manual-hero--light {
-  background: #D7D7D5;
-}
-.manual-hero--light h1,
-.manual-hero--light .manual-hero-trail .current,
-.manual-hero--light .manual-hero-trail a { color: #110f14 !important; }
-.manual-hero--light .manual-hero-trail,
-.manual-hero--light .manual-hero-trail-sep { color: rgba(17, 15, 20, 0.65) !important; }
-.manual-hero--light .manual-hero-trail a:hover { color: #000000 !important; }
-.manual-hero--light .manual-copy-link {
-  color: #110f14;
-}
-.manual-hero--light .manual-copy-link:hover {
-  opacity: 0.7;
-}
-/* Single-column intro paragraph — sits inside .manual-section. */
-.manual-intro {
-  margin-bottom: 32px;
-}
-.manual-section .manual-intro p {
+}.manual-section .manual-intro p {
   font-family: "Geist", var(--font-body);
   font-size: 20px;
   font-weight: 400;
@@ -134,7 +42,11 @@
 }
 
 .manual-section {
-  padding: 40px 40px 40px;
+  /* Reduced bottom padding (was 40px, now 16px) so the prev/next
+     nav sits closer to the chapter body. The article flex column
+     above pushes the nav to the viewport bottom on short chapters;
+     this just trims the extra slack between body and nav. */
+  padding: 40px 40px 16px;
   max-width: 64ch;
   margin: 0 auto;
 }
@@ -278,52 +190,7 @@
   gap: 0;
   border-top: 1px solid rgba(94, 92, 90, 0.24);
   border-bottom: none;
-}
-
-/* Right-side content surface: no own bg or grain — the page-level
-   paper texture (applied to body) shows straight through. */
-.manual-content {
-  position: relative;
-  background-color: transparent;
-}
-
-/* Subscribe callout (lives in the dark sidebar) — light text, outlined
-   transparent input + button, ghost feel. */
-.manual-sidebar-subscribe {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-.manual-sidebar-subscribe-eyebrow {
-  color: var(--gold);
-}
-.manual-sidebar-subscribe-title {
-  color: #ffffff;
-}
-.manual-sidebar-subscribe-desc {
-  color: rgba(255, 255, 255, 0.70);
-}
-.manual-sidebar-subscribe-input {
-  background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.20) !important;
-  color: #ffffff !important;
-}
-.manual-sidebar-subscribe-input:focus {
-  border-color: var(--gold) !important;
-}
-.manual-sidebar-subscribe-input::placeholder {
-  color: rgba(255, 255, 255, 0.45) !important;
-}
-.manual-sidebar-subscribe-button {
-  background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.32) !important;
-  color: #ffffff !important;
-}
-.manual-sidebar-subscribe-button:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border-color: var(--gold) !important;
-  color: var(--gold) !important;
-}
-
-/* Buttons keep the brand gold (#FFC66E) — the per-manual purple is for
+}/* Buttons keep the brand gold (#FFC66E) — the per-manual purple is for
    accents, not CTAs. */
 .site-cta,
 .btn-primary,
@@ -363,15 +230,6 @@ body:has(.manual-shell) {
 
 /* Logo: bumped to 38px to match other Compass pages */
 .site-brand .site-logo { height: 38px; width: auto; }
-
-/* Hero: 40px on every side, structural divider below.
-   Page-wide grain (body::after) overlays this surface. */
-.manual-hero {
-  padding: 0;
-  background: #e7e7e7;
-  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
-}
-
 /* Force the manual page bg above globals.css's body background.
    Page-wide grain (body::after) still overlays this surface. */
 html body { background: #ffffff !important; position: relative; }
@@ -390,144 +248,7 @@ html body::before {
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   background-size: 240px 240px;
-}
-
-/* Sidebar nav: drop the top border so it flows from the hero divider */
-.manual-sidebar {
-  border-top: none !important;
-}
-
-/* Right content pane: transparent (page-level surface shows through) */
-.manual-content {
-  background: transparent;
-}
-
-/* Hero: trail row (manuals / [manual title]) on the left, copy-link on the right */
-.manual-hero-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 0;
-  padding: 0 40px;
-  height: 64px;
-  flex: none;
-  background: #ffffff;
-  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
-}
-.manual-hero-row-left {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-.manual-hero-trail {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #5E5C5A;
-  text-decoration: none;
-  transition: opacity var(--t-fast) var(--ease);
-}
-.manual-hero-trail:hover { opacity: 0.7; }
-/* H1 title band — two columns: title (with section number) on the
-   left, intro paragraph on the right. Both align to top. */
-.manual-hero-title {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: start;
-  gap: 40px;
-  margin: 0;
-  padding: 40px;
-}
-.manual-hero-title-main {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-}
-.manual-hero-intro {
-  font-family: "Geist", var(--font-body);
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.3;
-  color: #5E5C5A;
-  margin: 0;
-}
-.manual-hero .manual-hero-title h1 {
-  margin: 0;
-  line-height: 1;
-  font-size: 38px;
-  font-family: "Geist Pixel Square", var(--font-head);
-  font-weight: 400;
-  letter-spacing: 0;
-}
-.manual-hero-title-num {
-  font-family: "Geist Pixel Square", var(--font-head);
-  font-size: 36px;
-  font-weight: 400;
-  line-height: 1;
-  color: inherit;
-  opacity: 0.55;
-}
-.manual-hero-trail {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  min-width: 0;
-}
-.manual-hero-trail a {
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.15s var(--ease);
-}
-.manual-hero-trail a:hover { color: var(--text-primary); }
-.manual-hero-trail-sep {
-  color: var(--text-label);
-  opacity: 0.7;
-}
-.manual-hero-trail .current { color: var(--text-primary); }
-
-/* Breadcrumb — body font, white text, light separator */
-.manual-breadcrumb {
-  font-family: var(--font-body);
-  font-size: 16px;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--text-muted);
-  padding: 22px 32px;
-}
-.manual-breadcrumb a { color: var(--text-muted); }
-.manual-breadcrumb a:hover { color: var(--text-primary); }
-.manual-breadcrumb-sep {
-  color: var(--text-muted);
-  opacity: 0.6;
-  margin: 0 8px;
-}
-.manual-breadcrumb .current {
-  color: var(--text-primary);
-  font-weight: 400;
-}
-
-/* Breadcrumb row — split: trail on left, progress on right */
-.manual-breadcrumb {
-  justify-content: space-between;
-  flex-wrap: nowrap;
-}
-.manual-breadcrumb-trail {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  flex-wrap: wrap;
-  min-width: 0;
-}
-/* Copy link — uppercase mono utility, no underline. */
+}/* Copy link — uppercase mono utility, no underline. */
 .manual-copy-link {
   display: inline-flex;
   align-items: center;
@@ -574,68 +295,11 @@ html body::before {
   text-transform: uppercase;
   color: var(--text-muted);
   margin: -8px 0 24px;
-}
-
-/* Sidebar — hide label, add framed dividers */
-.manual-sidebar {
-  padding: 0;
-  border-top: 1px solid var(--border-soft);
-  border-bottom: 1px solid var(--border-soft);
-}
-.manual-sidebar-label {
-  display: none;
-}
-.manual-sidebar a {
-  display: flex;
-  gap: 10px;
-  align-items: baseline;
-  font-size: 15px;
-  padding: 12px 22px;
-  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
-  border-left: 2px solid transparent;
-}
-.manual-sidebar a:last-child {
-  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
-}
-.manual-sidebar-num {
-  font-family: var(--font-mono);
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: 0.04rem;
-  color: var(--text-muted);
-  flex: none;
-}
-.manual-sidebar a.active .manual-sidebar-num { color: var(--gold); }
-.manual-sidebar-title {
-  flex: 1;
-  font-size: 16px;
-}
-
-/* Layout — left nav is fixed (out of normal flow), so the grid is a
+}/* Layout — left nav is fixed (out of normal flow), so the grid is a
    single column shifted right by the sidebar width. Right column is
    the only scrollable surface (the page itself scrolls behind the
    pinned sidebar). */
-.manual-shell { overflow: visible; max-width: none; }
-.manual-layout {
-  display: block;
-  margin-left: 370px;
-}
-/* Left nav: fixed to the viewport so only the right column scrolls.
-   Pinned below the top header (var(--header-h)) and locked to full
-   viewport height; if the nav content overflows, the sidebar handles
-   its own internal scroll. */
-.manual-sidebar {
-  position: fixed;
-  top: 0;
-  left: 50px;
-  width: 320px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  border-radius: 0;
-}
-/* Vertical brand rail — sits at the very left edge. Mantle logo fills
+.manual-shell { overflow: visible; max-width: none; }/* Vertical brand rail — sits at the very left edge. Mantle logo fills
    the top square; vertical manual title runs beneath it. Background
    uses the per-manual accent (set on .manual-shell inline style as
    --gold from manifest.accent), so each manual's rail matches its
@@ -667,7 +331,7 @@ html body::before {
   object-fit: cover;
 }
 .manual-rail-text {
-  font-family: "Manrope", var(--font-head);
+  font-family: "Manrope", var(--font-heading);
   font-size: 22px;
   font-weight: 500;
   letter-spacing: -0.018em;
@@ -678,13 +342,6 @@ html body::before {
   white-space: nowrap;
   margin: 24px 0;
 }
-.manual-sidebar:first-child { border-top-left-radius: 0; }
-
-/* Right content section — no outer padding; hero and section handle their own spacing */
-.manual-content {
-  padding: 0;
-}
-
 /* Tables — light-mirror of Mantle global.css `.md table` recipe:
      .md table  → w-full border rounded-lg overflow-x-auto
      .md th     → bg-surface-low (gets a tinted header row)
@@ -855,7 +512,7 @@ html body::before {
 .manual-section blockquote,
 .manual-section blockquote p,
 .manual-section blockquote strong {
-  font-family: "Geist Pixel Square", var(--font-head);
+  font-family: "Geist Pixel Line", var(--font-heading);
   font-weight: 400;
 }
 .manual-section blockquote {
@@ -864,7 +521,7 @@ html body::before {
 }
 /* Pull-quote with citation underneath: <blockquote><p>quote</p><p>Source ...</p></blockquote> */
 .manual-section blockquote p:first-child {
-  font-family: "Geist Pixel Square", var(--font-head);
+  font-family: "Geist Pixel Line", var(--font-heading);
   font-size: 22px;
   font-weight: 400;
   line-height: 1.3;
@@ -1029,21 +686,7 @@ html body::before {
   text-decoration: line-through;
   text-decoration-color: color-mix(in srgb, var(--gold) 55%, transparent);
   color: var(--text-muted);
-}
-
-/* Heading scale — applies across all sections */
-.manual-hero h1 {
-  font-size: 38px;
-  line-height: 1.1;
-}
-.manual-hero-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 0;
-}
-/* Shared eyebrow style — gold mono uppercase with a > chevron prefix.
+}/* Shared eyebrow style — gold mono uppercase with a > chevron prefix.
    Mirrors the eyebrow used across mantle-results / mantle-ops / etc. */
 .eyebrow {
   display: inline-flex;
@@ -1065,75 +708,7 @@ html body::before {
   background: currentColor;
   -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
           mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
-}
-
-/* Hero eyebrow + section breadcrumbs — Geist Mono, 0.5px tracking,
-   uppercase. Inherits color from the hero variant (white on dark,
-   black on light gold). */
-.manual-hero-eyebrow,
-.manual-hero-updated,
-.manual-hero .manual-copy-link {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #5E5C5A;
-}
-.manual-hero--light .manual-hero-eyebrow,
-.manual-hero--light .manual-hero-updated,
-.manual-hero--light .manual-copy-link { color: #5E5C5A; }
-
-.manual-hero-summary {
-  font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.5;
-  margin-top: 14px;
-  max-width: 60ch;
-  color: #5e5c5a;
-}
-.manual-hero--light .manual-hero-summary { color: #5e5c5a; }
-
-/* Sidebar manual header — replaces the old "Sections" label. */
-.manual-sidebar-head {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  padding: 0 22px;
-  height: 50px;
-  flex: none;
-  margin-bottom: 0;
-  border-bottom: 1px solid rgba(94, 92, 90, 0.24);
-}
-.manual-sidebar a.manual-sidebar-trail,
-.manual-sidebar a.manual-sidebar-trail:hover {
-  align-self: flex-start;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #5E5C5A !important;
-  text-decoration: none;
-  padding: 0 !important;
-  border: none !important;
-  border-left: none !important;
-  border-bottom: none !important;
-  background: transparent !important;
-  transition: none !important;
-  transform: none !important;
-}
-.manual-sidebar-manual {
-  font-family: var(--font-head);
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: -0.018em;
-  line-height: 1.2;
-  color: #ffffff;
-  margin: 0;
-}
-.manual-section h1 {
+}.manual-section h1 {
   font-size: 38px;
   line-height: 1.1;
   margin-bottom: 18px;
@@ -1152,9 +727,7 @@ html body::before {
   letter-spacing: -0.02em;
   margin: 20px 0 6px;
 }
-@media (max-width: 860px) {
-  .manual-hero h1 { font-size: 36px; }
-  .manual-section h1 { font-size: 30px; }
+@media (max-width: 860px) {  .manual-section h1 { font-size: 30px; }
   .manual-section h2 { font-size: 26px; margin: 26px 0 10px; }
   .manual-section h3 { font-size: 18px; }
   .manual-section h4 { font-size: 18px; }
@@ -1181,171 +754,16 @@ html body::before {
 .manual-prev-next a:hover .pn-title { color: var(--gold); }
 @media (max-width: 720px) {
   .manual-prev-next a { padding: 20px 24px; }
-}
-
-/* ── Sidebar subscribe (reveals after 50% of article scrolled) ──────── */
-.manual-sidebar-subscribe {
-  margin: auto 22px 0;
-  padding: 20px 0 22px;
-  border-top: 1px solid var(--border-soft);
-  flex: none;
-  opacity: 0;
-  transform: translateY(8px);
-  pointer-events: none;
-  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
-}
-.manual-sidebar-subscribe.is-visible {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
-}
-.manual-sidebar-subscribe-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  color: var(--gold-high);
-  margin-bottom: 12px;
-}
-.manual-sidebar-subscribe-eyebrow::before {
-  content: "";
-  flex: none;
-  width: 12px;
-  height: 12px;
-  background: currentColor;
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
-          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>") no-repeat center / contain;
-}
-.manual-sidebar-subscribe-title {
-  font-family: var(--font-head);
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: -0.018em;
-  color: #ffffff;
-  line-height: 1.25;
-  margin-bottom: 8px;
-}
-.manual-sidebar-subscribe-desc {
-  font-family: var(--font-body);
-  font-size: 13px;
-  line-height: 1.45;
-  color: #ffffff;
-  opacity: 0.78;
-  margin-bottom: 14px;
-}
-.manual-sidebar-subscribe-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.manual-sidebar-subscribe-input {
-  width: 100%;
-  height: 38px;
-  padding: 0 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 6px;
-  color: #ffffff;
-  font-family: var(--font-body);
-  font-size: 14px;
-  outline: none;
-  transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
-}
-.manual-sidebar-subscribe-input:focus {
-  border-color: var(--gold);
-  background: rgba(255, 255, 255, 0.08);
-}
-.manual-sidebar-subscribe-input::placeholder { color: rgba(255, 255, 255, 0.45); }
-.manual-sidebar-subscribe-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 38px;
-  padding: 0 14px;
-  border-radius: 6px;
-  background: var(--gold);
-  color: #000;
-  border: 1px solid var(--gold);
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1;
-  cursor: pointer;
-  transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
-}
-.manual-sidebar-subscribe-button:hover { background: var(--gold-dim); border-color: var(--gold-dim); }
-.manual-sidebar-subscribe-button:disabled { opacity: 0.7; cursor: default; }
-@media (max-width: 860px) {
-  .manual-sidebar-subscribe { display: none; }
-}
+}@media (max-width: 860px) {}
 
 /* ── Mobile responsive — applies across all manual section pages ────── */
 @media (max-width: 860px) {
   .manual-shell {
     margin: 0;
     border-radius: 0;
-  }
-  .manual-breadcrumb {
-    padding: 14px 20px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .manual-breadcrumb-trail {
-    font-size: 14px;
-  }
-  .manual-copy-link {
+  }  .manual-copy-link {
     margin-left: 0;
-  }
-  .manual-hero {
-    padding: 0 !important;
-  }
-  .manual-hero-crumbs,
-  .manual-hero-meta {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .manual-hero .manual-hero-title {
-    padding: 32px 20px 0;
-  }
-  .manual-hero-lede {
-    margin: 24px 20px 0 0;
-  }
-  .manual-hero h1 {
-    font-size: 34px;
-    line-height: 1.1;
-  }
-  .manual-hero-eyebrow {
-    font-size: 12px;
-  }
-  .manual-layout {
-    grid-template-columns: 1fr;
-  }
-  .manual-sidebar {
-    position: static;
-    height: auto;
-    max-height: none;
-    overflow: visible;
-    border-right: none;
-    border-bottom: 1px solid var(--border-soft);
-    padding: 8px 0;
-    border-radius: 0;
-  }
-  .manual-sidebar a {
-    padding: 12px 22px;
-    font-size: 15px;
-  }
-  .manual-sidebar-num {
-    font-size: 15px;
-  }
-  .manual-content {
-    padding: 28px 20px !important;
-  }
-  .manual-section {
+  }  .manual-section {
     max-width: 100%;
   }
   .manual-section h1 { font-size: 28px; }
@@ -1417,9 +835,7 @@ html body::before {
   .manual-prev-next .pn-title { font-size: 22px; }
 }
 
-@media (max-width: 480px) {
-  .manual-hero h1 { font-size: 28px; }
-  .manual-section h1 { font-size: 24px; }
+@media (max-width: 480px) {  .manual-section h1 { font-size: 24px; }
   .manual-section h2 { font-size: 20px; }
   .manual-section-lead { font-size: 16px; }
 }
@@ -1465,7 +881,7 @@ html body::before {
   gap: 8px;
 }
 .manual-author-name {
-  font-family: var(--font-head);
+  font-family: var(--font-heading);
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.025em;
@@ -1545,7 +961,7 @@ html body::before {
   gap: 16px;
   padding: 18px 22px;
   cursor: pointer;
-  font-family: var(--font-head);
+  font-family: var(--font-heading);
   font-size: 17px;
   font-weight: 500;
   letter-spacing: -0.018em;
@@ -1599,28 +1015,12 @@ html body::before {
   margin: -4px 0 48px;
   padding-bottom: 32px;
   border-bottom: 1px solid var(--border-soft);
-}
-
-/* Eyebrow chevron icon — replaces the "> " text prefix */
-.manual-hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.manual-hero-eyebrow::before { content: none; }
-.manual-hero-eyebrow .eyebrow-chev {
+}.manual-hero-eyebrow .eyebrow-chev {
   width: 14px;
   height: 14px;
   flex: none;
   color: var(--gold);
 }
-
-/* Full-width feature image (introduction) */
-.manual-feature-media {
-  max-width: none;
-  margin: 0 0 32px 0;
-}
-
 /* Prev/next — title big, label as gray eyebrow */
 .manual-prev-next .pn-label {
   display: inline-flex;
@@ -1640,7 +1040,7 @@ html body::before {
 }
 .manual-prev-next .next .pn-label { justify-content: flex-end; }
 .manual-prev-next .pn-title {
-  font-family: var(--font-head);
+  font-family: var(--font-heading);
   font-size: 26px;
   font-weight: 500;
   line-height: 1.2;
@@ -1675,11 +1075,7 @@ html body::before {
 .manual-hero-title-num,
 .manual-section strong {
   color: #110F14 !important;
-}
-.manual-sidebar-manual {
-  color: #ffffff !important;
-}
-.manual-section,
+}.manual-section,
 .manual-section p,
 .manual-section li,
 .manual-section td,
@@ -1705,44 +1101,7 @@ html body::before {
 .manual-section li a:hover,
 .manual-section td a:hover {
   color: #110F14 !important;
-}
-
-
-/* Sidebar foot — last-updated + copy-link pinned to bottom of the
-   left nav, side-by-side with space between. */
-.manual-sidebar-foot {
-  margin-top: auto;
-  padding: 20px 22px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border-top: 1px solid rgba(94, 92, 90, 0.24);
-}
-.manual-sidebar-updated {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #5E5C5A;
-  margin: 0;
-}
-.manual-sidebar-foot .manual-copy-link {
-  font-family: "Geist", var(--font-body);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-  color: #5E5C5A;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-}
-
-/* ───── Mobile + tablet ─────
+}/* ───── Mobile + tablet ─────
    Below 900px the fixed rail + fixed sidebar layout collapses to a
    single-column flow:
      • rail becomes a horizontal strip at the top (logo + title)
@@ -1770,30 +1129,8 @@ html body::before {
     transform: none;
     margin: 0 0 0 16px;
     font-size: 16px;
-  }
-  .manual-sidebar {
-    position: static;
-    width: 100%;
-    height: auto;
-    left: auto;
-    top: auto;
-    border-right: none;
-    border-bottom: 1px solid rgba(94, 92, 90, 0.24);
-  }
-  .manual-sidebar-head { height: auto; padding: 16px 20px; }
-  .manual-layout { margin-left: 0; }
-  .manual-shell { margin: 0; }
-
-  .manual-hero-title {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 24px 20px;
-  }
-  .manual-hero .manual-hero-title h1 { font-size: 30px; }
-  .manual-hero-title-num { font-size: 30px; }
-  .manual-hero-intro { font-size: 16px; }
-
-  .manual-section { padding: 24px 20px 40px; max-width: none; }
+  }  .manual-shell { margin: 0; }
+  .manual-section { padding: 24px 20px 16px; max-width: none; }
   .manual-prev-next { padding: 24px 20px 40px; }
   .manual-prev-next a { min-width: 0; }
 
@@ -1804,24 +1141,17 @@ html body::before {
   .manual-section table td { padding: 6px 10px; }
 }
 
-@media (max-width: 480px) {
-  .manual-hero-title { padding: 20px 16px; }
-  .manual-hero .manual-hero-title h1 { font-size: 26px; }
-  .manual-hero-title-num { font-size: 26px; }
-  .manual-section { padding: 20px 16px 32px; }
+@media (max-width: 480px) {  .manual-section { padding: 20px 16px 16px; }
   .manual-prev-next { padding: 20px 16px 32px; flex-direction: column; gap: 12px; }
   .manual-prev-next a { width: 100%; }
-  .manual-prev-next .placeholder { display: none; }
-  .manual-sidebar-num { font-size: 14px; }
-  .manual-sidebar a { font-size: 14px; padding: 12px 16px; }
-}
+  .manual-prev-next .placeholder { display: none; }}
 
 /* Section lede — first paragraph after the (hidden) H1. Styled to match the
    .notion-callout block: white card on the paper canvas, neutral 1px frame,
-   square corners, Geist Pixel Square type. Lede stays slightly larger than
+   square corners, Geist Pixel Line type. Lede stays slightly larger than
    in-body callouts (22px vs 18px) to read as a section opener. */
 .manual-section h1 + p {
-  font-family: "Geist Pixel Square", var(--font-head);
+  font-family: "Geist Pixel Line", var(--font-heading);
   font-weight: 400;
   font-size: 22px;
   line-height: 1.45;
@@ -1831,159 +1161,7 @@ html body::before {
   background: #ffffff;
   border: 1px solid rgba(94, 92, 90, 0.24);
   border-radius: 0;
-}
-
-/* ───── Hero header restructure: crumbs → big title → lede → meta ───── */
-.manual-hero-crumbs {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 24px;
-  height: 50px;
-  border-bottom: 1px solid rgba(94, 92, 90, 0.18);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #5E5C5A;
-}
-.manual-hero-crumb {
-  display: inline-flex;
-  align-items: center;
-}
-.manual-hero-crumb-sep {
-  margin: 0 8px;
-  opacity: 0.5;
-}
-.manual-hero-crumb-strong {
-  color: #5E5C5A;
-  font-weight: 500;
-}
-.manual-hero-crumb-link {
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--t-fast) var(--ease);
-}
-.manual-hero-crumb-link:hover {
-  color: var(--gold);
-}
-
-/* Override the legacy two-column grid: stack number above huge title. */
-.manual-hero .manual-hero-title {
-  display: block;
-  padding: 40px 40px 0;
-  max-width: 80ch;
-  margin: 0;
-  grid-template-columns: none;
-  gap: 0;
-}
-.manual-hero .manual-hero-title-main {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  gap: 48px;
-}
-.manual-hero .manual-hero-title-num {
-  font-size: 54px;
-  color: rgba(17, 15, 20, 0.42);
-  line-height: 1;
-}
-.manual-hero .manual-hero-title h1 {
-  font-size: 54px;
-  line-height: 1;
-  margin: 0;
-  letter-spacing: 0;
-}
-
-/* Lede with gold left rule — left-aligned with title. */
-.manual-hero-lede {
-  font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.4;
-  color: #110F14;
-  margin: 28px 40px 0 0;
-  padding: 0 0 0 14px;
-  border-left: 4px solid var(--gold);
-  max-width: 60ch;
-}
-
-/* Meta row: date + version, separated by top rule. */
-.manual-hero-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 24px;
-  height: 50px;
-  margin-top: 32px;
-  border-top: 1px solid rgba(94, 92, 90, 0.18);
-  color: #5E5C5A;
-}
-.manual-hero-meta-items {
-  display: inline-flex;
-  gap: 24px;
-  align-items: center;
-}
-.manual-hero-meta-item {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #5E5C5A;
-}
-.manual-hero-meta-date {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.manual-hero-meta-icon {
-  display: block;
-  flex: none;
-  color: #5E5C5A;
-}
-.manual-hero-version {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #5E5C5A;
-}
-
-/* Hero meta actions: outline pill buttons (Copy link, Share). */
-.manual-hero-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.manual-hero-actions .manual-copy-link,
-.manual-hero-actions .manual-share-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 30px;
-  padding: 0 10px;
-  background: transparent;
-  border: 1px solid rgba(94, 92, 90, 0.32);
-  border-radius: 6px;
-  color: #5E5C5A;
-  font-family: "Geist", var(--font-body);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-transform: none;
-  line-height: 1;
-  cursor: pointer;
-  margin: 0;
-  transition: background-color 120ms ease, border-color 120ms ease;
-}
-.manual-hero-actions .manual-copy-link:hover,
-.manual-hero-actions .manual-share-button:hover {
-  background: rgba(17, 15, 20, 0.04);
-  border-color: rgba(94, 92, 90, 0.5);
-  opacity: 1;
-}
-.manual-hero-actions svg { flex: none; }
-
-/* Inline images in MDX content — full-width with breathing room. */
+}/* Inline images in MDX content — full-width with breathing room. */
 .manual-section img {
   display: block;
   max-width: 100%;
@@ -1998,11 +1176,7 @@ html body::before {
 /* Mobile hamburger toggle — hidden on desktop. */
 .manual-mobile-nav-toggle {
   display: none;
-}
-.manual-mobile-nav-scrim {
-  display: none;
-}
-@media (max-width: 860px) {
+}@media (max-width: 860px) {
   .manual-mobile-nav-toggle {
     display: inline-flex;
     align-items: center;
@@ -2018,74 +1192,7 @@ html body::before {
     color: #110F14;
     cursor: pointer;
     z-index: 60;
-  }
-  .manual-mobile-nav-scrim {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(17, 15, 20, 0.5);
-    z-index: 55;
-  }
-  /* Sidebar slides off-screen by default on mobile, returns when open. */
-  .manual-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0 !important;
-    width: 320px;
-    max-width: 86vw;
-    height: 100vh;
-    transform: translateX(-105%);
-    transition: transform 220ms ease;
-    z-index: 56;
-    border-right: 1px solid rgba(94, 92, 90, 0.24);
-  }
-  .manual-shell[data-mobile-nav-open="true"] .manual-sidebar {
+  }  .manual-shell[data-mobile-nav-open="true"] .manual-sidebar {
     transform: translateX(0);
   }
-}
-
-/* Sidebar progress at bottom of left nav. */
-.manual-sidebar-list {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-.manual-sidebar-progress {
-  flex: none;
-  padding: 20px 22px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: #110F14;
-}
-.manual-sidebar-progress-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  margin-bottom: 12px;
-}
-.manual-sidebar-progress-label,
-.manual-sidebar-progress-count {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-.manual-sidebar-progress-count {
-  color: rgba(255, 255, 255, 0.7);
-}
-.manual-sidebar-progress-track {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 0;
-  overflow: hidden;
-}
-.manual-sidebar-progress-fill {
-  height: 100%;
-  background: var(--gold);
-  transition: width 200ms ease;
 }

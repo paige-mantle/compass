@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import type { LoadedSection } from "./manuals/content";
 
 /**
- * Public origin used in canonical URLs and JSON-LD. Lifted into a single
- * place so it can be swapped wholesale (e.g. when Compass moves to its
- * own subdomain or a separate Astro deployment).
+ * Public origin used in canonical URLs and JSON-LD. Single source of
+ * truth — change here when Compass moves to a new subdomain or
+ * Astro deployment. The Vercel preview URL was being shipped as the
+ * canonical for every page, which split Google's signal between the
+ * preview and any real production URL. heymantle.com is the parent
+ * site; Compass currently nests under /compass.
  */
-export const SITE_ORIGIN = "https://mantle-chi.vercel.app";
+export const SITE_ORIGIN = "https://heymantle.com";
 
 const COMPASS_INDEX_URL = `${SITE_ORIGIN}/compass`;
 const MANUALS_INDEX_URL = `${SITE_ORIGIN}/compass/manuals`;

@@ -1,7 +1,7 @@
 # Compass
 
 Self-contained source tree for Mantle Compass — manuals, frameworks, and insights.
-Routes still live under `/app/manuals/`, `/app/compass/frameworks/`, and `/app/compass/insights/`
+Routes still live under `/app/manuals/`, `/app/compass/methods/`, and `/app/compass/insights/`
 in the Next.js app. Everything those routes import lives in this folder.
 
 ## Layout
@@ -39,7 +39,7 @@ The `@/*` tsconfig path resolves to the repo root, so `@/compass/...` works with
 Compass ships these static files via `public/`:
 
 - `public/manuals/get-to-real-demand/manual-base.css` + `manual.css` — manual page styling
-- `public/fonts/GeistPixel-Square.otf` — display face used in manual heros
+- `public/fonts/GeistPixel-Line.otf` — display face used in manual heros
 - `public/mantle-logo.svg`, `public/compass-logo-*.svg` — brand marks
 
 These stay in `public/` because Next and Astro both serve that folder identically. When porting
@@ -48,7 +48,7 @@ to Astro, copy the contents to Astro's `public/` and the URLs in CSS / `<link>` 
 ## URL conventions
 
 - **Manuals stay at `/manuals/...`** (decided 2026-05-06). Frameworks and insights
-  remain under `/compass/frameworks/...` and `/compass/insights/...`. When porting
+  remain under `/compass/methods/...` and `/compass/insights/...`. When porting
   to Astro, the same shape is preserved.
 
 ## Astro porting notes

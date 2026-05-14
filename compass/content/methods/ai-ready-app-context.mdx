@@ -1,0 +1,134 @@
+---
+title: "AI-Ready App Context"
+slug: ai-ready-app-context
+summary: "Generate a reusable operational reference AI tools can use across support, onboarding, product marketing, UX, documentation, and internal workflows."
+ribbon: "Method"
+author: "Mantle Team"
+authorRole: "Mantle"
+blockColor: "graphite"
+# Tags are subject-matter only. The AI tools the method runs inside are
+# surfaced in the "Works with" line on the meta strip — keeping them out
+# of the tag list avoids the duplicate "Shopify · Mantle · Claude · …"
+# we had before.
+tags:
+  - Shopify
+  - AI Workflows
+  - Messaging
+  - Positioning
+tools:
+  - Mantle AI
+  - Claude
+  - Claude Code
+  - ChatGPT
+  - Codex
+estimatedTime: "20–30 min"
+# Open in Mantle AI deliberately omitted — this is a general-purpose
+# prompt method that runs in any LLM, not a Mantle AI-native workflow.
+# Only set `openInMantleAiUrl` on methods that have a real deep-link
+# into Mantle AI.
+published: true
+lastUpdated: "May 12, 2026"
+codeBlocks:
+  - filename: "Add source materials"
+    language: "markdown"
+    code: |
+      Add the company, product, and customer resources you want the AI to analyze.
+
+      Resources:
+      - Shopify App Store URL: [PASTE URL]
+      - Landing page URL: [PASTE URL]
+      - Documentation URL: [PASTE URL]
+      - Help center URL: [PASTE URL]
+      - Product screenshots: [ATTACH FILES]
+      - Internal notes: [PASTE TEXT]
+      - Existing positioning docs: [PASTE TEXT]
+      - Onboarding flows: [DESCRIBE OR LINK]
+      - Changelog or release notes: [PASTE]
+      - Support conversations: [PASTE TRANSCRIPTS]
+      - Additional URLs or files: [PASTE]
+  - filename: "Prompt"
+    language: "markdown"
+    code: |
+      Help me generate an AI-ready App Context document for my Shopify app.
+
+      My goal is to create a reusable operational reference AI tools can use across support, onboarding, product marketing, UX, documentation, and internal workflows.
+
+      Analyze the provided resources and infer:
+
+      - what the company does
+      - who the product serves
+      - key workflows
+      - terminology
+      - positioning
+      - messaging patterns
+      - onboarding flows
+      - customer pain points
+      - brand voice
+      - formatting preferences
+      - operational constraints
+      - support patterns
+      - AI usage considerations
+
+      Generate the output as a clean structured Markdown document.
+
+      Prioritize clarity, operational usefulness, and accuracy over marketing language.
+
+      Avoid generic AI phrasing and avoid inventing details not supported by the provided resources.
+  - filename: "Output formatting"
+    language: "markdown"
+    code: |
+      Format the document using:
+      - clear H1/H2/H3 headings
+      - concise paragraphs
+      - bullets where useful
+      - tables for structured information
+      - clean Markdown formatting
+      - scannable sections
+      - consistent terminology
+      - short operational explanations over long prose
+
+      Where possible:
+      - include examples
+      - include "Do / Don't" guidance
+      - separate assumptions from confirmed information
+      - clearly flag missing information
+
+      Write like an internal operational document used by product, support, marketing, and AI systems, not a marketing page.
+---
+
+## Use case
+
+Use this prompt to generate a reusable operational context document AI tools can reference across support, onboarding, product marketing, UX, documentation, and internal workflows.
+
+Instead of rewriting company information into every prompt, this creates a centralized source of truth for your app, customers, workflows, positioning, and brand voice.
+
+## When to use
+
+Use this when you want to:
+
+- improve AI output quality and consistency
+- create a reusable company context file for AI tools
+- reduce repetitive prompting
+- onboard AI tools to your product and workflows
+- generate more accurate support, marketing, or UX outputs
+- align team-wide AI usage around shared context
+- create a reusable system prompt foundation
+
+## What you'll get
+
+<Chips>
+  <Chip>Company overview</Chip>
+  <Chip>Product summary</Chip>
+  <Chip>ICP definitions</Chip>
+  <Chip>Positioning and messaging</Chip>
+  <Chip>Brand voice</Chip>
+  <Chip>Formatting preferences</Chip>
+  <Chip>Product workflows</Chip>
+  <Chip>Customer pain points</Chip>
+  <Chip>Support insights</Chip>
+  <Chip>Terminology glossary</Chip>
+  <Chip>AI usage rules</Chip>
+  <Chip>Reusable system prompt</Chip>
+</Chips>
+
+{/* Notes section deliberately omitted — see commit history. */}

@@ -94,13 +94,13 @@ export function CompassHero({
                 ) : null}
                 <h1
                   className={[
-                    /* Mirrors Mantle Hero.astro `<Text headingXl />`:
-                       text-5xl (32px) on mobile → text-7xl (48px) at
-                       md+. Weight is `font-normal` matching Mantle's
-                       Text.astro heading recipe. */
-                    "m-0 font-heading font-normal text-fg-high",
+                    /* Canonical Compass hero recipe — matches Mantle
+                       Hero.astro. text-5xl (32px) on mobile →
+                       text-7xl (48px) at md+. font-normal, leading-
+                       tighter, tracking-tight, text-fg-high. */
+                    "m-0 font-heading font-normal text-left text-fg-high",
                     "text-5xl md:text-7xl",
-                    "leading-tightest tracking-tight",
+                    "tracking-tight leading-tighter",
                   ].join(" ")}
                 >
                   {heading}
@@ -109,7 +109,7 @@ export function CompassHero({
 
               {description ? (
                 <div className="lg:col-span-5 lg:self-end lg:flex lg:justify-end">
-                  <p className="m-0 pb-2 max-w-[42ch] font-sans text-[19px] leading-[1.45] text-fg-low">
+                  <p className="m-0 pb-2 max-w-[42ch] font-sans text-xl leading-tight text-fg-low">
                     {description}
                   </p>
                 </div>

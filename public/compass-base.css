@@ -8,7 +8,7 @@
  *   /public/mantle-compass-insights.html
  *   /public/mantle-compass-answers.html
  *
- * Contains: design tokens, baseline reset, Geist Pixel Square @font-face,
+ * Contains: design tokens, baseline reset, Geist Pixel Line @font-face,
  * page grain texture, site header + mega menu chrome, primary nav
  * patterns, and shared layout rules. Page-specific styles (hero
  * variants, card grids, filter chips, etc.) stay inline in each HTML
@@ -19,7 +19,17 @@
  */
 
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Universal reset — `box-sizing: border-box` only.
+       The previous `margin: 0; padding: 0` parts of the reset were
+       unlayered and beat Tailwind's `@layer utilities` rules on the
+       React surfaces (templates, methods, insights) that now load
+       this stylesheet too: `padding: 0` was wiping `py-12`/`px-6`,
+       and `margin: 0` was wiping `mx-auto` (so the page container
+       was sitting left-flush instead of being centered).
+       `box-sizing: border-box` is the only reset we actually need
+       across the codebase; browsers already zero margin/padding on
+       most elements, and Tailwind Preflight covers what they don't. */
+    :where(*, *::before, *::after) { box-sizing: border-box; }
 
     :root {
       /* ── Light surfaces (Compass clean-white theme) ──
@@ -45,7 +55,10 @@
 
       /* ── Brand accent ── */
       --gold:           #FFC66E;
-      --gold-dim:       #f5b446;
+      /* Aligned to canonical `--color-accent-low` (#F5AC3D) — previously
+         `#f5b446` which was a historic drift from the Mantle gold ramp
+         (slightly more yellow-green vs the canonical orange-shift). */
+      --gold-dim:       #F5AC3D;
       --gold-high:      #FFC66E;
       --gold-soft:      rgba(255, 198, 110, 0.18);
       --gold-glow:      rgba(255, 198, 110, 0.30);
@@ -60,10 +73,110 @@
       --gold-fg-deep:   #6E2E00;
       --gold-fg-hover:  #A85100;
 
+      /* ── Manual cover palette (Final 7 Covers) ──
+         Print-poster tokens used by the `/compass` and
+         `/compass/manuals` cover cards. The accent ramp picks one
+         color per manual; the canvas/reg/sep/meta tokens are the
+         dark print substrate they sit on. Keep these here so both
+         the static pages and any React surface that recreates a
+         cover can reference the same source of truth. */
+      --cover-canvas:        #1E1C23;
+      --cover-reg:           #252220;
+      --cover-sep:           #1A1815;
+      --cover-meta:          #302C29;
+      /* Cover accents — resolve through Mantle canonical category-color
+         tokens defined in app/globals.css. Every cover-accent slot now
+         maps to one of the named brand colors. */
+      --cover-accent-orange: var(--color-orange-high);     /* #FFC66E */
+      --cover-accent-cyan:   var(--color-teal-high);       /* #76E8FF */
+      --cover-accent-lilac:  var(--color-purple-high);     /* #9676FF */
+      --cover-accent-warm:   var(--color-mac-yellow);      /* #EFC62A */
+      --cover-accent-white:  var(--color-fg-high);         /* #FFFFFF */
+      /* Brand gold reused as a cover accent (yellow slot in the
+         original 4-color manual cycle: yellow / purple / teal / dark
+         teal). Aliases the next-gen `--color-accent-high` token from
+         the Mantle design-system palette so palette changes upstream
+         propagate to the covers automatically. */
+      --cover-accent-gold:   var(--color-accent-high);
+
+      /* Mirrors of the corresponding tokens in app/globals.css so
+         static pages (which only load compass-base.css) can reference
+         the same global names as the React side. Surface ramp is the
+         light-theme mirror used across Compass; text scale matches the
+         Mantle px values. */
+      /* Surface ramp — Mantle canonical DARK theme values
+         (mirrored from app/globals.css). `highest` is the closest
+         card/modal surface; `lowest` is pure black. */
+      --color-surface-highest: #1E1C23;
+      --color-surface-higher:  #16141A;
+      --color-surface-high:    #110F14;
+      --color-surface-medium:  #0C0A0E;
+      --color-surface-low:     #08070A;
+      --color-surface-lower:   #030302;
+      --color-surface-lowest:  #000000;
+      /* Foreground ramp — Mantle canonical DARK theme. */
+      --color-fg-high:   #FFFFFF;
+      --color-fg-medium: #E2E1EB;
+      --color-fg-low:    #A2A0B1;
+      --color-fg-lower:  #5F5D72;
+      /* Edge ramp — white-alpha hairlines for dark surfaces. */
+      --color-edge-high:   rgba(255, 255, 255, 0.11);
+      --color-edge-medium: rgba(255, 255, 255, 0.07);
+      --color-edge-low:    rgba(255, 255, 255, 0.03);
+      /* Ambient — dark warm tone for dark-theme bg fx. */
+      --color-ambient:   #241819;
+      /* Mantle category color tokens. */
+      --color-orange-high: #FFC66E;
+      --color-purple-high: #9676FF;
+      --color-teal-high:   #76E8FF;
+      --color-green-high:  #98FF76;
+      --color-mac-red:     #EE5249;
+      --color-mac-yellow:  #EFC62A;
+      --color-mac-green:   #5CD055;
+      --text-xxs: 13px;
+      --text-xs:  14px;
+      --text-sm:  15px;
+      --text-base: 16px;
+      --text-md:  17px;
+      --text-lg:  18px;
+      --text-xl:  19px;
+      --text-2xl: 24px;
+      --text-3xl: 28px;
+      --text-4xl: 32px;
+      --text-5xl: 32px;
+      --text-6xl: 38px;
+      --text-7xl: 48px;
+      /* Leading scale — mirror of app/globals.css */
+      --leading-none:     1;
+      --leading-tightest: 1.1;
+      --leading-tighter:  1.2;
+      --leading-tight:    1.3;
+      --leading-normal:   1.4;
+      --leading-loose:    1.5;
+      --leading-looser:   1.6;
+      --leading-loosest:  1.8;
+      /* Mirror of --color-accent-* for static-page eyebrows */
+      --color-accent-high:   #FFC66E;
+      --color-accent-medium: #FFBB53;
+
       /* ── Radius ── */
+      /* Legacy compass shorthands — kept for any inline CSS still
+         referencing `--r-md` etc. */
       --r-sm:  4px;
       --r-md:  6px;
       --r-lg:  6px;
+      /* Canonical Mantle radius scale — mirrors `app/globals.css`
+         `@theme { --radius-* }`. Static pages can reference these
+         with `border-radius: var(--radius-2xl)` to match buttons /
+         cards rendered by the React side. */
+      --radius-none: 0;
+      --radius-md:   4px;
+      --radius-lg:   6px;
+      --radius-xl:   8px;
+      --radius-2xl:  10px;
+      --radius-3xl:  12px;
+      --radius-4xl:  16px;
+      --radius-full: 50%;
 
       /* ── Spacing (8-point) ── */
       --s-1:  8px;
@@ -89,9 +202,16 @@
       --header-h:   64px;
 
       /* ── Type ── */
-      --font-head:  'Manrope', -apple-system, system-ui, sans-serif;
-      --font-body:  'Geist', -apple-system, system-ui, sans-serif;
-      --font-mono:  'Geist Mono', ui-monospace, monospace;
+      /* Typography stacks — mirror app/globals.css `@theme` block
+         byte-for-byte so static pages resolve the same families
+         as React routes. `--font-sans` is the canonical name; the
+         legacy `--font-body` alias points to it for any inline
+         CSS still using the older variable name. */
+      --font-sans:    'Geist', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      --font-mono:    'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --font-heading: 'Manrope', 'Inter var', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      --font-display: 'Geist Pixel Line', 'Manrope', ui-sans-serif, sans-serif;
+      --font-body:    var(--font-sans);
     }
 
     /* ── Signature: subtle SVG noise texture ── */
@@ -176,7 +296,7 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       color: var(--text-primary);
       text-decoration: none;
     }
@@ -342,7 +462,7 @@
     }
 
     .mm-feature-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 20px;
       font-weight: 500;
       letter-spacing: -0.018em;
@@ -382,7 +502,7 @@
     }
     .mm-item:hover { transform: translateX(2px); }
     .mm-item-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 16px;
       font-weight: 500;
       color: var(--text-primary);
@@ -511,7 +631,7 @@
       color: var(--gold);
     }
     .mega-menu-platform .mm-card-kicker {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 18px;
       font-weight: 500;
       letter-spacing: -0.018em;
@@ -519,7 +639,7 @@
       color: var(--gold);
     }
     .mm-card-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 18px;
       font-weight: 500;
       color: var(--text-primary);
@@ -553,28 +673,34 @@
     }
     .sign-in-link:hover { color: var(--gold); }
 
+    /* Static-page mirror of `<CompassButton primary />` (Mantle
+       Button.astro, primary tone). Matches the canonical recipe
+       byte-for-byte: h-9 / rounded-2xl / bg-accent-medium / no
+       border / hover bg-accent-low / black text / text-xs / 500.
+       Padding mirrors `medium + iconPadding=none` (= px-4 = 16px). */
     .site-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      height: 34px;
-      padding: 0 14px;
-      border-radius: 6px;
-      border: 1px solid var(--gold);
-      background: var(--gold);
+      gap: calc(var(--spacing) * 3);     /* matches Button.astro default icon gap (12px) */
+      height: 36px;                       /* h-9 */
+      padding: 0 16px;                    /* px-4 */
+      border-radius: var(--radius-2xl, 10px);
+      border: 0;                          /* no border on primary tone */
+      background: var(--color-accent-medium);
       color: #000;
-      font-family: var(--font-body);
-      font-size: 15px;
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
       font-weight: 500;
       line-height: 1;
+      text-align: center;
       white-space: nowrap;
       cursor: pointer;
-      transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+      transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
     }
     .site-cta:hover {
-      background: var(--gold-dim);
-      border-color: var(--gold-dim);
+      background: var(--color-accent-low);
+      border-color: var(--color-accent-low);
       color: #000;
     }
 
@@ -674,7 +800,7 @@
     }
 
     .brand-name {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 14px;
       font-weight: 500;
       letter-spacing: -0.018em;
@@ -817,7 +943,7 @@
     }
 
     .page-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 48px;
       font-weight: 500;
       letter-spacing: -0.025em;
@@ -885,7 +1011,7 @@
       margin-bottom: var(--s-2);
     }
     .category-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 48px;
       font-weight: 500;
       letter-spacing: -0.025em;
@@ -1056,7 +1182,7 @@
     .card-featured .card-meta { color: var(--gold-dim); }
 
     .card-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 20px;
       font-weight: 500;
       color: var(--text-primary);
@@ -1168,7 +1294,7 @@
       margin-bottom: var(--s-4);
     }
     .uc-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 56px;
       font-weight: 500;
       letter-spacing: -0.025em;
@@ -1233,7 +1359,7 @@
       border-top: 1px solid var(--border-soft);
     }
     .uc-h2 {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 36px;
       font-weight: 500;
       letter-spacing: -0.025em;
@@ -1278,7 +1404,7 @@
       margin-bottom: var(--s-2);
     }
     .uc-step-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 20px;
       font-weight: 500;
       color: var(--text-primary);
@@ -1343,7 +1469,7 @@
       margin-bottom: var(--s-4);
     }
     .uc-pillar-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 16px;
       font-weight: 500;
       color: var(--text-primary);
@@ -1381,7 +1507,7 @@
       padding: var(--s-5) var(--s-4);
     }
     .uc-workflow-copy h3 {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 40px;
       font-weight: 500;
       letter-spacing: -0.025em;
@@ -1414,7 +1540,7 @@
       margin-top: 3px;
     }
     .uc-workflow-feature-title {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 17px;
       font-weight: 500;
       color: var(--text-primary);
@@ -1471,7 +1597,7 @@
       border-bottom: 1px solid var(--hairline);
     }
     .uc-workflow-mock-head strong {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 16px;
       font-weight: 500;
       letter-spacing: -0.018em;
@@ -1589,7 +1715,7 @@
       text-align: left;
     }
     .uc-final-cta h2 {
-      font-family: var(--font-head);
+      font-family: var(--font-heading);
       font-size: 40px;
       font-weight: 500;
       letter-spacing: -0.025em;
@@ -1686,9 +1812,27 @@
       margin: 12px 0;
     }
 
+    /* Geist Pixel — Compass display face for manual covers + the
+       manual ordinal in the hero. Mirrors the @font-face block in
+       app/globals.css `@layer base` so static pages have access to
+       the same family chain (Line / Square / Circle). Only the
+       Square .otf currently ships on disk; the others are wired
+       up so they pick up automatically when added. */
+    @font-face {
+      font-family: "Geist Pixel Line";
+      src: url("/fonts/GeistPixel-Line.otf") format("opentype");
+      font-weight: 100 900;
+      font-display: swap;
+    }
     @font-face {
       font-family: "Geist Pixel Square";
       src: url("/fonts/GeistPixel-Square.otf") format("opentype");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Geist Pixel Circle";
+      src: url("/fonts/GeistPixel-Circle.otf") format("opentype");
       font-weight: 100 900;
       font-display: swap;
     }

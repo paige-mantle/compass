@@ -79,7 +79,7 @@ export default async function InsightPage({
   };
 
   return (
-    <InsightShell meta={loaded.meta} headings={loaded.headings} shareUrl={url}>
+    <InsightShell meta={loaded.meta} headings={loaded.headings}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}

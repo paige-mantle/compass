@@ -11,7 +11,44 @@ format: "Screen System"
 tools: ["Claude Code", "Codex", "Shopify", "Figma"]
 tags: ["Shopify", "App Store", "Screenshots", "Conversion", "Product Marketing", "UX"]
 published: true
-lastUpdated: "May 12, 2026"
+lastUpdated: "May 13, 2026"
+# Preview image lives in `/public/templates/`. Replace the src below
+# with the real screenshot mockup when shared. The neutral
+# placeholder keeps the right rail layout intact in the meantime.
+previewImage:
+  src: "/templates/shopify-app-screens-preview.svg"
+  alt: "Preview of the Shopify App Screens template — bento, mobile, and feature-spotlight layouts"
+  caption: "Preview"
+codeBlocks:
+  - filename: "Prompt"
+    language: "markdown"
+    code: |
+      Help me create a set of Shopify App Store screenshots for [APP NAME].
+
+      My goal is to produce 5–8 mobile-first screens that maximize merchant comprehension and install-rate on the App Store listing page.
+
+      Use these inputs:
+      - App Store URL: [PASTE URL]
+      - Landing page URL: [PASTE URL]
+      - Feature list: [PASTE FEATURE LIST]
+      - Existing screenshots (if any): [ATTACH FILES]
+
+      For each screen, generate:
+      - Screen type (bento / mobile mockup / feature spotlight / workflow)
+      - Headline (merchant-language, benefit-led)
+      - Subhead (one supporting line)
+      - Layout direction (what's in the frame and where)
+      - Copy structure (visible UI labels, callouts, captions)
+
+      Prioritize:
+      - merchant outcomes over feature names
+      - scan-friendly compositions over busy bento grids
+      - mobile-first sizing (the App Store renders thumbnails small)
+
+      Avoid:
+      - generic stock-style imagery
+      - copy that reads as marketing fluff
+      - more than one idea per screen
 bestFor:
   - Shopify app launches
   - App Store listing refreshes
@@ -34,28 +71,26 @@ pairsWellWith:
 
 ## Overview
 
-This template helps app teams create better Shopify App Store visuals without starting from scratch. It packages the layout patterns, copy formulas, and AI-assisted generation steps used by Mantle apps that consistently win the merchant comprehension test.
-
-You won't need to design from a blank canvas. Each section gives you a structured starting point you can adapt to your app's category, audience, and visual brand — while preserving the conversion patterns that work on the Shopify App Store.
+Better Shopify App Store visuals without starting from scratch. Layout patterns, headline formulas, and the AI-assisted generation steps that win merchant comprehension.
 
 ## How it works
 
-Provide one of:
+Drop in one of:
 
-- Your app listing URL
-- Your landing page
+- App listing URL
+- Landing page
 - Existing screenshots
-- A feature list
+- Feature list
 
-The workflow turns that input into structured **screen concepts**, **headline copy**, and **layout directions** — ready to hand to a designer, paste into a generation tool, or screenshot directly from your product.
+You get back **screen concepts**, **headline copy**, and **layout directions** — ready for a designer, a generation tool, or a product screenshot.
 
 ## What you can create
 
-- **Bento-style app screens** — multi-feature compositions in one frame
-- **Mobile mockup screens** — phone-frame product shots with overlay copy
-- **Feature spotlight screens** — single-feature deep-dive screens
-- **Workflow explanation screens** — step-by-step "how it works" panels
-- **Conversion-focused headline variations** — A/B-ready merchant-language headlines
+- **Bento screens** — multi-feature compositions in one frame
+- **Mobile mockup screens** — phone-frame shots with overlay copy
+- **Feature spotlight screens** — single-feature deep-dives
+- **Workflow screens** — step-by-step "how it works" panels
+- **Headline variations** — A/B-ready merchant-language headlines
 
 ## Pairs well with
 

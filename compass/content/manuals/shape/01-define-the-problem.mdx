@@ -1,45 +1,63 @@
 ---
 title: "Define the problem"
-summary: "Shape · chapter 1.1"
-lastUpdated: "2026-05-12"
+summary: "Every successful app starts with a real problem people are already dealing with. Not a feature idea or a cool use of AI."
+lastUpdated: "2026-05-13"
 ---
 
-Every good product starts the same way: someone had a problem that existing tools solved badly. Not a feature idea. Not a technology they wanted to use. A problem.
+This comes first because you can't validate demand for a product nobody knows exists yet. You can only validate demand for the problem.
 
-The reason this matters before anything else: you can't test demand for a solution. You can only test demand for a problem. If you can't describe the problem clearly, you don't know what you're building or who you're building it for — and everything downstream gets harder.
+If you can't clearly explain the problem from the perspective of your ideal customer, everything downstream — positioning, onboarding, marketing — gets harder.
 
 ## Write the problem in one sentence
 
-No features. No solution. Just the pain.
+Brain dump every pain point you think your product could solve. The more the better. You can narrow it down later.
 
-**Too vague:** "I want to build a project management tool for freelancers."
+Don't think about features yet or how the product works. Just focus on the actual frustration people are dealing with. AI might even come up with a better solution than the one you had in mind anyway.
 
-**Useful:** "Freelancers lose track of client deliverables when juggling more than three projects and miss deadlines."
+The useful version explains:
 
-The useful version names who feels the pain, what the pain is, and when it happens. If you can't write it that way, you're still guessing.
+- who feels the pain
+- what the pain is
+- when it happens
 
-> If you can't write the problem in one sentence, you're not ready to build.
+Unless you're solving your own problem (*highly recommend this*), these are still assumptions until you talk to real people. Best guess for now — you'll validate later.
+
+| Type | Example |
+| --- | --- |
+| Too vague | I want to build a project management tool for freelancers. |
+| Useful | Freelancers lose track of client deliverables when juggling more than three projects and miss deadlines. |
+
+<RealityCheck>
+If you can't write the problem in one sentence, you're not ready to build.
+</RealityCheck>
 
 ## The vitamin or painkiller test
 
 Painkillers get bought. Vitamins get bookmarked.
 
-The fastest test: are people already doing a workaround? Spreadsheets, duct-taped Zapier flows, manual processes they hate but can't stop doing. If yes, you might have a painkiller. If nobody's doing anything about the problem — it probably isn't painful enough.
+Are people already using workarounds? Spreadsheets, Zapier flows, manual processes, copy-pasting between tools? If yes, you might have a painkiller.
 
-## Checklist
-
-- [ ] I can write the problem in one sentence: pain + who + when
-- [ ] The sentence describes the problem, not a feature or solution
-- [ ] I've identified at least one existing workaround people are using
-- [ ] I can answer: is this a vitamin or a painkiller?
+If nobody is solving the problem at all, it's probably not painful enough. Especially now that AI is replacing a lot of lightweight "vitamin" tools.
 
 ## Prompt
 
-> *Help me write a clear problem statement for my startup idea.*
->
-> *My rough idea is: [DESCRIBE IT]*
-> *I think the target user is: [WHO YOU THINK IT'S FOR]*
->
-> *Write three versions of the problem statement using this format: "[Specific who] struggle to [do what] when [context/trigger]." Go from vague to specific. Tell me which is strongest and why.*
+Go to your AI tool of choice and use voice mode or transcription:
 
----
+```
+I'm trying to define the core problem my product idea solves.
+
+Here's a braindump of everything I think the problem might be:
+[DUMP IT ALL HERE — don't filter, just write]
+
+My rough target user is: [WHO YOU THINK IT'S FOR]
+
+Help me:
+- identify the clearest core problem
+- rewrite it into a stronger one-sentence problem statement
+- point out anything that sounds too vague
+- identify whether this sounds like a painkiller or a vitamin
+```
+
+<Callout>
+**Planning tip:** Voice mode is the fastest way to braindump. Open Claude on your phone, hit the microphone, and just talk through everything you think the problem is. So much faster than typing — and you'll capture things you'd normally filter out before they hit the page.
+</Callout>

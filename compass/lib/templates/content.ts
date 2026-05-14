@@ -85,6 +85,15 @@ export type TemplateFrontmatter = {
   /** Optional code blocks shown in the right-rail of the detail
       page. Same shape as `FrameworkCodeBlock`. */
   codeBlocks?: TemplateCodeBlock[];
+
+  /** Optional preview image rendered above the code blocks in the
+      right rail — used by template detail pages that pair a visual
+      mockup with the prompt block(s). */
+  previewImage?: {
+    src: string;
+    alt: string;
+    caption?: string;
+  };
 };
 
 export type TemplateMeta = TemplateFrontmatter & {

@@ -45,6 +45,114 @@ export async function listManuals(): Promise<string[]> {
   }
 }
 
+/** Cover-card display data — extends each manifest with the
+    display order, ordinal label, hero cover title (which may differ
+    from the manifest title, e.g. Foundation → "Zero"), the per-cover
+    accent class, and a `comingSoon` flag for the manuals not yet
+    shipped. Used by the `/compass/manuals` index. */
+export type ManualCoverEntry = {
+  slug: string;
+  href: string;
+  /** Manifest title (e.g. "Foundation"). */
+  manifestTitle: string;
+  /** Display title on the cover card (e.g. "Zero"). */
+  coverTitle: string;
+  /** Three-digit ordinal, "001"–"007". */
+  ordinal: string;
+  /** Maps to `.acc-*` class in compass-base.css `--cover-accent-*`. */
+  accent: "gold" | "lilac" | "cyan" | "warm" | "orange" | "white";
+  /** Used to map to the inline SVG graphic in `CoverArt`. */
+  motif:
+    | "vanishing-grid"
+    | "nested-ovals"
+    | "circuit-path"
+    | "funnel-paths"
+    | "magnetic-field"
+    | "sine-wave"
+    | "helix-coil";
+  comingSoon: boolean;
+};
+
+/**
+ * Canonical cover-grid order for `/compass/manuals`. Loaded from a
+ * hard-coded list rather than `listManuals()` because the index
+ * page needs a specific ordering (001 → 007) and per-cover display
+ * metadata (motif, accent, "coming soon" flag) that doesn't belong
+ * in each manual's manifest.json.
+ */
+export const MANUAL_COVERS: ManualCoverEntry[] = [
+  {
+    slug: "foundation",
+    href: "/compass/foundation",
+    manifestTitle: "Foundation",
+    coverTitle: "Zero",
+    ordinal: "001",
+    accent: "gold",
+    motif: "vanishing-grid",
+    comingSoon: false,
+  },
+  {
+    slug: "shape",
+    href: "/compass/shape",
+    manifestTitle: "Shape",
+    coverTitle: "Shape",
+    ordinal: "002",
+    accent: "lilac",
+    motif: "nested-ovals",
+    comingSoon: false,
+  },
+  {
+    slug: "build",
+    href: "/compass/build",
+    manifestTitle: "Build",
+    coverTitle: "Build",
+    ordinal: "003",
+    accent: "cyan",
+    motif: "circuit-path",
+    comingSoon: false,
+  },
+  {
+    slug: "launch",
+    href: "/compass/launch",
+    manifestTitle: "Launch",
+    coverTitle: "Launch",
+    ordinal: "004",
+    accent: "warm",
+    motif: "funnel-paths",
+    comingSoon: true,
+  },
+  {
+    slug: "monetize",
+    href: "/compass/monetize",
+    manifestTitle: "Monetize",
+    coverTitle: "Monetize",
+    ordinal: "005",
+    accent: "orange",
+    motif: "magnetic-field",
+    comingSoon: true,
+  },
+  {
+    slug: "grow",
+    href: "/compass/grow",
+    manifestTitle: "Grow",
+    coverTitle: "Grow",
+    ordinal: "006",
+    accent: "cyan",
+    motif: "sine-wave",
+    comingSoon: true,
+  },
+  {
+    slug: "operate",
+    href: "/compass/operate",
+    manifestTitle: "Operate",
+    coverTitle: "Operate",
+    ordinal: "007",
+    accent: "white",
+    motif: "helix-coil",
+    comingSoon: true,
+  },
+];
+
 export type LoadedSection = {
   manifest: ManualManifest;
   section: ManualSection;

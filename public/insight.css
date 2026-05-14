@@ -40,7 +40,7 @@
 
   --header-h: 64px;
 
-  --font-head: 'Manrope', -apple-system, system-ui, sans-serif;
+  --font-heading: 'Manrope', -apple-system, system-ui, sans-serif;
   --font-body: 'Geist', -apple-system, system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
 }
@@ -50,8 +50,8 @@
 }
 
 @font-face {
-  font-family: "Geist Pixel Square";
-  src: url("/fonts/GeistPixel-Square.otf") format("opentype");
+  font-family: "Geist Pixel Line";
+  src: url("/fonts/GeistPixel-Line.otf") format("opentype");
   font-weight: 100 900;
   font-display: swap;
 }
@@ -98,7 +98,7 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-head);
+  font-family: var(--font-heading);
   color: var(--text-primary);
   text-decoration: none;
 }
@@ -283,7 +283,7 @@ html, body {
 }
 
 .insight-hero h1 {
-  font-family: "Geist Pixel Square", var(--font-head);
+  font-family: "Geist Pixel Line", var(--font-heading);
   font-size: 38px;
   font-weight: 400;
   line-height: 1;
@@ -322,7 +322,7 @@ html, body {
   justify-content: center;
   background: var(--gold-soft);
   color: var(--gold);
-  font-family: var(--font-head);
+  font-family: var(--font-heading);
   font-weight: 500;
   font-size: 16px;
   letter-spacing: -0.018em;
@@ -405,7 +405,7 @@ html, body {
 .insight-content a:hover { text-decoration-color: var(--gold); }
 
 .insight-content h2 {
-  font-family: var(--font-head);
+  font-family: var(--font-heading);
   font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 500;
   line-height: 1.2;
@@ -416,7 +416,7 @@ html, body {
 }
 
 .insight-content h3 {
-  font-family: var(--font-head);
+  font-family: var(--font-heading);
   font-size: clamp(20px, 2vw, 22px);
   font-weight: 500;
   line-height: 1.3;

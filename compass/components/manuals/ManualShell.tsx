@@ -186,7 +186,7 @@ export function ManualShell({
           </Link>
           <span
             className="
-              mt-10 mb-6 whitespace-nowrap font-heading text-2xl font-normal
+              mt-10 mb-6 whitespace-nowrap font-heading text-2xl font-medium
               tracking-tight text-fg-high
             "
             style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
@@ -217,8 +217,8 @@ export function ManualShell({
               border-white/10 px-[22px]
             "
           >
-            <h2 className="m-0 font-heading text-lg font-normal leading-tight tracking-tight text-white">
-              Table of contents
+            <h2 className="m-0 font-heading text-lg font-medium leading-tight tracking-tight text-white">
+              Manual contents
             </h2>
           </div>
 
@@ -235,12 +235,16 @@ export function ManualShell({
                   key={s.slug || "intro"}
                   href={hrefFor(manifest.slug, s)}
                   className={[
-                    "flex items-baseline gap-3 border-b border-white/10",
+                    // Lower-contrast row divider (was /10 → /5) so the
+                    // sidebar reads as one continuous surface; active
+                    // row contrast bumped (was /[0.04] → /[0.08]) so
+                    // the current section reads at a glance.
+                    "flex items-baseline gap-2 border-b border-white/5",
                     "px-5 py-3 text-sm no-underline",
                     "transition-colors duration-150",
                     active
-                      ? "bg-white/[0.04] text-white"
-                      : "text-white/70 hover:bg-white/[0.03] hover:text-white",
+                      ? "bg-white/[0.08] text-white"
+                      : "text-white/70 hover:bg-white/[0.04] hover:text-white",
                   ].join(" ")}
                 >
                   <span
@@ -258,24 +262,28 @@ export function ManualShell({
             })}
           </nav>
 
+          {/* Progress module — quieter than the rest of the sidebar:
+              dimmer divider, lighter ink, lower bar-track opacity. The
+              module is informational, not navigational, so it
+              shouldn't compete with the section links above it. */}
           <div
             className="
-              mt-auto flex-none border-t border-white/10 bg-surface-lowest
-              px-[22px] pb-6 pt-5
+              mt-auto flex-none border-t border-white/5 bg-surface-lowest
+              px-[22px] pb-6 pt-5 opacity-70
             "
           >
             <div
               className="
                 mb-3 flex items-baseline justify-between font-mono text-xxs
-                font-medium uppercase tracking-wider text-white/45
+                font-medium uppercase tracking-wider text-white/40
               "
             >
               <span>Progress</span>
-              <span className="text-white/70">
+              <span className="text-white/60">
                 {currentIndex + 1} / {manifest.sections.length}
               </span>
             </div>
-            <div className="h-1 overflow-hidden bg-white/10">
+            <div className="h-1 overflow-hidden bg-white/5">
               <div
                 className="h-full transition-[width] duration-200"
                 style={{
@@ -287,29 +295,24 @@ export function ManualShell({
           </div>
         </aside>
 
-        <article>
-          <header
-            className={[
-              "relative overflow-hidden border-b border-fg-medium/25",
-              "bg-surface-low",
-              manifest.heroVariant === "light" ? "manual-hero--light" : "",
-            ].join(" ")}
-          >
-            {/* Multiply-blend grain overlay — sits above the surface tint */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 opacity-85 mix-blend-multiply"
-              style={{
-                backgroundImage:
-                  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05  0 0 0 0 0.04  0 0 0 0 0.03  0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
-                backgroundSize: "320px 320px",
-              }}
-            />
-
-            {/* Top bar — PromptHeading-style date on the left,
-                Copy / Share docked on the right. Replaced the previous
-                `Manuals / {title}` + `Chapter / {N.N}` breadcrumbs. */}
-            <div className="relative z-[1] flex h-12 items-center justify-between border-b border-fg-medium/20 px-6 text-fg-medium">
+        {/* Article is a flex column so the prev/next nav anchors at
+            the bottom of the viewport when a chapter is shorter than
+            the screen. min-h-[calc(100vh-...)] gives the column at
+            least the visible viewport so the nav can be pushed down;
+            the body section grows via `flex-1` to fill any slack. */}
+        <article className="flex min-h-[calc(100vh-50px)] flex-col">
+          {/* Hero header — no background tint; blends into the page
+              surface so the hero reads as a continuation of the body
+              content rather than an inset panel. Single bottom hairline
+              still separates it from the prose below. We deliberately
+              skip `manual-hero--light` here — that class in
+              compass-manual.css applies a cream tint, which we now
+              suppress so the hero stays flat with the content. */}
+          <header className="relative border-b border-fg-medium/20">
+            {/* Top bar — PromptHeading-style date on the left, Copy /
+                Share docked on the right. Lower contrast than the body
+                hairlines so the eye lands on the title cluster first. */}
+            <div className="relative z-[1] flex h-12 items-center justify-between border-b border-fg-medium/10 px-6 text-fg-medium/70">
               {lastUpdated ? (
                 <CompassPromptHeading
                   text={formatPublishDate(lastUpdated)}
@@ -351,7 +354,7 @@ export function ManualShell({
                 {/* Subheading — reads from chapter frontmatter
                     `summary` field. Top-aligned at lg+ (no
                     self-end), stacks below on mobile. */}
-                <p className="m-0 font-sans text-xl font-normal leading-loose text-fg-medium lg:col-span-5 max-w-[40ch]">
+                <p className="m-0 font-sans text-lg font-normal leading-snug text-fg-medium lg:col-span-5 max-w-[40ch]">
                   {summary ??
                     "A short two-line subheading that sets up what this chapter is about and why it matters in this part of the manual."}
                 </p>
@@ -360,11 +363,14 @@ export function ManualShell({
           </header>
 
           {/* Article body — `.manual-section` carries the editorial
-              typography rules from compass-content.css + manual.css
-              (h1–h6, p, lists, code, blockquote, plus the callout
-              family). max-w-[60ch] keeps line length readable.
-              48px top padding, 40px bottom padding per spec. */}
-          <section className="manual-section mx-auto w-full max-w-[60ch] px-6 pt-12 pb-10 max-[720px]:px-5 max-[720px]:pt-8 max-[720px]:pb-10">
+              typography rules from compass-content.css + manual.css.
+              max-w-[56ch] keeps line length tight for comfortable
+              editorial reading. 48px top padding; reduced bottom
+              padding (was 40px → 16px) so the prev/next nav sits
+              closer to the body content. `flex-1` lets the section
+              grow to push prev/next to the article column bottom
+              when a chapter is shorter than the viewport. */}
+          <section className="manual-section mx-auto w-full max-w-[56ch] flex-1 px-6 pt-12 pb-4 max-[720px]:px-5 max-[720px]:pt-8 max-[720px]:pb-4">
             {children}
           </section>
 

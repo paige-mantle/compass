@@ -15,9 +15,11 @@ import { ChevronRight } from "lucide-react";
  *   • `text`:  the eyebrow label                 (default "Explore Mantle")
  *   • `className`: passthrough for wrapper       (default "")
  *
- * Text recipe matches `<Text mono size="xs">` on the Mantle side:
- *   font-mono · font-medium · text-xs (14px) · tracking-wider ·
- *   uppercase · leading-loose · color from the chosen tone.
+ * Text recipe: font-mono · font-medium · text-xs · tracking-wider ·
+ * uppercase · leading-loose · color from the chosen tone. NOTE — in the
+ * Compass Tailwind theme, `text-xs` resolves to 14px (not the default
+ * 12px); the type ramp is bumped one step throughout. 14px matches the
+ * manual callout labels exactly.
  *
  * The Compass accent tone resolves to `--color-accent-fg-high`
  * (a deeper amber) so it has AA contrast on the light Compass
@@ -38,7 +40,7 @@ const ICON_COLOR: Record<PromptColor, string> = {
 
 const TEXT_COLOR_CLASS: Record<PromptColor, string> = {
   fg: "text-fg-medium",
-  accent: "text-accent-fg-medium",
+  accent: "text-accent-high",
   "accent-alt": "text-accent-alt-high",
 };
 
@@ -66,7 +68,19 @@ export function CompassPromptHeading({
       />
       <p
         className={[
-          "m-0 font-mono font-medium text-xs tracking-wider uppercase leading-loose",
+          // The canonical Compass eyebrow recipe — must match
+          // `.compass-hero-eyebrow` (static pages), `.callout-label`
+          // (manual callouts) and `.compass-manual-kicker` (manual
+          // cover cards) byte-for-byte. Any drift here will look like
+          // a typography bug because the same eyebrow appears on every
+          // Compass surface.
+          //
+          //   chevron-right (16px) + gap 12px + label
+          //   font-mono · font-medium · text-xs (14px) ·
+          //   tracking-wider (0.05em) · uppercase ·
+          //   leading-loose (1.5) · text-left · text-accent-high
+          "m-0 font-mono font-medium text-xs tracking-wider uppercase",
+          "text-left leading-loose",
           TEXT_COLOR_CLASS[color],
         ].join(" ")}
       >
