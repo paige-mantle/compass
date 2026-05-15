@@ -1,133 +1,70 @@
 /* ─────────────────────────────────────────────────────────────────────────
- * Callout family — Field Note · Reality Check · Common Failure ·
- * Decision Point · Founder Shift.
+ * callouts.css — demo-page chrome only.
  *
- * One structural system, five distinct voices. Components handle layout
- * (Tailwind for grid/flex/spacing); this stylesheet handles typography and
- * color via the project's design tokens (compass-base.css).
+ * The callout components themselves (FieldNote, RealityCheck, CommonFailure,
+ * DecisionPoint, FounderShift) are styled by the canonical Mantle next-gen
+ * v2 rules in `app/globals.css` `@layer components`:
+ *
+ *   ▸ .manual-section .callout — bordered plate, 10px radius, 8% accent
+ *     tint, floating filled-accent tag at top-left, bottom-right data-index
+ *     designation
+ *   ▸ Body recipe — Geist 16px / leading-normal / fg-medium
+ *   ▸ DecisionPoint + FounderShift — top-aligned grid columns, kicker
+ *     baselines share a row
+ *   ▸ Per-chapter accent via `.accent-foundation` / `.accent-shape` etc.
+ *     (each maps to a `--cover-accent-*` token from compass-base.css)
+ *
+ * Anything we add here that targets `.callout` or `.callout-*` directly
+ * would either duplicate or conflict with globals.css, so this file is
+ * intentionally narrow — it ONLY covers the demo-page editorial frame
+ * (`.callouts-demo`, `.callouts-demo-eyebrow`, `.callouts-demo-lede`)
+ * used by `/compass/callouts/page.tsx` and `CalloutsDemo.tsx`.
  * ──────────────────────────────────────────────────────────────────────── */
 
-/* Shared base — applies to every callout. */
-.callout {
-  border-color: var(--border, rgba(17, 15, 20, 0.18));
-  color: var(--text-primary, #110f14);
-}
-.callout-label {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #8a3e00;
-  line-height: 1.2;
-}
-.callout-icon { color: #8a3e00; }
-.callout-body {
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--text-primary, #110f14);
-}
-.callout-body > * + * { margin-top: 12px; }
-.callout-body p { margin: 0; }
-.callout-body h4 {
-  margin: 0 0 6px;
-  font-family: var(--font-heading);
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: var(--text-primary, #110f14);
-}
-
-/* FIELD NOTE — describes. Thinner border, smaller label. */
-.callout-field-note { border-color: rgba(17, 15, 20, 0.45); }
-.callout-field-note .callout-label { font-size: 11px; }
-.callout-field-note .callout-body {
-  font-size: 15.5px;
-  color: var(--text-secondary, #5e5c5a);
-}
-
-/* REALITY CHECK — confronts. Bigger label, body reads as the loud part. */
-.callout-reality-check .callout-label { font-size: 14px; letter-spacing: 0.12em; }
-.callout-reality-check .callout-body {
-  font-family: var(--font-heading);
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.022em;
-  font-weight: 500;
-}
-
-/* COMMON FAILURE — warns. Tag-style label perched on the top border. */
-.callout-common-failure .callout-header {
-  background: var(--canvas, #f8f8f6);
-}
-.callout-common-failure .callout-label { font-size: 11px; }
-
-/* DECISION POINT — prompts. Headings on each option stand out. */
-.callout-decision-point .callout-fork-option h4 {
-  color: #8a3e00;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.callout-decision-point .callout-fork-option p { font-size: 15px; }
-
-/* FOUNDER SHIFT — transforms. From-state muted, arrow gold, to-state lit. */
-.callout-founder-shift .callout-shift-from h4,
-.callout-founder-shift .callout-shift-to h4 {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.callout-founder-shift .callout-shift-from h4 { color: var(--text-muted, #5e5c5a); }
-.callout-founder-shift .callout-shift-to h4 { color: #8a3e00; }
-.callout-founder-shift .callout-shift-from {
-  color: var(--text-muted, #5e5c5a);
-}
-.callout-founder-shift .callout-shift-arrow { color: var(--gold, #FFC66E); }
-.callout-founder-shift .callout-shift-from p,
-.callout-founder-shift .callout-shift-to p { font-size: 15px; }
-
-/* Arrow rotates 90° on mobile so the metaphor survives a stacked layout. */
-@media (max-width: 767px) {
-  .callout-founder-shift .callout-shift-arrow { transform: rotate(90deg); }
-}
-
-/* Demo page — reused for the preview route. */
+/* Demo article — editorial prose frame. Heading + body rules below
+   apply to the prose paragraphs INSIDE the demo article only; they
+   do not touch callout internals (those are global). */
 .callouts-demo h1 {
   font-family: var(--font-heading);
+  /* Mantle next-gen h1: font-normal (400) + tracking-tight + leading-tighter. */
   font-size: 38px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: var(--text-primary, #110f14);
+  line-height: 1.2;
+  color: var(--color-fg-high, #110f14);
   margin: 0 0 16px;
 }
 .callouts-demo p {
-  font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.55;
-  color: var(--text-primary, #110f14);
+  font-family: var(--font-sans);
+  /* Body recipe — text-base / leading-normal / fg-medium per Mantle next-gen. */
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-fg-medium, #1f1b27);
   margin: 0 0 20px;
 }
+
+/* Page eyebrow — canonical Compass eyebrow (compass-typography.css
+   `.compass-eyebrow`). Reproduced here so the demo page reads as a
+   sibling of the marketing surfaces. */
 .callouts-demo-eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
   text-transform: uppercase;
-  color: #8a3e00;
+  color: var(--color-fg-low, #5e5c5a);
   margin: 0 0 8px;
 }
+
+/* Lede — slightly larger prose paragraph beneath the page title.
+   Same body color so it sits one level back from the h1. */
 .callouts-demo-lede {
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
+  font-weight: 400;
   font-size: 19px;
   line-height: 1.45;
-  color: var(--text-secondary, #5e5c5a);
+  color: var(--color-fg-low, #5e5c5a);
+  margin: 0;
 }

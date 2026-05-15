@@ -1,0 +1,178 @@
+---
+title: "What's next"
+summary: "Turn your notes into a shape doc, review the gaps, create a builder prompt, and choose the next move."
+metaTitle: "What to Do After Shaping Your App | Mantle Compass"
+metaDescription: "Turn your notes into a shape doc, review the gaps, create a builder prompt, and choose the next move."
+ogTitle: "What to do after shaping your app"
+ogDescription: "Turn your notes into a shape doc, review the gaps, create a builder prompt, and choose the next move."
+lastUpdated: "2026-05-15"
+---
+
+**Goal:** Pull everything together and decide what to do next.
+
+If you made it to the end, congrats. You've done more product thinking than a lot of people who have had a profitable app for years.
+
+Now we're going to take everything you've worked through and turn it into one useful doc.
+
+This is your **shape doc**: the working source of truth for what you're building, who it's for, why it matters, and what should happen next.
+
+It should be short enough that you'll actually use it and easy to update as things change, which they 100% will. It should also be clear enough that you can paste it into ChatGPT, Claude, Cursor, Lovable, Base44, or whatever you're building with and get a better output back.
+
+## Shape doc format
+
+Your shape doc should follow the same order as the manual:
+
+```txt
+1. Product summary
+2. Problem
+3. Customer
+4. Buyer, if different
+5. Market
+6. Distribution
+7. Product shape
+8. Demand signal
+9. Brand basics
+10. Open questions
+11. Gaps / research needed
+12. Build, pause, or go back recommendation
+13. Single next action
+```
+
+If you skipped a section, that's fine. Don't invent answers. Leave it blank or write "I don't know yet."
+
+The blank spots are useful because they show you what to research, validate, or revisit before building.
+
+## Final shape doc prompt
+
+Paste this into your working chat.
+
+<Prompt
+  title="Final shape doc"
+  defaultPrompt={`Take everything I worked through in this manual and turn it into a clean shape doc.
+
+Please organize it in this order:
+
+1. Product summary
+2. Problem
+3. Customer
+4. Buyer, if different
+5. Market
+6. Distribution
+7. Product shape
+8. Demand signal
+9. Brand basics
+10. Open questions
+11. Gaps / research needed
+12. Build, pause, or go back recommendation
+13. Single next action
+
+For each section, summarize the strongest decisions and keep it concise.
+
+Inside Market, include:
+- direct competitors
+- indirect alternatives
+- AI/manual workarounds
+- repeated complaints
+- proof
+- product angle
+
+Inside Product shape, include:
+- platform or ecosystem
+- current workflow
+- fastest path to value
+- V1 scope
+- constraints
+- non-goals
+
+Inside Brand basics, include:
+- name ideas
+- brand personality
+- brand voice
+- visual direction
+- typography direction
+- app icon/logo direction
+- starter one-liner
+
+For anything unclear, write "I don't know yet" and add it to Gaps / research needed.
+
+Do not over-polish this. I want a useful working doc, not a fake investor deck.`}
+/>
+
+## Review your shape doc
+
+Once you have the first version, don't stop there. Ask your AI tool to review it like a product strategist, not a cheerleader.
+
+<Prompt
+  title="Review your shape doc"
+  defaultPrompt={`Review this shape doc and be honest.
+
+Please identify:
+
+1. What feels strongest
+2. What feels weakest
+3. Where the idea is still too broad
+4. Where I'm making assumptions without proof
+5. Where the customer is unclear
+6. Where the product shape is too big for V1
+7. Where the positioning or angle is not specific enough
+8. Where distribution feels unrealistic
+9. What I should validate before building
+10. Which section I should go back to first
+
+Then give me:
+- a build, pause, or go back recommendation
+- the single highest-leverage next action
+- 3 follow-up questions I should answer before building`}
+/>
+
+## Turn it into a builder prompt
+
+After you've reviewed and tightened the shape doc, turn it into a builder prompt.
+
+<Prompt
+  title="Turn it into a builder prompt"
+  defaultPrompt={`Using this shape doc, write a builder prompt I can paste into Lovable, Cursor, Claude, Base44, or another build tool.
+
+The prompt should include:
+
+- customer
+- problem
+- outcome
+- product type
+- platform or ecosystem
+- workflow
+- fastest path to value
+- V1 scope
+- constraints
+- non-goals
+- brand direction
+- tone
+- visual direction
+- anything the builder should not invent
+
+The goal is to create a simple V1, not a bloated product.`}
+/>
+
+## Choose the next action
+
+If the shape doc is strong, your next action might be to build the first version.
+
+If the shape doc has gaps, your next action might be to talk to five users, research competitors, test a landing page, simplify the workflow, or fix the brand direction.
+
+The next step should be specific enough that you can do it this week.
+
+<RealityCheck>
+
+Clarity does not count until it changes what you do next.
+
+</RealityCheck>
+
+## Before you move on
+
+You should have:
+
+- a shape doc
+- a list of gaps
+- a build, pause, or go back recommendation
+- a builder prompt
+- one next action

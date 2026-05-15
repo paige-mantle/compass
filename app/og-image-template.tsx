@@ -1,7 +1,18 @@
 import type { ReactElement } from "react";
+import { SITE_ORIGIN } from "@/compass/lib/seo";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_CONTENT_TYPE = "image/png";
+
+/**
+ * Footer URL printed in the bottom-left of every OG card. Strips the
+ * `https://` prefix from `SITE_ORIGIN` (`https://heymantle.com`) so
+ * the footer reads as a bare domain (`heymantle.com`) the way social
+ * cards typically present a source. Previously hardcoded to
+ * `mantle-chi.vercel.app` — every Twitter / LinkedIn share carried
+ * the preview deploy URL on the card itself.
+ */
+const FOOTER_HOST = SITE_ORIGIN.replace(/^https?:\/\//, "");
 
 export function OGImage({
   eyebrow,
@@ -87,7 +98,7 @@ export function OGImage({
           color: "#a8a29e",
         }}
       >
-        <div>mantle-chi.vercel.app</div>
+        <div>{FOOTER_HOST}</div>
         <div>Mantle Compass</div>
       </div>
     </div>

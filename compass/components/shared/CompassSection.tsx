@@ -65,9 +65,9 @@ const BOTTOM_PAD_CLASS: Record<Padding, string> = {
 };
 
 const WIDTH_CLASS: Record<Width, string> = {
-  default: "max-w-[1320px]",
-  narrow: "max-w-[960px]",
-  extraNarrow: "max-w-[760px]",
+  default: "max-w-page",
+  narrow: "max-w-page-narrow",
+  extraNarrow: "max-w-page-x-narrow",
 };
 
 type CompassSectionProps = {

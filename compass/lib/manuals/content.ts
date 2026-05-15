@@ -49,7 +49,7 @@ export async function listManuals(): Promise<string[]> {
     display order, ordinal label, hero cover title (which may differ
     from the manifest title, e.g. Foundation → "Zero"), the per-cover
     accent class, and a `comingSoon` flag for the manuals not yet
-    shipped. Used by the `/compass/manuals` index. */
+    shipped. Used by the `/manuals` index. */
 export type ManualCoverEntry = {
   slug: string;
   href: string;
@@ -59,8 +59,11 @@ export type ManualCoverEntry = {
   coverTitle: string;
   /** Three-digit ordinal, "001"–"007". */
   ordinal: string;
-  /** Maps to `.acc-*` class in compass-base.css `--cover-accent-*`. */
-  accent: "gold" | "lilac" | "cyan" | "warm" | "orange" | "white";
+  /** Compass canonical accent — one of the `CardAccent` palette
+   *  names defined in `compass/lib/card-accents.ts`. The same
+   *  palette is shared with method + template cards so the same
+   *  name = the same color across every Compass surface. */
+  accent: import("../card-accents").CardAccent;
   /** Used to map to the inline SVG graphic in `CoverArt`. */
   motif:
     | "vanishing-grid"
@@ -71,82 +74,154 @@ export type ManualCoverEntry = {
     | "sine-wave"
     | "helix-coil";
   comingSoon: boolean;
+  /**
+   * One- or two-sentence summary shown on the row-stacked manual list
+   * (Compass home). Cover-grid `/manuals` doesn't render this
+   * — it's specifically for the home-page row layout where each manual
+   * gets editorial breathing room. Coming-soon manuals can omit it
+   * (the row will show "Coming soon" eyebrow instead).
+   */
+  summary?: string;
 };
 
 /**
- * Canonical cover-grid order for `/compass/manuals`. Loaded from a
+ * Canonical cover-grid order for `/manuals`. Loaded from a
  * hard-coded list rather than `listManuals()` because the index
  * page needs a specific ordering (001 → 007) and per-cover display
  * metadata (motif, accent, "coming soon" flag) that doesn't belong
  * in each manual's manifest.json.
+ *
+ * **`comingSoon` semantics (all three surfaces must agree)**:
+ *
+ *   1. UI: both `ManualCoverGrid` (poster grid on `/manuals`) and
+ *      `ManualRowList` (editorial rows on `/compass`) render
+ *      coming-soon entries as a non-clickable `<div aria-disabled=
+ *      "true">` with a "Coming soon" badge. No `<Link>` wrapper, so
+ *      hover, focus, and click affordances are all suppressed.
+ *
+ *   2. Routing: a typed URL like `/manuals/build` would 404 because
+ *      no content folder exists at `compass/content/manuals/build/`.
+ *      `next.config.ts` redirects all coming-soon manual roots +
+ *      their child chapters to `/manuals` with `permanent: false`
+ *      (302). When `comingSoon` flips to false on a manual, remove
+ *      the matching redirect block so the real content takes over.
+ *
+ *   3. Sitemap (`app/sitemap.ts`): already excludes coming-soon
+ *      manuals automatically because it enumerates from
+ *      `listManuals()` — which reads the filesystem — and
+ *      coming-soon manuals have no content folder on disk.
+ *
+ *   4. Search index (when the spawned search-bar task lands):
+ *      filter on `entry.comingSoon === false` when building the
+ *      `SearchDoc[]` array so coming-soon manuals don't appear in
+ *      Cmd-K palette results. Same flag, same source of truth.
+ *
+ * Updating one surface and not the others creates a discoverability
+ * leak (e.g., card non-clickable but search palette returns it →
+ * search click 404s). Keep this list and the redirects in lockstep.
  */
 export const MANUAL_COVERS: ManualCoverEntry[] = [
   {
-    slug: "foundation",
-    href: "/compass/foundation",
-    manifestTitle: "Foundation",
-    coverTitle: "Zero",
-    ordinal: "001",
-    accent: "gold",
+    /* Manual 0 — renamed Foundation → Clarity per the IA spec.
+       One-word stage name. URL slug + folder + cover title all use
+       "clarity" now; redirects from /manuals/foundation/* live in
+       `next.config.ts`. */
+    slug: "clarity",
+    href: "/manuals/clarity",
+    manifestTitle: "Clarity",
+    coverTitle: "Clarity",
+    ordinal: "00",
+    /* Was `accent: "gold"` (= `#FFC66E`). The `gold` slot was
+       retired in the card-accent rename — it duplicated `orange`
+       byte-for-byte. Migrated to `orange` so the cover still
+       renders the same hex; `accent` is now reserved for the
+       Mantle Official workflow plate (`#FFBB53`, the darker
+       official gold). */
+    accent: "orange",
     motif: "vanishing-grid",
     comingSoon: false,
+    summary:
+      "Get clear on what deserves to be built before you start building. The first manual — builder identity, real markets, and the founder posture the rest of Compass assumes.",
   },
   {
     slug: "shape",
-    href: "/compass/shape",
+    href: "/manuals/shape",
     manifestTitle: "Shape",
     coverTitle: "Shape",
-    ordinal: "002",
-    accent: "lilac",
+    ordinal: "01",
+    accent: "purple",
     motif: "nested-ovals",
     comingSoon: false,
+    summary:
+      "Turn a fuzzy idea into a sharp product thesis. Position the problem, validate real demand, and decide what the first version should be before you build anything.",
   },
   {
+    /* The next four manuals (Build through Operate) are roadmap
+       placeholders. The earlier draft MDX was removed because it
+       wasn't going forward, but the cover slots stay in the grid so
+       visitors can see the full Compass arc — flip `comingSoon` to
+       false + author chapters under `compass/content/manuals/<slug>/`
+       as each manual is written. Summaries are intentionally short
+       (one line) — long-form descriptions live on the home row-list
+       only after the chapters exist. */
     slug: "build",
-    href: "/compass/build",
+    href: "/manuals/build",
     manifestTitle: "Build",
     coverTitle: "Build",
-    ordinal: "003",
-    accent: "cyan",
+    ordinal: "02",
+    accent: "teal",
     motif: "circuit-path",
-    comingSoon: false,
+    comingSoon: true,
+    summary:
+      "How to actually ship the first version — opinionated guidance on scope, stack choices, and the AI-native workflows that make a small team feel like ten.",
   },
   {
     slug: "launch",
-    href: "/compass/launch",
+    href: "/manuals/launch",
     manifestTitle: "Launch",
     coverTitle: "Launch",
-    ordinal: "004",
-    accent: "warm",
+    ordinal: "03",
+    accent: "mac-yellow",
     motif: "funnel-paths",
     comingSoon: true,
   },
   {
+    /* Monetize maps to the canonical Mantle red (`mac-red` =
+       `--color-mac-red` = #EE5249), unambiguous against Clarity's
+       light gold. Was `accent: "red"` before the card-accent rename
+       that moved next-gen-style `mac-*` prefixes onto the
+       saturated mid-tone colors. */
     slug: "monetize",
-    href: "/compass/monetize",
+    href: "/manuals/monetize",
     manifestTitle: "Monetize",
     coverTitle: "Monetize",
-    ordinal: "005",
-    accent: "orange",
+    ordinal: "04",
+    accent: "mac-red",
     motif: "magnetic-field",
     comingSoon: true,
   },
   {
+    /* Grow uses the canonical Mantle spring green (`mac-green` =
+       `--color-mac-green` = #5CD055), distinct from Build's teal.
+       Was `accent: "green"` before the rename moved the bright
+       electric `--color-green-high` (#98FF76) onto the `green` slot
+       to match next-gen, and the saturated mid-green onto
+       `mac-green`. */
     slug: "grow",
-    href: "/compass/grow",
+    href: "/manuals/grow",
     manifestTitle: "Grow",
     coverTitle: "Grow",
-    ordinal: "006",
-    accent: "cyan",
+    ordinal: "05",
+    accent: "mac-green",
     motif: "sine-wave",
     comingSoon: true,
   },
   {
     slug: "operate",
-    href: "/compass/operate",
+    href: "/manuals/operate",
     manifestTitle: "Operate",
     coverTitle: "Operate",
-    ordinal: "007",
+    ordinal: "06",
     accent: "white",
     motif: "helix-coil",
     comingSoon: true,

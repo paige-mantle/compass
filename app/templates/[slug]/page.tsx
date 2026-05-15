@@ -1,21 +1,54 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
-import { FrameworkShell } from "@/compass/components/methods/FrameworkShell";
-import { PairsWith, PairItem } from "@/compass/components/methods/PairsWith";
+import { compassMdxOptions } from "@/compass/lib/mdx-options";
+import { CompassDetailShell } from "@/compass/components/shared/CompassDetailShell";
+import { Cmd } from "@/compass/components/shared/Cmd";
+import { CodeFence } from "@/compass/components/shared/CodeFence";
+import { CodeBlocks } from "@/compass/components/workflows/CodeBlocks";
+import { PreviewImageTabs } from "@/compass/components/workflows/PreviewImageTabs";
+import { PairsWith, PairItem } from "@/compass/components/workflows/PairsWith";
+import { BestFor } from "@/compass/components/workflows/BestFor";
+import {
+  RelatedCards,
+  RelatedCard,
+} from "@/compass/components/workflows/RelatedCards";
+import { Callout } from "@/compass/components/manuals/Callout";
+import { Checklist, CheckItem } from "@/compass/components/manuals/Checklist";
+import {
+  FieldNote,
+  RealityCheck,
+  CommonFailure,
+  DecisionPoint,
+  FounderShift,
+} from "@/compass/components/callouts/Callouts";
 import { listTemplates, loadTemplate } from "@/compass/lib/templates/content";
-import type { FrameworkMeta } from "@/compass/lib/methods/content";
+import { SITE_ORIGIN } from "@/compass/lib/seo";
+import { formatShortDate } from "@/compass/lib/format-date";
 
-// Template detail pages reuse `FrameworkShell` exactly so the
-// layout, typography, sticky right rail, share controls, meta
-// strip, and prev/next nav stay byte-for-byte consistent between
-// `/compass/methods/[slug]` and `/templates/[slug]`. We adapt
-// the template frontmatter into the `FrameworkMeta` shape the
-// shell expects.
+// Template detail pages reuse `CompassDetailShell` so the layout,
+// hero, sticky right rail, and prev/next nav stay byte-for-byte
+// consistent between `/workflows/[slug]` and `/templates/[slug]`.
+// Same MDX component map as workflows — including the full callout
+// family — so authors can use the same patterns across both
+// surfaces.
 
 const templateMdxComponents = {
+  Cmd,
+  pre: CodeFence,
   PairsWith,
   PairItem,
+  BestFor,
+  RelatedCards,
+  RelatedCard,
+  Note: Callout,
+  Callout,
+  FieldNote,
+  RealityCheck,
+  CommonFailure,
+  DecisionPoint,
+  FounderShift,
+  Checklist,
+  CheckItem,
 };
 
 type Params = { slug: string };
@@ -33,22 +66,33 @@ export async function generateMetadata({
   const { slug } = await params;
   const loaded = await loadTemplate(slug);
   if (!loaded) return {};
-  const path = `/templates/${slug}`;
+  /* SEO-sheet overrides win over auto-generated title/summary.
+     Canonical is absolute via `SITE_ORIGIN` so preview deploys
+     never leak preview-host canonicals into search indexes. */
+  const url = `${SITE_ORIGIN}/templates/${slug}`;
+  const m = loaded.meta;
+  /* `absolute` bypass when `metaTitle` is set — the spreadsheet
+     title already includes "| Mantle Compass". See workflows page
+     for full rationale. */
+  const title = m.metaTitle ? { absolute: m.metaTitle } : m.title;
+  const description = m.metaDescription ?? m.summary;
+  const ogTitle = m.ogTitle ?? m.metaTitle ?? m.title;
+  const ogDescription = m.ogDescription ?? description;
   return {
-    title: loaded.meta.title,
-    description: loaded.meta.description,
-    alternates: { canonical: path },
+    title,
+    description,
+    alternates: { canonical: url },
     openGraph: {
       type: "article",
-      title: loaded.meta.title,
-      description: loaded.meta.description,
-      url: path,
-      authors: loaded.meta.author ? [loaded.meta.author] : undefined,
+      title: ogTitle,
+      description: ogDescription,
+      url,
+      authors: m.author ? [m.author] : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: loaded.meta.title,
-      description: loaded.meta.description,
+      title: ogTitle,
+      description: ogDescription,
     },
   };
 }
@@ -62,44 +106,23 @@ export default async function TemplatePage({
   const loaded = await loadTemplate(slug);
   if (!loaded) notFound();
 
-  const url = `https://heymantle.com/templates/${slug}`;
-
-  // Adapt TemplateMeta → FrameworkMeta. Only the field names that
-  // differ between the two systems need mapping (`description` →
-  // `summary`); the rest pass through verbatim. The shell uses:
-  // title, summary, tags, author, authorRole, authorAvatar,
-  // codeBlocks, lastUpdated.
-  const shellMeta: FrameworkMeta = {
-    title: loaded.meta.title,
-    slug: loaded.meta.slug,
-    summary: loaded.meta.description,
-    ribbon: loaded.meta.ribbon ?? "Templates",
-    author: loaded.meta.author ?? "Mantle Team",
-    authorRole: loaded.meta.authorRole,
-    authorAvatar: loaded.meta.authorAvatar,
-    blockColor: loaded.meta.blockColor,
-    tags: loaded.meta.tags,
-    // Templates use the same "Works with" tag pills as Methods.
-    // Cast through to the FrameworkMeta `tools` field so the shell
-    // renders the row above the body content.
-    tools: loaded.meta.tools as string[] | undefined,
-    codeBlocks: loaded.meta.codeBlocks,
-    published: loaded.meta.published,
-    lastUpdated: loaded.meta.lastUpdated,
-    file: loaded.meta.file,
-    previewImage: loaded.meta.previewImage,
-  };
+  /* Resolve through `SITE_ORIGIN` so JSON-LD URLs match the canonical
+     domain even when Compass renders under a preview deploy. The old
+     hardcoded `https://heymantle.com/templates/...` leaked preview
+     URLs into Google's index whenever this page was rebuilt under a
+     non-production host. Mirrors the workflows + insights pattern. */
+  const url = `${SITE_ORIGIN}/templates/${slug}`;
 
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     headline: loaded.meta.title,
-    description: loaded.meta.description,
+    description: loaded.meta.summary,
     author: { "@type": "Person", name: loaded.meta.author ?? "Mantle Team" },
     publisher: {
       "@type": "Organization",
       name: "Mantle",
-      url: "https://heymantle.com",
+      url: SITE_ORIGIN,
     },
     mainEntityOfPage: url,
   };
@@ -111,7 +134,7 @@ export default async function TemplatePage({
         "@type": "ListItem",
         position: 1,
         name: "Templates",
-        item: "https://heymantle.com/templates",
+        item: `${SITE_ORIGIN}/templates`,
       },
       {
         "@type": "ListItem",
@@ -122,13 +145,78 @@ export default async function TemplatePage({
     ],
   };
 
+  const blocks = loaded.meta.codeBlocks ?? [];
+  const authors = loaded.meta.author
+    ? [{
+        name: loaded.meta.author,
+        role: loaded.meta.authorRole,
+        avatar: loaded.meta.authorAvatar,
+      }]
+    : [{ name: "Mantle Team" }];
+  /* Templates use the same "Works with" tag pills as Workflows.
+     `tools` lives on TemplateMeta as `string[] | undefined`. */
+  const worksWith = loaded.meta.tools as string[] | undefined;
+
   return (
-    <FrameworkShell
-      meta={shellMeta}
-      shareUrl={url}
-      backHref="/templates"
-      backLabel="Templates"
-      showFooterCta={false}
+    <CompassDetailShell
+      breadcrumb={[{ label: "Templates", href: "/templates" }]}
+      title={loaded.meta.title}
+      summary={loaded.meta.summary}
+      authors={authors}
+      /* `verified` (the "Mantle Official" shield eyebrow) is
+         intentionally NOT set right now — we're not surfacing the
+         official-template badge on detail pages until the design
+         pass lands. Restore by adding `verified` (and optionally
+         `verifiedLabel="Mantle Official"`) when ready. */
+      worksWith={worksWith}
+      systems={loaded.meta.systems}
+      estimatedTime={loaded.meta.estimatedTime}
+      /* Short-form date — `formatShortDate` returns "MAR 3 24" /
+         "DEC 15 24". Matches the card meta line; one date format
+         across every Compass surface. */
+      metaLine={loaded.meta.lastUpdated ? `Updated ${formatShortDate(loaded.meta.lastUpdated)}` : undefined}
+      metaLayout="card"
+      tags={loaded.meta.tags}
+      /* TODO(share): Re-enable the social share cluster once the
+         button recipe is finalized — pass `shareUrl={url}` to
+         `CompassDetailShell` and the hero will render `<ShareCluster>`
+         in the breadcrumb row again. Temporarily suppressed across
+         workflows + templates pending design refresh. The ShareCluster
+         component is still mounted in the codebase
+         (`compass/components/shared/ShareCluster.tsx`), so restoring
+         it is a one-line change. */
+      rail="code"
+      rightRailLabel="Preview + prompt panel"
+      rightRail={
+        /* Templates ship a TWO-BLOCK right rail at lg+: tabbed
+           preview-image gallery on TOP, prompt code blocks on the
+           BOTTOM. The two blocks share the same dark surface +
+           rounded-md frame recipe so they read as one column.
+           `previewImages` (array of `{ label, src, alt, caption }`)
+           is the canonical source — when present, the gallery
+           renders. The legacy single `previewImage` is still
+           supported as a fallback (rendered as a single-image
+           gallery) so templates that haven't migrated still show
+           their mockup. When neither preview shape is set, only
+           the code-blocks panel renders. */
+        <div className="flex flex-col gap-3">
+          {loaded.meta.previewImages?.length ? (
+            <PreviewImageTabs images={loaded.meta.previewImages} />
+          ) : loaded.meta.previewImage ? (
+            <PreviewImageTabs
+              images={[
+                {
+                  label: "Preview",
+                  src: loaded.meta.previewImage.src,
+                  alt: loaded.meta.previewImage.alt,
+                  caption: loaded.meta.previewImage.caption,
+                },
+              ]}
+            />
+          ) : null}
+          <CodeBlocks blocks={blocks} />
+        </div>
+      }
     >
       <script
         type="application/ld+json"
@@ -141,8 +229,8 @@ export default async function TemplatePage({
       <MDXRemote
         source={loaded.source}
         components={templateMdxComponents}
-        options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+        options={compassMdxOptions}
       />
-    </FrameworkShell>
+    </CompassDetailShell>
   );
 }

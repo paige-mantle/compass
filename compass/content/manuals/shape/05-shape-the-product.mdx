@@ -1,0 +1,244 @@
+---
+title: "Shape the product"
+summary: "Decide where the app should live, how the workflow should work, and what V1 should include or skip."
+metaTitle: "Shape Your App Product | Mantle Compass"
+metaDescription: "Decide where the app should live, how the workflow should work, and what V1 should include or skip."
+ogTitle: "Shape your app product"
+ogDescription: "Decide where the app should live, how the workflow should work, and what V1 should include or skip."
+lastUpdated: "2026-05-15"
+---
+
+**Goal:** Decide where the app should live, how it should work, and what version one should include.
+
+By this point, you should have a clearer problem, a more specific customer, a better sense of the market, and a rough idea of how people might find the app.
+
+Now we need to turn that into product direction.
+
+We don't need the full UI, UX, or feature set figured out right now. We just need enough clarity to answer:
+
+- Where should this app live?
+- What is the simplest workflow?
+- What is the first useful version?
+- What are we not building yet?
+
+Making a few product decisions before the build will lead to a V1 with a clear shape instead of AI slop, so you have a better starting point to build from.
+
+## Choose the platform or ecosystem
+
+Before you decide what to build, decide where it should live.
+
+There are a lot of ways to build apps now: standalone web app, Shopify app, Chrome extension, Framer plugin, Slack app, mobile app, AI agent, internal tool, or something else entirely.
+
+The platform you build for affects acquisition, account setup, installation, integrations, pricing expectations, platform rules, and how much control you actually have.
+
+A useful question:
+
+> Is the pain tied to a specific platform, or is the platform just one place you could find the customer?
+
+A lot of great apps exist because a platform creates a gap. Maybe the native feature is too limited. Maybe the workflow takes too many steps. Maybe the platform technically supports something, but not in the way real users need it.
+
+That does not make the app a hack. It means the product is filling a real workflow gap around the platform.
+
+| If the pain is tied to... | Build close to... | Example |
+| --- | --- | --- |
+| Shopify data, checkout, products, discounts, orders, or merchant workflows | Shopify | A discount app, upsell app, returns app, product quiz, reporting app, or checkout-adjacent workflow |
+| Slack conversations, approvals, notifications, or team handoffs | Slack | A tool that turns messy team requests into tasks, approvals, summaries, or automated follow-ups |
+| Framer design, publishing, components, CMS, or client site workflows | Framer | A plugin or helper for designers managing Framer projects, reusable sections, client feedback, or site QA |
+| Browser-based research, screenshots, scraping, or repetitive tab work | Chrome extension | A tool that captures landing page elements, summarizes pages, saves research, or automates browser workflows |
+| A workflow that spans multiple tools and should not depend on one platform | Standalone product | A client deliverable tracker, analytics dashboard, or lightweight CRM-style tool |
+
+If the pain is tied to Shopify, build close to Shopify. If the pain is tied to Framer, build close to Framer.
+
+But if the problem is broader and the platform is mostly a convenient place to find users, pause before you commit. That might be a distribution choice, not the product surface.
+
+This section is not about planning your full acquisition strategy. We covered the early version of that in **1.4 Explore distribution**. For now, you're deciding what environment makes the most sense for the app itself.
+
+## Understand the benefits and trade-offs
+
+There are real benefits to both paths.
+
+Building standalone means you own more of the business: the product, pricing, customer relationship, roadmap, brand, and data.
+
+For example, you might build a standalone web app with Stripe for billing, Mantle for app ops, and your own marketing site for acquisition. You control the whole experience, but you also have to get people there in the first place.
+
+<Callout title="Mantle feature: Business layer">
+
+A standalone app still needs more than screens. You'll need auth, billing, customer records, lifecycle emails, analytics, support, and a way to understand what users are doing. Plan for the business layer early, even if you keep V1 small.
+
+</Callout>
+
+Building inside an ecosystem gives you a head start on context, trust, and discovery. Shopify merchants already understand apps. Chrome users already install extensions. Framer designers already look for plugins, templates, and workflow helpers.
+
+| Path | Benefits | Trade-offs |
+| --- | --- | --- |
+| Standalone product | More control over product, pricing, brand, customer data, and roadmap | Harder acquisition, more setup decisions, more trust-building from scratch |
+| Ecosystem app/plugin | Built-in context, existing user behavior, marketplace/search discovery, clearer platform workflows | Platform rules, revenue share, API changes, review process, dependency risk |
+
+<RealityCheck>
+
+Building within an ecosystem means you're building on someone else's land. They set the rules, they change APIs, they take a cut, and they can ship a native feature that makes your category weird or obsolete overnight.
+
+</RealityCheck>
+
+Neither path is automatically better. You're choosing the environment that best matches the problem, customer, and workflow.
+
+## Sketch the possible workflow
+
+Now sketch the simplest path from problem to value.
+
+This is still a guess. You have not validated the product yet, and you probably have not watched enough real users move through the workflow. That's fine. The goal here is not to design the perfect UX. It's to make your assumptions visible.
+
+Start with what you think the customer is trying to do:
+
+- What happens before they need the app?
+- What are they doing today?
+- Where does the pain show up?
+- What would your app change?
+- What does the first useful outcome look like?
+
+The ecosystem matters here too. A Shopify app, Framer plugin, Chrome extension, Slack app, AI agent, and standalone web app will all shape the workflow differently. The same problem might need a completely different experience depending on where it lives.
+
+For example, a Shopify app might start with connecting store data. A Chrome extension might start with capturing something from the browser. A Framer plugin might start inside a designer's existing project. A standalone web app might need onboarding, authentication, billing, and setup before the user gets value.
+
+So don't just ask, "What features should this have?" Ask, "What is the shortest path from the customer's current workflow to a better one?"
+
+| Step | What the customer is trying to do | What they do today | What your app might change |
+| --- | --- | --- | --- |
+| Before |  |  |  |
+| During |  |  |  |
+| First useful outcome |  |  |  |
+
+This does not need to be perfect. It just needs to be clear enough that you can see where the app starts, what it helps with, and where the first real value appears.
+
+## Find the trigger moment
+
+The trigger moment is when the customer feels the pain and becomes open to a better way of doing things.
+
+A freelancer realizes three deliverables are due this week. A Shopify merchant sees conversion drop after launching a new theme. A founder gets another support ticket about the same onboarding issue. An operator spends Friday exporting the same report again.
+
+The trigger matters because it's the moment your app becomes relevant.
+
+It can also shape the direction of the app. If the trigger happens inside Shopify, maybe the app needs to be a Shopify app. If it happens while someone is browsing a website, maybe it's a Chrome extension. If it happens during a team conversation, maybe Slack is part of the workflow.
+
+You're looking for the moment where the customer thinks:
+
+> "There has to be a better way to do this."
+
+## Define the fastest path to value
+
+The fastest path to value is the version of your app that gets someone to a real outcome as quickly as possible.
+
+This is not necessarily the smallest feature set. It depends on what you're solving. For some apps, the fastest path to value is one tiny workflow. For others, the user may need a few connected steps before they get the win.
+
+The point is to understand what has to happen for someone to think:
+
+> "Okay, this is actually useful."
+
+| App idea | Fastest path to value |
+| --- | --- |
+| Client deliverable tracker | Add client → add deliverables → see what is due, late, and at risk |
+| Shopify conversion audit app | Connect store → scan key pages → get prioritized issues |
+| Billing analytics tool | Connect billing data → see trial, revenue, churn, and upgrade signals |
+
+This is the part you build around first.
+
+Everything else is either supporting that path or getting shipped later.
+
+<FounderShift>
+
+**Feature thinking**  
+What screens, settings, AI widgets, dashboards, and integrations should this have?
+
+**Workflow thinking**  
+What is the fastest path from pain to value?
+
+</FounderShift>
+
+## Set V1 constraints
+
+Adding constraints at this stage is how you keep the app from becoming a beautiful, bloated little monster.
+
+You're going to document the limits before you start building.
+
+Time, budget, technical ability, platform rules, integrations, support capacity, and personal energy all count.
+
+The goal is to figure out what not to build before you start building, especially with AI in the mix.
+
+## Decide what not to build
+
+Non-goals are the things your app will explicitly not do right now.
+
+In your working chat, speak or type three "we're not" statements.
+
+For example:
+
+> We're a client deliverable tracker for freelance designers, not a project management platform, not an invoicing tool, and not a client portal.
+
+This helps protect the app from your own instinct to keep adding, AI's tendency to overbuild, and leads or customers asking for features outside the core problem.
+
+A backlog is fine. Building every idea into V1 is how you delay launch, make the first version harder to use, and create more operational work before you need it.
+
+<RealityCheck>
+
+Every feature you add is surface area to maintain, explain, support, and debug.
+
+</RealityCheck>
+
+## Write the first product shape
+
+Now pull all of the constraints into a short paragraph:
+
+> This app is a [platform/product type] for [specific customer] who [situation]. It helps them [core workflow] so they can [outcome]. The first version will include [fastest path to value]. It will not include [non-goals].
+
+Example:
+
+> This is a lightweight web app for freelance web and UX designers managing more than four active Framer client projects. It helps them track client deliverables, deadlines, and at-risk work so they can stay ahead without checking five places. The first version will include client setup, deliverable tracking, due date status, and a weekly priority view. It will not include invoicing, time tracking, or team collaboration.
+
+## Action item
+
+Open your working chat and talk through these questions. Voice mode is easiest, but typing works too.
+
+If you don't know the answer, say **"I don't know yet."** Don't force an answer just to fill the page. The gaps are useful because they tell you what to research, validate, or ask real customers next.
+
+1. Where could this app live: standalone web app, Shopify app, Chrome extension, Framer plugin, Slack app, mobile app, AI agent, internal tool, or something else?
+2. Is the pain tied to a specific platform or ecosystem?
+3. What does the customer do today before the app helps?
+4. What would your app change in that workflow?
+5. What is the trigger moment?
+6. What is the fastest path to value?
+7. What constraints do you need to document before building?
+8. What are you explicitly not building in V1?
+9. What should the first app shape be?
+
+## Organize your product shape notes
+
+Paste this into the same working chat after you answer.
+
+<Prompt
+  title="Organize your product shape notes"
+  defaultPrompt={`Take everything I just shared and organize it into my shape doc.
+
+Please pull out:
+
+1. Platform or ecosystem
+2. Why this app should live there
+3. Current customer workflow
+4. Trigger moment
+5. Fastest path to value
+6. V1 constraints
+7. Non-goals / what we are not building yet
+8. First product shape paragraph
+9. Gaps / research needed
+
+For anything I said "I don't know yet" about, create a short research list with:
+- what I need to find out
+- where I might look
+- who I might ask
+- why it matters before building
+
+Also flag:
+- where I'm describing features instead of workflow
+- where V1 is getting too big
+- what should move to the backlog
+- what I need to validate before building`}
+/>

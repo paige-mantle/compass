@@ -1,0 +1,129 @@
+---
+title: "AI-Ready App Context"
+slug: ai-ready-app-context
+summary: "Build reusable app context your AI tools use across support, onboarding, marketing, and docs."
+metaTitle: "AI-Ready App Context Workflow | Mantle Compass"
+metaDescription: "Create reusable app context for support, onboarding, product marketing, UX, documentation, and internal workflows."
+ogTitle: "Create reusable AI-ready app context"
+ogDescription: "Build reusable app context your AI tools can use across support, onboarding, product marketing, UX, docs, and internal workflows."
+ribbon: "Method"
+author: "Mantle Team"
+authorRole: "Mantle"
+blockColor: "graphite"
+# Tags are subject-matter only. The AI tools the method runs inside are
+# surfaced in the "Works with" line on the meta strip — keeping them out
+# of the tag list avoids the duplicate "Shopify · Mantle · Claude · …"
+# we had before.
+tags:
+  - Shopify
+  - AI Workflows
+  - Messaging
+  - Positioning
+systems:
+  - AI tooling
+  - Product docs
+  - Support
+  - Marketing
+tools:
+  - Mantle
+  - Claude
+  - Claude Code
+  - ChatGPT
+  - Codex
+estimatedTime: "20 min"
+# Open in Mantle AI deliberately omitted — this is a general-purpose
+# prompt method that runs in any LLM, not a Mantle AI-native workflow.
+# Only set `openInMantleAiUrl` on methods that have a real deep-link
+# into Mantle AI.
+published: true
+lastUpdated: "May 12, 2026"
+codeBlocks:
+  - filename: "Add source materials"
+    language: "markdown"
+    code: |
+      Add the company, product, and customer resources you want the AI to analyze.
+
+      Resources:
+      - Shopify App Store URL: [PASTE URL]
+      - Landing page URL: [PASTE URL]
+      - Documentation URL: [PASTE URL]
+      - Help center URL: [PASTE URL]
+      - Product screenshots: [ATTACH FILES]
+      - Internal notes: [PASTE TEXT]
+      - Existing positioning docs: [PASTE TEXT]
+      - Onboarding flows: [DESCRIBE OR LINK]
+      - Changelog or release notes: [PASTE]
+      - Support conversations: [PASTE TRANSCRIPTS]
+      - Additional URLs or files: [PASTE]
+  - filename: "Prompt"
+    language: "markdown"
+    code: |
+      Help me generate an AI-ready App Context document for my Shopify app.
+
+      My goal is to create a reusable operational reference AI tools can use across support, onboarding, product marketing, UX, documentation, and internal workflows.
+
+      Analyze the provided resources and infer:
+
+      - what the company does
+      - who the product serves
+      - key workflows
+      - terminology
+      - positioning
+      - messaging patterns
+      - onboarding flows
+      - customer pain points
+      - brand voice
+      - formatting preferences
+      - operational constraints
+      - support patterns
+      - AI usage considerations
+
+      Generate the output as a clean structured Markdown document.
+
+      Prioritize clarity, operational usefulness, and accuracy over marketing language.
+
+      Avoid generic AI phrasing and avoid inventing details not supported by the provided resources.
+  - filename: "Output formatting"
+    language: "markdown"
+    code: |
+      Format the document using:
+      - clear H1/H2/H3 headings
+      - concise paragraphs
+      - bullets where useful
+      - tables for structured information
+      - clean Markdown formatting
+      - scannable sections
+      - consistent terminology
+      - short operational explanations over long prose
+
+      Where possible:
+      - include examples
+      - include "Do / Don't" guidance
+      - separate assumptions from confirmed information
+      - clearly flag missing information
+
+      Write like an internal operational document used by product, support, marketing, and AI systems, not a marketing page.
+---
+
+## Overview
+
+Build a reusable operational context document your AI tools can read before drafting support replies, onboarding flows, marketing copy, or product docs.
+
+One source of truth — about your company, product, customers, workflows, positioning, and voice — instead of rewriting the same context into every prompt.
+
+## Best for
+
+<BestFor items={["Founders running AI-first ops", "Shopify app teams", "Support + lifecycle teams", "Product marketing", "AI-assisted documentation"]} />
+
+## Outputs
+
+- Company + product overview
+- ICP and customer pain points
+- Positioning and messaging guide
+- Brand voice + formatting rules
+- Product workflow reference
+- Terminology glossary
+- Reusable system-prompt foundation
+
+{/* "## Related" section temporarily removed across all workflow +
+    template MDX files pending the related-cards redesign. */}

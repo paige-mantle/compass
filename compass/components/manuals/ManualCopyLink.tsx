@@ -36,7 +36,7 @@ export function ManualCopyLink() {
       aria-live="polite"
       className="inline-flex h-[30px] cursor-pointer items-center gap-[6px]
                  rounded-md border border-fg-medium/30 bg-transparent px-[10px]
-                 font-sans text-[14px] font-normal leading-none text-fg-medium
+                 font-sans text-xs font-normal leading-none text-fg-medium
                  transition-colors duration-150
                  hover:border-fg-medium/50 hover:bg-fg-high/[0.04]"
     >

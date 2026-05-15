@@ -1,0 +1,90 @@
+---
+title: "Onboarding Flow Planner"
+slug: onboarding-flow-planner
+summary: "Plan an onboarding flow that gets new installs to value faster."
+metaTitle: "App Onboarding Flow Planner | Mantle Compass"
+metaDescription: "Plan a clearer onboarding flow that helps new installs reach value faster and become active customers."
+ogTitle: "Plan a better app onboarding flow"
+ogDescription: "Create a clearer onboarding flow that helps new installs reach value faster and become active customers."
+ribbon: "Workflow"
+author: "Mantle Team"
+authorRole: "Mantle"
+blockColor: "purple"
+tags:
+  - Lifecycle
+  - Onboarding
+  - Activation
+  - Automation
+systems:
+  - Customers
+  - Email + messaging
+  - Automations
+  - Tasks
+tools:
+  - Mantle
+estimatedTime: "20 min"
+published: true
+lastUpdated: "May 12, 2026"
+codeBlocks:
+  - filename: onboarding-flow-planner.prompt.md
+    language: prompt
+    code: |
+      I want you to help me design an onboarding automation flow for Mantle.
+
+      My goal is to improve activation for new customers after they install my app.
+
+      Please create a Mantle flow that:
+
+      - targets newly installed customers
+      - starts when a customer installs the app
+      - sends a welcome email immediately
+      - waits 2 days
+      - checks whether the customer has become active / completed a key activation event
+      - if they have not activated, sends a follow-up email with setup guidance
+      - waits another 3 days
+      - checks again whether they activated
+      - if they still have not activated, creates an internal task for the team to follow up
+      - if they have activated at any checkpoint, ends the flow
+
+      Please structure the result as:
+
+      - Flow objective
+      - Recommended trigger
+      - Entry conditions
+      - Step-by-step flow logic
+      - Branch conditions
+      - Suggested email copy for each email
+      - Suggested internal task title and description
+      - Potential improvements or variants
+
+      Important:
+
+      - Keep the logic compatible with Mantle-style automations
+      - Use clear, implementation-ready step names
+      - Make reasonable assumptions where needed, and clearly label them
+      - If "activation event" is ambiguous, suggest 3 example activation events I could use
+      - Keep it practical and concise
+---
+
+## Overview
+
+Use this workflow to design an onboarding automation that gets new installs to value faster — welcome, follow-up, activation check, and an internal escalation when an account stalls.
+
+Built for app teams who want a clear post-install flow without staring at a blank automation canvas.
+
+## Best for
+
+<BestFor items={["Shopify app teams", "Lifecycle marketing", "Founder-led apps", "Customer success teams", "Product-led SaaS"]} />
+
+## Outputs
+
+- Onboarding flow objective
+- Recommended trigger + entry conditions
+- Step-by-step automation logic
+- Branch conditions for activation
+- Welcome + follow-up email copy
+- Internal task for stalled accounts
+- Variants and improvement ideas
+
+{/* "## Related" section temporarily removed across all workflow +
+    template MDX files pending the related-cards redesign. */}

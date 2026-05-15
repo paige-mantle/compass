@@ -1,0 +1,40 @@
+{
+  "slug": "clarity",
+  "title": "Clarity",
+  "number": "0",
+  "accent": "#FFBB53",
+  "heroVariant": "light",
+  "sections": [
+    {
+      "slug": "",
+      "title": "Overview",
+      "isIntro": true,
+      "file": "00-clarity.mdx"
+    },
+    {
+      "slug": "what-changed",
+      "title": "What AI changed",
+      "file": "01-what-changed.mdx"
+    },
+    {
+      "slug": "who-this-is-for",
+      "title": "Who this is for",
+      "file": "02-who-this-is-for.mdx"
+    },
+    {
+      "slug": "build-a-real-app-business",
+      "title": "Can your app become a real business?",
+      "file": "03-build-a-real-app-business.mdx"
+    },
+    {
+      "slug": "builder-to-founder",
+      "title": "From builder to founder",
+      "file": "04-builder-to-founder.mdx"
+    },
+    {
+      "slug": "how-to-use-this-guide",
+      "title": "How to use Compass",
+      "file": "05-how-to-use-this-guide.mdx"
+    }
+  ]
+}

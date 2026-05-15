@@ -7,40 +7,39 @@ import { ChevronRight } from "lucide-react";
  * Visual:  > EYEBROW TEXT     (chevron-right icon · small mono label)
  *
  * Used as the "terminal-prompt" eyebrow above CTAs and section
- * headings in the Mantle marketing system. The icon color resolves
- * to a CSS variable so it tracks the chosen color tone exactly
- * (Mantle does `var(--color-${color}-high)` — same trick here).
+ * headings in the Mantle marketing system.
  *
  *   • `color`: "fg" | "accent" | "accent-alt"   (default "accent")
  *   • `text`:  the eyebrow label                 (default "Explore Mantle")
  *   • `className`: passthrough for wrapper       (default "")
  *
  * Text recipe: font-mono · font-medium · text-xs · tracking-wider ·
- * uppercase · leading-loose · color from the chosen tone. NOTE — in the
- * Compass Tailwind theme, `text-xs` resolves to 14px (not the default
- * 12px); the type ramp is bumped one step throughout. 14px matches the
- * manual callout labels exactly.
+ * uppercase · leading-loose. NOTE — in the Compass Tailwind theme,
+ * `text-xs` resolves to 14px (not the default 12px); the type ramp
+ * is bumped one step throughout. 14px matches the manual callout
+ * labels exactly.
  *
- * The Compass accent tone resolves to `--color-accent-fg-high`
- * (a deeper amber) so it has AA contrast on the light Compass
- * surface — see globals.css for that fg-accent ramp.
+ * Icon and label always render in the SAME color: the icon uses
+ * `currentColor`, which inherits from the wrapper `<div>` set to the
+ * chosen tone via `text-*`. Earlier the icon and text were resolved
+ * through two different token chains (`--color-accent-fg-high` for
+ * the icon vs `--color-accent-medium` for the text) and could drift
+ * out of sync — particularly on dark surfaces where the fg-accent
+ * ramp reads as a deep amber.
  */
 
 type PromptColor = "fg" | "accent" | "accent-alt";
 
-const ICON_COLOR: Record<PromptColor, string> = {
-  fg: "var(--color-fg-medium)",
-  // Light-theme override: use the foreground-accent ramp added to
-  // globals.css so the icon contrasts on a light surface. Falls
-  // back to --color-accent-high if the fg-accent token isn't
-  // defined (e.g. running inside the dark Mantle parent).
-  accent: "var(--color-accent-fg-high, var(--color-accent-high))",
-  "accent-alt": "var(--color-accent-alt-high)",
-};
-
-const TEXT_COLOR_CLASS: Record<PromptColor, string> = {
+const COLOR_CLASS: Record<PromptColor, string> = {
   fg: "text-fg-medium",
-  accent: "text-accent-high",
+  /* Gold #FFBB53 — `text-accent` resolves through `--color-accent`
+     → `--color-accent-medium` and matches the next-gen `var(--gold)`
+     value used on every Mantle marketing-page eyebrow
+     (.mm-card-kicker, .nav-trigger hover, etc.). Previously
+     `text-accent-high` (#FFC66E) was a half-shade lighter than the
+     canonical Mantle gold; aligned here so Compass + Mantle eyebrows
+     read identically. */
+  accent: "text-accent",
   "accent-alt": "text-accent-alt-high",
 };
 
@@ -55,13 +54,13 @@ export function CompassPromptHeading({
 }) {
   return (
     <div
-      className={`flex items-center ${className}`}
+      className={`flex items-center ${COLOR_CLASS[color]} ${className}`}
       style={{ gap: "calc(var(--spacing) * 3)" }}
     >
       <ChevronRight
         width={16}
         height={16}
-        color={ICON_COLOR[color]}
+        color="currentColor"
         strokeWidth={2}
         aria-hidden
         className="shrink-0"
@@ -78,10 +77,9 @@ export function CompassPromptHeading({
           //   chevron-right (16px) + gap 12px + label
           //   font-mono · font-medium · text-xs (14px) ·
           //   tracking-wider (0.05em) · uppercase ·
-          //   leading-loose (1.5) · text-left · text-accent-high
+          //   leading-loose (1.5) · text-left · inherits wrapper color
           "m-0 font-mono font-medium text-xs tracking-wider uppercase",
           "text-left leading-loose",
-          TEXT_COLOR_CLASS[color],
         ].join(" ")}
       >
         {text}

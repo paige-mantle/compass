@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none" aria-hidden="true">
+  <!--
+    Placeholder hero for the Shopify App Screens template.
+    16:9 (1600×900) — same aspect ratio the `<PreviewTabs>` rail
+    reserves on the workflow / template detail page, so the
+    panel doesn't snap on first paint while the production
+    screenshot is being prepared.
+
+    Treatment:
+      • Mantle dark surface (`#0C0A0E`, mirror of
+        `--color-surface-medium`) so the placeholder reads as
+        the same plate as the page chrome around it.
+      • Mantle accent gold (`#FFBB53`, mirror of
+        `--color-accent`) on the dot grid and bracket marks so
+        the placeholder still carries brand identity — readers
+        know what it's pointing at even before the screenshot
+        lands.
+      • Three stacked "screen" rectangles (laptop / mobile /
+        spotlight) as an editorial mark of what the template
+        provides — bento, mobile, feature-spotlight layouts.
+      • No alphabetic labels — Geist Pixel isn't available as
+        an SVG-embedded face, and any system fallback would
+        ship the placeholder with the wrong typography.
+  -->
+
+  <!-- Plate fill. -->
+  <rect width="1600" height="900" fill="#0C0A0E" />
+
+  <!-- Dot-grid texture — 28px pitch, faint warm hue. Matches
+       the dot-grid recipe on Compass listing card plates. -->
+  <pattern id="dotGrid" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1" fill="#FFBB53" fill-opacity="0.06" />
+  </pattern>
+  <rect width="1600" height="900" fill="url(#dotGrid)" />
+
+  <!-- Three "screen" rectangles — bento, mobile, spotlight.
+       Stacked overlapping with slight rotation to read as a
+       layered set rather than a flat board. Strokes only;
+       fills sit slightly above the plate so the layers feel
+       discrete. -->
+  <g transform="translate(800,450)">
+    <!-- Laptop / bento — largest plate, centered. -->
+    <g transform="translate(-360,-220) rotate(-2 360 200)">
+      <rect x="0" y="0" width="720" height="400" rx="16"
+            fill="#161318" stroke="#FFBB53" stroke-opacity="0.55" stroke-width="2.5" />
+      <rect x="36" y="36" width="320" height="160" rx="8"
+            fill="#FFBB53" fill-opacity="0.10" />
+      <rect x="372" y="36" width="312" height="160" rx="8"
+            fill="#FFBB53" fill-opacity="0.05" />
+      <rect x="36" y="216" width="648" height="148" rx="8"
+            fill="#FFBB53" fill-opacity="0.05" />
+    </g>
+
+    <!-- Mobile — narrow plate, right side, rotated. -->
+    <g transform="translate(220,-160) rotate(8 110 220)">
+      <rect x="0" y="0" width="220" height="440" rx="22"
+            fill="#161318" stroke="#FFBB53" stroke-opacity="0.55" stroke-width="2.5" />
+      <rect x="22" y="22" width="176" height="60" rx="6"
+            fill="#FFBB53" fill-opacity="0.10" />
+      <rect x="22" y="100" width="176" height="116" rx="6"
+            fill="#FFBB53" fill-opacity="0.05" />
+      <rect x="22" y="232" width="176" height="40" rx="6"
+            fill="#FFBB53" fill-opacity="0.05" />
+      <rect x="22" y="290" width="176" height="40" rx="6"
+            fill="#FFBB53" fill-opacity="0.05" />
+    </g>
+
+    <!-- Spotlight tile — small square, left side, rotated. -->
+    <g transform="translate(-440,-40) rotate(-7 100 100)">
+      <rect x="0" y="0" width="200" height="200" rx="14"
+            fill="#161318" stroke="#FFBB53" stroke-opacity="0.55" stroke-width="2.5" />
+      <circle cx="100" cy="100" r="56" fill="#FFBB53" fill-opacity="0.12" />
+      <circle cx="100" cy="100" r="22" fill="#FFBB53" />
+    </g>
+  </g>
+
+  <!-- Corner bracket marks — Mantle next-gen "framing crop"
+       motif. Quietly anchors the placeholder as a deliberate
+       composition rather than a blank panel. -->
+  <g stroke="#FFBB53" stroke-opacity="0.6" stroke-width="2" fill="none">
+    <path d="M 56 56 L 56 120 M 56 56 L 120 56" />
+    <path d="M 1544 56 L 1544 120 M 1544 56 L 1480 56" />
+    <path d="M 56 844 L 56 780 M 56 844 L 120 844" />
+    <path d="M 1544 844 L 1544 780 M 1544 844 L 1480 844" />
+  </g>
+</svg>

@@ -1,63 +1,143 @@
 ---
 title: "Define the problem"
-summary: "Every successful app starts with a real problem people are already dealing with. Not a feature idea or a cool use of AI."
-lastUpdated: "2026-05-13"
+summary: "Get specific about the pain, when it shows up, what people do today, and what the problem costs."
+metaTitle: "Define Your App Problem | Mantle Compass"
+metaDescription: "Get specific about the pain, when it shows up, what people do today, and what the problem costs."
+ogTitle: "Define your app problem"
+ogDescription: "Get specific about the pain, when it shows up, what people do today, and what the problem costs."
+lastUpdated: "2026-05-15"
 ---
 
-This comes first because you can't validate demand for a product nobody knows exists yet. You can only validate demand for the problem.
+**Goal:** Prove the pain is real.
 
-If you can't clearly explain the problem from the perspective of your ideal customer, everything downstream — positioning, onboarding, marketing — gets harder.
+Every useful app starts with a real problem people are already dealing with. Not a feature idea or a cool use of AI. This comes first because you can't validate demand for an app nobody knows exists yet. You can only validate demand for the problem.
 
-## Write the problem in one sentence
+If you can't clearly explain that problem from the perspective of your ideal customer, everything downstream will get really hard: positioning, onboarding, marketing, and eventually the product itself.
 
-Brain dump every pain point you think your product could solve. The more the better. You can narrow it down later.
+## Identify the pain
 
-Don't think about features yet or how the product works. Just focus on the actual frustration people are dealing with. AI might even come up with a better solution than the one you had in mind anyway.
+First up, let's identify the pain your potential user is struggling with.
 
-The useful version explains:
+Brain dump every pain point you think your app could solve. Don't hold back.
 
-- who feels the pain
-- what the pain is
-- when it happens
+You don't need to worry about features yet or how the app works. Just focus on the actual frustration people are dealing with, because AI might come up with a better product solution than the one you had in mind anyway.
 
-Unless you're solving your own problem (*highly recommend this*), these are still assumptions until you talk to real people. Best guess for now — you'll validate later.
+Unless you're solving your own problem (*highly recommend this*), these are still assumptions until you talk to real people. Best guess for now. We'll validate later.
 
 | Type | Example |
 | --- | --- |
 | Too vague | I want to build a project management tool for freelancers. |
 | Useful | Freelancers lose track of client deliverables when juggling more than three projects and miss deadlines. |
 
-<RealityCheck>
-If you can't write the problem in one sentence, you're not ready to build.
-</RealityCheck>
+## Spot when it happens
 
-## The vitamin or painkiller test
+For each pain point, think about when it shows up.
 
-Painkillers get bought. Vitamins get bookmarked.
+The timing matters because it gives you the start of the workflow. It tells you what triggers the friction and where your app might eventually fit.
 
-Are people already using workarounds? Spreadsheets, Zapier flows, manual processes, copy-pasting between tools? If yes, you might have a painkiller.
+This part is harder to guess, especially if you're building a B2B app. Talk to end users and have them walk you through what they're doing in a real day. Workflows are getting less standardized now that more people use AI in their day-to-day work. One customer might rely on MCP integrations and automations, while another is still copy-pasting between five tabs. The workflow is usually where the actual pain shows up.
 
-If nobody is solving the problem at all, it's probably not painful enough. Especially now that AI is replacing a lot of lightweight "vitamin" tools.
+## Look at what they do today
 
-## Prompt
+Now look at what people are already using to solve the problem.
 
-Go to your AI tool of choice and use voice mode or transcription:
+Common workarounds include spreadsheets, Zapier flows, manual processes, copying and pasting between tools, or duct-taping disconnected apps together because there's no direct integration.
 
-```
-I'm trying to define the core problem my product idea solves.
+Sometimes you're not creating a brand-new behavior. You're improving something people already do. In that case, the useful question is: how are they doing it now, and how would it change with your app?
 
-Here's a braindump of everything I think the problem might be:
-[DUMP IT ALL HERE — don't filter, just write]
+<FieldNote title="IRL example: tiny tool, huge relief">
 
-My rough target user is: [WHO YOU THINK IT'S FOR]
+I've been loving a design tool called Paper. They recently launched Snapshot, a Chrome extension that lets you capture elements from a landing page, then paste them into Paper as editable frames.
 
-Help me:
-- identify the clearest core problem
-- rewrite it into a stronger one-sentence problem statement
-- point out anything that sounds too vague
-- identify whether this sounds like a painkiller or a vitamin
-```
+On paper, pun intended, it sounds almost too easy: capture something, paste it, edit the prototype. But it has saved me hours and hours of time. If I had to go without it now, my workflow would genuinely get worse.
 
-<Callout>
-**Planning tip:** Voice mode is the fastest way to braindump. Open Claude on your phone, hit the microphone, and just talk through everything you think the problem is. So much faster than typing — and you'll capture things you'd normally filter out before they hit the page.
-</Callout>
+</FieldNote>
+
+That's the kind of signal you're looking for. The app does not have to sound complicated to be valuable. It just has to remove real friction from something people are already trying to do.
+
+## Name the cost
+
+A problem gets more useful when you can name what it costs the customer.
+
+And no, we're not just talking about the price tag. Cost can mean time, missed revenue, mistakes, stress, customer trust, team confusion, risk, or the mental tax of doing the same annoying thing over and over.
+
+This is the difference between "this is annoying" and "this is annoying enough to fix." In the Paper example above, the cost is time. And time is money, especially when the old workflow eats hours you could have spent doing higher-value work.
+
+## Write the problem statement
+
+At this point, you don't need to force a perfect sentence by yourself. That's what the AI pass is for.
+
+Capture the raw pieces first: who feels the pain, when it happens, what they do today, what it costs them, and what they actually want instead. Then you can ask AI to turn that into a cleaner problem statement.
+
+Use this format:
+
+> [Customer] struggles with [problem] when [situation], which causes [cost / friction / missed opportunity].
+
+If you can't get the problem into one sentence after organizing your notes, you're probably not ready to build yet.
+
+## Define the outcome
+
+A good problem statement explains what's broken. A good outcome explains what the customer wants instead.
+
+This is where the product marketing work starts to get useful. A simple feature-benefit matrix can help you connect the pain to the outcome, and later to the features you may actually build. April Dunford uses this kind of feature/value/benefit thinking in positioning work, and it's useful here because it keeps you from jumping straight from "pain" to "random feature idea."
+
+For now, keep it simple:
+
+| Pain point | Job to be done | Desired outcome | Possible feature |
+| --- | --- | --- | --- |
+| Freelancers lose track of client deliverables when juggling more than three projects. | Stay on top of what is due, late, and at risk across active clients. | Freelancers know exactly what needs attention without checking five different places. | Leave this blank for now, or add ideas later. |
+
+Don't overcomplicate this. Just ask:
+
+- What are they trying to get done?
+- What do they want to avoid?
+- What would "fixed" look like?
+
+This helps you avoid building random features and focus on the result your app actually needs to create.
+
+## Action item
+
+Open your working chat and talk through these questions. Voice mode is easiest, but typing works too.
+
+If you don't know the answer, say **"I don't know yet."** Don't force an answer just to fill the page. The gaps are useful because they tell you what to research, validate, or ask real customers next.
+
+1. What pain points do you think your app could solve?
+2. When does each pain point show up?
+3. What are people doing today to solve or avoid the problem?
+4. What does the problem cost them?
+5. What would the customer actually want instead?
+6. What possible features came to mind, even if you're not ready to build them yet?
+
+## Organize your problem notes
+
+Paste this into the same working chat after you answer.
+
+<Prompt
+  title="Organize your problem notes"
+  defaultPrompt={`Take everything I just shared and organize it into my shape doc.
+
+Please pull out:
+
+1. Potential customer
+2. Pain points
+3. When the pain happens
+4. What they do today
+5. Cost of the problem
+6. Problem statement
+7. Job to be done
+8. Desired outcome
+9. Possible features to revisit later
+10. Gaps / research needed
+
+For anything I said "I don't know yet" about, create a short research list with:
+- what I need to find out
+- where I might look
+- who I might ask
+- why it matters before building
+
+Also flag:
+- anything that sounds too vague
+- where I'm describing a feature instead of a problem
+- whether this sounds like a painkiller or a vitamin
+- what would make the pain feel more urgent`}
+/>

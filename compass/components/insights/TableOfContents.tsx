@@ -57,7 +57,7 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
                   setActiveId(h.id);
                 }}
                 className={[
-                  "block font-sans text-[16px] leading-snug no-underline",
+                  "block font-sans text-base leading-snug no-underline",
                   "transition-colors duration-150",
                   active
                     ? "text-fg-high"

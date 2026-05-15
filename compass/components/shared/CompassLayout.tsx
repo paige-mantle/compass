@@ -1,51 +1,66 @@
 import type { ReactNode } from "react";
 import { CompassHeader } from "./CompassHeader";
 import { CompassBgFx } from "./CompassBgFx";
-import { CompassFooterCta } from "./CompassFooterCta";
+import { MantleFooter } from "./MantleFooter";
 
-// The full Mantle <Footer /> will sit below this layout when
-// Compass is integrated into the parent site. While standalone
-// we render only the CTA band (CompassFooterCta) at the bottom
-// of every page — it closes the page with a "Get started" call.
+// `<MantleFooter />` is the direct port of the live heymantle.com
+// footer (closing CTA band + 5-column link grid + decorative
+// LogoText watermark + warm ambient wash). It renders at the bottom
+// of every Compass page so the close mirrors the marketing site
+// byte-for-byte. The old Compass-specific `<CompassFooterCta />`
+// (CTA band only, no link grid) has been retired.
 
 /**
- * Compass page layout — light-mirror of Mantle's marketing
- * `Layout.astro`. Single source of truth for the chrome that
- * every Compass page renders inside:
+ * Compass page layout — single source of truth for the chrome
+ * every Compass page renders inside. Mirrors Mantle's marketing
+ * `Layout.astro` recipe: outer wrapper carrying `data-layout-bg-fx`
+ * + `data-bg-fx-scope` attributes that activate the
+ * `--bg-ambient-color` cascade, optional ambient backdrop, fixed
+ * `<CompassHeader />` chrome, page content, optional CTA band.
  *
- *   1. Outer wrapper — `relative isolate min-h-screen
- *      overflow-hidden bg-surface-medium` carrying the
- *      `data-layout-bg-fx data-bg-fx-scope` attributes that
- *      activate the `--bg-ambient-color` cascade.
- *   2. `<CompassBgFx />` — the absolute-positioned ambient
- *      backdrop. Skipped via `showBackgroundFx={false}`.
- *   3. Content shaft — `relative z-10 pt-16 md:pt-18` (the
- *      pt-* values clear the fixed `<CompassHeader />`).
- *      Contains `<CompassHeader />`, `<main>{children}</main>`,
- *      and optionally `<CompassFooter />`.
+ * Variants:
+ *   • `surface` — paints the outer canvas.
+ *       "default" (dark surface-medium) — listing pages, home,
+ *                  detail surfaces under the compass-light-theme
+ *                  subtree.
+ *       "manual"  — transparent so the legacy manual CSS
+ *                  (compass-manual.css `body:has(.manual-shell)`)
+ *                  can paint the paper-white canvas underneath.
+ *                  Will become `bg-white` directly once legacy
+ *                  CSS is retired.
+ *   • `headerVariant` — passed through to `<CompassHeader />`.
+ *       "default" — the standard 5-tab nav.
+ *       "manual"  — same chrome, retained as a separate prop so
+ *                  manual-specific tweaks can land in `CompassHeader`
+ *                  without touching every consumer.
  *
- * The visual output is intentionally identical to the static-
- * page mirror in `/public/compass-bgfx.css` so React-rendered
- * detail pages (frameworks, insights, manual chapters) and the
- * five static index pages render the same chrome.
+ * Other props:
+ *   • `showBackgroundFx` — toggle the BgFx ambient layer (default
+ *     true; manual pages typically pass false because the paper
+ *     surface doesn't want the warm haze).
+ *   • `backgroundFx` — pass-through to `<CompassBgFx />`.
+ *   • `showFooter` — toggle the global `<MantleFooter />`. Default
+ *     `true` everywhere. Manual chapter routes pass `false` because
+ *     the manual surface owns its own full-height chrome and a
+ *     marketing-site footer at the bottom would clash with that
+ *     editorial reading flow. Kept as a prop so a future manual
+ *     layout can opt back in without changing every consumer.
  *
- *   • `showBackgroundFx` (default true) — toggle the BgFx layer.
- *   • `backgroundFx`                   — passed through to
- *                                        `<CompassBgFx />`
- *                                        (className, showNoise,
- *                                        ambientColor).
- *   • `includeFooter` (default true)   — switch off on surfaces
- *                                        where the footer is
- *                                        deliberately absent
- *                                        (e.g. manual chapters).
- *   • `headerVariant`                  — passed through to
- *                                        `<CompassHeader />`.
+ *   • `showFooterCta` — retained as an alias for `showFooter` for
+ *     back-compat with the four existing consumers (they passed
+ *     `showFooterCta={false}` to suppress the old CTA-only band).
+ *     New code should pass `showFooter` directly.
  */
 export function CompassLayout({
   children,
   showBackgroundFx = true,
   backgroundFx,
-  showFooterCta = true,
+  showFooterCta,
+  showFooter = true,
+  surface = "default",
+  headerVariant = "default",
+  showHeader = true,
+  hideSecondaryNav = false,
   className = "",
 }: {
   children: ReactNode;
@@ -56,28 +71,58 @@ export function CompassLayout({
     showAmbient?: boolean;
     ambientColor?: string;
   };
-  /** Toggle the closing CompassFooterCta band. Default true.
-      Surfaces that don't want the "Grow your business with Mantle"
-      band (e.g. the Templates section while it's still being
-      built out) pass `false`. */
+  /** @deprecated use `showFooter` */
   showFooterCta?: boolean;
+  showFooter?: boolean;
+  surface?: "default" | "manual";
+  headerVariant?: "default" | "manual";
+  /** Render the global `<CompassHeader />` chrome. Default `true`.
+   *  Manual chapter surfaces pass `false` because they own their
+   *  full-height left-rail navigation and don't want a competing
+   *  top bar. When `false`, the body offset that clears the fixed
+   *  header is also skipped — the content starts flush with the top
+   *  of the viewport. */
+  showHeader?: boolean;
+  /** Suppress the secondary section-nav row inside `<CompassHeader>`.
+   *  Detail-page surfaces (workflow / template / insight slug pages)
+   *  pass `true`; listings + the home keep it visible. Also shrinks
+   *  the body top-offset from 120px → 72px so detail pages don't
+   *  carry phantom whitespace where the section nav used to live. */
+  hideSecondaryNav?: boolean;
   className?: string;
 }) {
+  const surfaceBg = surface === "manual" ? "" : "bg-surface-medium";
+  /* Body top offset clears the fixed `<CompassHeader />`. Header
+     height depends on whether the secondary nav row renders:
+       • Listings (secondary visible): 64px mobile / 120px desktop
+         (primary 72px + secondary 48px on lg+).
+       • Detail pages (secondary hidden): 64px mobile / 72px desktop.
+     `showHeader={false}` means no header to clear → zero offset. */
+  const headerOffsetClass = !showHeader
+    ? ""
+    : hideSecondaryNav
+      ? "pt-16 lg:pt-[72px]"
+      : "pt-16 lg:pt-[120px]";
   return (
     <div
       data-layout-bg-fx=""
       data-bg-fx-scope=""
-      className={`relative isolate min-h-screen overflow-hidden bg-surface-medium ${className}`}
+      className={`relative isolate min-h-screen overflow-hidden ${surfaceBg} ${className}`.trim()}
     >
       {showBackgroundFx ? <CompassBgFx {...(backgroundFx ?? {})} /> : null}
-      {/* No top padding here — the CompassHeader renders as
-          `<header class="site-header">` with `position: sticky`,
-          which takes flow space itself. Adding pt-16 here would
-          stack on top of the sticky header's own height. */}
-      <div className="relative z-10">
-        <CompassHeader />
+      <div className={`relative z-10 ${headerOffsetClass}`.trim()}>
+        {showHeader ? (
+          <CompassHeader
+            variant={headerVariant}
+            hideSecondaryNav={hideSecondaryNav}
+          />
+        ) : null}
         <main>{children}</main>
-        {showFooterCta ? <CompassFooterCta /> : null}
+        {/* `showFooterCta` is the deprecated alias; resolve through
+            it for back-compat so existing `showFooterCta={false}`
+            consumers (4 routes) keep suppressing the footer until
+            they're explicitly migrated. New code uses `showFooter`. */}
+        {(showFooterCta ?? showFooter) ? <MantleFooter /> : null}
       </div>
     </div>
   );

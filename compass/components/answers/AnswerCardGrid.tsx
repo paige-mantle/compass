@@ -1,4 +1,5 @@
 import type { AnswerMeta } from "../../lib/answers/content";
+import { CARD_LABEL_BOX_CLASS } from "../../lib/card-accents";
 
 /**
  * Answer card grid — listing surface for `/compass/answers`.
@@ -12,7 +13,7 @@ export function AnswerCardGrid({ answers }: { answers: AnswerMeta[] }) {
   return (
     <section
       aria-label="Answers"
-      className="grid grid-cols-1 gap-6 pb-20 sm:grid-cols-2 lg:grid-cols-3"
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
     >
       {answers.map((a) => (
         <AnswerCard key={a.title} answer={a} />
@@ -38,14 +39,19 @@ function AnswerCard({ answer }: { answer: AnswerMeta }) {
         {answer.description}
       </p>
       <div className="mt-auto flex items-center justify-between gap-3">
-        {/* Tag pill — same recipe as the "Works with" tags on
-            method/template detail pages. */}
-        <span className="inline-flex items-center rounded-md border border-edge-high/60 bg-surface-high px-2.5 py-1 text-[12.5px] font-medium text-fg-high">
+        {/* Tag pill — canonical Compass card-label recipe via
+            `CARD_LABEL_BOX_CLASS` so the answer-card pill matches
+            insight + workflow + template tag pills byte-for-byte
+            (rounded-md, px-2 py-0.5, text-xxs font-medium). Was
+            an off-recipe inline `px-2.5 py-1` block; pulled in
+            line with the canonical shape so pill sizes don't drift
+            between surfaces. */}
+        <span className={`${CARD_LABEL_BOX_CLASS} border border-edge-high/60 bg-surface-high text-fg-high`}>
           {answer.tag}
         </span>
         <time
           dateTime={answer.datetime}
-          className="font-mono text-[11px] uppercase tracking-wider text-fg-low"
+          className="font-sans text-sm text-fg-low"
         >
           {answer.date}
         </time>

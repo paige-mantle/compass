@@ -1,0 +1,472 @@
+/* ──────────────────────────────────────────────────────────────
+   Compass MDX prose typography
+   ──────────────────────────────────────────────────────────────
+
+   Editorial typography for every React Compass detail page —
+   manual chapters, method articles, template articles, insight
+   articles — plus rich text content placed inside a listing page.
+   Four scope classes, applied to the wrapping div in each shell:
+
+     • `.manual-section`    — ManualShell
+     • `.workflow-content`  — WorkflowShell
+     • `.insight-content`   — InsightShell, WorkflowShell
+     • `.compass-content`   — CompassListingPage (and any free-form
+                              prose surface that wants the same
+                              editorial recipe)
+
+   Tables are included in this file because they're MDX-rendered
+   prose elements — same editorial rhythm as paragraphs / headings.
+
+   Token references use the canonical `--color-*` / `--font-*` /
+   `--text-*` / `--leading-*` names from the `@theme` block in
+   `app/globals.css`. Wrapped in `@layer components` so utility
+   classes still win and the cascade order matches what was
+   previously in `globals.css` byte-for-byte.
+
+   Loaded by the Compass parent layout
+   (`app/compass/layout.tsx`) so every Compass route picks it up;
+   not loaded on the Mantle marketing site since `.manual-section`
+   etc. never appear there.
+   ────────────────────────────────────────────────────────────── */
+
+/* `@reference` lets this file `@apply` Tailwind utilities even
+   though it's imported as a separate CSS module (not the main entry
+   that sees `@import "tailwindcss"`). Without it, Tailwind v4's
+   PostCSS pipeline fails on every utility class with
+   "Cannot apply unknown utility class". The reference resolves
+   the canonical `@theme` block in `app/globals.css` so utilities
+   like `text-xl` / `mt-5` track the Compass scale tokens. */
+@reference "../../app/globals.css";
+
+@layer components {
+  .manual-section,
+  .workflow-content,
+  .insight-content, .compass-content {
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    line-height: var(--leading-looser);
+    color: var(--color-fg-high);
+  }
+
+  /* Headings — medium weight Manrope, relaxed tracking so the heading
+     reads with enough heft against the 17px body. -0.01em (not -0.02)
+     keeps the editorial feel without rendering as thin ribbons. */
+  .manual-section h1, .manual-section h2, .manual-section h3,
+  .manual-section h4, .manual-section h5, .manual-section h6,
+  .workflow-content h1, .workflow-content h2, .workflow-content h3,
+  .workflow-content h4, .workflow-content h5, .workflow-content h6,
+  .insight-content h1, .insight-content h2, .insight-content h3,
+  .insight-content h4, .insight-content h5, .insight-content h6,
+  .compass-content h1, .compass-content h2, .compass-content h3,
+  .compass-content h4, .compass-content h5, .compass-content h6 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-fg-high);
+    max-width: none;
+  }
+
+  .manual-section h1, .workflow-content h1, .insight-content h1, .compass-content h1 {
+    font-size: var(--text-6xl);
+    line-height: var(--leading-tightest);
+    margin: 0 0 18px;
+  }
+  /* Base h2 — manual chapters + insights both get the larger
+     editorial scale (text-2xl / 24px). Manuals are long-form
+     chapter content; insight articles are editorial pieces with
+     real section structure. Both deserve full visual weight on
+     the section heading.
+     Bottom margin tightened from 14px → 6px so the heading clings
+     to the text below it (the previous gap read as a disconnect
+     between heading and section body). */
+  .manual-section h2, .workflow-content h2, .insight-content h2, .compass-content h2 {
+    font-size: var(--text-2xl);
+    line-height: 1.25;
+    margin: 40px 0 6px;
+    scroll-margin-top: 90px;
+  }
+
+  /* Insight articles — bump h2 one more step (text-3xl / 28px)
+     for full editorial weight. The recipe page hero is text-7xl;
+     section h2 at 28px reads as a clear secondary tier without
+     competing. */
+  .insight-content h2 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.01em;
+  }
+
+  /* Workflow / template / compass-content section headings —
+     tighter editorial scale than manuals + insights. Explicit
+     longhand `margin` (24px top / 4px bottom) instead of `@apply
+     mt-4 mb-1` so the override beats the base h2 rule above
+     (which uses shorthand `margin`) deterministically in cascade
+     order — `@apply` expansion was rendering as `mt-10` (40px)
+     in dev, leaving too much air above each section heading on
+     workflow/template pages. The 24px top reads as a confident
+     section break, 4px bottom keeps the heading clinging to its
+     body copy. */
+  .workflow-content h2, .compass-content h2 {
+    font-size: var(--text-xl);
+    line-height: 1.25;
+    margin: 24px 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .manual-section h3, .workflow-content h3, .insight-content h3, .compass-content h3 {
+    font-size: var(--text-md);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    margin: 24px 0 4px;
+    scroll-margin-top: 90px;
+  }
+  .manual-section h4, .workflow-content h4, .insight-content h4, .compass-content h4 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin: 20px 0 4px;
+  }
+
+  .manual-section p, .workflow-content p, .insight-content p, .compass-content p {
+    font-size: var(--text-md);
+    line-height: var(--leading-looser);
+    /* Paragraph gap further tightened from 12px → 8px. The previous
+       12px still felt loose against the tightened h2 → body rhythm
+       (h2 mb 4px, then 12px between paragraphs read as a "stair
+       step" out from the heading). 8px keeps the column dense — the
+       eye stays anchored to the section while still seeing clear
+       paragraph breaks. Section breaks come from h2 top margin
+       (24-40px depending on surface), not paragraph spacing. */
+    margin: 0 0 8px;
+  }
+
+  /* Detail-page body copy — `text-base` (16px) + `leading-loose`
+     (1.5) + `fg-medium`. Tighter than manual chapter prose so the
+     section-heading hierarchy reads correctly with the new
+     `text-xl` h2 above. */
+  .workflow-content p, .insight-content p, .compass-content p {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--color-fg-medium);
+  }
+  /* Manual chapters keep the larger 17px / leading-looser recipe
+     because the chapter body itself runs at that scale. */
+  .manual-section ul, .manual-section ol {
+    font-size: var(--text-md);
+    line-height: var(--leading-looser);
+  }
+  .manual-section ul li, .manual-section ol li {
+    font-size: var(--text-md);
+    line-height: 1.35;
+    padding: 1px 0;
+  }
+
+  /* Detail-page lists — match the paragraph recipe exactly so bullet
+     items read on the same rhythm as the prose above and below them.
+     `text-base` (16px) + `leading-loose` (1.5) + `fg-medium`, with a
+     `12px` bottom margin between `<li>` items mirroring the
+     paragraph-to-paragraph gap. */
+  .workflow-content ul, .workflow-content ol,
+  .insight-content ul, .insight-content ol,
+  .compass-content ul, .compass-content ol {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--color-fg-medium);
+  }
+  .workflow-content ul li, .workflow-content ol li,
+  .insight-content ul li, .insight-content ol li,
+  .compass-content ul li, .compass-content ol li {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    margin: 0 0 8px;
+    padding: 0;
+  }
+  .workflow-content ul li:last-child, .workflow-content ol li:last-child,
+  .insight-content ul li:last-child, .insight-content ol li:last-child,
+  .compass-content ul li:last-child, .compass-content ol li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Bullet markers — disc/decimal. Resets the chevron arrow ::before
+     that compass-manual.css injects on `.manual-section ul li`. */
+  .manual-section ul { list-style: disc outside; padding-left: 22px; }
+  .manual-section ul li { position: static; padding: 3px 0; }
+  .manual-section ul li::before {
+    content: none; background: none;
+    mask: none; -webkit-mask: none;
+    width: auto; height: auto; position: static;
+  }
+  .manual-section ul li::marker { color: var(--color-fg-low); }
+  .manual-section ol { list-style: decimal outside; padding-left: 22px; }
+  .manual-section ol li { font-size: var(--text-md); padding: 3px 0; }
+  .manual-section ul.contains-task-list,
+  .manual-section .notion-checklist {
+    list-style: none; padding-left: 0;
+  }
+
+  /* Inline links — high-contrast text + soft underline that
+     deepens on hover. The underline color uses `--color-edge-high`
+     (white-alpha hairline on dark surfaces, dark-alpha hairline on
+     light) so the link treatment reads on both the canonical dark
+     theme and the `.compass-light-theme` subtree on manual chapters.
+     The previous hardcoded `rgba(17, 15, 20, 0.3)` was tuned for the
+     old light-theme detail surface and rendered invisible on the
+     dark surface. */
+  .manual-section a, .workflow-content a, .insight-content a, .compass-content a {
+    color: var(--color-fg-high);
+    text-decoration: underline;
+    text-decoration-color: var(--color-edge-high);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+  }
+  .manual-section a:hover, .workflow-content a:hover, .insight-content a:hover, .compass-content a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .workflow-content strong, .insight-content strong, .compass-content strong {
+    color: var(--color-fg-high);
+    font-weight: 600;
+  }
+  .workflow-content em, .insight-content em, .compass-content em {
+    color: var(--color-fg-high);
+    font-style: italic;
+  }
+  .workflow-content blockquote, .insight-content blockquote, .compass-content blockquote {
+    margin: 1.6em 0;
+    padding: 0 0 0 24px;
+    border-left: 2px solid var(--color-accent-high);
+    color: var(--color-fg-high);
+  }
+  .manual-section hr, .workflow-content hr, .insight-content hr, .compass-content hr {
+    border: none;
+    border-top: 1px solid var(--color-edge-high);
+    margin: 3em 0;
+  }
+
+  /* ── Workflow editorial refinements ────────────────────────────
+     Inherits the detail-page recipe (text-base, leading-loose,
+     fg-medium) from the shared rules above. Workflow-only rules
+     below just cap line length (`max-width: 58ch`) and pin first-
+     heading margin to zero so the body opens flush. All other
+     decisions stay in the shared selector lists. */
+  .workflow-content p {
+    max-width: 58ch;
+    margin: 0 0 16px;
+  }
+  .workflow-content > h2:first-child,
+  .workflow-content > *:first-child + h2 {
+    margin-top: 0;
+  }
+
+  /* List markers in workflow content — disc/decimal, fg-low marker
+     ink. Shared list font-size and line-height come from the
+     four-scope rules above. */
+  .workflow-content ul, .workflow-content ol {
+    margin: 0 0 20px;
+    padding: 0 0 0 22px;
+  }
+  .workflow-content ul { list-style: disc outside; }
+  .workflow-content ol { list-style: decimal outside; }
+  .workflow-content ul li::marker, .workflow-content ol li::marker {
+    color: var(--color-fg-low);
+  }
+
+  /* "Pairs well with" — grid of related framework cards */
+  .framework-pairs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .framework-pairs li { margin: 0; padding: 0; border: none; }
+  .framework-pairs li::before { display: none; }
+  .framework-pairs a {
+    display: flex; flex-direction: column;
+    gap: 6px; padding: 16px 18px;
+    border: 1px solid var(--color-edge-medium);
+    background: rgba(94, 92, 90, 0.02);
+    color: var(--color-fg-high) !important;
+    text-decoration: none !important;
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  .framework-pairs a:hover {
+    border-color: rgba(94, 92, 90, 0.36);
+    background: rgba(94, 92, 90, 0.05);
+  }
+  /* Framework-pairs typography — all sizes pulled from the
+     canonical Compass scale tokens (`--text-xxs` 13px, `--text-base`
+     16px, `--text-sm` 15px) instead of arbitrary 11px / 16px /
+     13.5px values that diverged from the rest of the prose. */
+  .framework-pairs-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-xxs);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-fg-low);
+  }
+  .framework-pairs-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    color: var(--color-fg-high);
+  }
+  .framework-pairs-summary {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--color-fg-low);
+  }
+
+  /* `<Chips>` — compact two-column grid of label chips */
+  .framework-chips {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    margin: 12px 0 24px;
+    padding: 0;
+    list-style: none;
+  }
+  .workflow-content .framework-chips li,
+  .insight-content .framework-chips li,
+  .compass-content .framework-chips li,
+  .manual-section .framework-chips li {
+    margin: 0;
+    padding: 6px 12px;
+    border: 1px solid var(--color-edge-medium);
+    border-radius: 6px;
+    background: rgba(94, 92, 90, 0.02);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    line-height: 1.25;
+    color: var(--color-fg-high);
+  }
+  .framework-chips li::before { display: none; content: none; }
+  .framework-chips li::marker { content: none; }
+
+  .workflow-content code, .insight-content code, .compass-content code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--color-surface-higher);
+    border: 1px solid var(--color-edge-medium);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* Reset inline-code chrome when the `<code>` lives inside a `<pre>`
+     block. Without this, every line of a code fence would render with
+     the pill background + hairline border above — looking like a
+     "code-within-code" stack. Inside a `<pre>` (rendered by
+     `<CodeFence>` from `shared/CodeFence.tsx`), the parent tile
+     owns the chrome and the inner `<code>` is just text. */
+  .workflow-content pre code,
+  .insight-content pre code,
+  .compass-content pre code,
+  .manual-section pre code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+
+  /* Manual tables — same coloured-plate recipe as callouts, so the
+     table reads as a member of the same visual family. Uses `--manual-accent`
+     (the per-chapter accent) instead of pinning to `--color-accent-
+     high`, and matches the callout's 1px border / 10px radius / 8%
+     tint chrome. Cell padding bumped to match callout density.
+
+     Tables can render wider than the 56ch article column at the
+     `.manual-section` level (5+ column tables won't fit comfortably
+     at the body width). The `display: block; overflow-x: auto`
+     pattern lets a wide table scroll horizontally inside the article
+     without forcing the page itself to scroll. `width: max-content`
+     keeps narrow tables flush-left at their natural width. */
+  .manual-section table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 48%, transparent);
+    border-radius: var(--rounded-2xl);
+  }
+  .manual-section table th, .manual-section table td {
+    /* Cell padding tightened — was `12px 14px`, now `8px 12px` so the
+       table reads denser + 5+ column tables fit the article column
+       without horizontal scroll on most viewports. `word-break:
+       break-word` ensures long unbroken strings (URLs, compound
+       phrases) wrap gracefully inside cells. */
+    padding: 8px 12px;
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    border-bottom: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 18%, transparent);
+    border-right: 0;
+    vertical-align: top;
+    color: var(--color-fg-high);
+    word-break: break-word;
+  }
+  .manual-section table tbody tr:last-child td { border-bottom: 0; }
+  .manual-section table thead th {
+    /* Header row keeps the mono uppercase eyebrow recipe — column
+       names read as labels. Header surface uses a slightly higher
+       accent mix (16%) to sit a notch above the table-body fill
+       (8%). Header ink shifts to `--color-fg-medium` so it still
+       reads as a label tier above the body but doesn't disappear
+       like the previous `--color-fg-low`. */
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 16%, transparent);
+    color: var(--color-fg-medium) !important;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: var(--leading-normal);
+    text-transform: uppercase;
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 30%, transparent);
+  }
+  .manual-section table thead th,
+  .manual-section table thead th strong,
+  .manual-section table thead th b {
+    font-weight: 500;
+  }
+  .manual-section table tbody td strong { font-weight: 500; }
+  /* First-cell body treatment — was a mono uppercase "row label"
+     eyebrow that competed with the header row above. Pulled into
+     the same Geist sans body recipe as every other cell so every
+     body cell reads at one register. The header row carries the
+     mono treatment; body cells stay in the editorial body font.
+     A semibold weight on the first cell keeps the row-label
+     reading without forcing a font swap. */
+  .manual-section table tbody td:first-child {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--text-sm);
+    letter-spacing: 0;
+    line-height: var(--leading-normal);
+    text-transform: none;
+    color: var(--color-fg-high);
+  }
+  .manual-section table tbody tr:hover td {
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 6%, transparent);
+  }
+
+  @media (max-width: 860px) {
+    .manual-section h1, .workflow-content h1, .insight-content h1, .compass-content h1 {
+      font-size: var(--text-4xl);
+    }
+    .manual-section h2, .workflow-content h2, .insight-content h2, .compass-content h2 {
+      font-size: var(--text-2xl);
+      margin: 36px 0 12px;
+    }
+    .manual-section h3, .workflow-content h3, .insight-content h3, .compass-content h3 {
+      font-size: 16px;
+    }
+    .workflow-content h2 { margin: 24px 0 14px; }
+  }
+}

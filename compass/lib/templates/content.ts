@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { cache } from "react";
 import matter from "gray-matter";
 
 const CONTENT_ROOT = path.join(process.cwd(), "compass", "content", "templates");
@@ -53,11 +54,40 @@ export type TemplateCodeBlock = {
 export type TemplateFrontmatter = {
   title: string;
   slug: string;
-  description: string;
+  /* Renamed from `description` → `summary` to match the rest of the
+     Compass content models (workflows, insights, manual sections all
+     use `summary`). Reduces the "which field do I use?" cognitive
+     load when authoring new content. Old MDX files using
+     `description:` need to be migrated — there are only 2 today. */
+  summary: string;
+  /* SEO overrides — when set, override auto-generated meta in
+     `app/templates/[slug]/page.tsx`. Same shape as
+     `WorkflowFrontmatter`'s SEO block; populated from the May SEO
+     spreadsheet ("Recommended meta title" / "Meta description" /
+     "OG title" / "OG description"). */
+  metaTitle?: string;
+  metaDescription?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   /** Listing card eyebrow — usually the manual / collection name. */
   ribbon?: string;
-  /** Listing card block color (matches FrameworkShell's variant set). */
-  blockColor?: "yellow" | "gray" | "black" | "orange" | "blue" | "graphite";
+  /** Card-block accent — one of the Compass canonical accent names.
+   *  Source of truth in `compass/lib/card-accents.ts`. Shared with
+   *  method cards + manual covers — same name = same color. */
+  blockColor?:
+    | "accent"
+    | "accent-alt"
+    | "orange"
+    | "purple"
+    | "teal"
+    | "green"
+    | "mac-red"
+    | "mac-yellow"
+    | "mac-green"
+    | "white"
+    | "black"
+    | "graphite"
+    | "gray";
 
   category?: TemplateCategory;
   format?: TemplateFormat;
@@ -67,6 +97,17 @@ export type TemplateFrontmatter = {
       pills. Distinct from category/format/tools because templates
       often want a denser content-label list. */
   tags?: string[];
+
+  /** Mantle product modules this template touches — rendered as
+      chips in the hero meta card's "Systems" row (e.g. Customers,
+      Email + messaging, Automations, Analytics). Mirrors the
+      `systems` field on workflows so the two surfaces share one
+      meta schema. */
+  systems?: string[];
+
+  /** Free-form "Estimated time" meta — rendered in its own
+      labelled row in the hero meta card (e.g. "15 min"). */
+  estimatedTime?: string;
 
   /** Authoring + provenance (mirrors frameworks). */
   author?: string;
@@ -83,17 +124,36 @@ export type TemplateFrontmatter = {
   pairsWellWith?: string[];
 
   /** Optional code blocks shown in the right-rail of the detail
-      page. Same shape as `FrameworkCodeBlock`. */
+      page. Same shape as `WorkflowCodeBlock`. */
   codeBlocks?: TemplateCodeBlock[];
 
   /** Optional preview image rendered above the code blocks in the
       right rail — used by template detail pages that pair a visual
-      mockup with the prompt block(s). */
+      mockup with the prompt block(s).
+      LEGACY: single-image form. Prefer the array variant `previewImages`
+      below — it renders the new tabbed gallery block. When both are
+      present the array wins; the single field is kept for backwards
+      compat with templates that haven't migrated yet. */
   previewImage?: {
     src: string;
     alt: string;
     caption?: string;
   };
+  /** Optional gallery of preview images rendered as a tabbed block
+      ABOVE the code-blocks panel in the right rail. Each entry is
+      one tab in the gallery; `label` shows on the tab strip and
+      `alt` carries the screen-reader description. Use this when
+      a template ships multiple screens / mockups / variants — the
+      tab strip gives the reader one click between them.
+      The companion `codeBlocks` array still renders BELOW this
+      gallery on template detail pages, so authors can pair visual
+      previews with the prompt code one stack down. */
+  previewImages?: Array<{
+    label: string;
+    src: string;
+    alt: string;
+    caption?: string;
+  }>;
 };
 
 export type TemplateMeta = TemplateFrontmatter & {
@@ -107,7 +167,10 @@ export type LoadedTemplate = {
 
 /* ─── Loaders ──────────────────────────────────────────────── */
 
-export async function listTemplates(): Promise<TemplateMeta[]> {
+/* Memoized via `cache()` so `generateStaticParams` + `loadTemplate`
+   don't double-scan the filesystem per render. Matches the workflows
+   + insights loaders. */
+export const listTemplates = cache(async (): Promise<TemplateMeta[]> => {
   let entries: string[];
   try {
     entries = await fs.readdir(CONTENT_ROOT);
@@ -125,7 +188,7 @@ export async function listTemplates(): Promise<TemplateMeta[]> {
   }
   items.sort((a, b) => a.title.localeCompare(b.title));
   return items;
-}
+});
 
 export async function loadTemplate(
   slug: string

@@ -3,6 +3,16 @@ import { Geist, Geist_Mono, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE_ORIGIN } from "@/compass/lib/seo";
 import "./globals.css";
+// Compass prose + callout styles — loaded at the root so every
+// Compass surface (listing, detail, manual chapter) resolves the
+// same `.manual-section` / `.workflow-content` / `.insight-content`
+// / `.compass-content` recipes from a single source of truth.
+// Previously scoped to `app/compass/layout.tsx` + `app/templates/
+// layout.tsx`, which meant manual chapter pages relied on the
+// legacy `/public/compass-manual.css` for prose typography and got
+// no v2-callout chrome at all (since `compass/styles/callouts.css`
+// only loaded on `/compass/*`).
+import "@/compass/styles/index.css";
 
 /* Compass type system, all via `next/font/google` so fonts ship
    self-hosted, no extra DNS lookups, zero-CLS, and the per-route
@@ -39,26 +49,26 @@ export const metadata: Metadata = {
   // moving Compass to a new subdomain is a one-line change.
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "Mantle Compass — practical manuals for early-stage founders",
+    default: "Mantle Compass | Learn how to build, launch, and grow your app",
     template: "%s | Mantle Compass",
   },
   description:
-    "Mantle Compass — practical manuals for early-stage founders on positioning, real demand, and customer discovery.",
+    "Practical manuals, templates, workflows, and insights for founders building app businesses with AI and Mantle.",
   applicationName: "Mantle Compass",
   openGraph: {
     type: "website",
     siteName: "Mantle Compass",
-    title: "Mantle Compass — practical manuals for early-stage founders",
+    title: "Mantle Compass | Learn how to build, launch, and grow your app",
     description:
-      "Mantle Compass — practical manuals for early-stage founders on positioning, real demand, and customer discovery.",
+      "Practical manuals, templates, workflows, and insights for founders building app businesses with AI and Mantle.",
     url: SITE_ORIGIN,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mantle Compass — practical manuals for early-stage founders",
+    title: "Mantle Compass | Learn how to build, launch, and grow your app",
     description:
-      "Mantle Compass — practical manuals for early-stage founders on positioning, real demand, and customer discovery.",
+      "Practical manuals, templates, workflows, and insights for founders building app businesses with AI and Mantle.",
   },
   alternates: {
     canonical: "/",
