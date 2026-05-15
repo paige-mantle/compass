@@ -1,7 +1,6 @@
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 import { CompassListingPage } from "@/compass/components/shared/CompassListingPage";
 import { CompassPromptHeading } from "@/compass/components/shared/CompassPromptHeading";
+import { CompassButton } from "@/compass/components/shared/CompassButton";
 import { ManualsHomeSection } from "@/compass/components/manuals/ManualsHomeSection";
 import { InsightCardGrid } from "@/compass/components/insights/InsightCardGrid";
 import { WorkflowCardGrid } from "@/compass/components/workflows/WorkflowCardGrid";
@@ -92,24 +91,19 @@ export default async function CompassHomePage() {
           full recipe + comments. */}
       <ManualsHomeSection covers={MANUAL_COVERS} />
 
-      {/* "Browse all manuals →" affordance below the row list so
-          readers know the catalog page exists. Mirrors the
-          next-gen Mantle marketing-site pattern (mm-link → chevron),
-          using the canonical Lucide `<ChevronRight />` instead of
-          an ASCII arrow so every "→" across Compass renders as one
-          icon family. */}
+      {/* "Browse all manuals →" affordance — outline-button recipe
+          (`<CompassButton>` default tone) matches the next-gen
+          marketing-site pattern where the secondary CTA always reads
+          as a bordered chip with a right chevron. Same recipe used
+          on the View-all links in the Workflows + Insights sections
+          below so the three home sections share one CTA shape. */}
       <div className="mt-8 mb-4 flex justify-end">
-        <Link
+        <CompassButton
           href="/manuals"
-          className="
-            inline-flex items-center gap-1.5
-            font-sans text-sm font-normal text-accent no-underline
-            transition-colors duration-150 hover:text-accent-low
-          "
+          icon={{ icon: "ArrowRight", position: "right" }}
         >
-          <span>Browse all manuals</span>
-          <ChevronRight width={16} height={16} strokeWidth={2} aria-hidden className="shrink-0" />
-        </Link>
+          Browse all manuals
+        </CompassButton>
       </div>
 
       {featuredWorkflows.length > 0 ? (
@@ -127,21 +121,21 @@ export default async function CompassHomePage() {
           <div className="mb-4">
             <CompassPromptHeading text="Workflows" color="accent" />
           </div>
-          <div className="mb-10 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
-            <h2 className="m-0 max-w-[24ch] font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
-              Practical workflows for your stack
-            </h2>
-            <Link
+          <div className="mb-6 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
+            <div className="flex flex-col gap-3 max-w-[34ch]">
+              <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
+                Practical workflows for your stack
+              </h2>
+              <p className="m-0 font-sans text-base leading-loose text-fg-medium">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Drop-in prompts your team can run today with the audience signal, exclusions, and output structure baked in.
+              </p>
+            </div>
+            <CompassButton
               href="/workflows"
-              className="
-                inline-flex items-center gap-1.5
-                font-sans text-sm font-normal text-accent no-underline
-                transition-colors duration-150 hover:text-accent-low
-              "
+              icon={{ icon: "ArrowRight", position: "right" }}
             >
-              <span>View all workflows</span>
-              <ChevronRight width={16} height={16} strokeWidth={2} aria-hidden className="shrink-0" />
-            </Link>
+              View all workflows
+            </CompassButton>
           </div>
           <WorkflowCardGrid methods={featuredWorkflows} />
         </section>
@@ -164,21 +158,21 @@ export default async function CompassHomePage() {
           <div className="mb-4">
             <CompassPromptHeading text="Insights" color="accent" />
           </div>
-          <div className="mb-10 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
-            <h2 className="m-0 max-w-[20ch] font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
-              What our team is saying
-            </h2>
-            <Link
+          <div className="mb-6 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
+            <div className="flex flex-col gap-3 max-w-[34ch]">
+              <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
+                What our team is saying
+              </h2>
+              <p className="m-0 font-sans text-base leading-loose text-fg-medium">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Founder essays and commentary on building, shipping, and running an app business in the AI era.
+              </p>
+            </div>
+            <CompassButton
               href="/blog"
-              className="
-                inline-flex items-center gap-1.5
-                font-sans text-sm font-normal text-accent no-underline
-                transition-colors duration-150 hover:text-accent-low
-              "
+              icon={{ icon: "ArrowRight", position: "right" }}
             >
-              <span>View all insights</span>
-              <ChevronRight width={16} height={16} strokeWidth={2} aria-hidden className="shrink-0" />
-            </Link>
+              View all insights
+            </CompassButton>
           </div>
           <InsightCardGrid insights={latestInsights} />
         </section>

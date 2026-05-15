@@ -62,6 +62,14 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
         >
           Operating manuals
         </h2>
+        <p
+          data-compass-enter="2"
+          className="m-0 mt-4 max-w-[34ch] font-sans text-base leading-loose text-fg-medium"
+        >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. From
+          idea to operating business — each manual covers one stage
+          and stacks on the one before it.
+        </p>
       </div>
 
       {/* Right column — stacked manual rows. Each row continues the
@@ -129,27 +137,28 @@ function ManualRow({ cover }: { cover: ManualCoverEntry }) {
         ) : null}
       </div>
 
-      {/* Text block — ordinal eyebrow + title + description. The
-          eyebrow combines the manual's ordinal with a fixed
-          "Manual" label (matches the canonical Compass eyebrow
-          recipe — mono uppercase accent gold, tracking-wider). */}
+      {/* Text block — ordinal inline with H3 + description. The
+          ordinal sits LEFT of the title on the same line (was an
+          eyebrow above) so the row reads "00 Clarity" as one
+          editorial header. Ordinal is rendered in the manual's
+          `--cover-accent` for identity, with a slightly muted
+          opacity so the title still leads. */}
       <div className="flex flex-col justify-center gap-3 px-6 pb-6 pt-2 sm:col-span-7 sm:px-0 sm:py-8 sm:pr-8">
-        <span
-          className="
-            font-mono text-xs font-medium uppercase tracking-wider leading-loose
-            text-accent
-          "
-        >
-          {cover.ordinal} · Manual
-        </span>
         <h3
           className={[
-            "m-0 font-heading text-3xl font-medium leading-[1.1] tracking-tight md:text-4xl",
+            "m-0 flex flex-wrap items-baseline gap-x-3 gap-y-1",
+            "font-heading text-3xl font-medium leading-[1.1] tracking-tight md:text-4xl",
             cover.comingSoon ? "text-fg-medium" : "text-fg-high group-hover/manual-row:text-[var(--cover-accent)]",
             "transition-colors duration-150",
           ].join(" ")}
         >
-          {cover.coverTitle}
+          <span
+            aria-hidden="true"
+            className="font-display font-normal tabular-nums text-[var(--cover-accent)] opacity-90"
+          >
+            {cover.ordinal}
+          </span>
+          <span>{cover.coverTitle}</span>
         </h3>
         {cover.summary ? (
           <p className="m-0 max-w-[60ch] font-sans text-base leading-[1.5] text-fg-medium line-clamp-3">

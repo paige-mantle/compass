@@ -141,7 +141,7 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     motif: "vanishing-grid",
     comingSoon: false,
     summary:
-      "Get clear on what deserves to be built before you start building. The first manual — builder identity, real markets, and the founder posture the rest of Compass assumes.",
+      "Most apps fail before the first line of code. Clarity is for builders who want to know — before they ship — whether what they're making can actually be a business.",
   },
   {
     slug: "shape",
@@ -153,7 +153,7 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     motif: "nested-ovals",
     comingSoon: false,
     summary:
-      "Turn a fuzzy idea into a sharp product thesis. Position the problem, validate real demand, and decide what the first version should be before you build anything.",
+      "An idea isn't a product. Shape walks you through positioning, demand, and the smallest first version that lets you find out if you're right.",
   },
   {
     /* The next four manuals (Build through Operate) are roadmap
@@ -173,7 +173,7 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     motif: "circuit-path",
     comingSoon: true,
     summary:
-      "How to actually ship the first version — opinionated guidance on scope, stack choices, and the AI-native workflows that make a small team feel like ten.",
+      "Get the first version out the door. Stack choices, AI-native workflows, and the moves that make a one-person team feel like ten.",
   },
   {
     slug: "launch",

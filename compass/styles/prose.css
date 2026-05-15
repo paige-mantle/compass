@@ -396,11 +396,17 @@
     border-radius: var(--rounded-2xl);
   }
   .manual-section table th, .manual-section table td {
-    /* Cell padding tightened — was `12px 14px`, now `8px 12px` so the
-       table reads denser + 5+ column tables fit the article column
-       without horizontal scroll on most viewports. `word-break:
-       break-word` ensures long unbroken strings (URLs, compound
-       phrases) wrap gracefully inside cells. */
+    /* Cell padding `8px 12px` — dense editorial rhythm; tables fit
+       the article column even at 4-5 columns. `overflow-wrap:
+       anywhere` (was `word-break: break-word`) keeps wrapping at
+       word boundaries by default and only breaks long unbreakable
+       strings (URLs, compound phrases) when necessary —
+       `break-word` was breaking mid-word too aggressively and made
+       columns look choppy. `min-width: 0` lets the table-layout
+       algorithm shrink cells when one column has a lot more text
+       than its neighbour, so left/right columns balance to their
+       text content instead of one cell forcing the table wider
+       than the article column. */
     padding: 8px 12px;
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
@@ -408,7 +414,20 @@
     border-right: 0;
     vertical-align: top;
     color: var(--color-fg-high);
-    word-break: break-word;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+  /* Two-column tables: when there are exactly 2 columns (a common
+     "Label | Description" pattern in manuals), make the first
+     column a ~30% slice via `width: 30%`. Without this hint, the
+     auto-layout algo can give the wider column ~75% and the label
+     column squeezes into a narrow ribbon. The 30/70 split keeps
+     the label column readable while the description column still
+     gets the lion's share. Tables with 3+ columns keep auto sizing
+     because their columns are usually more balanced. */
+  .manual-section table tr > th:first-child:nth-last-child(2),
+  .manual-section table tr > td:first-child:nth-last-child(2) {
+    width: 30%;
   }
   .manual-section table tbody tr:last-child td { border-bottom: 0; }
   .manual-section table thead th {

@@ -78,8 +78,18 @@ export function CompassPromptHeading({
           //   font-mono · font-medium · text-xs (14px) ·
           //   tracking-wider (0.05em) · uppercase ·
           //   leading-loose (1.5) · text-left · inherits wrapper color
+          //
+          // `text-inherit!` is a deliberate guard: the eyebrow often
+          // renders inside `.compass-content` / `.workflow-content`
+          // / `.insight-content`, all of which carry a prose
+          // `p { color: var(--color-fg-medium) }` rule. Without the
+          // inherit, that rule would override the wrapper's
+          // `text-accent` color on the `<p>` while the chevron
+          // (which uses `currentColor`) stays accent — readers saw
+          // white text + orange icon. The bang carries
+          // !important so the inherit beats the prose rule.
           "m-0 font-mono font-medium text-xs tracking-wider uppercase",
-          "text-left leading-loose",
+          "text-left leading-loose text-inherit!",
         ].join(" ")}
       >
         {text}
