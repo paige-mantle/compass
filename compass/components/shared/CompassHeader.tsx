@@ -202,7 +202,7 @@ export function CompassHeader({
                 <img
                   src="/mantle-logo-color-white.svg"
                   alt="Mantle"
-                  className="w-auto h-7"
+                  className="w-auto h-9"
                 />
               </a>
             </div>
@@ -244,7 +244,7 @@ export function CompassHeader({
             <img
               src="/mantle-logo-color-white.svg"
               alt="Mantle"
-              className="w-auto h-7"
+              className="w-auto h-9"
             />
           </a>
           <details className="group/details lg:hidden">
@@ -275,7 +275,7 @@ export function CompassHeader({
                   <img
                     src="/mantle-logo-color-white.svg"
                     alt="Mantle"
-                    className="w-auto h-7"
+                    className="w-auto h-9"
                   />
                 </a>
                 <button

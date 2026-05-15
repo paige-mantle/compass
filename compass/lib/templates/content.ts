@@ -129,12 +129,31 @@ export type TemplateFrontmatter = {
 
   /** Optional preview image rendered above the code blocks in the
       right rail — used by template detail pages that pair a visual
-      mockup with the prompt block(s). */
+      mockup with the prompt block(s).
+      LEGACY: single-image form. Prefer the array variant `previewImages`
+      below — it renders the new tabbed gallery block. When both are
+      present the array wins; the single field is kept for backwards
+      compat with templates that haven't migrated yet. */
   previewImage?: {
     src: string;
     alt: string;
     caption?: string;
   };
+  /** Optional gallery of preview images rendered as a tabbed block
+      ABOVE the code-blocks panel in the right rail. Each entry is
+      one tab in the gallery; `label` shows on the tab strip and
+      `alt` carries the screen-reader description. Use this when
+      a template ships multiple screens / mockups / variants — the
+      tab strip gives the reader one click between them.
+      The companion `codeBlocks` array still renders BELOW this
+      gallery on template detail pages, so authors can pair visual
+      previews with the prompt code one stack down. */
+  previewImages?: Array<{
+    label: string;
+    src: string;
+    alt: string;
+    caption?: string;
+  }>;
 };
 
 export type TemplateMeta = TemplateFrontmatter & {

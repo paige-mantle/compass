@@ -7,6 +7,8 @@ import { ManualShareSection } from "./ManualShareSection";
 import { ManualMobileNav } from "./ManualMobileNav";
 import { CoverArt } from "./CoverArt";
 import { COMPASS_PIXEL_LABEL_CLASS } from "../shared/compass-pixel-label";
+import { COMPASS_H1_COMPACT_CLASS } from "../shared/compass-h1";
+import { Breadcrumb } from "../shared/Breadcrumb";
 
 function hrefFor(manualSlug: string, s: ManualSection) {
   return `/manuals/${manualSlug}/${s.slug ? s.slug + "/" : ""}`;
@@ -439,83 +441,113 @@ export function ManualShell({
               7/5 split at lg+ (Section hero recipe): number + title
               cluster on left col-span-7, subheading on right
               col-span-5. Stacks on mobile. */}
-          {/* Chapter hero — colored cover plate + dot-grid texture +
-              cover illustration (when available). Mirrors the
-              `ManualCoverGrid` cover-card recipe so a manual page's
-              hero reads as the editorial "expansion" of its cover:
-              same `--manual-accent` background, same radial-gradient
-              dot-grid, same SVG motif. The illustration sits on the
-              right (col-span-5) so the chapter number + title cluster
-              on the left has full breathing room.
-              Text color is picked via the canonical accent → ink
-              map (`CARD_TEXT_COLOR`) so the title contrast pairs
-              correctly with the plate hue (dark ink on warm gold,
-              white on deep purple, etc.). On mobile the
-              illustration stacks below the title. */}
+          {/* Chapter hero — DARK surface with ambient `--manual-
+              accent` bloom + dot-grid texture. Replaces the
+              previous colored-plate-with-contrast-ink treatment so
+              the manual hero reads as part of the same dark Compass
+              chrome as workflow / template / insight detail pages.
+              The cover illustration on the right keeps the manual's
+              identity via `--manual-accent`-tinted currentColor —
+              it's now the only accent-colored element in the hero,
+              which makes it the visual focal point.
+
+              Background-image stacks three layers (first = top):
+                1. Top-left ambient bloom (12% accent at peak)
+                2. Bottom-right ambient bloom (6% accent at peak)
+                3. White 6px dot-grid texture (5% alpha)
+              Composes over the `bg-surface-medium` base. Matches
+              the cover-grid plate recipe at hero scale. */}
           <div
-            className="relative z-[1] block overflow-hidden border-b border-edge-medium px-12 py-12 max-[720px]:px-8 max-[720px]:py-10"
+            className="
+              relative z-[1] block overflow-hidden
+              border-b border-edge-medium
+              bg-surface-medium
+              px-4 sm:px-6 md:px-8 pt-14 md:pt-20 pb-12 md:pb-14
+              max-[720px]:pt-10 max-[720px]:pb-8
+            "
             style={{
-              backgroundColor: accent,
               backgroundImage:
-                "radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px)",
-              backgroundSize: "6px 6px",
-              color: heroTextColor,
+                "radial-gradient(circle at 22% 18%, color-mix(in oklch, var(--manual-accent) 12%, transparent), transparent 55%), " +
+                "radial-gradient(circle at 80% 82%, color-mix(in oklch, var(--manual-accent) 6%, transparent), transparent 60%), " +
+                "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+              backgroundSize: "auto, auto, 6px 6px",
             }}
           >
-            <div className="relative z-[2] flex flex-col gap-6 lg:grid lg:grid-cols-12 lg:gap-8 lg:items-center">
-              {/* Manual chapter title row. `font-display` (Geist
-                  Pixel Line) stays as the deliberate identity for
-                  manual-section H1s; every other Compass H1 uses
-                  `font-heading` (Manrope) via `COMPASS_H1_CLASS`.
-                  Title + chapter-number ink resolves through inline
-                  `currentColor` so it picks up the right contrast
-                  vs the plate (dark on light accents, white on
-                  dark). */}
+            <div className="relative z-[2] mx-auto flex max-w-page flex-col gap-6 lg:grid lg:grid-cols-12 lg:gap-8 lg:items-center">
+              {/* Title cluster — breadcrumb + optional chapter-number
+                  eyebrow + h1 + summary. Text sizes match the other
+                  Compass detail heros via `COMPASS_H1_COMPACT_CLASS`
+                  (font-heading Manrope, `text-5xl md:text-7xl`,
+                  tracking-tight, leading-tighter, text-fg-high) so
+                  every hero across Compass reads at one ramp. */}
               <div className="flex flex-col gap-4 max-[720px]:gap-3 lg:col-span-7">
-                <div className="flex items-baseline gap-12 max-[720px]:gap-6">
+                {/* Breadcrumb — same `<Breadcrumb>` recipe used on
+                    workflow / template / insight detail pages.
+                    Trail stops at "Manuals" for the manual intro,
+                    extends to the manual's title for chapter pages
+                    so the reader can climb back to the manual home
+                    one click away. */}
+                <Breadcrumb
+                  segments={
+                    current.isIntro
+                      ? [{ label: "Manuals", href: "/manuals" }]
+                      : [
+                          { label: "Manuals", href: "/manuals" },
+                          {
+                            label: manifest.title,
+                            href: `/manuals/${manifest.slug}`,
+                          },
+                        ]
+                  }
+                />
+
+                {/* Chapter-number eyebrow — only renders on chapter
+                    pages (not the manual intro). Compact pixel-grid
+                    kicker in `text-[var(--manual-accent)]` so the
+                    accent color travels with the chapter identity.
+                    Reads as `0.1`, `0.2`, … keyed off the manual's
+                    `number` + the current section index. */}
+                {!current.isIntro ? (
                   <span
                     aria-hidden="true"
-                    className="font-display text-5xl md:text-7xl font-normal leading-tighter tracking-tight tabular-nums"
-                    style={{ color: heroTextColor, opacity: 0.4 }}
+                    className="font-display text-2xl font-normal leading-none tracking-tight tabular-nums text-[var(--manual-accent)]"
                   >
                     {`${manifest.number}.${currentIndex}`}
                   </span>
-                  <h1
-                    className="m-0 font-display text-5xl md:text-7xl font-normal leading-tighter tracking-tight"
-                    style={{ color: heroTextColor }}
-                  >
-                    {current.isIntro ? manifest.title : current.title}
-                  </h1>
-                </div>
+                ) : null}
+
+                <h1 className={`m-0 max-w-[18ch] ${COMPASS_H1_COMPACT_CLASS}`}>
+                  {current.isIntro ? manifest.title : current.title}
+                </h1>
 
                 {/* Subheading — pulled from chapter frontmatter
-                    `summary`. Lives inside the title column so it
-                    stays left-aligned under the chapter title; the
-                    cover illustration takes the right column. */}
-                <p
-                  className="m-0 font-sans text-lg font-normal leading-snug max-w-[40ch]"
-                  style={{ color: heroTextColor, opacity: 0.7 }}
-                >
+                    `summary`. Sans-serif, leading-loose, same body
+                    recipe as the detail-hero summary in
+                    `CompassDetailHero` (text-lg leading-loose
+                    text-fg-high) so heros share the typography. */}
+                <p className="m-0 mt-2 max-w-[680px] font-sans text-lg leading-loose text-fg-high">
                   {summary ??
                     "A short two-line subheading that sets up what this chapter is about and why it matters in this part of the manual."}
                 </p>
               </div>
 
-              {/* Cover illustration — same SVG motif rendered on the
-                  manual's cover card. Color follows the plate's
-                  contrast ink so the linework reads against the
-                  accent background without clashing. Hidden when no
-                  matching cover entry exists (manuals not in
-                  `MANUAL_COVERS`). On mobile the illustration sits
-                  below the title cluster in normal flow. */}
+              {/* Cover illustration — rendered in the manual's
+                  `--manual-accent` color via currentColor. The SVG
+                  motif uses `stroke="currentColor"` / `fill="
+                  currentColor"` everywhere, so setting `color`
+                  recolors every line + dot to the accent. Against
+                  the dark hero plate, the accent-colored linework
+                  is the visual focal point. Hidden when no matching
+                  cover entry exists. On mobile the illustration
+                  stacks below the title cluster. */}
               {cover ? (
                 <div
                   className="
                     lg:col-span-5 flex items-center justify-center
-                    aspect-[4/3] max-h-[280px] w-full overflow-hidden
-                    max-[720px]:max-h-[200px]
+                    aspect-[4/3] max-h-[320px] w-full overflow-hidden
+                    max-[720px]:max-h-[220px]
                   "
-                  style={{ color: heroTextColor, opacity: 0.85 }}
+                  style={{ color: "var(--manual-accent)" }}
                   aria-hidden="true"
                 >
                   <CoverArt motif={cover.motif} />

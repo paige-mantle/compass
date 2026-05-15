@@ -5,7 +5,7 @@ import { CompassDetailShell } from "@/compass/components/shared/CompassDetailShe
 import { Cmd } from "@/compass/components/shared/Cmd";
 import { CodeFence } from "@/compass/components/shared/CodeFence";
 import { CodeBlocks } from "@/compass/components/workflows/CodeBlocks";
-import { PreviewTabs } from "@/compass/components/workflows/PreviewTabs";
+import { PreviewImageTabs } from "@/compass/components/workflows/PreviewImageTabs";
 import { PairsWith, PairItem } from "@/compass/components/workflows/PairsWith";
 import { BestFor } from "@/compass/components/workflows/BestFor";
 import {
@@ -186,13 +186,36 @@ export default async function TemplatePage({
          (`compass/components/shared/ShareCluster.tsx`), so restoring
          it is a one-line change. */
       rail="code"
-      rightRailLabel="Prompt tool panel"
+      rightRailLabel="Preview + prompt panel"
       rightRail={
-        loaded.meta.previewImage ? (
-          <PreviewTabs previewImage={loaded.meta.previewImage} blocks={blocks} />
-        ) : (
+        /* Templates ship a TWO-BLOCK right rail at lg+: tabbed
+           preview-image gallery on TOP, prompt code blocks on the
+           BOTTOM. The two blocks share the same dark surface +
+           rounded-md frame recipe so they read as one column.
+           `previewImages` (array of `{ label, src, alt, caption }`)
+           is the canonical source — when present, the gallery
+           renders. The legacy single `previewImage` is still
+           supported as a fallback (rendered as a single-image
+           gallery) so templates that haven't migrated still show
+           their mockup. When neither preview shape is set, only
+           the code-blocks panel renders. */
+        <div className="flex flex-col gap-3">
+          {loaded.meta.previewImages?.length ? (
+            <PreviewImageTabs images={loaded.meta.previewImages} />
+          ) : loaded.meta.previewImage ? (
+            <PreviewImageTabs
+              images={[
+                {
+                  label: "Preview",
+                  src: loaded.meta.previewImage.src,
+                  alt: loaded.meta.previewImage.alt,
+                  caption: loaded.meta.previewImage.caption,
+                },
+              ]}
+            />
+          ) : null}
           <CodeBlocks blocks={blocks} />
-        )
+        </div>
       }
     >
       <script

@@ -22,13 +22,20 @@ systems:
 estimatedTime: "45 min"
 published: true
 lastUpdated: "May 13, 2026"
-# Preview image lives in `/public/templates/`. Replace the src below
-# with the real screenshot mockup when shared. The neutral
-# placeholder keeps the right rail layout intact in the meantime.
-previewImage:
-  src: "/templates/shopify-app-screens-preview.svg"
-  alt: "Preview of the Shopify App Screens template — bento, mobile, and feature-spotlight layouts"
-  caption: "Preview"
+# Preview-image gallery — `<PreviewImageTabs>` renders these as a
+# tabbed block in the right rail above the prompt code-block.
+# Each entry is one tab; swap the placeholder SVGs for real
+# screenshots when the design pass ships.
+previewImages:
+  - label: "Bento"
+    src: "/templates/shopify-app-screens-preview.svg"
+    alt: "Bento screen layout — multi-feature composition in one frame"
+  - label: "Mobile"
+    src: "/templates/shopify-app-screens-preview.svg"
+    alt: "Mobile screen layout — phone-frame shot with overlay copy"
+  - label: "Spotlight"
+    src: "/templates/shopify-app-screens-preview.svg"
+    alt: "Feature spotlight screen — single-feature deep-dive"
 codeBlocks:
   - filename: "Prompt"
     language: "markdown"
