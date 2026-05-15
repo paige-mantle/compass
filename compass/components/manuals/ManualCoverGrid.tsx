@@ -176,11 +176,11 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
         <span
           className="block font-normal leading-none uppercase text-[var(--cover-accent)]"
           style={{
-            /* Geist Pixel Grid is the canonical Compass display
+            /* Geist Pixel Square is the canonical Compass display
                face — picks the grid variant from the family so the
                cover title reads as one consistent pixel-grid mark
                across every cover. */
-            fontFamily: '"Geist Pixel Grid", var(--font-heading)',
+            fontFamily: '"Geist Pixel Square", var(--font-heading)',
             fontSize: "50px",
             letterSpacing: 0,
           }}

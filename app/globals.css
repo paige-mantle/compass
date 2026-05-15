@@ -58,7 +58,7 @@
   --font-sans:    var(--font-geist-sans, 'Geist'), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono:    var(--font-geist-mono, 'Geist Mono'), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-heading: var(--font-manrope, 'Manrope'), 'Inter var', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-display: 'Geist Pixel Grid', var(--font-manrope, 'Manrope'), ui-sans-serif, sans-serif;
+  --font-display: 'Geist Pixel Square', var(--font-manrope, 'Manrope'), ui-sans-serif, sans-serif;
 
   /* Text scale — px values that match Mantle's RENDERED sizes.
      (Mantle uses rem at a 62.5% root so 1.3rem = 13px; we use a
@@ -288,16 +288,16 @@
    of the dark surface (#0C0A0E).
    ────────────────────────────────────────────────────────────── */
 @layer base {
-  /* Geist Pixel Grid — the Compass display face used on manual
+  /* Geist Pixel Square — the Compass display face used on manual
      covers, the manual ordinal in the hero, and any future
      "marquee" type treatments. Self-hosted at /public/fonts.
      Resolved through `--font-display` (declared in @theme above)
      and Tailwind's `font-display` utility class.
 
-     **Geist Pixel Grid typeface integration pending** — the font
+     **Geist Pixel Square typeface integration pending** — the font
      files are not licensed/shipped to `/public/fonts/` yet, so the
      `--font-display` token currently resolves to Manrope via its
-     fallback chain (`'Geist Pixel Grid', var(--font-manrope),
+     fallback chain (`'Geist Pixel Square', var(--font-manrope),
      ui-sans-serif, sans-serif`). The visual result on manual
      chapter H1s + chapter-number kickers is Manrope rendering at
      `font-display` slots.

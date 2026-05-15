@@ -282,7 +282,7 @@ export function ManualShell({
               className="block h-full w-full object-cover"
             />
           </Link>
-          {/* Brand-rail title — Geist Pixel Grid display face,
+          {/* Brand-rail title — Geist Pixel Square display face,
               uppercase. Matches the manual cover-grid title
               treatment so the rail and the cover plate share one
               pixel-grid identity. Was `font-heading text-2xl` in
@@ -511,43 +511,39 @@ export function ManualShell({
                   }
                 />
 
-                {/* Chapter-number eyebrow — only renders on chapter
-                    pages (not the manual intro). Compact pixel-grid
-                    kicker in `text-[var(--manual-accent)]` so the
-                    accent color travels with the chapter identity.
-                    Reads as `0.1`, `0.2`, … keyed off the manual's
-                    `number` + the current section index. */}
-                {!current.isIntro ? (
+                {/* Title row — chapter number sits to the LEFT of
+                    the H1 with a flex gap. The number renders on
+                    EVERY manual page including the intro/overview:
+                    intros show `X.0` (manifest number + section
+                    index 0), chapters show `X.1`, `X.2`, …
+                    The number wears the manual's accent via
+                    `text-[var(--manual-accent)]`; the H1 wears
+                    `text-fg-high` (white). Both use the same
+                    `font-display` (Geist Pixel Square) at
+                    `text-4xl md:text-6xl` so they share one glyph
+                    box. Title runs in NORMAL CASE (no `uppercase`)
+                    — uppercase reads as label text on a long
+                    chapter title; the proper-noun case is the
+                    editorial register manual chapters want. */}
+                <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 max-[720px]:gap-x-4">
                   <span
                     aria-hidden="true"
-                    className="font-display text-2xl font-normal leading-none tracking-tight tabular-nums text-[var(--manual-accent)]"
+                    className="font-display text-4xl md:text-6xl font-normal leading-tighter tracking-tight tabular-nums text-[var(--manual-accent)]"
                   >
                     {`${manifest.number}.${currentIndex}`}
                   </span>
-                ) : null}
-
-                {/* Manual H1 — Geist Pixel Grid display face,
-                    uppercase. Distinct from the workflow / template
-                    / insight detail hero (which uses Manrope via
-                    `COMPASS_H1_COMPACT_CLASS`) on purpose: manual
-                    chapters are the editorial spine of Compass and
-                    wear the pixel-grid identity, same as the cover
-                    poster + brand rail. Size scaled one Tailwind
-                    step down from the COMPASS_H1_COMPACT ramp
-                    (`text-4xl md:text-6xl` vs `text-5xl md:text-7xl`)
-                    so the longer uppercase strings don't wrap
-                    awkwardly on a tighter hero. */}
-                <h1
-                  className="
-                    m-0 max-w-[18ch]
-                    font-display uppercase font-normal
-                    text-4xl md:text-6xl
-                    leading-tighter tracking-tight
-                    text-fg-high
-                  "
-                >
-                  {current.isIntro ? manifest.title : current.title}
-                </h1>
+                  <h1
+                    className="
+                      m-0 max-w-[18ch]
+                      font-display font-normal
+                      text-4xl md:text-6xl
+                      leading-tighter tracking-tight
+                      text-fg-high
+                    "
+                  >
+                    {current.isIntro ? manifest.title : current.title}
+                  </h1>
+                </div>
 
                 {/* Subheading — pulled from chapter frontmatter
                     `summary`. Sans-serif, leading-loose, same body

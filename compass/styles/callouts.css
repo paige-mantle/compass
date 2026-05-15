@@ -59,12 +59,11 @@
   .manual-section .notion-callout {
     display: block;
     position: relative;
-    /* Tighter outer margin now that the label sits INSIDE the
-       callout as a block at the top instead of floating above the
-       border. Old recipe reserved 56px top to give the floating tag
-       breathing room — the inline-block pattern doesn't need that. */
-    margin: 32px 0 32px !important;
-    padding: 20px 24px 22px !important;
+    /* Tightened — was `margin: 32px 0` + `padding: 20px 24px 22px`.
+       The chapter rhythm reads denser with the callouts pulled in;
+       the smaller plate also sits better beside the body column. */
+    margin: 20px 0 20px !important;
+    padding: 14px 18px 16px !important;
     /* Explicit rgba fallback for browsers that fail the
        `@supports (color: color-mix(in lab, ...))` check Lightning
        CSS auto-adds — without this, the auto-generated fallback
@@ -111,7 +110,7 @@
     display: inline-flex !important;
     align-items: center;
     gap: 0 !important;
-    margin: 0 0 14px;
+    margin: 0 0 10px;
     padding: 0;
     background: none;
     border: 0;
@@ -120,32 +119,38 @@
   .manual-section .callout-icon {
     display: none !important;
   }
+  /* Callout label/pill — recipe pulled in line with the article-
+     card label tag (`CARD_LABEL_BOX_CLASS` + `PILL_CLASS.light`):
+     `rounded-md`, `px-2 py-0.5`, `text-xxs`, `font-medium`, plus
+     a subtle hairline + dark-alpha plate against the chapter-
+     accent body tint behind it. Was a SOLID accent-filled pill
+     with white-on-gold text (`background: var(--manual-accent)`)
+     — that pill read as a button rather than a label and didn't
+     match the article-card label family across the site.
+     The new recipe uses an accent-tinted fill (24% mix) + hairline
+     (48% mix) so the pill still reads as the callout's identity
+     color but in the same compact + flat treatment as the card
+     pill. Family: `font-sans` (case-preserved, mixed-case label
+     reads as editorial), with text-transform off — uppercase was
+     a label-tag affectation that competed with the inline-flex
+     compact form. */
   .manual-section .callout-label {
+    display: inline-flex;
+    align-items: center;
     margin: 0;
-    padding: 5px 11px 4px;
-    background: var(--manual-accent, #FFBB53);
+    padding: 2px 8px;
+    background: rgba(255, 187, 83, 0.18);
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 18%, transparent);
+    border: 1px solid rgba(255, 187, 83, 0.40);
+    border: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 40%, transparent);
     border-radius: var(--rounded-md);
-    font-family: var(--font-mono);
-    /* CompassPromptHeading mono recipe at --text-xxs (13px), 500,
-       0.05em. Line-height collapses to 1 — vertical padding handles
-       the breathing on the filled pill. */
+    font-family: var(--font-sans);
     font-size: var(--text-xxs);
     font-weight: 500;
-    letter-spacing: 0.05em;
-    line-height: var(--leading-none);
-    text-transform: uppercase;
-    /* Static dark hex instead of `color-mix(in srgb, var(--manual-accent) 20%,
-       #110f14)`. Tailwind v4 / Lightning CSS auto-generates a
-       fallback for color-mix declarations by picking the FIRST color
-       of the mix (`var(--manual-accent)`) as the fallback. For the label, that
-       produces gold-on-gold (invisible text) in any browser that
-       fails the `@supports (color: color-mix(in lab, red, red))`
-       check Lightning adds — including browsers that support srgb
-       color-mix but not lab. Visual difference between
-       color-mix-with-20%-gold and pure #110f14 at 13px on a gold
-       pill is imperceptible, so we hardcode and dodge the fallback
-       bug entirely. */
-    color: #110F14 !important;
+    letter-spacing: 0;
+    line-height: 1.4;
+    text-transform: none;
+    color: var(--color-fg-high) !important;
   }
 
   /* Body — Mantle next-gen recipe: text-base / leading-normal /
@@ -291,7 +296,7 @@
   /* ─────────────────────────────────────────────────────────────────
    * Quote callout — `<blockquote>` + `<cite>` inside the shared shell.
    * Gold 3px left bar gives it the editorial pull-quote feel without
-   * losing the bordered-card identity. Geist Pixel Grid display face
+   * losing the bordered-card identity. Geist Pixel Square display face
    * for the quote itself; mono attribution underneath.
    * ─────────────────────────────────────────────────────────────── */
   .manual-section .callout-quote {
@@ -310,10 +315,10 @@
     border-radius: 2px;
   }
   .manual-section .callout-quote blockquote {
-    font-family: 'Geist Pixel Grid', var(--font-heading);
+    font-family: 'Geist Pixel Square', var(--font-heading);
     font-size: var(--text-2xl);
     font-weight: 400;
-    /* Geist Pixel Grid is a pixel-grid face — tighter tracking would
+    /* Geist Pixel Square is a pixel-grid face — tighter tracking would
        crush the bitmap rhythm; hold at 0. */
     letter-spacing: 0;
     line-height: var(--leading-tight);
