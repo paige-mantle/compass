@@ -57,8 +57,14 @@ export function CompassFilterTabs<T extends string>({
               "shrink-0 cursor-pointer whitespace-nowrap",
               "rounded-md py-1.5 px-4 text-xs font-medium",
               "transition-colors duration-200",
+              /* Active chip lifts to a WHITE plate with dark ink.
+                 Was `bg-surface-highest text-fg-high` (#1E1C23
+                 dark plate + white text) — the dark-on-dark
+                 lacked enough lift inside the `bg-surface-lower`
+                 group container. White-on-dark reads as a
+                 deliberate selection signal. */
               isActive
-                ? "bg-surface-highest text-fg-high"
+                ? "bg-fg-high text-surface-medium"
                 : "text-fg-medium hover:text-fg-high",
             ].join(" ")}
           >

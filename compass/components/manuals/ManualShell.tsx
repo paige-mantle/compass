@@ -282,18 +282,17 @@ export function ManualShell({
               className="block h-full w-full object-cover"
             />
           </Link>
-          {/* Brand-rail title — Manrope display face at `text-4xl`
-              in title case. Was `font-display` (Geist Pixel Square)
-              + `uppercase text-2xl` — pulled back to the editorial
-              Manrope ramp at a bigger size so the manual name
-              reads as a proper noun ("Clarity", "Shape") rather
-              than a pixel-grid label. Pixel-grid identity stays on
-              the cover-grid poster + the chapter ordinal eyebrow;
-              the rail anchors the chapter with the same display
-              face the H1 column uses. */}
+          {/* Brand-rail title — Geist Pixel Square display face,
+              uppercase, at `text-4xl`. Matches the cover-grid
+              poster + the chapter ordinal so the rail / cover /
+              hero number share one pixel-grid identity across
+              every manual surface. Previously cycled through
+              `text-2xl pixel` → `text-4xl Manrope`; the pixel
+              face is the canonical rail recipe — the size step
+              up to 4xl carries through from the Manrope pass. */}
           <span
             className="
-              mt-10 mb-6 whitespace-nowrap font-heading
+              mt-10 mb-6 whitespace-nowrap font-display uppercase
               text-4xl font-normal tracking-tight leading-none
             "
             style={{
@@ -449,28 +448,16 @@ export function ManualShell({
               7/5 split at lg+ (Section hero recipe): number + title
               cluster on left col-span-7, subheading on right
               col-span-5. Stacks on mobile. */}
-          {/* Chapter hero — DARK surface with ambient `--manual-
-              accent` bloom + dot-grid texture. Replaces the
-              previous colored-plate-with-contrast-ink treatment so
-              the manual hero reads as part of the same dark Compass
-              chrome as workflow / template / insight detail pages.
-              The cover illustration on the right keeps the manual's
-              identity via `--manual-accent`-tinted currentColor —
-              it's now the only accent-colored element in the hero,
-              which makes it the visual focal point.
-
-              Background-image stacks three layers (first = top):
-                1. Top-left ambient bloom (12% accent at peak)
-                2. Bottom-right ambient bloom (6% accent at peak)
-                3. White 6px dot-grid texture (5% alpha)
-              Composes over the `bg-surface-medium` base. Matches
-              the cover-grid plate recipe at hero scale. */}
-          {/* Hero padding tightened again — `pt-8 md:pt-10 pb-6 md:pb-8`
-              (was `pt-10 md:pt-12 pb-8 md:pb-10`). Manuals are read
-              with the sidebar + body in one viewport; every pixel
-              the hero gives back lifts the chapter body higher above
-              the fold. Mobile padding pulled the same step (`pt-6
-              pb-5`). */}
+          {/* Chapter hero — DARK surface with a 6px white dot-grid
+              texture only. Ambient `--manual-accent` blooms were
+              retired per design pass: the two faded color washes
+              were reading as a tinted vignette rather than warm
+              light, which muddied the legibility of the title
+              column on the left + made the dark plate feel
+              uncommitted. The dot grid + the accent-tinted cover
+              illustration on the right carry the manual identity
+              now. Hero padding `pt-8 md:pt-10 pb-6 md:pb-8` (mobile
+              `pt-6 pb-5`). */}
           <div
             className="
               relative z-[1] block overflow-hidden
@@ -481,10 +468,8 @@ export function ManualShell({
             "
             style={{
               backgroundImage:
-                "radial-gradient(circle at 22% 18%, color-mix(in oklch, var(--manual-accent) 12%, transparent), transparent 55%), " +
-                "radial-gradient(circle at 80% 82%, color-mix(in oklch, var(--manual-accent) 6%, transparent), transparent 60%), " +
                 "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
-              backgroundSize: "auto, auto, 6px 6px",
+              backgroundSize: "6px 6px",
             }}
           >
             <div className="relative z-[2] mx-auto flex max-w-page flex-col gap-6 lg:grid lg:grid-cols-12 lg:gap-8 lg:items-center">
