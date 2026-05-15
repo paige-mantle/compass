@@ -4,8 +4,10 @@ import { CompassListingPage } from "@/compass/components/shared/CompassListingPa
 import { CompassPromptHeading } from "@/compass/components/shared/CompassPromptHeading";
 import { ManualsHomeSection } from "@/compass/components/manuals/ManualsHomeSection";
 import { InsightCardGrid } from "@/compass/components/insights/InsightCardGrid";
+import { WorkflowCardGrid } from "@/compass/components/workflows/WorkflowCardGrid";
 import { MANUAL_COVERS } from "@/compass/lib/manuals/content";
 import { listInsights } from "@/compass/lib/insights/content";
+import { listWorkflows } from "@/compass/lib/workflows/content";
 
 /* All SEO copy below is the May spreadsheet's source of truth.
    `title` / `description` / `canonical` / OG / Twitter all map to
@@ -60,8 +62,15 @@ export const metadata = {
  * different jobs. Home tells the story; the index shows the breadth.
  */
 export default async function CompassHomePage() {
-  const insights = await listInsights();
+  const [insights, workflows] = await Promise.all([
+    listInsights(),
+    listWorkflows(),
+  ]);
   const latestInsights = insights.slice(0, 3);
+  /* Featured workflows on the home — take the first 3 entries in
+     filesystem order. When sort-by-`lastUpdated` lands across the
+     content surfaces, the home will surface the freshest three. */
+  const featuredWorkflows = workflows.slice(0, 3);
 
   return (
     <CompassListingPage
@@ -103,14 +112,54 @@ export default async function CompassHomePage() {
         </Link>
       </div>
 
+      {featuredWorkflows.length > 0 ? (
+        /* Featured workflows — same section recipe as the insights
+            block below: eyebrow + heading + view-all link + card
+            grid. Pulls the first 3 entries from `listWorkflows()`
+            so the home surfaces the workflows readers will likely
+            reach for first. `WorkflowCardGrid` is the same
+            component the catalog at `/workflows` renders, so the
+            cards read identically across surfaces. */
+        <section
+          aria-label="Featured workflows"
+          className="border-t border-edge-medium pt-20 pb-14 max-[720px]:pt-14 max-[720px]:pb-10"
+        >
+          <div className="mb-4">
+            <CompassPromptHeading text="Workflows" color="accent" />
+          </div>
+          <div className="mb-10 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
+            <h2 className="m-0 max-w-[24ch] font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
+              Practical workflows for your stack
+            </h2>
+            <Link
+              href="/workflows"
+              className="
+                inline-flex items-center gap-1.5
+                font-sans text-sm font-normal text-accent no-underline
+                transition-colors duration-150 hover:text-accent-low
+              "
+            >
+              <span>View all workflows</span>
+              <ChevronRight width={16} height={16} strokeWidth={2} aria-hidden className="shrink-0" />
+            </Link>
+          </div>
+          <WorkflowCardGrid methods={featuredWorkflows} />
+        </section>
+      ) : null}
+
       {latestInsights.length > 0 ? (
-        /* Latest insights — mirrors the next-gen marketing-page
-           section recipe: gold mono eyebrow, section heading,
-           content, trailing "View all →" link. Vertical rhythm
-           gives the section breathing room. */
+        // Latest insights — mirrors the next-gen marketing-page
+        // section recipe: gold mono eyebrow, section heading,
+        // content, trailing "View all →" link. Bottom padding
+        // reduced — was `pb-16`, now `pb-0` so the section closes
+        // flush against the MantleFooter gradient transition strip
+        // + CTA band. The dead 64px of trailing padding above the
+        // footer is what made the close feel cavernous; the tighter
+        // footer gradient (h-12 md:h-16) carries the visual
+        // transition now.
         <section
           aria-label="Latest insights"
-          className="border-t border-edge-medium pt-20 pb-16 max-[720px]:pt-14 max-[720px]:pb-12"
+          className="border-t border-edge-medium pt-20 pb-0 max-[720px]:pt-14"
         >
           <div className="mb-4">
             <CompassPromptHeading text="Insights" color="accent" />

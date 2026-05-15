@@ -85,7 +85,13 @@ export function CompassListingPage({
             row of `<CompassHeader>` and stays sticky as the reader
             scrolls. `currentPath` is still passed through the layout
             chain so the header knows which tab to mark active. */}
-        <div className="compass-content mt-10 max-[720px]:mt-8">{children}</div>
+        {/* Bottom padding `pb-12 md:pb-16` owns the gap between the
+            last content element and the MantleFooter gradient
+            transition. Cards / sections no longer carry their own
+            `pb-20` — this wrapper sets one canonical buffer so the
+            close-to-footer rhythm is identical across every listing
+            surface. */}
+        <div className="compass-content mt-10 pb-12 md:pb-16 max-[720px]:mt-8">{children}</div>
       </div>
     </CompassLayout>
   );

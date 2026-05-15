@@ -24,7 +24,11 @@ export function InsightCardGrid({ insights }: { insights: InsightMeta[] }) {
   return (
     <section
       aria-label="Insights"
-      className="grid grid-cols-1 gap-8 pb-20 sm:grid-cols-2 lg:grid-cols-3"
+      /* Trailing `pb` removed — was `pb-20`, which stacked an 80px
+         gap above the MantleFooter gradient transition on every
+         listing surface. Pages own their own bottom rhythm now via
+         the closing section / footer-transition combo. */
+      className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
     >
       {insights.map((i) => (
         <InsightCard key={i.slug} insight={i} />

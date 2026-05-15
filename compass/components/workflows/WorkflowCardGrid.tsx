@@ -35,7 +35,9 @@ export function WorkflowCardGrid({ methods }: { methods: WorkflowMeta[] }) {
   return (
     <section
       aria-label="Methods"
-      className="grid grid-cols-1 gap-8 pb-20 sm:grid-cols-2 lg:grid-cols-3"
+      /* Trailing `pb` removed — was `pb-20`, see `InsightCardGrid`
+         for the rationale. */
+      className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
     >
       {methods.map((m, i) => (
         <MethodCard key={m.slug} method={m} index={i} />

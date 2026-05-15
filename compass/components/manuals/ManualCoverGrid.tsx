@@ -36,7 +36,7 @@ export function ManualCoverGrid({ covers }: { covers: ManualCoverEntry[] }) {
          the 4-col threshold to `md` covers the whole laptop-and-above
          range. With 7 manuals total the last row naturally holds 3 —
          that's just the 7÷4 remainder, not a layout bug. */
-      className="grid grid-cols-1 gap-5 pb-20 sm:grid-cols-2 md:grid-cols-4"
+      className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4"
     >
       {covers.map((cover) => (
         <ManualCover key={cover.slug} cover={cover} />

@@ -55,14 +55,16 @@ export function MantleFooter() {
           `[data-footer-ambient]` recipe in `globals.css`. */}
       <div data-footer-ambient aria-hidden="true"></div>
 
-      {/* Surface transition — replaces next-gen's animated
-          `<WavyDivider>` with a static gradient bleed. The Compass
-          page body runs on `bg-surface-medium`; the footer plate is
-          `bg-surface-low`. A 80px CSS gradient strip bridges them so
-          the seam isn't a hard edge. */}
+      {/* Surface transition — gradient bleed from the page body
+          (`surface-medium`) into the footer plate (`surface-low`).
+          Height tuned tighter (`h-12 md:h-16`, was `h-20 md:h-28`)
+          so the gap between end-of-content and the CTA band reads
+          as a deliberate close, not dead space. The 48-64px is
+          still enough breath for the gradient to ramp cleanly
+          without a hard surface step. */}
       <div
         aria-hidden="true"
-        className="h-20 md:h-28 w-full bg-gradient-to-b from-[var(--color-surface-medium)] to-[var(--color-surface-low)]"
+        className="h-12 md:h-16 w-full bg-gradient-to-b from-[var(--color-surface-medium)] to-[var(--color-surface-low)]"
       />
 
       {/* CTA band — `surface-low`, py-12 sm:py-16 matches next-gen's
