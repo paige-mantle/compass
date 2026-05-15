@@ -555,7 +555,10 @@ html.mobile-nav-open body {
      `CompassHeader` so the slide animates smoothly in both
      directions. */
   body.scrolled-down #header [data-secondary-row] {
-    transform: translateY(-72px);
+    /* Translate up by the primary row's height (now 60px after the
+       nav-link `py` was tightened `md:py-[26px]` → `md:py-5`). Was
+       `-72px` for the old 72px primary. */
+    transform: translateY(-60px);
   }
   /* Once the user scrolls past the threshold (the secondary row
      takes the primary row's slot at the top of the viewport),
@@ -569,16 +572,19 @@ html.mobile-nav-open body {
   body.scrolled-down #header [data-secondary-row] [data-compass-mark] {
     /* 11rem clears the full 192×36 SVG at `h-8` (≈171px) plus a
        small trailing margin so the wordmark doesn't kiss the first
-       tab. Was 12.5rem when the logomark sat at `h-9`; stepped
-       down with the logo. `transition-delay: 520ms` holds the
-       slide-in until the primary row has finished translating up
-       (500ms duration + 20ms safety) — the brand mark only appears
-       AFTER the Mantle logo has cleared. */
+       tab.
+       `transition-delay: 260ms` lets the mark arrive earlier in the
+       slide. The primary row uses an ease-out cubic-bezier over
+       500ms so the visible motion concentrates in the first
+       ~250ms; starting the Compass mark at 260ms keeps it
+       sequential (Mantle still leads) without making the reader
+       wait a full 500ms after scroll-down for the brand to
+       reappear. */
     width: 11rem;
     margin-right: 0;
     opacity: 1;
     pointer-events: auto;
-    transition-delay: 520ms;
+    transition-delay: 260ms;
   }
 }
 

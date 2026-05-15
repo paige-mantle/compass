@@ -48,7 +48,7 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
           first, H2 lands at the 80ms step, the right-column rows
           continue the stagger from index 3 onward. Honours
           `prefers-reduced-motion`. */}
-      <div className="lg:col-span-4 lg:sticky lg:top-[calc(var(--header-h,72px)+24px)] lg:self-start">
+      <div className="lg:col-span-4 lg:sticky lg:top-[calc(var(--header-h,60px)+24px)] lg:self-start">
         {/* Compact eyebrow pill — sits above the H2 as a small
             editorial label. Matches the canonical
             `<CompassPromptHeading>` recipe so it lines up with

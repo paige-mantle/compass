@@ -94,15 +94,17 @@ export function CompassLayout({
   const surfaceBg = surface === "manual" ? "" : "bg-surface-medium";
   /* Body top offset clears the fixed `<CompassHeader />`. Header
      height depends on whether the secondary nav row renders:
-       • Listings (secondary visible): 64px mobile / 120px desktop
-         (primary 72px + secondary 48px on lg+).
-       • Detail pages (secondary hidden): 64px mobile / 72px desktop.
+       • Listings (secondary visible): 64px mobile / 108px desktop
+         (primary 60px + secondary 48px on lg+).
+       • Detail pages (secondary hidden): 64px mobile / 60px desktop.
+     Primary row dropped 72px → 60px when the nav-link `py` was
+     tightened (`md:py-[26px]` → `md:py-5`); offsets follow.
      `showHeader={false}` means no header to clear → zero offset. */
   const headerOffsetClass = !showHeader
     ? ""
     : hideSecondaryNav
-      ? "pt-16 lg:pt-[72px]"
-      : "pt-16 lg:pt-[120px]";
+      ? "pt-16 lg:pt-[60px]"
+      : "pt-16 lg:pt-[108px]";
   return (
     <div
       data-layout-bg-fx=""
