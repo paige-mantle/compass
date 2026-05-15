@@ -1,5 +1,5 @@
 import { CompassListingPage } from "@/compass/components/shared/CompassListingPage";
-import { TemplateCardGrid } from "@/compass/components/templates/TemplateCardGrid";
+import { TemplateListing } from "@/compass/components/templates/TemplateListing";
 import { listTemplates } from "@/compass/lib/templates/content";
 import { SITE_ORIGIN } from "@/compass/lib/seo";
 
@@ -86,7 +86,9 @@ export default async function TemplatesIndexPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <TemplateCardGrid templates={templates} />
+      {/* Client-side filter wrapper — adds search input + tag pill
+          group above the grid. */}
+      <TemplateListing templates={templates} />
     </CompassListingPage>
   );
 }

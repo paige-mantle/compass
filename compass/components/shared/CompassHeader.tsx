@@ -163,9 +163,18 @@ export function CompassHeader({
           it. The reverse (border-t on the secondary) leaves a
           stranded hairline at the top of the viewport when the
           secondary "catches" the primary's slot. */}
+      {/* Primary row carries the divider between primary + secondary
+          on its bottom edge. Tied to the primary row (not the
+          secondary's top) so the border translates up with the row
+          when `body.scrolled-down` fires.
+          Transition tuned long-and-smooth: `duration-500
+          cubic-bezier(0.16,1,0.3,1)` so the slide reads as a
+          deliberate motion (matches the Compass logomark's open-
+          direction reveal in the secondary row). Was `duration-200
+          ease-out`, which felt clipped at the start of the curve. */}
       <div
         data-primary-row
-        className="bg-surface-medium border-b border-edge-medium transition-transform duration-200 ease-out"
+        className="bg-surface-medium border-b border-edge-medium transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
       >
         <nav
           className="mx-auto w-full max-w-page px-4 py-4 sm:px-6 md:px-8 lg:py-0"
@@ -381,7 +390,11 @@ export function CompassHeader({
         data-secondary-row
         className={[
           "bg-surface-medium border-b border-edge-medium",
-          "transition-transform duration-200 ease-out",
+          /* Matches the primary row's `duration-500 cubic-bezier`
+             so both rows travel in lockstep on scroll-down — the
+             secondary lands at primary's slot at exactly the same
+             frame the primary leaves it. */
+          "transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
           hideSecondaryNav ? "hidden" : "hidden lg:block",
         ].join(" ")}
       >
@@ -425,7 +438,7 @@ export function CompassHeader({
                    up) hides the mark immediately — only the OPEN
                    direction is delayed (handled in globals.css). */
                 "w-0 -mr-8 opacity-0 pointer-events-none",
-                "transition-[width,margin,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                "transition-[width,margin,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
               ].join(" ")}
             >
               {/* Logo SVG is 192×36 (5.33:1). `h-9` = 36px tall →

@@ -553,8 +553,8 @@ html.mobile-nav-open body {
   body.scrolled-down #header [data-secondary-row] [data-compass-mark] {
     /* 12.5rem clears the full 192×36 SVG at `h-9` (192px wide) plus
        trailing margin so the wordmark doesn't kiss the first tab.
-       `transition-delay: 220ms` holds the slide-in until the primary
-       row has finished translating up (200ms duration + 20ms
+       `transition-delay: 520ms` holds the slide-in until the primary
+       row has finished translating up (500ms duration + 20ms
        safety) — the brand mark only appears AFTER the Mantle logo
        above has cleared, never overlapping two logos in the same
        visual slot. The default state in the JSX has no delay, so
@@ -564,7 +564,7 @@ html.mobile-nav-open body {
     margin-right: 0;
     opacity: 1;
     pointer-events: auto;
-    transition-delay: 220ms;
+    transition-delay: 520ms;
   }
 }
 

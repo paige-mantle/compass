@@ -1,5 +1,5 @@
 import { CompassListingPage } from "@/compass/components/shared/CompassListingPage";
-import { WorkflowCardGrid } from "@/compass/components/workflows/WorkflowCardGrid";
+import { WorkflowListing } from "@/compass/components/workflows/WorkflowListing";
 import { listWorkflows } from "@/compass/lib/workflows/content";
 import { SITE_ORIGIN } from "@/compass/lib/seo";
 
@@ -83,7 +83,11 @@ export default async function WorkflowsIndexPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <WorkflowCardGrid methods={methods} />
+      {/* Client-side filter wrapper — adds search input + tag pill
+          group above the grid. Server still renders the full list
+          once for SEO + first paint; filtering happens in the
+          browser so changes are instant. */}
+      <WorkflowListing methods={methods} />
     </CompassListingPage>
   );
 }
