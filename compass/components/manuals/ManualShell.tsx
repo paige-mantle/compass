@@ -7,7 +7,6 @@ import { ManualShareSection } from "./ManualShareSection";
 import { ManualMobileNav } from "./ManualMobileNav";
 import { CoverArt } from "./CoverArt";
 import { COMPASS_PIXEL_LABEL_CLASS } from "../shared/compass-pixel-label";
-import { COMPASS_H1_COMPACT_CLASS } from "../shared/compass-h1";
 import { Breadcrumb } from "../shared/Breadcrumb";
 
 function hrefFor(manualSlug: string, s: ManualSection) {
@@ -283,10 +282,16 @@ export function ManualShell({
               className="block h-full w-full object-cover"
             />
           </Link>
+          {/* Brand-rail title — Geist Pixel Grid display face,
+              uppercase. Matches the manual cover-grid title
+              treatment so the rail and the cover plate share one
+              pixel-grid identity. Was `font-heading text-2xl` in
+              title case; pulled into the same display recipe used
+              on the chapter-number eyebrow + cover poster. */}
           <span
             className="
-              mt-10 mb-6 whitespace-nowrap font-heading text-2xl font-medium
-              tracking-tight
+              mt-10 mb-6 whitespace-nowrap font-display uppercase
+              text-2xl font-normal tracking-tight leading-none
             "
             style={{
               writingMode: "vertical-rl",
@@ -457,13 +462,18 @@ export function ManualShell({
                 3. White 6px dot-grid texture (5% alpha)
               Composes over the `bg-surface-medium` base. Matches
               the cover-grid plate recipe at hero scale. */}
+          {/* Hero padding tuned shorter than the detail-hero recipe
+              (was `pt-14 md:pt-20 pb-12 md:pb-14`) — manual chapters
+              read the hero + sidebar + body in one viewport more
+              often, so a tighter hero keeps the body above the
+              fold on a 14" laptop. */}
           <div
             className="
               relative z-[1] block overflow-hidden
               border-b border-edge-medium
               bg-surface-medium
-              px-4 sm:px-6 md:px-8 pt-14 md:pt-20 pb-12 md:pb-14
-              max-[720px]:pt-10 max-[720px]:pb-8
+              px-4 sm:px-6 md:px-8 pt-10 md:pt-12 pb-8 md:pb-10
+              max-[720px]:pt-8 max-[720px]:pb-6
             "
             style={{
               backgroundImage:
@@ -516,7 +526,26 @@ export function ManualShell({
                   </span>
                 ) : null}
 
-                <h1 className={`m-0 max-w-[18ch] ${COMPASS_H1_COMPACT_CLASS}`}>
+                {/* Manual H1 — Geist Pixel Grid display face,
+                    uppercase. Distinct from the workflow / template
+                    / insight detail hero (which uses Manrope via
+                    `COMPASS_H1_COMPACT_CLASS`) on purpose: manual
+                    chapters are the editorial spine of Compass and
+                    wear the pixel-grid identity, same as the cover
+                    poster + brand rail. Size scaled one Tailwind
+                    step down from the COMPASS_H1_COMPACT ramp
+                    (`text-4xl md:text-6xl` vs `text-5xl md:text-7xl`)
+                    so the longer uppercase strings don't wrap
+                    awkwardly on a tighter hero. */}
+                <h1
+                  className="
+                    m-0 max-w-[18ch]
+                    font-display uppercase font-normal
+                    text-4xl md:text-6xl
+                    leading-tighter tracking-tight
+                    text-fg-high
+                  "
+                >
                   {current.isIntro ? manifest.title : current.title}
                 </h1>
 

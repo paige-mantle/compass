@@ -158,10 +158,12 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
       {/* Label block — bottom 25%. `justify-end` + `pb-[22px]`
           anchors the title to the visible bottom edge of the cover
           with a uniform 22px inset matching the horizontal gutters.
-          Title runs in title case (not uppercase) so the Geist Pixel Grid
-          glyphs read as a proper noun — "Clarity", "Shape", "Build"
-          — rather than as label text. `leading-none` keeps the
-          glyph box tight to the visual bounds. */}
+          Title rendered in UPPERCASE so the pixel-grid glyph rhythm
+          reads as a deliberate display treatment (every glyph sits
+          on the same baseline + height) instead of mixing tall +
+          short letterforms. Matches the brand-rail + manual H1
+          treatment so the cover, rail, and chapter hero share one
+          identity. `leading-none` keeps the glyph box tight. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] flex h-1/4 flex-col justify-end gap-1.5 px-[22px] pb-[22px]">
         <span
           className="
@@ -172,15 +174,12 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
           {cover.ordinal}
         </span>
         <span
-          className="block font-normal leading-none text-[var(--cover-accent)]"
+          className="block font-normal leading-none uppercase text-[var(--cover-accent)]"
           style={{
             /* Geist Pixel Grid is the canonical Compass display
                face — picks the grid variant from the family so the
                cover title reads as one consistent pixel-grid mark
-               across every cover. Was a stack of (Circle, Square,
-               Line) which gave each cover a slightly different
-               glyph rhythm depending on which variant loaded first;
-               pinned to a single variant here. */
+               across every cover. */
             fontFamily: '"Geist Pixel Grid", var(--font-heading)',
             fontSize: "50px",
             letterSpacing: 0,
