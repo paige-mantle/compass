@@ -27,16 +27,17 @@ export function ManualCoverGrid({ covers }: { covers: ManualCoverEntry[] }) {
     <section
       aria-label="Operating manuals"
       /* Column ramp:
-           <640px  — 1 col (stacked)
-           640px+  — 2 cols
-           768px+  — 4 cols (most laptop viewports)
-         The earlier `lg:grid-cols-4` (≥1024px) was leaving viewports
-         between 768-1023px at 2 cols, which read as "the grid is
-         broken" on a typical 13" laptop with devtools open. Dropping
-         the 4-col threshold to `md` covers the whole laptop-and-above
-         range. With 7 manuals total the last row naturally holds 3 —
-         that's just the 7÷4 remainder, not a layout bug. */
-      className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4"
+           <640px  — 2 cols (mobile portrait posters in pairs)
+           640px+  — 2 cols (sm)
+           768px+  — 4 cols (md, typical laptop viewport+)
+         Mobile bumped to 2 cols (was 1) so each portrait card stays
+         at a reasonable height — a single full-width card on a
+         360px phone rendered ~495px tall, which dominated the
+         viewport. Two cols per row keeps the 320:440 cover aspect
+         intact while halving the card height to ~245px each. Gap
+         pulled down to `gap-3` on mobile so the tighter cards
+         have proportional breathing room. */
+      className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-4"
     >
       {covers.map((cover) => (
         <ManualCover key={cover.slug} cover={cover} />
@@ -164,24 +165,32 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
           short letterforms. Matches the brand-rail + manual H1
           treatment so the cover, rail, and chapter hero share one
           identity. `leading-none` keeps the glyph box tight. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] flex h-1/4 flex-col justify-end gap-1.5 px-[22px] pb-[22px]">
+      {/* Label block padding shrinks on mobile (px-3 pb-3 vs the
+          22px gutters on sm+) so the title has room to render at
+          the narrower 2-col card width without clipping. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] flex h-1/4 flex-col justify-end gap-1 px-3 pb-3 sm:gap-1.5 sm:px-[22px] sm:pb-[22px]">
         <span
           className="
-            self-start font-mono text-xs font-medium uppercase
+            self-start font-mono text-[10px] font-medium uppercase
             tracking-wider leading-none text-[var(--cover-accent)]
+            sm:text-xs
           "
         >
           {cover.ordinal}
         </span>
         <span
-          className="block font-normal leading-none uppercase text-[var(--cover-accent)]"
+          /* Title size ramps from 30px on mobile (2-col card ≈ 160px
+             wide on a 360px phone) to 50px at sm+ when the card is
+             wider. `text-[clamp(...)]` lets the size scale smoothly
+             between the breakpoints so a 480px viewport doesn't
+             get the small-card text + big-card width. */
+          className="block font-normal leading-none uppercase text-[var(--cover-accent)] text-[30px] sm:text-[50px]"
           style={{
             /* Geist Pixel Square is the canonical Compass display
                face — picks the grid variant from the family so the
                cover title reads as one consistent pixel-grid mark
                across every cover. */
             fontFamily: '"Geist Pixel Square", var(--font-heading)',
-            fontSize: "50px",
             letterSpacing: 0,
           }}
         >

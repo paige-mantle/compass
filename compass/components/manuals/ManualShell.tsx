@@ -462,18 +462,19 @@ export function ManualShell({
                 3. White 6px dot-grid texture (5% alpha)
               Composes over the `bg-surface-medium` base. Matches
               the cover-grid plate recipe at hero scale. */}
-          {/* Hero padding tuned shorter than the detail-hero recipe
-              (was `pt-14 md:pt-20 pb-12 md:pb-14`) — manual chapters
-              read the hero + sidebar + body in one viewport more
-              often, so a tighter hero keeps the body above the
-              fold on a 14" laptop. */}
+          {/* Hero padding tightened again — `pt-8 md:pt-10 pb-6 md:pb-8`
+              (was `pt-10 md:pt-12 pb-8 md:pb-10`). Manuals are read
+              with the sidebar + body in one viewport; every pixel
+              the hero gives back lifts the chapter body higher above
+              the fold. Mobile padding pulled the same step (`pt-6
+              pb-5`). */}
           <div
             className="
               relative z-[1] block overflow-hidden
               border-b border-edge-medium
               bg-surface-medium
-              px-4 sm:px-6 md:px-8 pt-10 md:pt-12 pb-8 md:pb-10
-              max-[720px]:pt-8 max-[720px]:pb-6
+              px-4 sm:px-6 md:px-8 pt-8 md:pt-10 pb-6 md:pb-8
+              max-[720px]:pt-6 max-[720px]:pb-5
             "
             style={{
               backgroundImage:
@@ -571,11 +572,19 @@ export function ManualShell({
                   cover entry exists. On mobile the illustration
                   stacks below the title cluster. */}
               {cover ? (
+                /* Illustration sized up — was `max-h-[320px]` (mobile
+                   `220px`). The illustration is the focal point of
+                   the manual hero now that the surface is dark and
+                   the text cluster sits to the left; giving it more
+                   room lets the motif read as a deliberate hero
+                   centerpiece rather than a small accent. Mobile
+                   max-h bumped too so the motif stays substantial
+                   when the layout collapses to a single column. */
                 <div
                   className="
                     lg:col-span-5 flex items-center justify-center
-                    aspect-[4/3] max-h-[320px] w-full overflow-hidden
-                    max-[720px]:max-h-[220px]
+                    aspect-[4/3] max-h-[440px] w-full overflow-hidden
+                    max-[720px]:max-h-[260px]
                   "
                   style={{ color: "var(--manual-accent)" }}
                   aria-hidden="true"

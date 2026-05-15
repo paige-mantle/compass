@@ -60,7 +60,7 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
           data-compass-enter="2"
           className="m-0 font-heading text-4xl md:text-5xl font-normal leading-[1.05] tracking-tight text-fg-high max-w-[14ch]"
         >
-          Operating manuals to do XYZ
+          Operating manuals
         </h2>
       </div>
 
