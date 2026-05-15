@@ -526,9 +526,14 @@ export function ManualShell({
                     chapter title; the proper-noun case is the
                     editorial register manual chapters want. */}
                 <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 max-[720px]:gap-x-4">
+                  {/* Chapter number + H1 share the same `text-5xl
+                      md:text-7xl` ramp — the canonical Compass hero
+                      H1 scale (`COMPASS_H1_CLASS`). Was `text-4xl
+                      md:text-6xl`; bumped one step so every hero
+                      across the site hits text-7xl at md+. */}
                   <span
                     aria-hidden="true"
-                    className="font-display text-4xl md:text-6xl font-normal leading-tighter tracking-tight tabular-nums text-[var(--manual-accent)]"
+                    className="font-display text-5xl md:text-7xl font-normal leading-tighter tracking-tight tabular-nums text-[var(--manual-accent)]"
                   >
                     {`${manifest.number}.${currentIndex}`}
                   </span>
@@ -536,7 +541,7 @@ export function ManualShell({
                     className="
                       m-0 max-w-[18ch]
                       font-display font-normal
-                      text-4xl md:text-6xl
+                      text-5xl md:text-7xl
                       leading-tighter tracking-tight
                       text-fg-high
                     "
