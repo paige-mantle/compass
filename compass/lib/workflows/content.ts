@@ -1,13 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { cache } from "react";
 import matter from "gray-matter";
 
-// Reads from `compass/content/methods/` — directory renamed from
-// `frameworks/` to match the `/workflows/[slug]` URL. The
-// exported TypeScript types (`WorkflowMeta`, `WorkflowFrontmatter`,
-// `WorkflowCodeBlock`) keep their `Framework*` names for now to
-// avoid a breaking churn across every consumer; filesystem only.
-const CONTENT_ROOT = path.join(process.cwd(), "compass", "content", "methods");
+// Reads from `compass/content/workflows/` — directory was renamed
+// from `methods/` (and originally `frameworks/`) to match the
+// `/workflows/[slug]` URL during the IA refactor.
+const CONTENT_ROOT = path.join(process.cwd(), "compass", "content", "workflows");
 
 export type WorkflowCodeBlock = {
   filename: string;
@@ -33,23 +32,67 @@ export type WorkflowFrontmatter = {
   author: string;
   authorRole?: string;
   authorAvatar?: string;
+  /* SEO overrides — when set, these override the auto-generated
+     `<title>` / meta description / OG fields in
+     `app/workflows/[slug]/page.tsx`. `title` + `summary` continue
+     to drive the visible H1 + subheading; the SEO fields are for
+     search/social only.
+       • metaTitle       — full `<title>` (typically "X | Mantle Compass")
+       • metaDescription — meta description + Twitter description
+       • ogTitle         — Open Graph title (shorter, share-card friendly)
+       • ogDescription   — Open Graph description (share-card body)
+     Source of truth: the May SEO spreadsheet (column → field):
+       `Recommended meta title` → metaTitle
+       `Meta description`       → metaDescription
+       `OG title`               → ogTitle
+       `OG description`         → ogDescription */
+  metaTitle?: string;
+  metaDescription?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   /** Card-block accent — one of the Compass canonical accent names.
    *  Source of truth in `compass/lib/card-accents.ts`. The palette
    *  is shared across method cards, template cards, and manual
    *  covers so the same name maps to the same color everywhere. */
   blockColor?:
-    | "gold"
-    | "cyan"
-    | "lilac"
-    | "warm"
-    | "red"
+    | "accent"
+    | "accent-alt"
+    | "orange"
+    | "purple"
+    | "teal"
+    | "green"
+    | "mac-red"
+    | "mac-yellow"
+    | "mac-green"
     | "white"
     | "black"
     | "graphite"
     | "gray";
+  /** Categories rendered as chips in the hero meta card's
+      "Categories" row. Free-form (e.g. "Shopify", "Lifecycle",
+      "Reviews"). Surface-level taxonomy — what kind of recipe is
+      this. */
   tags?: string[];
+  /** Mantle product modules this workflow touches — rendered as
+      chips in the hero meta card's "Systems" row. Free-form
+      (e.g. "Customers", "Email + messaging", "Automations",
+      "Analytics"). Helps readers see at a glance which parts of
+      Mantle the recipe orchestrates. */
+  systems?: string[];
   codeBlocks?: WorkflowCodeBlock[];
   published?: boolean;
+  /** Mantle Official flag. Defaults to `true` — every workflow on
+   *  Compass is Mantle-authored unless this is explicitly set to
+   *  `false`. Community-submitted recipes opt out by setting
+   *  `mantleOfficial: false` in their frontmatter.
+   *
+   *  Drives two surfaces:
+   *    • Listing card plate — official cards use the `orange`
+   *      accent (shared Mantle plate). Non-official cards fall back
+   *      to the per-grid alternating rotation.
+   *    • Detail hero — official workflows render the
+   *      "Mantle Official" verified chip beneath the byline. */
+  mantleOfficial?: boolean;
   /** Human-readable last-updated date, e.g. "May 11, 2026". */
   lastUpdated?: string;
 
@@ -89,7 +132,13 @@ export type LoadedWorkflow = {
   source: string;
 };
 
-export async function listWorkflows(): Promise<WorkflowMeta[]> {
+/* `cache()` from React memoizes within a single server render so
+   `generateStaticParams` + `loadWorkflow` (which both call this
+   loader) only hit the filesystem once per build pass instead of
+   twice. Same pattern landed on the templates + insights loaders
+   for parity. Cheap to apply, measurable build-time speedup at
+   scale. */
+export const listWorkflows = cache(async (): Promise<WorkflowMeta[]> => {
   let entries: string[];
   try {
     entries = await fs.readdir(CONTENT_ROOT);
@@ -107,7 +156,7 @@ export async function listWorkflows(): Promise<WorkflowMeta[]> {
   }
   items.sort((a, b) => a.title.localeCompare(b.title));
   return items;
-}
+});
 
 export async function loadWorkflow(
   slug: string

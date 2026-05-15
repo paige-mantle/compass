@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { CoverArt } from "./CoverArt";
 import type { ManualCoverEntry } from "../../lib/manuals/content";
-import { CARD_ACCENT_VAR_CLASS, CARD_PILL_CLASS } from "../../lib/card-accents";
+import {
+  CARD_ACCENT_VAR_CLASS,
+  COMING_SOON_LABEL_ON_COVER_CLASS,
+} from "../../lib/card-accents";
 
 /**
  * Manual cover grid — the visual centerpiece of /manuals.
@@ -42,18 +45,47 @@ export function ManualCoverGrid({ covers }: { covers: ManualCoverEntry[] }) {
   );
 }
 
-/* Shared shell classes. Uses canonical `--color-surface-highest`
-   (= #1E1C23 in the Mantle dark theme) for the card surface, and
-   the canonical `rounded-xl` (= 8px) card radius from the Mantle
-   rounded scale — same radius used across every Compass card
-   (templates, frameworks, blog items, insights). */
+/* Shared shell classes. Canonical Compass card chrome:
+     • `--color-surface-higher` (#16141A) — one notch below
+       `surface-highest` in the dark ramp; gives a quieter lift that
+       lets the colored SVG art motif and the per-cover accent glow
+       carry the visual presence rather than the surface fill.
+     • `rounded-xl` (8px) — same radius every Compass card uses.
+     • `border border-edge-medium` + `hover:border-edge-high` —
+       shared with InsightCard, WorkflowCard, TemplateCard so every
+       Compass card reads as part of the same framed family. The
+       cover-grid difference is that manual covers fill the frame
+       too; article cards leave it transparent.
+     • Ambient glow — a per-cover radial gradient (two soft
+       blooms in the cover's `--cover-accent`) applied as the card's
+       background-image. Same recipe as InsightCard but driven from
+       the chapter's accent token so each manual has its own warm
+       haze. The fill underneath stays `surface-higher` so the glow
+       reads as accent-coloured light, not flat colour. */
 const SHELL_CLASSES = [
   "group relative block overflow-hidden rounded-xl",
   "aspect-[320/440]",
-  "bg-[var(--color-surface-highest)]",
-  // Transform-only transition; color stays pinned.
-  "transition-transform duration-200 ease-out hover:-translate-y-[3px]",
+  "bg-[var(--color-surface-higher)]",
+  "border border-edge-medium hover:border-edge-high",
+  "transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[3px]",
 ];
+
+/* Per-cover ambient glow — two soft radial blooms in the chapter
+   accent, positioned at the top-left and bottom-right of the card.
+   Opacities tuned down (was 14% / 8% peak; now 7% / 4%) so the glow
+   reads as warm light + visible-but-quiet, letting the dot-grid
+   texture below carry the surface and the SVG motif carry the
+   visual centerpiece. Composes with the dot-grid background layer
+   beneath via `background-image` stacking — both render on the same
+   element, dot grid first (bottom) and the two radial blooms on top. */
+const COVER_AMBIENT_BG_IMAGE =
+  "radial-gradient(circle at 22% 18%, color-mix(in oklch, var(--cover-accent) 7%, transparent), transparent 55%), " +
+  "radial-gradient(circle at 80% 82%, color-mix(in oklch, var(--cover-accent) 4%, transparent), transparent 60%), " +
+  // Dot-grid texture — matches the workflow + template card plate
+  // recipe (6px pitch, 1px dots) but uses a low-alpha WHITE dot
+  // since manual covers run on the dark `surface-higher` fill. The
+  // black-on-light dots from the listing cards would disappear here.
+  "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)";
 
 function ManualCover({ cover }: { cover: ManualCoverEntry }) {
   /* `CARD_ACCENT_VAR_CLASS[accent]` sets `--cover-accent` on the
@@ -82,22 +114,22 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
         }}
       />
       {cover.comingSoon ? (
-        /* Coming-soon pill — uses the canonical Compass pill recipe
-           from `compass/lib/card-accents.ts`. The cover surface is
-           always dark (--color-surface-highest), so all manual cover
-           pills use the `dark` variant directly rather than going
-           through `CARD_PILL_CLASS[accent]`. Single source of truth
-           shared with method tag pills, template tag pills, and
-           insight ribbons. */
+        /* Coming-soon pill — uses `COMING_SOON_LABEL_ON_COVER_CLASS`
+           (white text + 15%-white backplate + 25%-white hairline)
+           on EVERY cover so the badge reads consistently across the
+           grid. Earlier the call site picked per-accent tone via
+           `CARD_PILL_CLASS[cover.accent]`, which switched to
+           dark-text on bright covers (gold, cyan, warm) and white
+           on dark covers (lilac, red, black) — the visual mismatch
+           the user flagged. White-on-all is the cleaner read.
+           `z-20` puts the pill above every layered cover element —
+           grain (z-1), art (z-2), divider + label (z-3) — and gives
+           headroom for any future overlay without a stacking war.
+           The backplate opacities on `PILL_CLASS.dark` were bumped
+           (white/15 + white/25 border) so the pill stays readable
+           on the brightest covers in the palette. */
         <span
-          className={[
-            "absolute right-3 top-3 z-10",
-            "inline-flex items-center rounded-md",
-            "px-2.5 py-1",
-            "font-mono text-[10px] font-medium uppercase",
-            "tracking-[0.1em] leading-none",
-            CARD_PILL_CLASS.black,
-          ].join(" ")}
+          className={`absolute right-3 top-3 z-20 ${COMING_SOON_LABEL_ON_COVER_CLASS}`}
         >
           Coming soon
         </span>
@@ -109,11 +141,13 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
         <CoverArt motif={cover.motif} />
       </div>
 
-      {/* Hairline divider, full bleed, using the global --border-soft
-          token (re-scoped to the dark-theme rgba above). */}
+      {/* Hairline divider, full bleed. Uses canonical
+          `--color-edge-medium` (Mantle token, available everywhere via
+          globals.css) instead of legacy `--border-soft` from
+          compass-globals.css, which isn't loaded on /manuals. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute left-0 right-0 top-[75%] z-[3] h-px bg-[var(--border-soft)]"
+        className="pointer-events-none absolute left-0 right-0 top-[75%] z-[3] h-px bg-edge-medium"
       />
 
       {/* Label block — bottom 25%. Eyebrow numeral sits just above
@@ -121,6 +155,13 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
           `justify-end` pushes both to the bottom of the label box;
           `pb-[22px]` matches the horizontal `px-[22px]` so the inset
           reads as a single uniform margin from the card edge. */}
+      {/* Label block — bottom 25%. `justify-end` + `pb-[22px]`
+          anchors the title to the visible bottom edge of the cover
+          with a uniform 22px inset matching the horizontal gutters.
+          Title runs in title case (not uppercase) so the Geist Pixel Grid
+          glyphs read as a proper noun — "Clarity", "Shape", "Build"
+          — rather than as label text. `leading-none` keeps the
+          glyph box tight to the visual bounds. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] flex h-1/4 flex-col justify-end gap-1.5 px-[22px] pb-[22px]">
         <span
           className="
@@ -131,10 +172,16 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
           {cover.ordinal}
         </span>
         <span
-          className="font-normal uppercase leading-none text-[var(--cover-accent)]"
+          className="block font-normal leading-none text-[var(--cover-accent)]"
           style={{
-            fontFamily:
-              '"Geist Pixel Circle", "Geist Pixel Square", "Geist Pixel Line", var(--font-heading)',
+            /* Geist Pixel Grid is the canonical Compass display
+               face — picks the grid variant from the family so the
+               cover title reads as one consistent pixel-grid mark
+               across every cover. Was a stack of (Circle, Square,
+               Line) which gave each cover a slightly different
+               glyph rhythm depending on which variant loaded first;
+               pinned to a single variant here. */
+            fontFamily: '"Geist Pixel Grid", var(--font-heading)',
             fontSize: "50px",
             letterSpacing: 0,
           }}
@@ -145,10 +192,22 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
     </>
   );
 
+  // `backgroundImage` carries three stacked layers in z-order
+  // (first = topmost): two radial blooms in `--cover-accent`, then
+  // the dot-grid texture. `backgroundSize` follows the same comma-
+  // separated layer order — the first two layers stay at `auto`
+  // (full size) for the radial gradients; the third (`6px 6px`)
+  // tiles the dot pattern across the plate.
+  const styleWithAmbient = {
+    backgroundImage: COVER_AMBIENT_BG_IMAGE,
+    backgroundSize: "auto, auto, 6px 6px",
+  };
+
   if (cover.comingSoon) {
     return (
       <div
         className={`${className} cursor-default`}
+        style={styleWithAmbient}
         aria-disabled="true"
         aria-label={`${cover.coverTitle} — coming soon`}
       >
@@ -161,6 +220,7 @@ function ManualCover({ cover }: { cover: ManualCoverEntry }) {
     <Link
       href={cover.href}
       className={`${className} cursor-pointer no-underline`}
+      style={styleWithAmbient}
       aria-label={`${cover.coverTitle} — ${cover.ordinal}`}
     >
       {inner}

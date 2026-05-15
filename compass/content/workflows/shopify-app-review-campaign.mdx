@@ -1,124 +1,121 @@
 ---
-title: "Create a Shopify App Review Campaign"
+title: "Shopify App Review Campaign"
 slug: shopify-app-review-campaign
-summary: "Identify the merchants most likely to leave a positive review, define a safe targeting segment, and generate personalized review request emails in Mantle."
-ribbon: "Method"
+summary: "Find review-ready merchants and draft personalized Shopify App Store review campaigns."
+metaTitle: "Shopify App Review Campaign Workflow | Mantle Compass"
+metaDescription: "Find review-ready merchants, build safer segments, and draft personalized Shopify App Store review campaigns with AI."
+ogTitle: "Build a Shopify app review campaign"
+ogDescription: "Find review-ready merchants, create safer segments, and draft personalized Shopify App Store review campaigns."
+ribbon: "Workflow"
 author: "Mantle Team"
 authorRole: "Mantle"
-blockColor: "cyan"
+blockColor: "teal"
 tags:
   - Shopify
   - Lifecycle
-  - Email
+  - Reviews
   - Segmentation
+systems:
+  - Customers
+  - Email + messaging
+  - Automations
+  - Analytics
 tools:
-  - Mantle AI
-  - Claude
-  - ChatGPT
-estimatedTime: "20–30 min"
-# Open in Mantle AI deliberately omitted — this method is a prompt
-# that runs in any LLM. Only set `openInMantleAiUrl` on methods that
-# deep-link into a Mantle AI workflow.
+  - Mantle
+estimatedTime: "15 min"
 published: true
-lastUpdated: "May 13, 2026"
+lastUpdated: "May 14, 2026"
 codeBlocks:
-  - filename: "Prompt"
+  - filename: "Identify"
     language: "markdown"
     code: |
-      Help me create a Shopify App Review Campaign in Mantle.
+      Help me identify the merchants most likely to leave a positive Shopify App Store review.
 
-      My goal is to identify the merchants most likely to leave a positive review, segment them using available customer and product signals, and generate a review request campaign that feels timely, relevant, and safe for the customer experience.
-
-      Please:
-
-      ## Define the best audience
-
-      Recommend which merchants should receive a review request based on signals such as:
+      Recommend the best audience using signals like:
       - active install status
       - recent activity
-      - meaningful product usage
-      - time since install
-      - trial or paid status
+      - feature usage
+      - install age
       - support history
-      - churn or uninstall risk
+      - churn risk
 
-      ## Recommend segment logic
+      Format the response as:
+      - Recommended audience
+      - Qualification signals
+      - Exclusions
+      - Risk considerations
+  - filename: "Exclude"
+    language: "markdown"
+    code: |
+      Help me define safe exclusion rules for a Shopify App Store review campaign.
 
-      Propose:
-      - a high-confidence segment
-      - a broader test segment
+      Recommend who should NOT receive a review request based on:
+      - install age
+      - low engagement
+      - onboarding completion
+      - support interactions
+      - churn indicators
 
-      Make the logic practical for Mantle.
-
-      ## Recommend campaign timing
-
-      Suggest the best moment to ask for a review, such as after activation, repeated usage, or a successful milestone.
-
-      ## Write the email sequence
+      Format the response as:
+      - Exclusion rules
+      - Risk signals
+      - Edge cases
+  - filename: "Generate"
+    language: "markdown"
+    code: |
+      Create a Shopify App Store review request campaign for engaged merchants.
 
       Include:
-      - 1 primary review request email
+      - 1 primary email
       - 1 reminder email
+      - subject lines
+      - CTA copy
+      - personalization ideas
 
-      For each email, provide:
-      - subject line
-      - preview text
-      - body copy
-      - CTA text
-
-      ## Add personalization ideas
-
-      Suggest how to personalize the campaign using details like merchant name, store name, feature usage, benefit delivered, or milestone reached.
-
-      ## Add safeguards
-
-      Explain who should be excluded, including merchants who are too new, inactive, frustrated, or likely to churn.
-
-      ## Format the response as
-
-      - Campaign objective
-      - Recommended audience
-      - Segment rules
-      - Timing strategy
-      - Email sequence
-      - Personalization ideas
-      - Exclusions and safeguards
-      - Suggested next steps in Mantle
-
-      ## Writing instructions
-
-      - Keep the output practical and implementation-ready
-      - Write for Shopify app teams using Mantle
-      - Make reasonable assumptions if needed and label them clearly
-      - Focus on increasing high-quality app reviews without harming customer experience
+      The tone should feel concise, helpful, and founder-led.
 ---
 
-## Use case
+## Overview
 
-Use this prompt to identify the best merchants to ask for a Shopify App Store review, define safe and practical audience segments in Mantle, and generate personalized review request emails.
+Use this workflow to identify review-ready merchants, define safer audience segments, and generate personalized Shopify App Store review campaigns using AI.
 
-## When to use
+Built for Shopify app teams using engagement signals, lifecycle data, and customer context to improve review quality without harming the customer experience.
 
-Use this when you want to:
+## Best for
 
-- increase high-quality Shopify App Store reviews
-- target merchants based on engagement and product usage signals
-- avoid sending review requests to low-intent or frustrated users
-- create a one-time review campaign or ongoing review automation in Mantle
-- generate review request email copy with personalization and safeguards
+- Shopify app teams
+- Lifecycle marketing
+- Founder-led apps
+- Customer success teams
 
-## What you'll get
+## Outputs
 
-<Chips>
-  <Chip>Campaign objective</Chip>
-  <Chip>Recommended audience</Chip>
-  <Chip>Segment rules</Chip>
-  <Chip>Timing strategy</Chip>
-  <Chip>Primary review request email</Chip>
-  <Chip>Reminder email</Chip>
-  <Chip>Personalization ideas</Chip>
-  <Chip>Exclusions and safeguards</Chip>
-  <Chip>Suggested next steps in Mantle</Chip>
-</Chips>
+- Review-ready audience segments
+- Safer exclusion logic
+- Personalized review request emails
+- Campaign timing recommendations
+- Segmentation ideas
+- Lifecycle automation ideas
 
-{/* Notes section deliberately omitted — see commit history. */}
+## Related
+
+<RelatedCards>
+  <RelatedCard
+    kind="Workflow"
+    href="/workflows/ai-ready-app-context"
+    title="AI-Ready App Context"
+    summary="Generate the operational reference your AI tools read before drafting any campaign."
+  />
+  <RelatedCard
+    kind="Workflow"
+    href="/workflows/onboarding-flow-planner"
+    title="Onboarding Flow Planner"
+    summary="Turn new installs into engaged merchants before you ask them for a review."
+  />
+  <RelatedCard
+    kind="Manual"
+    href="/manuals/shape"
+    title="Shape"
+    summary="The strategy work behind a campaign — find the customer who'll actually leave a positive review."
+  />
+</RelatedCards>

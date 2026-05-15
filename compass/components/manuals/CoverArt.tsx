@@ -33,37 +33,82 @@ export function CoverArt({ motif }: { motif: CoverMotif }) {
  * ──────────────────────────────────────────────────────────────── */
 
 function VanishingGrid() {
+  // Clarity — one-point perspective floor grid converging on a
+  // vanishing-point dot near the top center. Horizontal rules
+  // recede toward the apex; a radial fan splits the floor into
+  // proportional cells whose intersections read as squares in the
+  // projected perspective.
+  //
+  // Tuning vs the previous version:
+  //   • viewBox grown 320×370 → 320×420 so the floor has more
+  //     vertical real estate. The cover slot is 16:9-ish, but
+  //     `preserveAspectRatio="xMidYMid meet"` (SVG default) scales
+  //     the art to fit — the taller canvas gives the grid more room
+  //     to fan out without compression.
+  //   • All line endpoints pulled INSIDE the canvas (was x=-30 /
+  //     x=350, now x=12 / x=308) so nothing reads as "cut off" at
+  //     the edges. The bottom-edge radial endpoints are within the
+  //     visible frame.
+  //   • Horizontal-rule spacing follows the canonical perspective
+  //     formula (y = vp_y + k/(near + n·step)) so each row's
+  //     foreshortening compounds smoothly — the cells visibly
+  //     match the perspective convergence of the radial fan.
+  //   • Radial fan widened to 9 lines anchored on 9 evenly-spaced
+  //     points along the bottom edge, plus the two side anchors at
+  //     (12, 400) and (308, 400). Combined with the 8 horizontal
+  //     rules, the floor reads as a regular 8×8 perspective grid
+  //     of "squares."
+  //   • Stroke + opacity ramp preserved from the previous version
+  //     so the warm gold fan still feels like editorial perspective
+  //     ink, not a CAD drawing.
   return (
     <svg
       className="block h-full w-full"
-      viewBox="0 0 320 370"
+      viewBox="0 0 320 420"
       fill="none"
       aria-hidden="true"
     >
-      <line x1="-30" y1="345" x2="350" y2="345" stroke="currentColor" strokeWidth="2.5" opacity="0.95" />
-      <line x1="-10" y1="300" x2="330" y2="300" stroke="currentColor" strokeWidth="2.25" opacity="0.85" />
-      <line x1="4" y1="265" x2="316" y2="265" stroke="currentColor" strokeWidth="1.85" opacity="0.7" />
-      <line x1="22" y1="234" x2="298" y2="234" stroke="currentColor" strokeWidth="1.55" opacity="0.57" />
-      <line x1="40" y1="206" x2="280" y2="206" stroke="currentColor" strokeWidth="1.3" opacity="0.45" />
-      <line x1="56" y1="181" x2="264" y2="181" stroke="currentColor" strokeWidth="1.05" opacity="0.34" />
-      <line x1="69" y1="159" x2="251" y2="159" stroke="currentColor" strokeWidth="0.85" opacity="0.24" />
-      <line x1="81" y1="141" x2="239" y2="141" stroke="currentColor" strokeWidth="0.65" opacity="0.15" />
+      {/* Horizontal floor rules — closer together as they approach
+          the horizon at y=80. x-extent contracts proportionally so
+          each rule sits "above" the rule below it in the perspective
+          projection. */}
+      <line x1="12"  y1="398" x2="308" y2="398" stroke="currentColor" strokeWidth="2.4" opacity="0.95" />
+      <line x1="36"  y1="346" x2="284" y2="346" stroke="currentColor" strokeWidth="2.0" opacity="0.8" />
+      <line x1="56"  y1="302" x2="264" y2="302" stroke="currentColor" strokeWidth="1.7" opacity="0.65" />
+      <line x1="74"  y1="265" x2="246" y2="265" stroke="currentColor" strokeWidth="1.4" opacity="0.5" />
+      <line x1="90"  y1="233" x2="230" y2="233" stroke="currentColor" strokeWidth="1.15" opacity="0.38" />
+      <line x1="104" y1="206" x2="216" y2="206" stroke="currentColor" strokeWidth="0.95" opacity="0.28" />
+      <line x1="116" y1="183" x2="204" y2="183" stroke="currentColor" strokeWidth="0.8" opacity="0.2" />
+      <line x1="126" y1="163" x2="194" y2="163" stroke="currentColor" strokeWidth="0.65" opacity="0.13" />
+      {/* Radial fan — 9 lines from the vanishing point at (160, 80)
+          to 9 endpoints evenly distributed along the bottom rule
+          (y=398, x ∈ [12, 308]). Together with the 8 horizontals
+          above, the intersections form an 8×8 perspective grid of
+          square-projected cells. */}
       {[
-        [-30, 345], [24, 345], [78, 345], [132, 345],
-        [188, 345], [242, 345], [296, 345], [350, 345],
+        [12, 398],
+        [49, 398],
+        [86, 398],
+        [123, 398],
+        [160, 398],
+        [197, 398],
+        [234, 398],
+        [271, 398],
+        [308, 398],
       ].map(([x2, y2], i) => (
         <line
           key={i}
           x1="160"
-          y1="60"
+          y1="80"
           x2={x2}
           y2={y2}
           stroke="currentColor"
-          strokeWidth="1.5"
-          opacity="0.55"
+          strokeWidth="1.4"
+          opacity="0.5"
         />
       ))}
-      <circle cx="160" cy="60" r="6" fill="currentColor" />
+      {/* Vanishing-point dot — anchors the apex of the fan. */}
+      <circle cx="160" cy="80" r="5" fill="currentColor" />
     </svg>
   );
 }
@@ -83,17 +128,39 @@ function NestedOvals() {
       <circle cx="130" cy="330" r="5" fill="currentColor" />
       <circle cx="190" cy="40" r="5" fill="currentColor" />
       <circle cx="190" cy="330" r="5" fill="currentColor" />
-      <circle cx="100" cy="25" r="4" fill="currentColor" />
-      <circle cx="160" cy="25" r="4" fill="currentColor" />
-      <circle cx="220" cy="25" r="4" fill="currentColor" />
-      <circle cx="100" cy="345" r="4" fill="currentColor" />
-      <circle cx="160" cy="345" r="4" fill="currentColor" />
-      <circle cx="220" cy="345" r="4" fill="currentColor" />
+      <circle cx="100" cy="25" r="5" fill="currentColor" />
+      <circle cx="160" cy="25" r="5" fill="currentColor" />
+      <circle cx="220" cy="25" r="5" fill="currentColor" />
+      <circle cx="100" cy="345" r="5" fill="currentColor" />
+      <circle cx="160" cy="345" r="5" fill="currentColor" />
+      <circle cx="220" cy="345" r="5" fill="currentColor" />
     </svg>
   );
 }
 
 function CircuitPath() {
+  // Build — nested square framework that sits centered on the canvas
+  // with a 36px inset all around so the top edge of the outer rect
+  // clears the "Coming soon" pill at top-right (~36px from the
+  // canvas top once card-aspect / viewBox scaling is factored in).
+  // Two concentric stroked rectangles with connector stubs breaking
+  // out left/right/top/bottom; an internal cross divides each
+  // rectangle into quadrants. Reads as "modular assembly,
+  // scaffolding, structure."
+  //
+  // Geometry:
+  //   Outer rect:  (38, 72) → (282, 316)  — 244 × 244, centered with
+  //                inset that clears the coming-soon pill at top-right
+  //   Inner rect:  (96, 116) → (224, 272) — 128 × 156, centered
+  //   Connectors:  4 short stubs extending OUT 18px from each outer
+  //                rect edge midpoint, suggesting external interfaces
+  //                without breaking the canvas bounds and crowding
+  //                the pill.
+  //   Internal:    Vertical + horizontal midlines on the outer rect,
+  //                a single horizontal midline on the inner rect.
+  //   Strokes:     Dialed down from 2.5/2.0/1.75 to 2.0/1.5/1.5 so
+  //                the rectangle border reads as scaffolding, not as
+  //                a heavy frame competing with the cover label.
   return (
     <svg
       className="block h-full w-full"
@@ -101,36 +168,41 @@ function CircuitPath() {
       fill="none"
       aria-hidden="true"
     >
-      <line x1="-2" y1="185" x2="60" y2="185" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="60" y1="185" x2="60" y2="80" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="60" y1="80" x2="260" y2="80" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="260" y1="80" x2="260" y2="290" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="260" y1="290" x2="60" y2="290" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="60" y1="290" x2="60" y2="185" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="160" y1="80" x2="160" y2="290" stroke="currentColor" strokeWidth="1.75" opacity="0.5" />
-      <line x1="60" y1="185" x2="260" y2="185" stroke="currentColor" strokeWidth="1.75" opacity="0.45" />
-      <line x1="110" y1="80" x2="110" y2="290" stroke="currentColor" strokeWidth="1" opacity="0.25" />
-      <line x1="210" y1="80" x2="210" y2="290" stroke="currentColor" strokeWidth="1" opacity="0.25" />
-      <line x1="60" y1="132" x2="260" y2="132" stroke="currentColor" strokeWidth="1" opacity="0.25" />
-      <line x1="60" y1="237" x2="260" y2="237" stroke="currentColor" strokeWidth="1" opacity="0.25" />
-      <line x1="60" y1="80" x2="60" y2="48" stroke="currentColor" strokeWidth="2" opacity="0.7" />
-      <line x1="260" y1="290" x2="260" y2="322" stroke="currentColor" strokeWidth="2" opacity="0.7" />
-      <line x1="260" y1="185" x2="322" y2="185" stroke="currentColor" strokeWidth="2.5" />
-      <circle cx="60" cy="185" r="6.5" fill="currentColor" />
-      <circle cx="260" cy="185" r="6.5" fill="currentColor" />
-      <circle cx="60" cy="80" r="5.5" fill="currentColor" />
-      <circle cx="260" cy="80" r="5.5" fill="currentColor" />
-      <circle cx="60" cy="290" r="5.5" fill="currentColor" />
-      <circle cx="260" cy="290" r="5.5" fill="currentColor" />
-      <circle cx="160" cy="80" r="5" fill="currentColor" />
-      <circle cx="160" cy="185" r="5" fill="currentColor" />
-      <circle cx="160" cy="290" r="5" fill="currentColor" />
-      <circle cx="110" cy="132" r="3" fill="currentColor" opacity="0.7" />
-      <circle cx="210" cy="132" r="3" fill="currentColor" opacity="0.7" />
-      <circle cx="110" cy="237" r="3" fill="currentColor" opacity="0.7" />
-      <circle cx="210" cy="237" r="3" fill="currentColor" opacity="0.7" />
-      <circle cx="60" cy="48" r="3" fill="currentColor" opacity="0.6" />
-      <circle cx="260" cy="322" r="3" fill="currentColor" opacity="0.6" />
+      {/* Outer rect — primary stroke, full presence. */}
+      <rect x="38" y="72" width="244" height="244" stroke="currentColor" strokeWidth="2" fill="none" />
+      {/* Inner rect — secondary stroke, slightly lighter. */}
+      <rect x="96" y="116" width="128" height="156" stroke="currentColor" strokeWidth="1.5" opacity="0.75" fill="none" />
+      {/* Internal cross on the outer rect. */}
+      <line x1="38" y1="194" x2="282" y2="194" stroke="currentColor" strokeWidth="1.25" opacity="0.45" />
+      <line x1="160" y1="72" x2="160" y2="316" stroke="currentColor" strokeWidth="1.25" opacity="0.45" />
+      {/* Inner-rect quadrant divider — horizontal only. */}
+      <line x1="96" y1="194" x2="224" y2="194" stroke="currentColor" strokeWidth="1" opacity="0.3" />
+      {/* Outer connectors — short 18px stubs extending out from each
+          outer-rect edge midpoint. Was full-bleed to the canvas
+          edges; that ran the top stub into the coming-soon pill at
+          top-right. Stubs keep the "interfaces outward" read without
+          crowding the badge. */}
+      <line x1="160" y1="54" x2="160" y2="72" stroke="currentColor" strokeWidth="1.5" opacity="0.7" />
+      <line x1="160" y1="316" x2="160" y2="334" stroke="currentColor" strokeWidth="1.5" opacity="0.7" />
+      <line x1="20" y1="194" x2="38" y2="194" stroke="currentColor" strokeWidth="2" />
+      <line x1="282" y1="194" x2="300" y2="194" stroke="currentColor" strokeWidth="2" />
+      {/* Anchor dots at every node of the outer rect + the four
+          midpoints. r=4 — one step smaller than the cover-wide r=5
+          since the rect itself is smaller; keeps relative proportion. */}
+      <circle cx="38" cy="72" r="4" fill="currentColor" />
+      <circle cx="282" cy="72" r="4" fill="currentColor" />
+      <circle cx="38" cy="316" r="4" fill="currentColor" />
+      <circle cx="282" cy="316" r="4" fill="currentColor" />
+      <circle cx="38" cy="194" r="4" fill="currentColor" />
+      <circle cx="282" cy="194" r="4" fill="currentColor" />
+      <circle cx="160" cy="72" r="4" fill="currentColor" />
+      <circle cx="160" cy="316" r="4" fill="currentColor" />
+      {/* Inner rect dots — corners only, lighter so the visual
+          hierarchy reads (outer = primary, inner = supporting). */}
+      <circle cx="96" cy="116" r="4" fill="currentColor" opacity="0.7" />
+      <circle cx="224" cy="116" r="4" fill="currentColor" opacity="0.7" />
+      <circle cx="96" cy="272" r="4" fill="currentColor" opacity="0.7" />
+      <circle cx="224" cy="272" r="4" fill="currentColor" opacity="0.7" />
     </svg>
   );
 }
@@ -150,14 +222,14 @@ function FunnelPaths() {
       <path d="M -2,235 C 80,235 155,185 322,185" stroke="currentColor" strokeWidth="2.25" fill="none" />
       <path d="M -2,282 C 80,282 148,185 322,185" stroke="currentColor" strokeWidth="2" fill="none" />
       <path d="M -2,332 C 80,332 140,185 322,185" stroke="currentColor" strokeWidth="2" fill="none" />
-      <circle cx="2" cy="38" r="4.5" fill="currentColor" />
-      <circle cx="2" cy="88" r="4.5" fill="currentColor" />
+      <circle cx="2" cy="38" r="5" fill="currentColor" />
+      <circle cx="2" cy="88" r="5" fill="currentColor" />
       <circle cx="2" cy="135" r="5" fill="currentColor" />
-      <circle cx="2" cy="185" r="5.5" fill="currentColor" />
+      <circle cx="2" cy="185" r="5" fill="currentColor" />
       <circle cx="2" cy="235" r="5" fill="currentColor" />
-      <circle cx="2" cy="282" r="4.5" fill="currentColor" />
-      <circle cx="2" cy="332" r="4.5" fill="currentColor" />
-      <circle cx="322" cy="185" r="8" fill="currentColor" />
+      <circle cx="2" cy="282" r="5" fill="currentColor" />
+      <circle cx="2" cy="332" r="5" fill="currentColor" />
+      <circle cx="322" cy="185" r="5" fill="currentColor" />
     </svg>
   );
 }
@@ -182,8 +254,8 @@ function MagneticField() {
       <path d="M 8,185 C 8,232 312,232 312,185" stroke="currentColor" strokeWidth="1.75" fill="none" opacity="0.5" />
       <path d="M 8,185 C 8,160 312,160 312,185" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.32" />
       <path d="M 8,185 C 8,210 312,210 312,185" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.32" />
-      <circle cx="8" cy="185" r="14" fill="currentColor" />
-      <circle cx="312" cy="185" r="14" fill="currentColor" />
+      <circle cx="8" cy="185" r="5" fill="currentColor" />
+      <circle cx="312" cy="185" r="5" fill="currentColor" />
     </svg>
   );
 }
@@ -207,10 +279,10 @@ function SineWave() {
       <line x1="80" y1="302" x2="80" y2="185" stroke="currentColor" strokeWidth="1.25" opacity="0.35" strokeDasharray="3 4" />
       <line x1="240" y1="68" x2="240" y2="185" stroke="currentColor" strokeWidth="1.25" opacity="0.35" strokeDasharray="3 4" />
       <circle cx="-2" cy="185" r="5" fill="currentColor" />
-      <circle cx="160" cy="185" r="6" fill="currentColor" />
+      <circle cx="160" cy="185" r="5" fill="currentColor" />
       <circle cx="322" cy="185" r="5" fill="currentColor" />
-      <circle cx="80" cy="302" r="5.5" fill="currentColor" />
-      <circle cx="240" cy="68" r="5.5" fill="currentColor" />
+      <circle cx="80" cy="302" r="5" fill="currentColor" />
+      <circle cx="240" cy="68" r="5" fill="currentColor" />
     </svg>
   );
 }
@@ -231,12 +303,12 @@ function HelixCoil() {
       <ellipse cx="252" cy="185" rx="32" ry="100" stroke="currentColor" strokeWidth="2.25" fill="none" />
       <circle cx="28" cy="185" r="5" fill="currentColor" />
       <circle cx="284" cy="185" r="5" fill="currentColor" />
-      <circle cx="60" cy="85" r="4" fill="currentColor" />
-      <circle cx="156" cy="85" r="4" fill="currentColor" />
-      <circle cx="252" cy="85" r="4" fill="currentColor" />
-      <circle cx="60" cy="285" r="4" fill="currentColor" />
-      <circle cx="156" cy="285" r="4" fill="currentColor" />
-      <circle cx="252" cy="285" r="4" fill="currentColor" />
+      <circle cx="60" cy="85" r="5" fill="currentColor" />
+      <circle cx="156" cy="85" r="5" fill="currentColor" />
+      <circle cx="252" cy="85" r="5" fill="currentColor" />
+      <circle cx="60" cy="285" r="5" fill="currentColor" />
+      <circle cx="156" cy="285" r="5" fill="currentColor" />
+      <circle cx="252" cy="285" r="5" fill="currentColor" />
     </svg>
   );
 }

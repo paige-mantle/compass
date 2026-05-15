@@ -1,7 +1,11 @@
 ---
 title: "AI-Ready App Context"
 slug: ai-ready-app-context
-summary: "Generate a reusable operational reference AI tools can use across support, onboarding, product marketing, UX, documentation, and internal workflows."
+summary: "Build reusable app context your AI tools use across support, onboarding, marketing, and docs."
+metaTitle: "AI-Ready App Context Workflow | Mantle Compass"
+metaDescription: "Create reusable app context for support, onboarding, product marketing, UX, documentation, and internal workflows."
+ogTitle: "Create reusable AI-ready app context"
+ogDescription: "Build reusable app context your AI tools can use across support, onboarding, product marketing, UX, docs, and internal workflows."
 ribbon: "Method"
 author: "Mantle Team"
 authorRole: "Mantle"
@@ -15,13 +19,18 @@ tags:
   - AI Workflows
   - Messaging
   - Positioning
+systems:
+  - AI tooling
+  - Product docs
+  - Support
+  - Marketing
 tools:
-  - Mantle AI
+  - Mantle
   - Claude
   - Claude Code
   - ChatGPT
   - Codex
-estimatedTime: "20–30 min"
+estimatedTime: "20 min"
 # Open in Mantle AI deliberately omitted — this is a general-purpose
 # prompt method that runs in any LLM, not a Mantle AI-native workflow.
 # Only set `openInMantleAiUrl` on methods that have a real deep-link
@@ -96,39 +105,49 @@ codeBlocks:
       Write like an internal operational document used by product, support, marketing, and AI systems, not a marketing page.
 ---
 
-## Use case
+## Overview
 
-Use this prompt to generate a reusable operational context document AI tools can reference across support, onboarding, product marketing, UX, documentation, and internal workflows.
+Build a reusable operational context document your AI tools can read before drafting support replies, onboarding flows, marketing copy, or product docs.
 
-Instead of rewriting company information into every prompt, this creates a centralized source of truth for your app, customers, workflows, positioning, and brand voice.
+One source of truth — about your company, product, customers, workflows, positioning, and voice — instead of rewriting the same context into every prompt.
 
-## When to use
+## Best for
 
-Use this when you want to:
+- Founders running AI-first ops
+- Shopify app teams
+- Support + lifecycle teams
+- Product marketing
+- AI-assisted documentation
 
-- improve AI output quality and consistency
-- create a reusable company context file for AI tools
-- reduce repetitive prompting
-- onboard AI tools to your product and workflows
-- generate more accurate support, marketing, or UX outputs
-- align team-wide AI usage around shared context
-- create a reusable system prompt foundation
+## Outputs
 
-## What you'll get
+- Company + product overview
+- ICP and customer pain points
+- Positioning and messaging guide
+- Brand voice + formatting rules
+- Product workflow reference
+- Terminology glossary
+- Reusable system-prompt foundation
 
-<Chips>
-  <Chip>Company overview</Chip>
-  <Chip>Product summary</Chip>
-  <Chip>ICP definitions</Chip>
-  <Chip>Positioning and messaging</Chip>
-  <Chip>Brand voice</Chip>
-  <Chip>Formatting preferences</Chip>
-  <Chip>Product workflows</Chip>
-  <Chip>Customer pain points</Chip>
-  <Chip>Support insights</Chip>
-  <Chip>Terminology glossary</Chip>
-  <Chip>AI usage rules</Chip>
-  <Chip>Reusable system prompt</Chip>
-</Chips>
+## Related
 
-{/* Notes section deliberately omitted — see commit history. */}
+<RelatedCards>
+  <RelatedCard
+    kind="Workflow"
+    href="/workflows/shopify-app-review-campaign"
+    title="Shopify App Review Campaign"
+    summary="Plug the context doc into a review campaign to keep voice and exclusions consistent."
+  />
+  <RelatedCard
+    kind="Workflow"
+    href="/workflows/onboarding-flow-planner"
+    title="Onboarding Flow Planner"
+    summary="Use the same context doc to draft welcome flows that match your brand voice."
+  />
+  <RelatedCard
+    kind="Manual"
+    href="/manuals/clarity"
+    title="Clarity"
+    summary="The strategy work behind the context — get clear on what your app is and who it's for."
+  />
+</RelatedCards>

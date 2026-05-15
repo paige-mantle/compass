@@ -1,5 +1,29 @@
 import type { ReactNode } from "react";
-import * as Lucide from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
+
+/**
+ * Static map of Lucide icons callers can reference by string name.
+ * Replaces the earlier `import * as Lucide` + dynamic property
+ * lookup pattern — the namespace import was unprovable for tree-
+ * shaking, so the bundler shipped the whole icon set even though
+ * only `ArrowRight` is ever passed in practice.
+ *
+ * Add new icons by importing them above and registering the
+ * PascalCase name as a key. Callers pass `icon="ArrowRight"` (or
+ * `icon={{ icon: "ArrowRight", position: "right" }}`); unknown
+ * names resolve to `null` (no icon rendered, same as before).
+ */
+type LucideComponent = React.ComponentType<{
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
+  className?: string;
+  "aria-hidden"?: boolean;
+}>;
+const COMPASS_BUTTON_ICONS: Record<string, LucideComponent> = {
+  ArrowRight,
+  ChevronRight,
+};
 
 /**
  * Compass button — light-mirror of Mantle's marketing `Button.astro`.
@@ -173,12 +197,10 @@ export function CompassButton({
     ? (iconPosition === "right" ? "right" : "left")
     : "none";
 
-  // Resolve a Lucide icon component by name. We look it up lazily on
-  // the namespace so callers can pass any name without us pre-listing
-  // each one. Falls back to `null` if the name doesn't resolve.
-  const LucideIcon = iconName
-    ? (Lucide as unknown as Record<string, React.ComponentType<{ size?: number; color?: string; strokeWidth?: number; className?: string; "aria-hidden"?: boolean }>>)[iconName] ?? null
-    : null;
+  // Resolve a Lucide icon component by name from the static
+  // `COMPASS_BUTTON_ICONS` map at the top of this file. Unknown
+  // names fall through to `null` (no icon rendered).
+  const LucideIcon = iconName ? COMPASS_BUTTON_ICONS[iconName] ?? null : null;
 
   // Base class string — byte-for-byte match of Mantle Button.astro
   // `tv({ base: ... })`. `no-underline!` carries `!important` so it

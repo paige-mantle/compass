@@ -101,6 +101,67 @@ const nextConfig: NextConfig = {
       { source: "/manuals/polish-your-product",           destination: "/manuals/launch",             permanent: true },
       { source: "/manuals/polish-your-product/:path*",    destination: "/manuals/launch",             permanent: true },
 
+      // ───────────────────────────────────────────────────────────
+      // Coming-soon manuals — Build / Launch / Monetize / Grow /
+      // Operate. Their cover cards render on `/compass` + `/manuals`
+      // as non-clickable `<div aria-disabled="true">` (handled in
+      // `ManualCoverGrid` + `ManualRowList`), but direct URL access
+      // (typed, bookmarked, or chained from a legacy `/compass/build`
+      // redirect that lands at `/manuals/build`) would 404.
+      //
+      // Redirect those to `/manuals` (the cover index) so visitors
+      // see the full manual line-up instead of a 404. `permanent:
+      // false` (302) so crawlers don't cache the redirect — when a
+      // manual launches and `comingSoon` flips to false, removing
+      // the redirect immediately re-exposes the real route without
+      // search engines holding a stale 301 in their index.
+      //
+      // Both `/manuals/<slug>` and `/manuals/<slug>/<chapter>` need
+      // a redirect — the latter catches legacy chapter URLs from
+      // old static-site exports or external links.
+      //
+      // Remove the matching entry below when a manual ships content.
+      // ───────────────────────────────────────────────────────────
+      { source: "/manuals/build",                         destination: "/manuals",                    permanent: false },
+      { source: "/manuals/build/:path*",                  destination: "/manuals",                    permanent: false },
+      { source: "/manuals/launch",                        destination: "/manuals",                    permanent: false },
+      { source: "/manuals/launch/:path*",                 destination: "/manuals",                    permanent: false },
+      { source: "/manuals/monetize",                      destination: "/manuals",                    permanent: false },
+      { source: "/manuals/monetize/:path*",               destination: "/manuals",                    permanent: false },
+      { source: "/manuals/grow",                          destination: "/manuals",                    permanent: false },
+      { source: "/manuals/grow/:path*",                   destination: "/manuals",                    permanent: false },
+      { source: "/manuals/operate",                       destination: "/manuals",                    permanent: false },
+      { source: "/manuals/operate/:path*",                destination: "/manuals",                    permanent: false },
+
+      // ───────────────────────────────────────────────────────────
+      // Slug renames per the May SEO sheet — the new slugs are
+      // longer/more-specific (`build-a-real-app-business` vs
+      // `can-you-build-a-real-business`, `test-app-demand` vs
+      // `test-demand`, etc.) so search engines find the page on the
+      // app-builder query. Permanent 301s preserve link equity from
+      // any external link still pointing at the old slugs.
+      //
+      // The `/manuals/app-clarity/...` path appears as a one-off in
+      // the SEO sheet (a single chapter — every other Clarity
+      // chapter uses `/manuals/clarity/...`). Per the sheet's own
+      // "preferred option," the Clarity manual stays on a single
+      // parent route (`/manuals/clarity/...`) for consistency, and
+      // `/manuals/app-clarity/*` redirects back to `/manuals/clarity/*`
+      // so any external link to the sheet's variant lands correctly.
+      // ───────────────────────────────────────────────────────────
+      { source: "/manuals/clarity/can-you-build-a-real-business",  destination: "/manuals/clarity/build-a-real-app-business", permanent: true },
+      { source: "/manuals/clarity/youre-not-just-a-builder",        destination: "/manuals/clarity/builder-to-founder",        permanent: true },
+      { source: "/manuals/shape/test-demand",                       destination: "/manuals/shape/test-app-demand",             permanent: true },
+      { source: "/manuals/shape/brand-basics",                      destination: "/manuals/shape/app-branding-basics",         permanent: true },
+
+      // `/manuals/app-clarity/...` → `/manuals/clarity/...`
+      // Catch the SEO-sheet's one-off variant + any future link to
+      // the `app-clarity` parent. Maps every child path through, so
+      // `/manuals/app-clarity/build-a-real-app-business` lands at
+      // `/manuals/clarity/build-a-real-app-business` cleanly.
+      { source: "/manuals/app-clarity",                   destination: "/manuals/clarity",            permanent: true },
+      { source: "/manuals/app-clarity/:path*",            destination: "/manuals/clarity/:path*",     permanent: true },
+
       // Bare root → Compass home (only matters for direct hits on the
       // standalone Compass deploy URL; on heymantle.com / serves the
       // Mantle marketing site).

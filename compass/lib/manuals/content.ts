@@ -90,6 +90,35 @@ export type ManualCoverEntry = {
  * page needs a specific ordering (001 → 007) and per-cover display
  * metadata (motif, accent, "coming soon" flag) that doesn't belong
  * in each manual's manifest.json.
+ *
+ * **`comingSoon` semantics (all three surfaces must agree)**:
+ *
+ *   1. UI: both `ManualCoverGrid` (poster grid on `/manuals`) and
+ *      `ManualRowList` (editorial rows on `/compass`) render
+ *      coming-soon entries as a non-clickable `<div aria-disabled=
+ *      "true">` with a "Coming soon" badge. No `<Link>` wrapper, so
+ *      hover, focus, and click affordances are all suppressed.
+ *
+ *   2. Routing: a typed URL like `/manuals/build` would 404 because
+ *      no content folder exists at `compass/content/manuals/build/`.
+ *      `next.config.ts` redirects all coming-soon manual roots +
+ *      their child chapters to `/manuals` with `permanent: false`
+ *      (302). When `comingSoon` flips to false on a manual, remove
+ *      the matching redirect block so the real content takes over.
+ *
+ *   3. Sitemap (`app/sitemap.ts`): already excludes coming-soon
+ *      manuals automatically because it enumerates from
+ *      `listManuals()` — which reads the filesystem — and
+ *      coming-soon manuals have no content folder on disk.
+ *
+ *   4. Search index (when the spawned search-bar task lands):
+ *      filter on `entry.comingSoon === false` when building the
+ *      `SearchDoc[]` array so coming-soon manuals don't appear in
+ *      Cmd-K palette results. Same flag, same source of truth.
+ *
+ * Updating one surface and not the others creates a discoverability
+ * leak (e.g., card non-clickable but search palette returns it →
+ * search click 404s). Keep this list and the redirects in lockstep.
  */
 export const MANUAL_COVERS: ManualCoverEntry[] = [
   {
@@ -101,8 +130,14 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     href: "/manuals/clarity",
     manifestTitle: "Clarity",
     coverTitle: "Clarity",
-    ordinal: "000",
-    accent: "gold",
+    ordinal: "00",
+    /* Was `accent: "gold"` (= `#FFC66E`). The `gold` slot was
+       retired in the card-accent rename — it duplicated `orange`
+       byte-for-byte. Migrated to `orange` so the cover still
+       renders the same hex; `accent` is now reserved for the
+       Mantle Official workflow plate (`#FFBB53`, the darker
+       official gold). */
+    accent: "orange",
     motif: "vanishing-grid",
     comingSoon: false,
     summary:
@@ -113,8 +148,8 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     href: "/manuals/shape",
     manifestTitle: "Shape",
     coverTitle: "Shape",
-    ordinal: "001",
-    accent: "lilac",
+    ordinal: "01",
+    accent: "purple",
     motif: "nested-ovals",
     comingSoon: false,
     summary:
@@ -133,8 +168,8 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     href: "/manuals/build",
     manifestTitle: "Build",
     coverTitle: "Build",
-    ordinal: "002",
-    accent: "cyan",
+    ordinal: "02",
+    accent: "teal",
     motif: "circuit-path",
     comingSoon: true,
     summary:
@@ -145,35 +180,39 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     href: "/manuals/launch",
     manifestTitle: "Launch",
     coverTitle: "Launch",
-    ordinal: "003",
-    accent: "warm",
+    ordinal: "03",
+    accent: "mac-yellow",
     motif: "funnel-paths",
     comingSoon: true,
   },
   {
-    /* `accent: "red"` (was `"orange"`, which resolved to the same
-       #FFC66E as Foundation's gold — visually identical). Mapped to
-       the canonical Mantle red (#EE5249) so Monetize is unambiguous
-       in the cover grid. */
+    /* Monetize maps to the canonical Mantle red (`mac-red` =
+       `--color-mac-red` = #EE5249), unambiguous against Clarity's
+       light gold. Was `accent: "red"` before the card-accent rename
+       that moved next-gen-style `mac-*` prefixes onto the
+       saturated mid-tone colors. */
     slug: "monetize",
     href: "/manuals/monetize",
     manifestTitle: "Monetize",
     coverTitle: "Monetize",
-    ordinal: "004",
-    accent: "red",
+    ordinal: "04",
+    accent: "mac-red",
     motif: "magnetic-field",
     comingSoon: true,
   },
   {
-    /* `accent: "green"` (was `"cyan"`, which duplicated Build's
-       accent). Mapped to the canonical Mantle spring green (#5CD055)
-       so Grow has its own slot in the visual ramp. */
+    /* Grow uses the canonical Mantle spring green (`mac-green` =
+       `--color-mac-green` = #5CD055), distinct from Build's teal.
+       Was `accent: "green"` before the rename moved the bright
+       electric `--color-green-high` (#98FF76) onto the `green` slot
+       to match next-gen, and the saturated mid-green onto
+       `mac-green`. */
     slug: "grow",
     href: "/manuals/grow",
     manifestTitle: "Grow",
     coverTitle: "Grow",
-    ordinal: "005",
-    accent: "green",
+    ordinal: "05",
+    accent: "mac-green",
     motif: "sine-wave",
     comingSoon: true,
   },
@@ -182,7 +221,7 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     href: "/manuals/operate",
     manifestTitle: "Operate",
     coverTitle: "Operate",
-    ordinal: "006",
+    ordinal: "06",
     accent: "white",
     motif: "helix-coil",
     comingSoon: true,

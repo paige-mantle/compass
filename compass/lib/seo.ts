@@ -17,6 +17,14 @@ const MANUALS_INDEX_URL = `${SITE_ORIGIN}/manuals`;
 type SectionFrontmatter = {
   summary?: string;
   description?: string;
+  /* SEO overrides — populated from the May SEO spreadsheet. When
+     set, override the auto-generated `<title>` / meta description /
+     OG fields for this manual chapter. Same shape as the workflow /
+     template / insight content models. */
+  metaTitle?: string;
+  metaDescription?: string;
+  ogTitle?: string;
+  ogDescription?: string;
 };
 
 /** Public URL for a section page. Pass an empty section for the intro. */
@@ -37,23 +45,42 @@ export function buildSectionMetadata(loaded: LoadedSection): Metadata {
   const path = isIntro
     ? `/manuals/${loaded.manifest.slug}`
     : `/manuals/${loaded.manifest.slug}/${loaded.section.slug}`;
+  /* Absolute URL for the canonical + OG `url`. Next.js resolves
+     path-relative canonicals against `metadataBase`, so the
+     practical effect is identical — but absolute is safer when the
+     page is rendered under a preview host (the relative form would
+     resolve against the preview origin). Mirrors the workflows /
+     templates / insights detail pages. */
+  const absoluteUrl = `${SITE_ORIGIN}${path}`;
 
-  const title = isIntro
+  /* SEO-sheet override wins over the auto-generated title /
+     description. Falls back to the auto-generated form when the
+     frontmatter doesn't set the override.
+     When `metaTitle` is set, the CSV value already includes the
+     "| Mantle Compass" brand suffix — pass it through as `absolute`
+     so the root-layout title template doesn't append the brand a
+     second time. The auto-generated form (no override) is the bare
+     chapter title, so the template appends the brand normally. */
+  const autoTitle = isIntro
     ? loaded.manifest.title
     : `${loaded.manifest.title} — ${loaded.section.title}`;
+  const title = fm.metaTitle ? { absolute: fm.metaTitle } : autoTitle;
   const description =
+    fm.metaDescription ??
     fm.description ??
     fm.summary ??
     (isIntro
       ? `${loaded.manifest.title} — a Mantle Compass manual.`
       : `${loaded.section.title} — part of the ${loaded.manifest.title} manual from Mantle Compass.`);
+  const ogTitle = fm.ogTitle ?? fm.metaTitle ?? autoTitle;
+  const ogDescription = fm.ogDescription ?? description;
 
   return {
     title,
     description,
-    alternates: { canonical: path },
-    openGraph: { type: "article", title, description, url: path },
-    twitter: { card: "summary_large_image", title, description },
+    alternates: { canonical: absoluteUrl },
+    openGraph: { type: "article", title: ogTitle, description: ogDescription, url: absoluteUrl },
+    twitter: { card: "summary_large_image", title: ogTitle, description: ogDescription },
   };
 }
 

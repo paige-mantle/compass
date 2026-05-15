@@ -4,12 +4,15 @@
 
    Editorial typography for every React Compass detail page —
    manual chapters, method articles, template articles, insight
-   articles. Three scope classes, applied to the wrapping div in
-   each shell:
+   articles — plus rich text content placed inside a listing page.
+   Four scope classes, applied to the wrapping div in each shell:
 
      • `.manual-section`    — ManualShell
-     • `.workflow-content` — WorkflowShell (also gets .insight-content)
+     • `.workflow-content`  — WorkflowShell
      • `.insight-content`   — InsightShell, WorkflowShell
+     • `.compass-content`   — CompassListingPage (and any free-form
+                              prose surface that wants the same
+                              editorial recipe)
 
    Tables are included in this file because they're MDX-rendered
    prose elements — same editorial rhythm as paragraphs / headings.
@@ -25,10 +28,20 @@
    not loaded on the Mantle marketing site since `.manual-section`
    etc. never appear there.
    ────────────────────────────────────────────────────────────── */
+
+/* `@reference` lets this file `@apply` Tailwind utilities even
+   though it's imported as a separate CSS module (not the main entry
+   that sees `@import "tailwindcss"`). Without it, Tailwind v4's
+   PostCSS pipeline fails on every utility class with
+   "Cannot apply unknown utility class". The reference resolves
+   the canonical `@theme` block in `app/globals.css` so utilities
+   like `text-xl` / `mt-5` track the Compass scale tokens. */
+@reference "../../app/globals.css";
+
 @layer components {
   .manual-section,
   .workflow-content,
-  .insight-content {
+  .insight-content, .compass-content {
     font-family: var(--font-sans);
     font-size: var(--text-md);
     line-height: var(--leading-looser);
@@ -43,7 +56,9 @@
   .workflow-content h1, .workflow-content h2, .workflow-content h3,
   .workflow-content h4, .workflow-content h5, .workflow-content h6,
   .insight-content h1, .insight-content h2, .insight-content h3,
-  .insight-content h4, .insight-content h5, .insight-content h6 {
+  .insight-content h4, .insight-content h5, .insight-content h6,
+  .compass-content h1, .compass-content h2, .compass-content h3,
+  .compass-content h4, .compass-content h5, .compass-content h6 {
     font-family: var(--font-heading);
     font-weight: 500;
     letter-spacing: -0.01em;
@@ -51,47 +66,117 @@
     max-width: none;
   }
 
-  .manual-section h1, .workflow-content h1, .insight-content h1 {
+  .manual-section h1, .workflow-content h1, .insight-content h1, .compass-content h1 {
     font-size: var(--text-6xl);
     line-height: var(--leading-tightest);
     margin: 0 0 18px;
   }
-  .manual-section h2, .workflow-content h2, .insight-content h2 {
+  /* Base h2 — manual chapters + insights both get the larger
+     editorial scale (text-2xl / 24px). Manuals are long-form
+     chapter content; insight articles are editorial pieces with
+     real section structure. Both deserve full visual weight on
+     the section heading.
+     Bottom margin tightened from 14px → 6px so the heading clings
+     to the text below it (the previous gap read as a disconnect
+     between heading and section body). */
+  .manual-section h2, .workflow-content h2, .insight-content h2, .compass-content h2 {
     font-size: var(--text-2xl);
     line-height: 1.25;
-    margin: 48px 0 14px;
+    margin: 40px 0 6px;
     scroll-margin-top: 90px;
   }
-  .manual-section h3, .workflow-content h3, .insight-content h3 {
+
+  /* Insight articles — bump h2 one more step (text-3xl / 28px)
+     for full editorial weight. The recipe page hero is text-7xl;
+     section h2 at 28px reads as a clear secondary tier without
+     competing. */
+  .insight-content h2 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.01em;
+  }
+
+  /* Workflow / template / compass-content section headings —
+     tighter editorial scale than manuals + insights. Recipe now
+     uses Tailwind utility classes via `@apply` (resolved through
+     the `@reference` at the top of this file) so every value
+     tracks the canonical scale tokens automatically. Spacing
+     tightened from the previous `mt-8 mb-1.5` to `mt-4 mb-1`
+     so the section break reads as a confident step, not a chasm.
+     Letter-spacing keeps the `-0.01em` editorial bump (no exact
+     Tailwind class matches Compass's tracking ramp). */
+  .workflow-content h2, .compass-content h2 {
+    @apply text-xl leading-tight mt-4 mb-1;
+    letter-spacing: -0.01em;
+  }
+  .manual-section h3, .workflow-content h3, .insight-content h3, .compass-content h3 {
     font-size: var(--text-md);
     font-weight: 600;
     line-height: var(--leading-tight);
-    margin: 28px 0 8px;
+    margin: 24px 0 4px;
     scroll-margin-top: 90px;
   }
-  .manual-section h4, .workflow-content h4, .insight-content h4 {
+  .manual-section h4, .workflow-content h4, .insight-content h4, .compass-content h4 {
     font-size: var(--text-sm);
     font-weight: 600;
-    margin: 20px 0 6px;
+    margin: 20px 0 4px;
   }
 
-  .manual-section p, .workflow-content p, .insight-content p {
+  .manual-section p, .workflow-content p, .insight-content p, .compass-content p {
     font-size: var(--text-md);
     line-height: var(--leading-looser);
-    margin: 0 0 1.25em;
+    /* Paragraph gap tightened from `1.25em` (~21px on text-md / ~20px
+       on text-base) to a fixed `12px`. Matches the new headline-to-body
+       rhythm (h2 → text is 6px; p → p is 12px; section breaks via h2
+       top margin handle the larger separations). Reads as a dense
+       editorial column rather than a loose copy block. */
+    margin: 0 0 12px;
   }
-  .manual-section ul, .manual-section ol,
-  .workflow-content ul, .workflow-content ol,
-  .insight-content ul, .insight-content ol {
+
+  /* Detail-page body copy — `text-base` (16px) + `leading-loose`
+     (1.5) + `fg-medium`. Tighter than manual chapter prose so the
+     section-heading hierarchy reads correctly with the new
+     `text-xl` h2 above. */
+  .workflow-content p, .insight-content p, .compass-content p {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--color-fg-medium);
+  }
+  /* Manual chapters keep the larger 17px / leading-looser recipe
+     because the chapter body itself runs at that scale. */
+  .manual-section ul, .manual-section ol {
     font-size: var(--text-md);
     line-height: var(--leading-looser);
   }
-  .manual-section ul li, .manual-section ol li,
-  .workflow-content ul li, .workflow-content ol li,
-  .insight-content ul li, .insight-content ol li {
+  .manual-section ul li, .manual-section ol li {
     font-size: var(--text-md);
     line-height: 1.35;
     padding: 1px 0;
+  }
+
+  /* Detail-page lists — match the paragraph recipe exactly so bullet
+     items read on the same rhythm as the prose above and below them.
+     `text-base` (16px) + `leading-loose` (1.5) + `fg-medium`, with a
+     `12px` bottom margin between `<li>` items mirroring the
+     paragraph-to-paragraph gap. */
+  .workflow-content ul, .workflow-content ol,
+  .insight-content ul, .insight-content ol,
+  .compass-content ul, .compass-content ol {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--color-fg-medium);
+  }
+  .workflow-content ul li, .workflow-content ol li,
+  .insight-content ul li, .insight-content ol li,
+  .compass-content ul li, .compass-content ol li {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    margin: 0 0 8px;
+    padding: 0;
+  }
+  .workflow-content ul li:last-child, .workflow-content ol li:last-child,
+  .insight-content ul li:last-child, .insight-content ol li:last-child,
+  .compass-content ul li:last-child, .compass-content ol li:last-child {
+    margin-bottom: 0;
   }
 
   /* Bullet markers — disc/decimal. Resets the chevron arrow ::before
@@ -111,94 +196,70 @@
     list-style: none; padding-left: 0;
   }
 
-  /* Inline links — deep ink + 30% underline, hover deepens to full. */
-  .manual-section a, .workflow-content a, .insight-content a {
+  /* Inline links — high-contrast text + soft underline that
+     deepens on hover. The underline color uses `--color-edge-high`
+     (white-alpha hairline on dark surfaces, dark-alpha hairline on
+     light) so the link treatment reads on both the canonical dark
+     theme and the `.compass-light-theme` subtree on manual chapters.
+     The previous hardcoded `rgba(17, 15, 20, 0.3)` was tuned for the
+     old light-theme detail surface and rendered invisible on the
+     dark surface. */
+  .manual-section a, .workflow-content a, .insight-content a, .compass-content a {
     color: var(--color-fg-high);
     text-decoration: underline;
-    text-decoration-color: rgba(17, 15, 20, 0.3);
+    text-decoration-color: var(--color-edge-high);
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
     transition: text-decoration-color 0.15s ease;
   }
-  .manual-section a:hover, .workflow-content a:hover, .insight-content a:hover {
-    text-decoration-color: var(--color-fg-high);
+  .manual-section a:hover, .workflow-content a:hover, .insight-content a:hover, .compass-content a:hover {
+    text-decoration-color: currentColor;
   }
 
-  .workflow-content strong, .insight-content strong {
+  .workflow-content strong, .insight-content strong, .compass-content strong {
     color: var(--color-fg-high);
     font-weight: 600;
   }
-  .workflow-content em, .insight-content em {
+  .workflow-content em, .insight-content em, .compass-content em {
     color: var(--color-fg-high);
     font-style: italic;
   }
-  .workflow-content blockquote, .insight-content blockquote {
+  .workflow-content blockquote, .insight-content blockquote, .compass-content blockquote {
     margin: 1.6em 0;
     padding: 0 0 0 24px;
     border-left: 2px solid var(--color-accent-high);
     color: var(--color-fg-high);
   }
-  .manual-section hr, .workflow-content hr, .insight-content hr {
+  .manual-section hr, .workflow-content hr, .insight-content hr, .compass-content hr {
     border: none;
     border-top: 1px solid var(--color-edge-high);
     margin: 3em 0;
   }
 
-  /* ── Framework editorial refinements ───────────────────────── */
-  .workflow-content {
-    font-size: var(--text-md);
-    line-height: 1.55;
-    color: var(--color-fg-high);
-  }
+  /* ── Workflow editorial refinements ────────────────────────────
+     Inherits the detail-page recipe (text-base, leading-loose,
+     fg-medium) from the shared rules above. Workflow-only rules
+     below just cap line length (`max-width: 58ch`) and pin first-
+     heading margin to zero so the body opens flush. All other
+     decisions stay in the shared selector lists. */
   .workflow-content p {
-    font-size: var(--text-md);
-    line-height: 1.55;
-    margin: 0 0 16px;
     max-width: 58ch;
-  }
-  .workflow-content h2 {
-    margin: 24px 0 14px;
-    padding: 0;
-    border: 0;
-    font-weight: 500;
-    letter-spacing: -0.015em;
+    margin: 0 0 16px;
   }
   .workflow-content > h2:first-child,
   .workflow-content > *:first-child + h2 {
     margin-top: 0;
   }
-  .workflow-content h3 {
-    margin: 20px 0 8px;
-    font-size: var(--text-sm);
-    font-weight: 600;
-    letter-spacing: 0;
-    color: var(--color-fg-high);
-  }
 
-  /* Micro-label — uppercase mono eyebrow inside framework content */
-  .workflow-content .framework-microlabel,
-  .framework-microlabel {
-    display: block;
-    margin: 0 0 8px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-fg-low);
-  }
-
+  /* List markers in workflow content — disc/decimal, fg-low marker
+     ink. Shared list font-size and line-height come from the
+     four-scope rules above. */
   .workflow-content ul, .workflow-content ol {
     margin: 0 0 20px;
     padding: 0 0 0 22px;
   }
   .workflow-content ul { list-style: disc outside; }
   .workflow-content ol { list-style: decimal outside; }
-  .workflow-content ul li, .workflow-content ol li {
-    padding: 1px 0;
-    font-size: var(--text-md);
-    line-height: 1.35;
-  }
   .workflow-content ul li::marker, .workflow-content ol li::marker {
     color: var(--color-fg-low);
   }
@@ -227,9 +288,13 @@
     border-color: rgba(94, 92, 90, 0.36);
     background: rgba(94, 92, 90, 0.05);
   }
+  /* Framework-pairs typography — all sizes pulled from the
+     canonical Compass scale tokens (`--text-xxs` 13px, `--text-base`
+     16px, `--text-sm` 15px) instead of arbitrary 11px / 16px /
+     13.5px values that diverged from the rest of the prose. */
   .framework-pairs-eyebrow {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--text-xxs);
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -237,14 +302,14 @@
   }
   .framework-pairs-title {
     font-family: var(--font-heading);
-    font-size: 16px;
+    font-size: var(--text-base);
     font-weight: 500;
     letter-spacing: -0.012em;
     color: var(--color-fg-high);
   }
   .framework-pairs-summary {
-    font-size: 13.5px;
-    line-height: 1.45;
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
     color: var(--color-fg-low);
   }
 
@@ -259,6 +324,7 @@
   }
   .workflow-content .framework-chips li,
   .insight-content .framework-chips li,
+  .compass-content .framework-chips li,
   .manual-section .framework-chips li {
     margin: 0;
     padding: 6px 12px;
@@ -273,32 +339,7 @@
   .framework-chips li::before { display: none; content: none; }
   .framework-chips li::marker { content: none; }
 
-  /* `<p className="framework-flow">` — inline labeled flow */
-  .workflow-content .framework-flow {
-    display: flex; flex-wrap: wrap; align-items: center;
-    gap: 10px 14px; margin: 12px 0 24px; padding: 0;
-    font-family: var(--font-sans);
-    font-size: var(--text-sm);
-    line-height: var(--leading-normal);
-    color: var(--color-fg-high);
-    max-width: none;
-  }
-  .workflow-content .framework-flow > span {
-    display: inline-flex; align-items: center;
-  }
-  .workflow-content .framework-flow > span:not([aria-hidden]) {
-    padding: 6px 12px;
-    border: 1px solid var(--color-edge-medium);
-    border-radius: 6px;
-    background: rgba(94, 92, 90, 0.02);
-    font-weight: 500;
-  }
-  .workflow-content .framework-flow > span[aria-hidden] {
-    color: var(--color-fg-low);
-    font-size: 16px;
-  }
-
-  .workflow-content code, .insight-content code {
+  .workflow-content code, .insight-content code, .compass-content code {
     font-family: var(--font-mono);
     font-size: 0.9em;
     background: var(--color-surface-higher);
@@ -307,34 +348,68 @@
     border-radius: 4px;
   }
 
+  /* Reset inline-code chrome when the `<code>` lives inside a `<pre>`
+     block. Without this, every line of a code fence would render with
+     the pill background + hairline border above — looking like a
+     "code-within-code" stack. Inside a `<pre>` (rendered by
+     `<CodeFence>` from `shared/CodeFence.tsx`), the parent tile
+     owns the chrome and the inner `<code>` is just text. */
+  .workflow-content pre code,
+  .insight-content pre code,
+  .compass-content pre code,
+  .manual-section pre code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+
   /* Manual tables — same coloured-plate recipe as callouts, so the
-     table reads as a member of the same visual family. Uses `--gold`
+     table reads as a member of the same visual family. Uses `--manual-accent`
      (the per-chapter accent) instead of pinning to `--color-accent-
      high`, and matches the callout's 1px border / 10px radius / 8%
-     tint chrome. Cell padding bumped to match callout density. */
+     tint chrome. Cell padding bumped to match callout density.
+
+     Tables can render wider than the 56ch article column at the
+     `.manual-section` level (5+ column tables won't fit comfortably
+     at the body width). The `display: block; overflow-x: auto`
+     pattern lets a wide table scroll horizontally inside the article
+     without forcing the page itself to scroll. `width: max-content`
+     keeps narrow tables flush-left at their natural width. */
   .manual-section table {
-    width: 100%;
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
     border-collapse: collapse;
     font-family: var(--font-sans);
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
-    background: color-mix(in srgb, var(--gold, #FFBB53) 8%, transparent);
-    border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 48%, transparent);
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 48%, transparent);
     border-radius: var(--rounded-2xl);
-    overflow: hidden;
   }
   .manual-section table th, .manual-section table td {
-    padding: 14px 16px;
+    /* Cell padding tightened from `14px 16px` to `12px 14px` so 5+
+       column tables fit the article column without horizontal scroll
+       on most viewports. Still roomy enough to match callout density.
+       `word-break: break-word` ensures long unbroken strings (URLs,
+       compound phrases) wrap gracefully inside cells; `min-width: 0`
+       on the cell lets the browser shrink columns when content
+       allows. */
+    padding: 12px 14px;
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
-    border-bottom: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 20%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 20%, transparent);
     border-right: 0;
     vertical-align: top;
     color: var(--color-fg-medium);
+    word-break: break-word;
   }
   .manual-section table tbody tr:last-child td { border-bottom: 0; }
   .manual-section table thead th {
-    background: color-mix(in srgb, var(--gold, #FFBB53) 22%, transparent);
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 22%, transparent);
     color: var(--color-fg-low) !important;
     font-family: var(--font-mono);
     font-size: var(--text-xs);
@@ -344,7 +419,7 @@
     text-transform: uppercase;
     text-align: left;
     padding: 14px 16px;
-    border-bottom: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 32%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 32%, transparent);
   }
   .manual-section table thead th,
   .manual-section table thead th strong,
@@ -352,6 +427,13 @@
     font-weight: 500;
   }
   .manual-section table tbody td strong { font-weight: 500; }
+  /* First-cell label treatment — mono uppercase, smaller, accented.
+     The earlier `white-space: nowrap` was the main reason 5+ column
+     tables overflowed: it forced the first column to grab as much
+     width as its label needed (e.g. "Freelance Framer designer") and
+     squeezed every other column into a vertical ribbon. Allow
+     wrapping; the mono uppercase still reads as a clear row label
+     after a wrap. */
   .manual-section table tbody td:first-child {
     font-family: var(--font-mono);
     font-weight: 500;
@@ -359,22 +441,21 @@
     letter-spacing: 0.05em;
     line-height: var(--leading-looser);
     text-transform: uppercase;
-    color: color-mix(in srgb, var(--gold, #FFBB53) 65%, var(--color-fg-medium));
-    white-space: nowrap;
+    color: color-mix(in srgb, var(--manual-accent, #FFBB53) 65%, var(--color-fg-medium));
   }
   .manual-section table tbody tr:hover td {
-    background: color-mix(in srgb, var(--gold, #FFBB53) 6%, transparent);
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 6%, transparent);
   }
 
   @media (max-width: 860px) {
-    .manual-section h1, .workflow-content h1, .insight-content h1 {
+    .manual-section h1, .workflow-content h1, .insight-content h1, .compass-content h1 {
       font-size: var(--text-4xl);
     }
-    .manual-section h2, .workflow-content h2, .insight-content h2 {
+    .manual-section h2, .workflow-content h2, .insight-content h2, .compass-content h2 {
       font-size: var(--text-2xl);
       margin: 36px 0 12px;
     }
-    .manual-section h3, .workflow-content h3, .insight-content h3 {
+    .manual-section h3, .workflow-content h3, .insight-content h3, .compass-content h3 {
       font-size: 16px;
     }
     .workflow-content h2 { margin: 24px 0 14px; }

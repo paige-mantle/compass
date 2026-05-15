@@ -3,9 +3,14 @@ import type { WorkflowMeta } from "../../lib/workflows/content";
 import {
   CARD_BG_CLASS,
   CARD_TEXT_CLASS,
+  CARD_TEXT_COLOR,
   CARD_TAG_CLASS,
-  DEFAULT_CARD_ACCENT,
+  CARD_LABEL_BOX_CLASS,
+  resolveCardAccent,
+  type CardAccent,
 } from "../../lib/card-accents";
+import { formatShortDate, truncateSentences } from "../../lib/format-date";
+import { MetaDot } from "../shared/MetaDot";
 
 /**
  * Method card grid — listing surface for `/workflows`.
@@ -32,27 +37,46 @@ export function WorkflowCardGrid({ methods }: { methods: WorkflowMeta[] }) {
       aria-label="Methods"
       className="grid grid-cols-1 gap-8 pb-20 sm:grid-cols-2 lg:grid-cols-3"
     >
-      {methods.map((m) => (
-        <MethodCard key={m.slug} method={m} />
+      {methods.map((m, i) => (
+        <MethodCard key={m.slug} method={m} index={i} />
       ))}
     </section>
   );
 }
 
-function MethodCard({ method }: { method: WorkflowMeta }) {
-  const accent = method.blockColor ?? DEFAULT_CARD_ACCENT;
+function MethodCard({ method, index }: { method: WorkflowMeta; index: number }) {
+  /* Mantle Official recipes — the default — render with the canonical
+     `accent` plate (`--color-accent` = #FFBB53, the official Mantle
+     gold) so first-party workflows read as a unified set across the
+     grid. Community-submitted recipes (frontmatter `mantleOfficial:
+     false`) opt out of the brand-gold plate and fall back to
+     `resolveCardAccent(blockColor, i)` so the grid still feels alive
+     when first-party + community cards are mixed.
+     Earlier the Official plate used `orange` (#FFC66E, a lighter
+     warm gold). Promoted to `accent` for visual parity with the
+     canonical Mantle brand color across heymantle.com. */
+  const isMantleOfficial = method.mantleOfficial !== false;
+  const accent: CardAccent = isMantleOfficial
+    ? "accent"
+    : resolveCardAccent(method.blockColor, index);
 
   return (
     <Link
       href={`/workflows/${method.slug}`}
-      className="group flex flex-col gap-4 no-underline text-fg-high"
+      className="
+        group flex flex-col no-underline text-fg-high
+        rounded-xl overflow-hidden
+        border border-edge-medium hover:border-edge-high
+        transition-colors duration-200
+      "
     >
+      {/* Colored hero block — edge-to-edge inside the framed card.
+          Inner `rounded-xl` is stripped since the outer
+          `overflow-hidden` already clips to the card's radius. */}
       <div
         className={[
-          "relative aspect-[16/9] overflow-hidden rounded-xl",
+          "relative aspect-[16/9]",
           "flex flex-col justify-between p-7",
-          "transition-transform duration-200 ease-out",
-          "group-hover:-translate-y-[3px]",
           CARD_BG_CLASS[accent],
           CARD_TEXT_CLASS[accent],
         ].join(" ")}
@@ -62,7 +86,23 @@ function MethodCard({ method }: { method: WorkflowMeta }) {
           backgroundSize: "6px 6px",
         }}
       >
-        <h3 className="m-0 font-heading text-[28px] font-medium leading-[1.1] tracking-tight">
+        {/* INLINE `style={{ color }}` — the listing page wraps the
+            grid in `.compass-content`, which carries a prose-h3 rule
+            (`prose.css`) setting white text at specificity (0,1,1).
+            Tailwind v4's important-modifier suffix on arbitrary
+            text-color values doesn't generate the !important
+            variant cleanly here, so the utility class loses to the
+            prose rule and the title renders white on every plate.
+            Inline `style` beats any class rule without !important
+            on either side — the bulletproof fix. On light plates
+            (accent, orange, teal, etc.) the color resolves to
+            `var(--color-card-fg-dark)` (#0a0810); on dark plates
+            (black, graphite, etc.) it's white. Same pattern in
+            `TemplateCardGrid`. */}
+        <h3
+          className="m-0 font-heading text-3xl font-medium leading-[1.1] tracking-tight"
+          style={{ color: CARD_TEXT_COLOR[accent] }}
+        >
           {method.title}
         </h3>
         {method.tags && method.tags.length > 0 ? (
@@ -70,11 +110,7 @@ function MethodCard({ method }: { method: WorkflowMeta }) {
             {method.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                className={[
-                  "inline-flex items-center rounded-md",
-                  "px-2.5 py-1 text-[12.5px] font-medium",
-                  CARD_TAG_CLASS[accent],
-                ].join(" ")}
+                className={`${CARD_LABEL_BOX_CLASS} ${CARD_TAG_CLASS[accent]}`}
               >
                 {tag}
               </span>
@@ -83,18 +119,33 @@ function MethodCard({ method }: { method: WorkflowMeta }) {
         ) : null}
       </div>
 
-      {method.summary ? (
-        <p className="m-0 max-w-[44ch] font-sans text-base leading-[1.45] text-fg-medium">
-          {method.summary}
-        </p>
-      ) : null}
+      {/* Card body — excerpt + author/date meta. Layout pairs with
+          `TemplateCardGrid` + `InsightCardGrid`: short excerpt on
+          top, author · date meta line below. `line-clamp-2` is the
+          safety net beneath `truncateSentences` — caps the rendered
+          excerpt at two visual lines so cards stay uniform even if
+          an authored `summary` is unusually long. */}
+      <div className="flex flex-col gap-3 p-5">
+        {method.summary ? (
+          <p className="m-0 max-w-[44ch] font-sans text-base leading-[1.45] text-fg-medium line-clamp-2">
+            {truncateSentences(method.summary, 2)}
+          </p>
+        ) : null}
 
-      {method.lastUpdated ? (
-        <div className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-fg-low">
-          <span>Added</span>
-          <time>{method.lastUpdated}</time>
-        </div>
-      ) : null}
+        {/* Meta row — sans-serif, case-preserved. Pairs with the
+            canonical "May 13, 2026" date format from
+            `formatShortDate`. Same recipe across insight + workflow
+            + template grids. */}
+        {(method.author || method.lastUpdated) ? (
+          <div className="flex items-center font-sans text-sm text-fg-low">
+            {method.author ? <span>{method.author}</span> : null}
+            {method.author && method.lastUpdated ? <MetaDot /> : null}
+            {method.lastUpdated ? (
+              <time>{formatShortDate(method.lastUpdated)}</time>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
     </Link>
   );
 }

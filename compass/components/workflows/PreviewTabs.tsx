@@ -28,14 +28,15 @@ export function PreviewTabs({
   const [tab, setTab] = useState<"preview" | "code">(defaultTab);
 
   return (
-    // Dark-mode shell — matches the `#0c0a0e` code-panel canvas so the
-    // tabbed container reads as one piece with the prompt blocks
-    // inside it. White-alpha border + inset highlight follow the
-    // same recipe as the `<details>` accordions.
-    <div
-      className="overflow-hidden rounded-md border border-white/[0.08]
-                 bg-[#0c0a0e] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]"
-    >
+    /* Dark-mode shell — matches the canonical Compass code-panel
+       canvas (`bg-surface-medium`, the page's dark base) so the
+       tabbed container reads as one piece with the prompt blocks
+       inside it. Hairline border + inset highlight follow the same
+       recipe as the `<details>` accordions. All colours pulled from
+       canonical Mantle tokens — the previous hardcoded `#0c0a0e`,
+       `#0f0d12`, `#e2e1eb`, `#a2a0b1` resolved to the same hexes
+       but didn't track theme retunes. */
+    <div className="overflow-hidden rounded-md border border-edge-medium bg-surface-medium shadow-[inset_0_1px_0_var(--color-edge-low)]">
       {/* Tab strip — sits at the top of the dark shell. Tabs use
           Geist sans-serif at 16px in sentence case; the active tab
           gets a light underline + full-strength ink, the inactive
@@ -43,7 +44,7 @@ export function PreviewTabs({
       <div
         role="tablist"
         aria-label="Preview / Code"
-        className="flex border-b border-white/[0.07] bg-[#0f0d12]"
+        className="flex border-b border-edge-medium bg-surface-higher"
       >
         <TabButton
           active={tab === "preview"}
@@ -61,12 +62,28 @@ export function PreviewTabs({
           attribute so contentEditable edits inside the code panel
           survive a tab swap. */}
       <div role="tabpanel" hidden={tab !== "preview"} className="p-3">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={previewImage.src}
-          alt={previewImage.alt}
-          className="block w-full rounded-sm bg-white/[0.04] object-cover"
-        />
+        {/* Wrapper reserves a 16:9 aspect-ratio box BEFORE the image
+            loads, so the preview panel doesn't snap from 0px → image
+            height on first paint (the previous raw `<img>` shipped no
+            intrinsic dimensions and caused layout shift inside the
+            tabbed rail). 16:9 is the canonical Compass card aspect
+            and matches the dot-grid plate ratio used across the
+            listing cards. Inside the box, `object-cover` fills any
+            actual image dimensions; intrinsic `width=1600 height=900`
+            on the `<img>` itself gives the browser a fallback ratio
+            even if CSS fails to load. */}
+        <div className="relative w-full aspect-[16/9] overflow-hidden rounded-md bg-white/[0.04]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={previewImage.src}
+            alt={previewImage.alt}
+            width={1600}
+            height={900}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 block h-full w-full object-cover"
+          />
+        </div>
         {/* Caption intentionally not rendered — the tab strip already
             labels this as "Preview"; a duplicate caption underneath
             was visual noise. */}
@@ -99,15 +116,15 @@ function TabButton({
         // Tab label — Geist 16px medium, sentence case. Matches the
         // rest of the body type system; reads as a tab, not as an
         // eyebrow.
-        "font-heading text-[16px] font-medium leading-none",
+        "font-heading text-base font-medium leading-none",
         // Active tab underline uses the Compass brand accent (gold
         // `#FFBB53` via `--color-accent-medium`) so the highlight
         // ties back to the rest of the accent system instead of
         // sitting as another neutral hairline.
         "border-b-2 transition-colors duration-150",
         active
-          ? "border-accent bg-transparent text-[#e2e1eb]"
-          : "border-transparent bg-transparent text-[#a2a0b1] hover:text-[#e2e1eb]",
+          ? "border-accent bg-transparent text-fg-medium"
+          : "border-transparent bg-transparent text-fg-low hover:text-fg-medium",
       ].join(" ")}
     >
       {label}

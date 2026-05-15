@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { CoverArt } from "./CoverArt";
 import type { ManualCoverEntry } from "../../lib/manuals/content";
-import { CARD_ACCENT_VAR_CLASS, CARD_PILL_CLASS } from "../../lib/card-accents";
+import {
+  CARD_ACCENT_VAR_CLASS,
+  COMING_SOON_LABEL_CLASS,
+} from "../../lib/card-accents";
+import { COMPASS_PIXEL_LABEL_CLASS } from "../shared/compass-pixel-label";
 
 /**
  * Manual row list — the "row-stacked vertical card" layout for the
@@ -65,40 +69,31 @@ function ManualRow({
 
   const inner = (
     <>
-      {/* Media panel — 16:9, dot-grid radial-gradient surface with the
-          cover-art motif overlaid. Same color recipe as the manual
-          cover cards: dark base + faint accent + lilac wash + dot
-          grid. The art tracks the row's `--cover-accent` via the
-          ACC_CLASS scope above. */}
+      {/* Media panel — 16:10 plate that mirrors the `ManualCoverGrid`
+          recipe so home rows and the cover-grid posters read as one
+          family. Background-image stacks two soft `--cover-accent`
+          radial blooms over a 6px-pitch white dot grid; opacities
+          tuned down to ~7% / 4% bloom + 5% white dots so the surface
+          reads as quiet warm light rather than a wash. The previous
+          hardcoded orange/lilac blooms didn't track the per-row
+          accent — every row got the same colors. */}
       <div
         className="
           relative aspect-[16/10] overflow-hidden rounded-xl
           border border-edge-medium
-          bg-[var(--color-surface-highest)]
+          bg-[var(--color-surface-higher)]
           text-[color:var(--cover-accent)]
           transition-transform duration-200 ease-out
           group-hover:-translate-y-[2px]
         "
         style={{
           backgroundImage:
-            "radial-gradient(circle at 30% 40%, rgba(255,187,83,0.10), transparent 55%), " +
-            "radial-gradient(circle at 80% 70%, rgba(140,95,210,0.22), transparent 55%), " +
-            "linear-gradient(135deg, #1d1628 0%, #120d1c 100%)",
+            "radial-gradient(circle at 22% 18%, color-mix(in oklch, var(--cover-accent) 7%, transparent), transparent 55%), " +
+            "radial-gradient(circle at 80% 82%, color-mix(in oklch, var(--cover-accent) 4%, transparent), transparent 60%), " +
+            "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+          backgroundSize: "auto, auto, 6px 6px",
         }}
       >
-        {/* Dot/cross grid texture overlay — same recipe as the
-            cover cards on `/manuals`, keeps the visual
-            family consistent. */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-55"
-          style={{
-            backgroundImage:
-              "linear-gradient(45deg, rgba(255,255,255,0.035) 1px, transparent 1px), " +
-              "linear-gradient(-45deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
-            backgroundSize: "18px 18px",
-          }}
-        />
         {/* Cover-art motif — fills the panel, pointer-events: none so
             clicks reach the wrapping link. */}
         <div className="pointer-events-none absolute inset-0">
@@ -111,26 +106,23 @@ function ManualRow({
           hovers to gold), description, then a small mono arrow link.
           Stacks vertically with 12px gaps. */}
       <div className="flex flex-col gap-3">
+        {/* Ordinal kicker — canonical pixel-label recipe, but with
+            `leading-none` override so the kicker baseline aligns with
+            the adjacent "Coming soon" pill on the same row. Color
+            tracks the per-row `--cover-accent` so the kicker matches
+            the manual's accent on the cover art beside it. */}
         <span
-          className="
-            font-mono text-xs font-medium uppercase tracking-wider leading-none
-            text-[color:var(--cover-accent)]
-          "
+          className={`${COMPASS_PIXEL_LABEL_CLASS} leading-none text-[color:var(--cover-accent)]`}
         >
           Manual {cover.ordinal}
           {cover.comingSoon ? (
-            /* Coming-soon pill — canonical Compass pill recipe from
-               `card-accents.ts`. Same shape + chrome as method tag
-               pills + insight ribbons + every other Compass pill on
-               a dark surface. */
-            <span
-              className={[
-                "ml-3 inline-flex items-center rounded-md",
-                "px-2 py-0.5",
-                "text-[10px] font-medium tracking-[0.08em] leading-none uppercase",
-                CARD_PILL_CLASS.black,
-              ].join(" ")}
-            >
+            /* Coming-soon pill — uses the canonical Compass article-
+               card label recipe (`CARD_LABEL_BOX_CLASS` + dark-page
+               tone) from `lib/card-accents.ts`. Same shape and
+               chrome as Insight ribbons + Workflow / Template tag
+               pills, so every "label on a card" reads as the same
+               typographic object. */
+            <span className={`ml-3 ${COMING_SOON_LABEL_CLASS}`}>
               Coming soon
             </span>
           ) : null}
@@ -158,15 +150,19 @@ function ManualRow({
           </p>
         ) : null}
 
+        {/* "Open manual" arrow link — canonical pixel-label recipe
+            with the gold accent color. Bumped from the old
+            `text-xxs` to the canonical `text-xs` so manual-cover
+            eyebrows + card-grid eyebrows sit on the same scale. */}
         {!cover.comingSoon ? (
           <span
-            className="
-              mt-2 inline-flex items-center gap-1.5
-              font-mono text-[11px] font-medium uppercase tracking-wider
-              text-accent
-              transition-transform duration-200 ease-out
-              group-hover:translate-x-1
-            "
+            className={[
+              "mt-2 inline-flex items-center gap-1.5",
+              COMPASS_PIXEL_LABEL_CLASS,
+              "text-accent",
+              "transition-transform duration-200 ease-out",
+              "group-hover:translate-x-1",
+            ].join(" ")}
           >
             <span>Open manual</span>
             <span aria-hidden>→</span>

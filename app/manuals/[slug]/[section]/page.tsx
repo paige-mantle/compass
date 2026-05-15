@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
+import { compassMdxOptions } from "@/compass/lib/mdx-options";
+import { CompassLayout } from "@/compass/components/shared/CompassLayout";
 import { ManualShell } from "@/compass/components/manuals/ManualShell";
 import { mdxComponents } from "@/compass/components/manuals/mdx-components";
 import {
@@ -52,28 +53,34 @@ export default async function ManualSectionPage({
   const [articleLd, breadcrumbLd] = buildSectionJsonLd(loaded);
 
   return (
-    <ManualShell
-      manifest={loaded.manifest}
-      current={loaded.section}
-      currentIndex={loaded.index}
-      prev={loaded.prev}
-      next={loaded.next}
-      lastUpdated={(loaded.frontmatter as { lastUpdated?: string }).lastUpdated}
-      summary={(loaded.frontmatter as { summary?: string }).summary}
+    <CompassLayout
+      surface="manual"
+      showHeader={false}
+      showBackgroundFx={false}
+      showFooterCta={false}
     >
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
-      <MDXRemote
-        source={loaded.source}
-        components={mdxComponents}
-        options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
-      />
-    </ManualShell>
+      <ManualShell
+        manifest={loaded.manifest}
+        current={loaded.section}
+        currentIndex={loaded.index}
+        prev={loaded.prev}
+        next={loaded.next}
+        summary={(loaded.frontmatter as { summary?: string }).summary}
+      >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        />
+        <MDXRemote
+          source={loaded.source}
+          components={mdxComponents}
+          options={compassMdxOptions}
+        />
+      </ManualShell>
+    </CompassLayout>
   );
 }

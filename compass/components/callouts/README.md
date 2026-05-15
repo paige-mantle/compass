@@ -1,15 +1,36 @@
 # Callouts — MDX authoring guide
 
 How to format every callout type when writing manual chapters in `.mdx` files
-under `compass/content/manuals/`. Every callout here renders the canonical
-Mantle next-gen v2 chrome — bordered plate, 8% chapter-accent tint, floating
+under `compass/content/manuals/`. Every callout renders the canonical Mantle
+next-gen v2 chrome — bordered plate, 8% chapter-accent tint, floating
 filled-accent tag at top-left, optional typed designator in the bottom-right
 — via the rules in `app/globals.css` `@layer components`.
 
-The chapter accent (`--gold`) flows down automatically from the manual's
-`.manual-shell` scope, which reads from `manifest.accent`. You don't set
-colors per callout — pick a semantic type, write your prose, and the chapter
-ink does the rest.
+The chapter accent (`--gold` / `--manual-accent`) flows down automatically
+from the manual's `.manual-shell` scope, which reads from `manifest.accent`.
+You don't set colors per callout — pick a semantic type, write your prose,
+and the chapter ink does the rest.
+
+---
+
+## The six conceptual buckets
+
+The Compass callout system collapses into **six buckets**. Multiple tag
+names map to the same chrome — pick the one that fits the editorial
+intent.
+
+| # | Bucket | Tags | What it's for |
+|---|---|---|---|
+| 1 | **Note** | `<Callout>`, `<FieldNote>`, `<TLDR>`, `<Quote>` | Neutral info — observations, summaries, pull-quotes, generic highlights. Inherits the chapter accent. |
+| 2 | **RealityCheck** | `<RealityCheck>`, `<CommonFailure>` | Warning / danger family. Always red regardless of manual accent. |
+| 3 | **DecisionPoint** | `<DecisionPoint>` | Two-column fork ("Option A vs Option B"). |
+| 4 | **Shift** | `<FounderShift>` | Before/after transformation. |
+| 5 | **Checklist** | `<Checklist>` + `<CheckItem>` | Interactive item list, toggle-able checkboxes. |
+| 6 | **Prompt** | `<Prompt>` | Code / AI prompt block with copy affordance. |
+
+`<FAQ>` and `<PromptToggle>` are **legacy** — they're not in the active MDX
+component map but the component files still exist for the
+`/compass/callouts` demo surface and direct imports.
 
 ---
 
@@ -19,27 +40,23 @@ ink does the rest.
 |---|---|---|
 | `<Callout>` | Generic highlight — anything that doesn't fit a semantic type | "Callout" |
 | `<FieldNote>` | Observation from the field — what you actually saw founders do | "Field Note" |
+| `<TLDR>` | Chapter summary — sits at the top of long chapters | "TL;DR" |
+| `<Quote>` | Pull-quote with attribution — outside voice, not yours | "Quote" |
 | `<RealityCheck>` | Hard truth — the part the reader doesn't want to hear | "Reality Check" |
 | `<CommonFailure>` | Pattern to avoid — the mistake that keeps happening | "Common Failure" |
 | `<DecisionPoint>` | Two-column fork — present a binary choice with both options | "Decision Point" |
 | `<FounderShift>` | Mindset transformation — old way → new way | "Founder Shift" |
-| `<Quote>` | Pull-quote with attribution — outside voice, not yours | "Quote" |
 | `<Checklist>` | Actionable list — each item wrapped in `<CheckItem>` | (no tag — list only) |
 | `<Prompt>` | Copyable AI prompt — editable textarea + copy button | "Prompt" |
-| `<TLDR>` | Chapter summary — sits at the top of long chapters | "TL;DR" |
-| `<FAQ>` | Q&A block — each pair wrapped in `<FAQItem q="...">` | (no tag — list only) |
-| `<PromptToggle>` | Reader prompt — collapsible question the reader writes against | (toggle label) |
-
-All shells share the same chrome. The only differences are the **label string**
-(set automatically by the tag name) and the **inner body layout** for
-DecisionPoint (two columns) and FounderShift (three columns).
+| `<FAQ>` (legacy) | Q&A block — each pair wrapped in `<FAQItem q="...">` | (no tag — list only) |
+| `<PromptToggle>` (legacy) | Reader prompt — collapsible question the reader writes against | (toggle label) |
 
 ---
 
 ## Optional props on every callout
 
-- **`title="..."`** — override the default label. Rare; only when "Field Note"
-  isn't right for what you're putting in a `<FieldNote>`.
+- **`title="..."`** — override the default label. Rare; only when the
+  default label isn't right for the specific instance.
 - **`dataIndex="X-NN"`** — typed designator that renders in the bottom-right
   corner (e.g. `data-index="F-01"`). Pure visual cue — useful when you want
   callouts to read as numbered specs.
@@ -52,10 +69,15 @@ DecisionPoint (two columns) and FounderShift (three columns).
 
 ---
 
+# Note bucket
+
+Four tags, one chrome. Pick by editorial intent — the rendered shell is
+identical, only the label string differs.
+
 ## 1 · Generic Callout
 
 When in doubt, use this. The fallback for "I want a highlighted block but
-none of the semantic types fit."
+none of the more specific tags fit."
 
 ```mdx
 <Callout>
@@ -88,7 +110,49 @@ they had product-market fit.
 
 ---
 
-## 3 · RealityCheck
+## 3 · TLDR
+
+Chapter summary. Place at the top of long chapters so readers know whether
+to keep reading. Body text renders slightly larger than normal prose.
+
+```mdx
+<TLDR>
+CoinTracker's content needs outgrew Ghost, so we migrated the entire blog
+stack to Sanity and rebuilt it around structured, scalable content. This is
+the story of why we moved, what broke, and what we learned fixing it.
+</TLDR>
+```
+
+Multiple paragraphs are fine — each `<p>` gets its own line.
+
+---
+
+## 4 · Quote
+
+Pull-quote with attribution. The quote body renders in the Geist Pixel
+display face inside a `<blockquote>`; the attribution sits below as a
+mono uppercase `<cite>`. A 3px gold left bar gives it the editorial
+pull-quote feel without losing the bordered-card identity.
+
+```mdx
+<Quote attribution="— Mark Zuckerberg, on Stratechery, 2011">
+The biggest risk is not taking any risk. In a world that's changing
+really quickly, the only strategy that is guaranteed to fail is not
+taking risks.
+</Quote>
+```
+
+The `attribution` prop is optional — omit it for an anonymous pull-quote.
+
+---
+
+# RealityCheck bucket (warning family)
+
+Two tags in this bucket. **Both render red regardless of the manual's
+chapter accent** — warnings always pop as the same warning color so
+readers can spot them at a glance across chapters.
+
+## 5 · RealityCheck
 
 A direct, uncomfortable truth. Use it sparingly — overusing it numbs the
 reader. The body should be the single sentence the reader needs to internalize.
@@ -101,7 +165,7 @@ Building an app and building a business aren't the same job.
 
 ---
 
-## 4 · CommonFailure
+## 6 · CommonFailure
 
 A pattern you keep seeing fail. Body should name the failure mode and why
 it happens — not how to fix it (save the fix for prose).
@@ -116,7 +180,9 @@ who would have paid never get far enough to see the value.
 
 ---
 
-## 5 · DecisionPoint
+# Structural buckets
+
+## 7 · DecisionPoint
 
 Two-column fork. Pass exactly **two** children — each becomes a column.
 Each child should be a `<div>` containing an `<h4>` title + a `<p>` body.
@@ -146,10 +212,10 @@ length.
 
 ---
 
-## 6 · FounderShift
+## 8 · FounderShift
 
-Three-column **before → arrow → after**. Pass exactly **two** children — the
-component drops in the arrow between them.
+Three-column **before → arrow → after**. Pass exactly **two** children —
+the component drops in the arrow between them.
 
 ```mdx
 <FounderShift>
@@ -171,34 +237,14 @@ component drops in the arrow between them.
 
 **Note on the `<h4>` here**: it renders as a small mono uppercase eyebrow
 (not a heading) because the FounderShift body uses the eyebrow recipe for
-column kickers — gives the from/to a label-like feel rather than a heading.
-For DecisionPoint, `<h4>` renders as a proper h4 heading.
+column kickers. For DecisionPoint, `<h4>` renders as a proper h4 heading.
 
 **Layout**: stacks vertically below 768px (arrow rotates 90°), three columns
 above (1fr / auto / 1fr).
 
 ---
 
-## 7 · Quote
-
-Pull-quote with attribution. The quote body renders in the Geist Pixel
-display face inside a `<blockquote>`; the attribution sits below as a
-mono uppercase `<cite>`. A 3px gold left bar gives it the editorial
-pull-quote feel without losing the bordered-card identity.
-
-```mdx
-<Quote attribution="— Mark Zuckerberg, on Stratechery, 2011">
-The biggest risk is not taking any risk. In a world that's changing
-really quickly, the only strategy that is guaranteed to fail is not
-taking risks.
-</Quote>
-```
-
-The `attribution` prop is optional — omit it for an anonymous pull-quote.
-
----
-
-## 8 · Checklist
+## 9 · Checklist
 
 Actionable items, each wrapped in `<CheckItem>`. Renders as a list with
 toggle-able checkboxes; the reader can tick items off as they go.
@@ -220,7 +266,7 @@ Pre-check items by passing `done`:
 
 ---
 
-## 9 · Prompt
+## 10 · Prompt
 
 Copyable AI prompt. A toolbar row (title + copy button) sits above an
 editable `<textarea>` — readers can copy the prompt verbatim or edit it
@@ -254,22 +300,12 @@ default for every Compass chapter.
 
 ---
 
-## 10 · TLDR
+# Legacy (still importable, not in the MDX map)
 
-Chapter summary. Place at the top of long chapters so readers know whether
-to keep reading. Body text renders slightly larger than normal prose.
-
-```mdx
-<TLDR>
-CoinTracker's content needs outgrew Ghost, so we migrated the entire blog
-stack to Sanity and rebuilt it around structured, scalable content. This is
-the story of why we moved, what broke, and what we learned fixing it.
-</TLDR>
-```
-
-Multiple paragraphs are fine — each `<p>` gets its own line.
-
----
+The two tags below were dropped from `mdx-components.tsx` in the callout
+consolidation. They're not used in current MDX content, but the component
+files remain available — import them directly into a `.tsx` page if you
+need them, or use them in the `/compass/callouts` demo.
 
 ## 11 · FAQ
 
@@ -286,6 +322,13 @@ Question-and-answer block. Each pair wrapped in `<FAQItem q="..."> answer
     to a few paying users.
   </FAQItem>
 </FAQ>
+```
+
+To use FAQ in MDX, you'd need to add it back to the `mdxComponents` map
+in `mdx-components.tsx`. For one-off use in a `.tsx` page, import directly:
+
+```tsx
+import { FAQ, FAQItem } from "@/compass/components/manuals/FAQ";
 ```
 
 ---
@@ -305,6 +348,8 @@ know yet.
 
 The `label` prop is the question (always visible); the children are the
 prompt detail (revealed on click).
+
+Same MDX-map note as FAQ — add to `mdxComponents` or import directly.
 
 ---
 
@@ -332,13 +377,17 @@ If you need to tune the look:
 
 - **All shell + body rules** → `app/globals.css` `@layer components`, search
   for "Manual callouts"
+- **Warning override** (RealityCheck / CommonFailure render red regardless
+  of manual accent) → `compass/components/callouts/callouts.css`
 - **Per-chapter accent** → `compass/content/manuals/<manual>/manifest.json`
-  `accent` field, which sets `--gold` on `.manual-shell` via `ManualShell.tsx`
+  `accent` field, which sets `--gold` / `--manual-accent` on
+  `.manual-shell` via `ManualShell.tsx`
 - **Per-cover-accent token mapping** → `public/compass-base.css` (the
   `--cover-accent-*` tokens that the `.accent-*` classes resolve to)
 - **MDX component shims** → `compass/components/manuals/mdx-components.tsx`
 - **Generic Callout component** → `compass/components/manuals/Callout.tsx`
-- **Quote / Prompt / Checklist / TLDR / FAQ / PromptToggle / AuthorCard** →
+- **Quote / Prompt / Checklist / TLDR / AuthorCard** →
   `compass/components/manuals/*.tsx`
+- **FAQ / PromptToggle** (legacy) → `compass/components/manuals/*.tsx`
 - **Semantic callout family** (FieldNote · RealityCheck · CommonFailure ·
   DecisionPoint · FounderShift) → `compass/components/callouts/Callouts.tsx`

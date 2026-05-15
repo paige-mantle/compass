@@ -1,11 +1,6 @@
 import { Callout } from "./Callout";
-import { FAQ, FAQItem } from "./FAQ";
 import { AuthorCard } from "./AuthorCard";
-import { PromptToggle } from "./PromptToggle";
 import { Checklist, CheckItem } from "./Checklist";
-import { Placeholder } from "./Placeholder";
-import { TLDR } from "./TLDR";
-import { Quote } from "./Quote";
 import { Prompt } from "./Prompt";
 import {
   FieldNote,
@@ -16,36 +11,60 @@ import {
 } from "@/compass/components/callouts/Callouts";
 
 /**
- * MDX component shims — anything used in an .mdx file with a capitalized
- * tag name (e.g. <Callout/>, <FAQItem/>, <RealityCheck/>) maps to one of these.
+ * MDX component shims — anything used in an .mdx file with a
+ * capitalized tag name (e.g. `<Callout/>`, `<RealityCheck/>`,
+ * `<Checklist/>`) maps to one of these. Plain HTML tags (h1, h2,
+ * p, ul, blockquote, etc.) are styled by `compass/styles/prose.css`
+ * and render as-is.
  *
- * Plain HTML tags (h1, h2, p, ul, blockquote, etc.) are styled by manual.css
- * and rendered by MDX as-is, so no override needed here.
+ * The Compass callout system collapses to **six conceptual buckets**:
+ *
+ *   1. Note          — neutral info. Shorthand aliases: `<Callout>`
+ *                      (freeform), `<FieldNote>`.
+ *   2. RealityCheck  — warning / danger. Always red regardless of
+ *                      manual accent (see callouts.css warning
+ *                      override). Shorthand alias: `<CommonFailure>`.
+ *   3. DecisionPoint — two-column fork ("Option A vs Option B").
+ *   4. Shift         — before/after transformation. Shorthand alias:
+ *                      `<FounderShift>`.
+ *   5. Checklist     — interactive item list with `<CheckItem>` rows.
+ *   6. Prompt        — code / prompt block with copy affordance.
+ *
+ * Every callout outside the warning family inherits
+ * `var(--manual-accent)` — the current manual's chapter accent —
+ * so a single manual reads as one coherent identity.
+ *
+ * The legacy `<FAQ>`, `<PromptToggle>`, `<TLDR>`, `<Quote>`, and
+ * `<Placeholder>` shims were dropped when the `/compass/callouts`
+ * demo route was retired. None of them were used in any active
+ * MDX content. Their styling lived in `/public/compass-manual.css`
+ * which is also gone.
  */
 export const mdxComponents = {
+  // Note bucket — generic + content shorthand aliases. `<Note>` is
+  // the canonical bucket name; `<Callout>` is the legacy alias kept
+  // for backwards compatibility with content authored before the
+  // callout consolidation.
+  Note: Callout,
   Callout,
-  FAQ,
-  FAQItem,
-  AuthorCard,
-  PromptToggle,
-  Checklist,
-  CheckItem,
-  Placeholder,
-  TLDR,
-  Quote,
-  Prompt,
-  // Semantic callouts (Field Note · Reality Check · Common Failure ·
-  // Decision Point · Founder Shift). Styled by callouts.css, loaded in
-  // app/manuals/layout.tsx.
   FieldNote,
+  // RealityCheck bucket (warning family — always red).
   RealityCheck,
   CommonFailure,
+  // DecisionPoint / Shift buckets.
   DecisionPoint,
   FounderShift,
-  // Map a plain "---" thematic break to our notion-divider class
+  // Checklist bucket.
+  Checklist,
+  CheckItem,
+  // Prompt bucket.
+  Prompt,
+  // Non-callout helpers used inside chapters.
+  AuthorCard,
+  // Map a plain "---" thematic break to our notion-divider class.
   hr: () => <hr className="notion-divider" />,
-  // remark-gfm renders task-list checkboxes with `disabled`; strip that so
-  // readers can actually toggle them.
+  // remark-gfm renders task-list checkboxes with `disabled`; strip
+  // that so readers can actually toggle them.
   input: (props: React.InputHTMLAttributes<HTMLInputElement>) => {
     if (props.type === "checkbox") {
       const { disabled: _disabled, defaultChecked, ...rest } = props;

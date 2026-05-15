@@ -1,42 +1,90 @@
-import { CompassLayout } from "@/compass/components/shared/CompassLayout";
-import { CompassIndexHero } from "@/compass/components/shared/CompassIndexHero";
-import { CompassSectionNav } from "@/compass/components/shared/CompassSectionNav";
-import { CompassNewsletter } from "@/compass/components/shared/CompassNewsletter";
+import { CompassListingPage } from "@/compass/components/shared/CompassListingPage";
 import { ManualCoverGrid } from "@/compass/components/manuals/ManualCoverGrid";
 import { MANUAL_COVERS } from "@/compass/lib/manuals/content";
+import { SITE_ORIGIN } from "@/compass/lib/seo";
+
+/* SEO copy from the May spreadsheet. `title` / `description` /
+   `canonical` / OG mirror the corresponding columns. */
+const TITLE = "App Builder Manuals for AI Products | Mantle Compass";
+const DESCRIPTION =
+  "Step-by-step manuals for shaping, building, launching, and growing an app business with more clarity.";
+const OG_TITLE = "Manuals for building better app businesses";
+const OG_DESCRIPTION =
+  "Step-by-step manuals for shaping, building, launching, growing, and operating an app business.";
+const CANONICAL = `${SITE_ORIGIN}/manuals`;
 
 export const metadata = {
-  title: "Manuals for building better apps",
-  description:
-    "Step-by-step manuals for shaping, building, launching, monetizing, growing, and operating an app business.",
-  alternates: { canonical: "/manuals" },
+  /* `absolute` bypasses the `%s | Mantle Compass` template in the
+     root layout — the spreadsheet title already includes the brand
+     suffix, so the template would render it twice otherwise. */
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
+  alternates: { canonical: CANONICAL },
+  openGraph: {
+    type: "website",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+    url: CANONICAL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+  },
 };
 
 /**
  * /manuals — listing index for the seven Compass manuals.
- * Built from the next-gen pattern (shared components below) so every
- * Compass listing page renders the same hero recipe, same section
- * nav, same footer CTA. Replaces `public/mantle-compass-manuals.html`.
+ * Uses `<CompassListingPage>` so chrome (hero, section nav,
+ * newsletter footer) is shared with every other Compass index.
+ * Only the grid is unique.
  */
 export default function ManualsIndexPage() {
+  /* `CollectionPage` + `BreadcrumbList` JSON-LD per the spreadsheet's
+     `Schema type` column. Tells search engines this is a curated
+     collection of related Article pages so they can expose richer
+     SERP treatments. */
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "App Builder Manuals for AI Products",
+    description:
+      "Step-by-step manuals for shaping, building, launching, and growing an app business with more clarity.",
+    url: CANONICAL,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: MANUAL_COVERS.map((cover, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: cover.manifestTitle,
+        url: `${SITE_ORIGIN}/manuals/${cover.slug}`,
+      })),
+    },
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: `${SITE_ORIGIN}/compass` },
+      { "@type": "ListItem", position: 2, name: "Manuals", item: CANONICAL },
+    ],
+  };
+
   return (
-    // `showFooterCta={false}` swaps the default "Grow your business with
-    // Mantle" CTA band for the canonical newsletter footer used across
-    // every static Compass index page. Detail pages (frameworks,
-    // insights, manual chapters) keep the CTA band — it makes sense
-    // after a piece of content; index pages don't have that context.
-    <CompassLayout showFooterCta={false}>
-      <div className="mx-auto w-full max-w-[1320px] px-6 max-[720px]:px-5">
-        <CompassIndexHero
-          heading="Manuals"
-          description="Everything you need to go from idea to a real, working product."
-        />
-        <CompassSectionNav currentPath="/manuals" />
-        <div className="mt-14 max-[720px]:mt-10">
-          <ManualCoverGrid covers={MANUAL_COVERS} />
-        </div>
-      </div>
-      <CompassNewsletter />
-    </CompassLayout>
+    <CompassListingPage
+      heading="Manuals"
+      description="Step-by-step manuals for shaping, building, launching, monetizing, growing, and operating an app business."
+      currentPath="/manuals"
+    >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <ManualCoverGrid covers={MANUAL_COVERS} />
+    </CompassListingPage>
   );
 }

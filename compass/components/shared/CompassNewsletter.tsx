@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CompassButton } from "./CompassButton";
+import { COMPASS_H1_COMPACT_CLASS } from "./compass-h1";
 
 /**
  * Compass newsletter — the canonical footer used at the bottom of
@@ -47,12 +48,21 @@ export function CompassNewsletter({
         className,
       ].join(" ")}
     >
-      <div className="mx-auto w-full max-w-[1320px] px-6 max-[720px]:px-5">
-        <h3 className="m-0 mb-6 max-w-[540px] font-heading text-[38px] font-medium tracking-tight leading-[1.15] text-fg-high">
+      <div className="mx-auto w-full max-w-page px-6 max-[720px]:px-5">
+        {/* Subscribe heading shares the canonical Compass display
+            recipe — same `font-heading font-normal tracking-tight
+            leading-tighter` family as every other Compass top-level
+            heading. The compact `text-4xl md:text-6xl` ramp is the
+            right register for a footer-section heading: visually
+            consequential but one step under the marketing-hero
+            scale on `/compass`. Hand-rolled `text-6xl font-medium
+            leading-[1.15]` retired so this surface stops drifting
+            from the rest of the system. */}
+        <h3 className={`m-0 mb-6 max-w-[540px] ${COMPASS_H1_COMPACT_CLASS}`}>
           {heading}
         </h3>
         {submitted ? (
-          <p className="m-0 max-w-[540px] font-sans text-[15px] text-fg-high">
+          <p className="m-0 max-w-[540px] font-sans text-sm text-fg-high">
             Thanks — you&rsquo;re on the list. Look for the next monthly
             update in your inbox.
           </p>
@@ -74,7 +84,7 @@ export function CompassNewsletter({
                 className="
                   h-9 w-[400px] max-w-full flex-none rounded-2xl
                   border border-edge-medium bg-[var(--color-surface-higher)]
-                  px-4 font-sans text-[15px] text-fg-high outline-none
+                  px-4 font-sans text-sm text-fg-high outline-none
                   transition-colors duration-150
                   placeholder:text-fg-low
                   hover:border-edge-high

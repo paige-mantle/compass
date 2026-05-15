@@ -1,7 +1,11 @@
 ---
 title: "Polaris Billing Components"
 slug: billing-components
-description: "Drop-in Polaris UI components built for Mantle and Shopify — pricing cards, plan layouts, and subscription patterns ready to paste into your app."
+summary: "Polaris-compatible billing components — pricing cards, plan layouts, subscription states."
+metaTitle: "Polaris Billing Components for Shopify Apps | Mantle Compass"
+metaDescription: "Polaris-compatible billing components for Shopify apps, including pricing cards, plan layouts, and subscription states."
+ogTitle: "Polaris billing components for Shopify apps"
+ogDescription: "Reusable Polaris-compatible billing components for pricing, plan layouts, subscriptions, and upgrade states."
 ribbon: "Templates"
 author: "Mantle Team"
 authorRole: "Mantle"
@@ -88,8 +92,25 @@ Use when the billing surface is narrow.
 
 Wrap your app in `<MantleProvider>` with your app ID and the merchant's customer API token. Components read `plans`, `subscription`, `customer` from context. Drop into any Polaris page.
 
-## Pairs well with
+## Related
 
-- [Pricing strategy methods](/workflows)
-- [Subscription lifecycle methods](/workflows)
-- [App launch checklists](/manuals/launch)
+<RelatedCards>
+  <RelatedCard
+    kind="Workflow"
+    href="/workflows/shopify-app-review-campaign"
+    title="Shopify App Review Campaign"
+    summary="Run review campaigns against the merchants who installed your Polaris-built billing flow."
+  />
+  <RelatedCard
+    kind="Template"
+    href="/templates/shopify-app-screens"
+    title="Shopify App Screens"
+    summary="Pair pricing components with conversion-ready App Store screenshots."
+  />
+  <RelatedCard
+    kind="Manual"
+    href="/manuals/shape"
+    title="Shape"
+    summary="Strategy work for deciding what to bill for before you wire up the pricing UI."
+  />
+</RelatedCards>

@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { cache } from "react";
 import matter from "gray-matter";
 
 const CONTENT_ROOT = path.join(process.cwd(), "compass", "content", "insights");
@@ -15,6 +16,13 @@ export type InsightFrontmatter = {
   readTime?: string;
   summary: string;
   published?: boolean;
+  /* SEO overrides — populated from the May SEO spreadsheet. When
+     set, override auto-generated `<title>` / meta description / OG
+     fields in `app/blog/[slug]/page.tsx`. */
+  metaTitle?: string;
+  metaDescription?: string;
+  ogTitle?: string;
+  ogDescription?: string;
 };
 
 export type InsightMeta = InsightFrontmatter & {
@@ -54,7 +62,11 @@ function extractHeadings(source: string): LoadedInsight["headings"] {
   return headings;
 }
 
-export async function listInsights(): Promise<InsightMeta[]> {
+/* Memoized via `cache()` so the double-scan pattern from
+   `generateStaticParams` + `loadInsight` resolves to a single
+   filesystem pass per render. Matches the workflows + templates
+   loaders. */
+export const listInsights = cache(async (): Promise<InsightMeta[]> => {
   let entries: string[];
   try {
     entries = await fs.readdir(CONTENT_ROOT);
@@ -72,7 +84,7 @@ export async function listInsights(): Promise<InsightMeta[]> {
   }
   items.sort((a, b) => (a.date < b.date ? 1 : -1));
   return items;
-}
+});
 
 export async function loadInsight(slug: string): Promise<LoadedInsight | null> {
   const items = await listInsights();

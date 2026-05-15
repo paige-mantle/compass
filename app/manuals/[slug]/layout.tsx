@@ -1,32 +1,36 @@
 import type { ReactNode } from "react";
 
 /**
- * `/compass/[manual]` + `/compass/[manual]/[section]` layout.
+ * `/manuals/[slug]` + `/manuals/[slug]/[section]` layout.
  *
- * Loads the manual-page chrome (`compass-manual-base.css` for the
- * site-header / mega-menu / sidebar / card recipes shared with the
- * static index pages, and `compass-manual.css` for the
- * `.manual-section` / `.manual-hero` / `.manual-shell` overrides).
+ * Currently a pass-through. Manual chapter pages get every style
+ * they need from the root layout's two imports:
  *
- * These two stylesheets are ~116KB combined and only apply to manual
- * pages, so they're scoped here rather than to the Compass parent —
- * /workflows, /blog, /compass/answers, /templates,
- * etc. don't pay their cost. Truly-global rules (cream canvas, root
- * font-size, body grain) live in `/public/compass-globals.css` and
- * are loaded by the Compass + Templates parent layouts.
+ *   • `app/globals.css`        — Mantle tokens, `body:has(.manual-shell)`
+ *                                paper canvas + grain overlay (ported
+ *                                from the legacy `/public/compass-
+ *                                manual.css`), header chrome rules
+ *   • `@/compass/styles/index.css` — `.manual-section` prose recipe,
+ *                                v2 callout chrome, code fence tile
+ *
+ * The legacy stylesheets that used to load here (`compass-manual-
+ * base.css` for the site-header / mega-menu / sidebar / card recipes
+ * shared with the old static index pages, and `compass-manual.css`
+ * for `.manual-section table/p/h2` overrides) are retired. They
+ * carried duplicate prose rules that competed with `prose.css` and
+ * referenced tokens (`--border-soft`, `--text-secondary`) that no
+ * longer load on the manual route, which broke tables and callout
+ * body typography. Single source of truth now lives in `compass/
+ * styles/` + `app/globals.css`.
+ *
+ * Kept as a discrete route-segment file so a future manual-only
+ * layout treatment (per-manual fonts, custom drawer, etc.) can
+ * land here without touching the parent.
  */
 export default function ManualRouteLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  return (
-    <>
-      {/* eslint-disable-next-line @next/next/no-css-tags */}
-      <link rel="stylesheet" href="/compass-manual-base.css" />
-      {/* eslint-disable-next-line @next/next/no-css-tags */}
-      <link rel="stylesheet" href="/compass-manual.css" />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

@@ -3,6 +3,16 @@ import { Geist, Geist_Mono, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE_ORIGIN } from "@/compass/lib/seo";
 import "./globals.css";
+// Compass prose + callout styles — loaded at the root so every
+// Compass surface (listing, detail, manual chapter) resolves the
+// same `.manual-section` / `.workflow-content` / `.insight-content`
+// / `.compass-content` recipes from a single source of truth.
+// Previously scoped to `app/compass/layout.tsx` + `app/templates/
+// layout.tsx`, which meant manual chapter pages relied on the
+// legacy `/public/compass-manual.css` for prose typography and got
+// no v2-callout chrome at all (since `compass/styles/callouts.css`
+// only loaded on `/compass/*`).
+import "@/compass/styles/index.css";
 
 /* Compass type system, all via `next/font/google` so fonts ship
    self-hosted, no extra DNS lookups, zero-CLS, and the per-route

@@ -1,4 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { Cmd } from "@/compass/components/shared/Cmd";
+import { CodeFence } from "@/compass/components/shared/CodeFence";
 
 function slugifyHeading(node: ReactNode): string {
   const text = textFrom(node);
@@ -28,6 +30,8 @@ function HeadingWithId({
 }
 
 export const insightMdxComponents = {
+  Cmd,
+  pre: CodeFence,
   h2: (props: ComponentPropsWithoutRef<"h2">) => (
     <HeadingWithId Tag="h2" {...props} />
   ),

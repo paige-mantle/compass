@@ -1,13 +1,24 @@
 import Link from "next/link";
 import type { InsightMeta } from "../../lib/insights/content";
+import { CARD_LABEL_BOX_CLASS } from "../../lib/card-accents";
+import { formatShortDate, truncateSentences } from "../../lib/format-date";
+import { MetaDot } from "../shared/MetaDot";
 
 /**
  * Insight card grid — listing surface for `/blog`.
  *
- * Same shape as `TemplateCardGrid` / `WorkflowCardGrid` but without
- * the `blockColor` variant — insight cards all use a neutral dark
- * surface (`--color-surface-higher`) with a subtle accent glow.
- * Title sits at top, ribbon tag bottom, then summary + date below.
+ * Layout standardised with `WorkflowCardGrid` + `TemplateCardGrid`:
+ * each card has a hero block (16:9) at top with title + tag, then a
+ * body block below with the excerpt + meta row (author · date).
+ * Insight cards keep the dark warm-glow hero (insights don't carry
+ * per-card accent colors) but otherwise share the recipe so the
+ * three listing grids feel like one family of cards.
+ *
+ * Excerpts on the listing are clamped to two sentences via
+ * `truncateSentences` so a long authored `summary` doesn't blow up
+ * a card's height. Dates render in short-form ("MAR 3 24") via
+ * `formatShortDate`. Author name comes from frontmatter and is
+ * always shown when set — readers want a byline at first glance.
  */
 export function InsightCardGrid({ insights }: { insights: InsightMeta[] }) {
   return (
@@ -23,17 +34,25 @@ export function InsightCardGrid({ insights }: { insights: InsightMeta[] }) {
 }
 
 function InsightCard({ insight }: { insight: InsightMeta }) {
+  const excerpt = truncateSentences(insight.summary, 2);
+  const shortDate = formatShortDate(insight.date);
   return (
     <Link
       href={`/blog/${insight.slug}`}
-      className="group flex flex-col gap-4 no-underline text-fg-high"
+      className="
+        group flex flex-col no-underline text-fg-high
+        rounded-xl overflow-hidden
+        border border-edge-medium hover:border-edge-high
+        transition-colors duration-200
+      "
     >
+      {/* Hero block — edge-to-edge inside the framed card.
+          `rounded-xl` is stripped from the inner since the outer
+          `overflow-hidden` already clips to the card's radius. */}
       <div
         className={[
-          "relative aspect-[16/9] overflow-hidden rounded-xl",
+          "relative aspect-[16/9]",
           "flex flex-col justify-between p-7",
-          "transition-transform duration-200 ease-out",
-          "group-hover:-translate-y-[3px]",
           "bg-[var(--color-surface-higher)] text-fg-high",
         ].join(" ")}
         style={{
@@ -41,32 +60,54 @@ function InsightCard({ insight }: { insight: InsightMeta }) {
             "radial-gradient(circle at 30% 30%, rgba(255,187,83,0.10), transparent 55%), radial-gradient(circle at 75% 75%, rgba(150,118,255,0.18), transparent 55%)",
         }}
       >
-        <h3 className="m-0 font-heading text-[28px] font-medium leading-[1.1] tracking-tight text-fg-high">
+        <h3 className="m-0 font-heading text-3xl font-medium leading-[1.1] tracking-tight text-fg-high">
           {insight.title}
         </h3>
         {insight.ribbon ? (
           <div className="flex flex-wrap gap-2">
-            {/* Tag pill — same recipe as the "Works with" tags on
-                method/template detail pages. */}
-            <span className="inline-flex items-center rounded-md border border-edge-high/60 bg-surface-high px-2.5 py-1 text-[12.5px] font-medium text-fg-high">
+            {/* Insight tag — canonical card-label box recipe + the
+                dark-surface tone (hairline + surface-high bg + high
+                ink). Same recipe shared with every other card pill
+                across Compass. Frontmatter `ribbon` doubles as the
+                tag — insights only ship one tag per piece. */}
+            <span
+              className={`${CARD_LABEL_BOX_CLASS} border border-edge-high/60 bg-surface-high text-fg-high`}
+            >
               {insight.ribbon}
             </span>
           </div>
         ) : null}
       </div>
 
-      {insight.summary ? (
-        <p className="m-0 max-w-[44ch] font-sans text-base leading-[1.45] text-fg-medium">
-          {insight.summary}
-        </p>
-      ) : null}
+      {/* Card body — excerpt + author/date meta. Padding matches the
+          workflow + template grids (`p-5`) so the three listing
+          surfaces share the same gutter rhythm. `line-clamp-2` on
+          the excerpt caps any leftover overflow at two visual lines
+          so a too-long authored `summary` can't blow up card height
+          even if `truncateSentences` missed it. */}
+      <div className="flex flex-col gap-3 p-5">
+        {excerpt ? (
+          <p className="m-0 max-w-[44ch] font-sans text-base leading-[1.45] text-fg-medium line-clamp-2">
+            {excerpt}
+          </p>
+        ) : null}
 
-      {insight.date ? (
-        <div className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-fg-low">
-          <span>Added</span>
-          <time>{insight.date}</time>
-        </div>
-      ) : null}
+        {/* Meta row — author + date on a single sans-serif line.
+            Separator dot ("·") sits between the two tokens; renders
+            only when both are present so a missing author doesn't
+            leave an orphan dot before the date. Sans-serif +
+            case-preserved so the canonical "May 13, 2026" date
+            format reads correctly. Was uppercase mono — forced
+            "MANTLE TEAM · MAY 13, 2026", which felt over-loud once
+            the date stopped being a compact code. */}
+        {(insight.author || shortDate) ? (
+          <div className="flex items-center font-sans text-sm text-fg-low">
+            {insight.author ? <span>{insight.author}</span> : null}
+            {insight.author && shortDate ? <MetaDot /> : null}
+            {shortDate ? <time>{shortDate}</time> : null}
+          </div>
+        ) : null}
+      </div>
     </Link>
   );
 }

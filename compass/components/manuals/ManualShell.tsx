@@ -1,29 +1,12 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import type { ManualManifest, ManualSection } from "../../lib/manuals/content";
-import { ManualCopyLink } from "./ManualCopyLink";
-import { ManualShareButton } from "./ManualShareButton";
+import { MANUAL_COVERS } from "../../lib/manuals/content";
+import { CARD_ACCENT_VALUE, CARD_TEXT_COLOR } from "../../lib/card-accents";
 import { ManualShareSection } from "./ManualShareSection";
 import { ManualMobileNav } from "./ManualMobileNav";
-import { CompassPromptHeading } from "../shared/CompassPromptHeading";
-
-/**
- * Pretty-print a frontmatter date string (`YYYY-MM-DD`) as
- * `MONTH DD, YYYY` (e.g. `MAY 12, 2026`). Used in the top bar
- * PromptHeading. Falls back to the raw input on parse failure.
- */
-function formatPublishDate(raw: string): string {
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
-  if (!m) return raw.toUpperCase();
-  const [, y, mo, d] = m;
-  const date = new Date(`${y}-${mo}-${d}T00:00:00Z`);
-  if (Number.isNaN(date.getTime())) return raw.toUpperCase();
-  const month = date.toLocaleString("en-US", {
-    month: "long",
-    timeZone: "UTC",
-  });
-  return `${month.toUpperCase()} ${parseInt(d, 10)}, ${y}`;
-}
+import { CoverArt } from "./CoverArt";
+import { COMPASS_PIXEL_LABEL_CLASS } from "../shared/compass-pixel-label";
 
 function hrefFor(manualSlug: string, s: ManualSection) {
   return `/manuals/${manualSlug}/${s.slug ? s.slug + "/" : ""}`;
@@ -108,12 +91,19 @@ function PrevNextLink({
           is wayfinding, not headline content. Optional `number`
           ordinal renders ahead of (prev) / after (next) the title
           in muted ink so the chapter index reads quietly. */}
+      {/* Title row — hover swaps text to `--manual-accent` so the
+          prev/next cards advertise the manual's identity color.
+          Was hardcoded to `text-accent` (Mantle gold) which clashed
+          on cool-accented manuals (Shape = purple, future Build =
+          teal). Reads the same CSS var the rail + active chapter
+          + progress bar use, so every manual-accent surface stays
+          in lockstep. */}
       <span
         className={[
           "inline-flex items-baseline gap-2",
           "font-heading text-xl font-medium leading-snug tracking-tight",
           "text-fg-high transition-colors duration-150",
-          "group-hover:text-accent",
+          "group-hover:text-[var(--manual-accent)]",
           "md:text-2xl",
           isPrev ? "" : "justify-end max-[720px]:justify-start",
         ].join(" ")}
@@ -183,7 +173,6 @@ export function ManualShell({
   currentIndex,
   prev,
   next,
-  lastUpdated,
   summary,
   children,
 }: {
@@ -192,25 +181,59 @@ export function ManualShell({
   currentIndex: number;
   prev: ManualSection | null;
   next: ManualSection | null;
-  lastUpdated?: string;
   /** Hero subheading — pulled from chapter MDX frontmatter
       (`summary` field). Falls back to a placeholder. */
   summary?: string;
   children: ReactNode;
 }) {
-  const accent = manifest.accent ?? "#9676FF";
+  /* Look up the cover-grid entry for this manual to get the SVG
+     motif + canonical CardAccent name. The motif drives the cover
+     illustration rendered in the hero; the CardAccent name maps to
+     `CARD_TEXT_COLOR` so the hero title picks the right
+     dark-on-light / light-on-dark ink for the colored plate. */
+  const cover = MANUAL_COVERS.find((c) => c.slug === manifest.slug);
+  /* Manual accent is driven by `cover.accent` (the canonical
+     CardAccent name) — NOT `manifest.accent` (hex). Two reasons:
+     (1) the cover-grid plate and the manual rail must read as one
+     surface, and the rail color drifts if the manifest's hex
+     doesn't match the cover's resolved color; (2) the
+     dark-on-light / light-on-dark ink pairing comes from
+     `CARD_TEXT_COLOR[cover.accent]`, which is keyed by the same
+     CardAccent name — sharing that key keeps the rail background
+     and the rail label color in lockstep across every manual. */
+  const accent = cover
+    ? CARD_ACCENT_VALUE[cover.accent]
+    : manifest.accent ?? "#9676FF";
+  const heroTextColor = cover
+    ? CARD_TEXT_COLOR[cover.accent]
+    : "var(--color-card-fg-dark)";
   return (
     // `manual-shell` is preserved on the root because:
     // (1) ManualMobileNav's effect targets it via querySelector to set
     //     data-mobile-nav-open, which the sidebar reads to slide in/out;
     // (2) `body:has(.manual-shell)` in manual.css applies the page-level
     //     paper-grain background, and bumping `html` font-size to 14px.
-    <main
+    //
+    // Rendered as a `<div>` (not `<main>`) because the consuming page
+    // now wraps it in `<CompassLayout>`, which already provides the
+    // outer `<main>`. Two nested mains would break landmark semantics.
+    <div
       className="manual-shell relative max-w-none overflow-visible"
       data-manual={manifest.slug}
       data-section={current.slug || "intro"}
       style={
         {
+          // Canonical Compass name — every callout, prose treatment,
+          // and table style in `compass/styles/{prose,callouts}.css`
+          // reads `var(--manual-accent)` and inherits the current
+          // chapter colour automatically.
+          "--manual-accent": accent,
+          "--manual-accent-soft": `color-mix(in srgb, ${accent} 18%, transparent)`,
+          "--manual-accent-glow": `color-mix(in srgb, ${accent} 30%, transparent)`,
+          // Legacy aliases — consumed by `/public/compass-base.css`
+          // and `/public/compass-manual-base.css` (site-header,
+          // mega-menu, manual chrome). Drop these when those legacy
+          // stylesheets are retired in the Astro migration.
           "--gold": accent,
           "--gold-high": accent,
           "--gold-soft": `color-mix(in srgb, ${accent} 18%, transparent)`,
@@ -218,22 +241,39 @@ export function ManualShell({
         } as CSSProperties
       }
     >
-      <div className="block ml-[370px] max-[860px]:ml-0">
-        {/* Vertical brand rail — accent-colored strip pinned to far left. */}
+      {/* Article column — left-margin matches the combined width
+          of the brand rail (56px = w-14) + the TOC sidebar
+          (288px = w-72) = 344px. Collapses on mobile when the
+          sidebar slides off-canvas. */}
+      <div className="block ml-[344px] max-[860px]:ml-0">
+        {/* Vertical brand rail — accent-colored strip pinned to far
+            left. Manual pages now suppress the global `<CompassHeader />`
+            (passed `showHeader={false}` on `<CompassLayout>`), so the
+            rail starts at `top-0` and runs the full viewport height.
+            The manual's TOC sidebar to its right IS the navigation;
+            adding a top bar on top would be double-chrome. */}
+        {/* Brand rail — fills with the manual's `--manual-accent`
+            (sourced from `cover.accent` — Clarity = orange, Shape =
+            purple, etc.) so each manual's chrome shares its cover
+            plate's color. Label text picks dark-on-light or
+            light-on-dark ink via `CARD_TEXT_COLOR[cover.accent]`
+            (same map the hero plate uses) so contrast can't drift.
+            Previously this was a single Mantle purple across every
+            manual; that decoupled the chrome from the cover plate
+            and made the rail feel detached from the page identity. */}
         <aside
           aria-hidden="true"
           className="
-            fixed left-0 top-0 z-[1] flex h-screen w-[50px] flex-col
-            items-center border-r border-fg-medium/25
+            fixed left-0 top-0 z-[1] flex w-14 flex-col h-screen
+            items-center border-r border-edge-medium
+            bg-[var(--manual-accent)]
             max-[860px]:hidden
           "
-          style={{ background: "var(--gold)" }}
         >
           <Link
             href="/manuals"
             aria-label="Back to Manuals"
             className="block h-12 w-12 flex-none"
-            style={{ background: "var(--gold)" }}
           >
             <img
               src="/mantle-logo-dark.svg"
@@ -244,9 +284,13 @@ export function ManualShell({
           <span
             className="
               mt-10 mb-6 whitespace-nowrap font-heading text-2xl font-medium
-              tracking-tight text-fg-high
+              tracking-tight
             "
-            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+            style={{
+              writingMode: "vertical-rl",
+              transform: "rotate(180deg)",
+              color: heroTextColor,
+            }}
           >
             {manifest.title}
           </span>
@@ -254,97 +298,111 @@ export function ManualShell({
 
         <ManualMobileNav />
 
-        {/* Dark TOC sidebar — fixed to viewport, scrolls internally. On
-            mobile slides off-canvas; ManualMobileNav toggles
-            data-mobile-nav-open on the shell to slide it in. */}
+        {/* Manual TOC sidebar — fixed to viewport, scrolls internally.
+            Starts at `top-0` since manual pages don't render the
+            global `<CompassHeader />`. New chrome recipe:
+              • `bg-surface-high` (#110F14) for the panel surface
+              • `border-r border-edge-medium` for the right edge
+              • `w-72` (288px) width
+            Nav rows are pill-shaped (`rounded-md`) inside a padded
+            `px-3 space-y-1` container so each row reads as a discrete
+            link rather than a full-bleed table row.
+            On mobile the sidebar slides off-canvas; `ManualMobileNav`
+            toggles `data-mobile-nav-open` on `.manual-shell` to slide
+            it back in. */}
         <aside
           aria-label="Manual sections"
           className="
-            fixed left-[50px] top-0 z-[65] flex h-screen w-[320px] flex-col
-            overflow-y-auto bg-surface-lowest
+            fixed left-14 top-0 z-[65] flex w-72 flex-col h-screen
+            overflow-y-auto
+            bg-surface-high border-r border-edge-medium
             transition-transform duration-200 ease-out
             max-[860px]:left-0 max-[860px]:max-w-[86vw] max-[860px]:-translate-x-[105%]
             [[data-mobile-nav-open=true]_&]:translate-x-0
-            [[data-mobile-nav-open=true]_&]:shadow-[0_0_0_1px_rgba(255,255,255,0.1),30px_0_60px_-10px_rgba(0,0,0,0.6)]
+            [[data-mobile-nav-open=true]_&]:shadow-[0_0_0_1px_var(--color-edge-high),30px_0_60px_-10px_rgba(0,0,0,0.6)]
           "
         >
-          <div
-            className="
-              flex h-[50px] flex-none flex-row items-center gap-2 border-b
-              border-white/10 px-[22px]
-            "
-          >
-            <h2 className="m-0 font-heading text-lg font-medium leading-tight tracking-tight text-white">
+          {/* Sidebar header — "Manual contents" eyebrow. Sits flush
+              at the top of the panel with a hairline divider below
+              that lines up with the manual content column's first
+              border-row. */}
+          <div className="flex h-14 flex-none flex-row items-center border-b border-edge-medium px-6">
+            <h2 className="m-0 font-heading text-base font-medium leading-tight tracking-tight text-fg-high">
               Manual contents
             </h2>
           </div>
 
-          <nav className="flex flex-col">
+          {/* ─────────────────────────────────────────────────────
+              Sidebar chapter links — design intent (LOCKED).
+              ─────────────────────────────────────────────────────
+              The ONLY allowed transition is `transition-colors`
+              (~150ms default). Hover swaps `bg` → `surface-higher`
+              and `text` → `fg-high`. That's it.
+
+              Do not add:
+                • scale / transform on hover (`hover:scale-*`,
+                  `hover:translate-*`)
+                • underline on hover (this is an editorial nav,
+                  not a body link)
+                • a leading icon, chevron, or status dot
+                • a left-border or pseudo-element indicator bar on
+                  the active row
+                • an enter / exit animation on the active row
+
+              Active row is a filled `bg-surface-higher` rectangle
+              + purple chapter number (`text-accent-alt-high`,
+              #9676FF). The fill IS the indicator — nothing else
+              needed.
+              ───────────────────────────────────────────────────── */}
+          <nav className="flex-1 px-3 py-4 space-y-1">
             {manifest.sections.map((s, i) => {
               const active = s.slug === current.slug;
-              // Numbering — Reality=0, Shape=1, etc. Intro is X.0 and
-              // chapters are X.1, X.2, ... (i is the section index in
-              // the manifest; intro lives at index 0, so the math
-              // `${manifest.number}.${i}` produces X.0, X.1, X.2 …).
+              /* Section numbering — intro lives at index 0 and renders
+                 as X.0; subsequent chapters render as X.1, X.2, …
+                 (X = `manifest.number`). */
               const sectionNumber = `${manifest.number}.${i}`;
               return (
                 <Link
                   key={s.slug || "intro"}
                   href={hrefFor(manifest.slug, s)}
                   className={[
-                    // Lower-contrast row divider (was /10 → /5) so the
-                    // sidebar reads as one continuous surface; active
-                    // row contrast bumped (was /[0.04] → /[0.08]) so
-                    // the current section reads at a glance.
-                    "flex items-baseline gap-2 border-b border-white/5",
-                    "px-5 py-3 text-sm no-underline",
+                    "flex items-center gap-3 px-3 py-2 rounded-md no-underline",
                     "transition-colors duration-150",
                     active
-                      ? "bg-white/[0.08] text-white"
-                      : "text-white/70 hover:bg-white/[0.04] hover:text-white",
+                      ? "bg-surface-higher text-fg-high"
+                      : "text-fg-medium hover:bg-surface-higher hover:text-fg-high",
                   ].join(" ")}
                 >
                   <span
                     className={[
-                      "flex-none font-mono text-sm font-normal tracking-wider tabular-nums",
-                      active ? "" : "text-white/45",
+                      "flex-none font-mono text-xs tracking-wider tabular-nums",
+                      active ? "text-[var(--manual-accent)]" : "text-fg-low",
                     ].join(" ")}
-                    style={active ? { color: "var(--gold)" } : undefined}
                   >
                     {sectionNumber}
                   </span>
-                  <span className="flex-1 text-base">{s.title}</span>
+                  <span className="flex-1 text-sm">{s.title}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Progress module — quieter than the rest of the sidebar:
-              dimmer divider, lighter ink, lower bar-track opacity. The
-              module is informational, not navigational, so it
-              shouldn't compete with the section links above it. */}
-          <div
-            className="
-              mt-auto flex-none border-t border-white/5 bg-surface-lowest
-              px-[22px] pb-6 pt-5 opacity-70
-            "
-          >
-            <div
-              className="
-                mb-3 flex items-baseline justify-between font-mono text-xxs
-                font-medium uppercase tracking-wider text-white/40
-              "
-            >
+          {/* Progress module — quiet footer showing where the reader
+              is in the manual. Fill reads `--manual-accent` so the
+              bar shares the manual's identity color (Clarity =
+              orange, Shape = purple, etc.), matching the active
+              chapter number above and the rail at the far left. */}
+          <div className="flex-none border-t border-edge-medium px-6 pt-5 pb-6">
+            <div className={`mb-3 flex items-baseline justify-between ${COMPASS_PIXEL_LABEL_CLASS} text-fg-lower`}>
               <span>Progress</span>
-              <span className="text-white/60">
+              <span className="text-fg-medium">
                 {currentIndex + 1} / {manifest.sections.length}
               </span>
             </div>
-            <div className="h-1 overflow-hidden bg-white/5">
+            <div className="h-1 overflow-hidden rounded-full bg-edge-medium">
               <div
-                className="h-full transition-[width] duration-200"
+                className="h-full bg-[var(--manual-accent)] transition-[width] duration-200"
                 style={{
-                  background: "var(--gold)",
                   width: `${((currentIndex + 1) / manifest.sections.length) * 100}%`,
                 }}
               />
@@ -358,78 +416,113 @@ export function ManualShell({
             least the visible viewport so the nav can be pushed down;
             the body section grows via `flex-1` to fill any slack.
 
-            `compass-light-theme` re-scopes fg/surface/edge tokens to
-            light values for the article subtree (defined in
-            app/globals.css @layer base): `--color-fg-high` → near-
-            black, `--color-surface-medium` → white. The hero title
-            number prefix, h1, subheading, and the prose below all
-            consume `text-fg-high` / `text-fg-medium` utilities which
-            now resolve to dark text on a light surface. The dark
-            sidebar (TOC + brand rail) is a SIBLING of <article>, not
-            a descendant, so the scope doesn't bleed into it — its
-            own `bg-surface-lowest` + explicit `text-white` classes
-            keep it dark. */}
-        <article className="compass-light-theme flex min-h-[calc(100vh-50px)] flex-col">
-          {/* Hero header — no background tint; blends into the page
-              surface so the hero reads as a continuation of the body
-              content rather than an inset panel. Single bottom hairline
-              still separates it from the prose below. We deliberately
-              skip `manual-hero--light` here — that class in
-              compass-manual.css applies a cream tint, which we now
-              suppress so the hero stays flat with the content. */}
-          <header className="relative border-b border-fg-medium/20">
-            {/* Top bar — PromptHeading-style date on the left, Copy /
-                Share docked on the right. Lower contrast than the body
-                hairlines so the eye lands on the title cluster first. */}
-            <div className="relative z-[1] flex h-12 items-center justify-between border-b border-fg-medium/10 px-6 text-fg-medium/70">
-              {lastUpdated ? (
-                <CompassPromptHeading
-                  text={formatPublishDate(lastUpdated)}
-                  color="fg"
-                />
-              ) : (
-                <span aria-hidden="true" />
-              )}
-              <span className="inline-flex items-center gap-2">
-                <ManualCopyLink />
-                <ManualShareButton />
-              </span>
-            </div>
-
-            {/* Hero — both intro and chapters share the same template:
-                number prefix (X.0 for intro, X.Y for chapters) plus a
-                big h1. Same type scale across the board (text-5xl →
-                text-7xl) so the cover and the chapters look like the
-                same family — the manifest title sits in place of a
-                chapter title on the intro. 7/5 split at lg+ (Section
-                hero recipe): number + title cluster on left col-span-7,
-                subheading on right col-span-5. Top-aligned
-                (lg:items-start) so the subheading reads at the top of
-                its column. Stacks on mobile. */}
-            <div className="relative z-[1] block px-12 py-12 max-[720px]:px-8 max-[720px]:py-10">
-              <div className="flex flex-col gap-6 lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start">
-                <div className="flex items-baseline gap-12 max-[720px]:gap-6 lg:col-span-7">
+            Article column runs on the canonical Mantle DARK
+            surface (`bg-surface-medium` = #0C0A0E) — same dark mode
+            as the rest of Compass. The previous `compass-light-theme`
+            paper canvas was retired so manual chapters read as one
+            visual identity with the workflow / template / insight
+            surfaces. Prose / fg / edge tokens stay on their
+            dark-theme values; the hero gets the colored cover plate
+            on top of that dark canvas as a deliberate accent. */}
+        <article className="relative bg-surface-medium flex min-h-[calc(100vh-50px)] flex-col">
+          {/* Chapter title + subheading.
+              Was a wrapping `<header>` element that also carried a
+              date + copy/share top-bar — removed in the cleanup pass.
+              The page-level `<header>` is now `<CompassHeader />`
+              rendered by `<CompassLayout>`; date/share affordances
+              live at the bottom of the chapter via
+              `<ManualShareSection />` so they don't compete with the
+              page chrome at the top. We keep the title + subheading
+              block as a plain `<div>` so the chapter still leads with
+              its name + summary, but it semantically belongs to the
+              article body, not the page header.
+              7/5 split at lg+ (Section hero recipe): number + title
+              cluster on left col-span-7, subheading on right
+              col-span-5. Stacks on mobile. */}
+          {/* Chapter hero — colored cover plate + dot-grid texture +
+              cover illustration (when available). Mirrors the
+              `ManualCoverGrid` cover-card recipe so a manual page's
+              hero reads as the editorial "expansion" of its cover:
+              same `--manual-accent` background, same radial-gradient
+              dot-grid, same SVG motif. The illustration sits on the
+              right (col-span-5) so the chapter number + title cluster
+              on the left has full breathing room.
+              Text color is picked via the canonical accent → ink
+              map (`CARD_TEXT_COLOR`) so the title contrast pairs
+              correctly with the plate hue (dark ink on warm gold,
+              white on deep purple, etc.). On mobile the
+              illustration stacks below the title. */}
+          <div
+            className="relative z-[1] block overflow-hidden border-b border-edge-medium px-12 py-12 max-[720px]:px-8 max-[720px]:py-10"
+            style={{
+              backgroundColor: accent,
+              backgroundImage:
+                "radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px)",
+              backgroundSize: "6px 6px",
+              color: heroTextColor,
+            }}
+          >
+            <div className="relative z-[2] flex flex-col gap-6 lg:grid lg:grid-cols-12 lg:gap-8 lg:items-center">
+              {/* Manual chapter title row. `font-display` (Geist
+                  Pixel Line) stays as the deliberate identity for
+                  manual-section H1s; every other Compass H1 uses
+                  `font-heading` (Manrope) via `COMPASS_H1_CLASS`.
+                  Title + chapter-number ink resolves through inline
+                  `currentColor` so it picks up the right contrast
+                  vs the plate (dark on light accents, white on
+                  dark). */}
+              <div className="flex flex-col gap-4 max-[720px]:gap-3 lg:col-span-7">
+                <div className="flex items-baseline gap-12 max-[720px]:gap-6">
                   <span
                     aria-hidden="true"
-                    className="font-display text-5xl md:text-7xl font-normal leading-tightest tracking-tight text-fg-high/40 tabular-nums"
+                    className="font-display text-5xl md:text-7xl font-normal leading-tighter tracking-tight tabular-nums"
+                    style={{ color: heroTextColor, opacity: 0.4 }}
                   >
                     {`${manifest.number}.${currentIndex}`}
                   </span>
-                  <h1 className="m-0 font-display text-5xl md:text-7xl font-normal leading-tightest tracking-tight text-fg-high">
+                  <h1
+                    className="m-0 font-display text-5xl md:text-7xl font-normal leading-tighter tracking-tight"
+                    style={{ color: heroTextColor }}
+                  >
                     {current.isIntro ? manifest.title : current.title}
                   </h1>
                 </div>
 
-                {/* Subheading — reads from chapter frontmatter
-                    `summary` field. Top-aligned at lg+ (no
-                    self-end), stacks below on mobile. */}
-                <p className="m-0 font-sans text-lg font-normal leading-snug text-fg-medium lg:col-span-5 max-w-[40ch]">
+                {/* Subheading — pulled from chapter frontmatter
+                    `summary`. Lives inside the title column so it
+                    stays left-aligned under the chapter title; the
+                    cover illustration takes the right column. */}
+                <p
+                  className="m-0 font-sans text-lg font-normal leading-snug max-w-[40ch]"
+                  style={{ color: heroTextColor, opacity: 0.7 }}
+                >
                   {summary ??
                     "A short two-line subheading that sets up what this chapter is about and why it matters in this part of the manual."}
                 </p>
               </div>
+
+              {/* Cover illustration — same SVG motif rendered on the
+                  manual's cover card. Color follows the plate's
+                  contrast ink so the linework reads against the
+                  accent background without clashing. Hidden when no
+                  matching cover entry exists (manuals not in
+                  `MANUAL_COVERS`). On mobile the illustration sits
+                  below the title cluster in normal flow. */}
+              {cover ? (
+                <div
+                  className="
+                    lg:col-span-5 flex items-center justify-center
+                    aspect-[4/3] max-h-[280px] w-full overflow-hidden
+                    max-[720px]:max-h-[200px]
+                  "
+                  style={{ color: heroTextColor, opacity: 0.85 }}
+                  aria-hidden="true"
+                >
+                  <CoverArt motif={cover.motif} />
+                </div>
+              ) : null}
             </div>
-          </header>
+          </div>
 
           {/* Article body — `.manual-section` carries the editorial
               typography rules from compass-content.css + manual.css.
@@ -499,6 +592,6 @@ export function ManualShell({
           </nav>
         </article>
       </div>
-    </main>
+    </div>
   );
 }

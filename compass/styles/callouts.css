@@ -19,7 +19,7 @@
    interactive button rows on Checklist) extend the base shell.
 
    Chapter accent overrides at the bottom of this file flip
-   `--gold` per manual (`accent-foundation`, `accent-shape`, …) so
+   `--manual-accent` per manual (`accent-foundation`, `accent-shape`, …) so
    the callout chrome adopts each chapter's identity color
    automatically — set by `ManualShell` from `manifest.accent`.
 
@@ -37,7 +37,7 @@
    * Founder Shift · generic <Callout>. Same shell, same eyebrow
    * header, same body type — only the label string differs.
    *
-   * `--gold` is a per-manual scope variable set on `.manual-shell`
+   * `--manual-accent` is a per-manual scope variable set on `.manual-shell`
    * from `manifest.accent`, so each manual's callouts pick up its
    * own accent automatically (Reality stays warm gold, Shape gets
    * its accent, etc.). The fallback `#FFBB53` matches
@@ -59,20 +59,24 @@
   .manual-section .notion-callout {
     display: block;
     position: relative;
-    margin: 56px 0 40px !important;
-    padding: 26px 24px 30px !important;
+    /* Tighter outer margin now that the label sits INSIDE the
+       callout as a block at the top instead of floating above the
+       border. Old recipe reserved 56px top to give the floating tag
+       breathing room — the inline-block pattern doesn't need that. */
+    margin: 32px 0 32px !important;
+    padding: 20px 24px 22px !important;
     /* Explicit rgba fallback for browsers that fail the
        `@supports (color: color-mix(in lab, ...))` check Lightning
        CSS auto-adds — without this, the auto-generated fallback
-       picks `var(--gold)` as the substitute, which makes the whole
+       picks `var(--manual-accent)` as the substitute, which makes the whole
        card a solid gold rectangle. The rgba below uses the default
        gold (#FFBB53) at 8% — per-chapter accent override only
        kicks in once the progressive color-mix rule applies. */
     background: rgba(255, 187, 83, 0.08) !important;
-    background: color-mix(in srgb, var(--gold, #FFBB53) 8%, transparent) !important;
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 8%, transparent) !important;
     /* Same rgba fallback for the border (48% of default gold). */
     border: 1px solid rgba(255, 187, 83, 0.48) !important;
-    border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 48%, transparent) !important;
+    border: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 48%, transparent) !important;
     border-radius: var(--rounded-2xl) !important;
     color: var(--color-fg-high);
   }
@@ -90,22 +94,24 @@
     font-size: var(--text-xxs);
     letter-spacing: 0.16em;
     line-height: var(--leading-none);
-    color: color-mix(in srgb, var(--gold, #FFBB53) 55%, var(--color-fg-lower));
+    color: color-mix(in srgb, var(--manual-accent, #FFBB53) 55%, var(--color-fg-lower));
     text-transform: uppercase;
     pointer-events: none;
   }
 
-  /* Floating accent tag at the card's top-left, half-overlapping the
-     top border. Tag bg is the chapter accent; text is a deep
-     in-family color-mix for AA contrast on every accent. */
+  /* Header — sits as a block at the top of the callout (NOT a
+     floating absolute tag like the old recipe). The label is the
+     first thing inside the callout's padding zone; body content
+     follows below it with a clear margin. This pattern removes
+     every positioning-overlap edge case the floating-tag version
+     had (and matches the conventional callout pattern used in
+     Stripe, Linear, Sanity, and most modern docs systems). */
   .manual-section .callout-header {
-    position: absolute !important;
-    top: -11px;
-    left: 18px;
+    position: static;
     display: inline-flex !important;
     align-items: center;
     gap: 0 !important;
-    margin: 0;
+    margin: 0 0 14px;
     padding: 0;
     background: none;
     border: 0;
@@ -117,7 +123,7 @@
   .manual-section .callout-label {
     margin: 0;
     padding: 5px 11px 4px;
-    background: var(--gold, #FFBB53);
+    background: var(--manual-accent, #FFBB53);
     border-radius: var(--rounded-md);
     font-family: var(--font-mono);
     /* CompassPromptHeading mono recipe at --text-xxs (13px), 500,
@@ -128,10 +134,10 @@
     letter-spacing: 0.05em;
     line-height: var(--leading-none);
     text-transform: uppercase;
-    /* Static dark hex instead of `color-mix(in srgb, var(--gold) 20%,
+    /* Static dark hex instead of `color-mix(in srgb, var(--manual-accent) 20%,
        #110f14)`. Tailwind v4 / Lightning CSS auto-generates a
        fallback for color-mix declarations by picking the FIRST color
-       of the mix (`var(--gold)`) as the fallback. For the label, that
+       of the mix (`var(--manual-accent)`) as the fallback. For the label, that
        produces gold-on-gold (invisible text) in any browser that
        fails the `@supports (color: color-mix(in lab, red, red))`
        check Lightning adds — including browsers that support srgb
@@ -187,7 +193,7 @@
     }
     .manual-section .callout-decision-point .callout-fork-option-b {
       padding-left: 28px;
-      border-left: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 32%, transparent);
+      border-left: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 32%, transparent);
     }
   }
   .manual-section .callout-decision-point .callout-fork-option {
@@ -235,7 +241,7 @@
     align-items: start !important;
   }
   .manual-section .callout-founder-shift .callout-shift-arrow {
-    color: color-mix(in srgb, var(--gold, #FFBB53) 55%, transparent);
+    color: color-mix(in srgb, var(--manual-accent, #FFBB53) 55%, transparent);
     flex: none;
     /* SVG line at y=14 in a 28px artwork; kicker baseline lands
        ~17px from column top (mono 12px × leading-looser 1.6).
@@ -285,8 +291,8 @@
   /* ─────────────────────────────────────────────────────────────────
    * Quote callout — `<blockquote>` + `<cite>` inside the shared shell.
    * Gold 3px left bar gives it the editorial pull-quote feel without
-   * losing the bordered-card identity. Geist Pixel display face for
-   * the quote itself; mono attribution underneath.
+   * losing the bordered-card identity. Geist Pixel Grid display face
+   * for the quote itself; mono attribution underneath.
    * ─────────────────────────────────────────────────────────────── */
   .manual-section .callout-quote {
     padding: 34px 32px 30px !important;
@@ -300,14 +306,14 @@
     position: absolute;
     left: 0; top: 0; bottom: 0;
     width: 3px;
-    background: var(--gold, #FFBB53);
+    background: var(--manual-accent, #FFBB53);
     border-radius: 2px;
   }
   .manual-section .callout-quote blockquote {
-    font-family: 'Geist Pixel', var(--font-heading);
+    font-family: 'Geist Pixel Grid', var(--font-heading);
     font-size: var(--text-2xl);
     font-weight: 400;
-    /* Geist Pixel is a pixel-grid face — tighter tracking would
+    /* Geist Pixel Grid is a pixel-grid face — tighter tracking would
        crush the bitmap rhythm; hold at 0. */
     letter-spacing: 0;
     line-height: var(--leading-tight);
@@ -342,7 +348,7 @@
     appearance: none;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 18%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 18%, transparent);
     width: 100%;
     text-align: left;
     cursor: pointer;
@@ -366,12 +372,12 @@
     padding-bottom: 2px;
   }
   .manual-section .callout-checklist .check-item:hover .check-box {
-    border-color: color-mix(in srgb, var(--gold, #FFBB53) 85%, transparent);
+    border-color: color-mix(in srgb, var(--manual-accent, #FFBB53) 85%, transparent);
   }
   .manual-section .callout-checklist .check-box {
     width: 20px;
     height: 20px;
-    border: 1.5px solid color-mix(in srgb, var(--gold, #FFBB53) 65%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 65%, transparent);
     border-radius: var(--rounded-md);
     /* Optical center on the cap height of `text-base` + leading-normal. */
     margin-top: 1px;
@@ -381,15 +387,15 @@
     transition: background 120ms, border-color 120ms;
   }
   .manual-section .callout-checklist .check-item.done .check-box {
-    background: var(--gold, #FFBB53);
-    border-color: var(--gold, #FFBB53);
+    background: var(--manual-accent, #FFBB53);
+    border-color: var(--manual-accent, #FFBB53);
   }
   .manual-section .callout-checklist .check-item.done .check-box::after {
     content: "";
     width: 10px;
     height: 5px;
-    border-left: 1.75px solid color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14);
-    border-bottom: 1.75px solid color-mix(in srgb, var(--gold, #FFBB53) 20%, #110f14);
+    border-left: 1.75px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 20%, #110f14);
+    border-bottom: 1.75px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 20%, #110f14);
     transform: rotate(-45deg) translate(1px, -1px);
   }
   .manual-section .callout-checklist .check-item.done {
@@ -413,7 +419,7 @@
   .manual-section .callout-prompt .prompt-block {
     position: relative;
     background: var(--color-surface-highest);
-    border: 1px solid color-mix(in srgb, var(--gold, #FFBB53) 40%, transparent);
+    border: 1px solid color-mix(in srgb, var(--manual-accent, #FFBB53) 40%, transparent);
     border-radius: var(--rounded-xl);
     padding: 16px 18px;
   }
@@ -432,7 +438,7 @@
     font-size: var(--text-base);
     line-height: var(--leading-normal);
     color: var(--color-fg-medium);
-    caret-color: var(--gold, #FFBB53);
+    caret-color: var(--manual-accent, #FFBB53);
   }
   .manual-section .callout-prompt .prompt-text::placeholder {
     color: var(--color-fg-lower);
@@ -458,7 +464,7 @@
     align-items: center;
     gap: 6px;
     padding: 5px 10px 4px;
-    background: var(--gold, #FFBB53);
+    background: var(--manual-accent, #FFBB53);
     /* Static dark — same Lightning-CSS color-mix fallback issue as
        `.callout-label`. See that rule for the long explanation. */
     color: #110F14;
@@ -475,7 +481,7 @@
   }
   .manual-section .callout-prompt .prompt-copy svg { width: 12px; height: 12px; flex: none; }
   .manual-section .callout-prompt .prompt-copy.is-copied {
-    background: color-mix(in srgb, var(--gold, #FFBB53) 30%, #110f14);
+    background: color-mix(in srgb, var(--manual-accent, #FFBB53) 30%, #110f14);
     /* Hard-coded white — `--color-surface-highest` flipped dark in the
        canonical token migration, which would now collide with the dark
        "copied" bg. White stays correct in both themes. */
@@ -502,20 +508,48 @@
    * source of truth used by the 7 cover SVGs).
    *
    * Apply one of these classes to any ancestor of a callout to swap
-   * `--gold` for that chapter's cover accent. Used on the
-   * `/compass/callouts` demo; real manuals get their accent set from
-   * `manifest.accent` on `.manual-shell` via ManualShell.tsx.
+   * `--manual-accent` to that chapter's cover accent. Used on the
+   * `/compass/callouts` demo page; real manuals get their accent
+   * set from `manifest.accent` on `.manual-shell` via ManualShell.
+   *
+   * Manual 0 (Foundation) was renamed to Clarity in the IA refactor.
+   * The CSS class name is kept (`accent-foundation`) for backwards
+   * compatibility with any older content; new content should use
+   * `accent-clarity`.
    * ─────────────────────────────────────────────────────────────── */
-  .accent-foundation { --gold: var(--cover-accent-orange); }   /* #FFC66E */
-  .accent-shape      { --gold: var(--cover-accent-cyan); }     /* #76E8FF */
-  .accent-build      { --gold: var(--cover-accent-lilac); }    /* #9676FF */
-  .accent-launch     { --gold: var(--cover-accent-warm); }     /* #EFC62A */
-  /* Monetize / Grow pull straight from Mantle's canonical category
-     palette since compass-base.css doesn't (yet) define a green or
-     red `--cover-accent-*` slot. Same source of truth as the rest of
-     the cover-accent stack — both tokens are defined in the
-     `@theme` block at the top of this file. */
-  .accent-monetize   { --gold: var(--color-green-high); }      /* #98FF76 */
-  .accent-grow       { --gold: var(--color-mac-red); }         /* #EE5249 */
-  .accent-operate    { --gold: var(--cover-accent-white); }    /* #FFFFFF */
+  .accent-foundation,
+  .accent-clarity    { --manual-accent: var(--cover-accent-orange); }  /* #FFC66E */
+  .accent-shape      { --manual-accent: var(--cover-accent-cyan); }    /* #76E8FF */
+  .accent-build      { --manual-accent: var(--cover-accent-lilac); }   /* #9676FF */
+  .accent-launch     { --manual-accent: var(--cover-accent-warm); }    /* #EFC62A */
+  /* Monetize / Grow / Operate pull straight from Mantle's canonical
+     category palette since compass-base.css doesn't (yet) define a
+     green or red `--cover-accent-*` slot. Same source of truth as
+     the rest of the cover-accent stack — both tokens are defined in
+     the `@theme` block at the top of `globals.css`. */
+  .accent-monetize   { --manual-accent: var(--color-green-high); }     /* #98FF76 */
+  .accent-grow       { --manual-accent: var(--color-mac-red); }        /* #EE5249 */
+  .accent-operate    { --manual-accent: var(--cover-accent-white); }   /* #FFFFFF */
+
+  /* ─────────────────────────────────────────────────────────────────
+   * Warning callouts — always red, never inherit manual accent
+   * ─────────────────────────────────────────────────────────────────
+   *
+   * The Compass callout system normally inherits the current
+   * `--manual-accent` so each manual reads as one coherent identity.
+   * Exception: callouts in the WARNING family (Reality Check, Common
+   * Failure). Those are safety signals — when a reader sees red, they
+   * stop and read carefully. If we let those drift to the manual
+   * accent (orange/cyan/green/whatever), the danger signal disappears.
+   *
+   * Scoping `--manual-accent` LOCALLY on the warning shell flips every
+   * downstream rule in this file (background, border, label pill,
+   * `::after` designator, body text accent-mixes) to red automatically —
+   * no separate selectors needed. The accent inherits down through the
+   * cascade only inside the warning callout's subtree.
+   * ─────────────────────────────────────────────────────────────── */
+  .manual-section .callout-reality-check,
+  .manual-section .callout-common-failure {
+    --manual-accent: var(--color-mac-red);    /* #EE5249 */
+  }
 }

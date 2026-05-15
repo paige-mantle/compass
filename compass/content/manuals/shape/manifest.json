@@ -17,34 +17,39 @@
       "file": "01-define-the-problem.mdx"
     },
     {
-      "slug": "map-existing-solutions",
-      "title": "Map the existing solutions",
-      "file": "02-map-existing-solutions.mdx"
-    },
-    {
       "slug": "find-your-customer",
       "title": "Find your customer",
-      "file": "03-find-your-customer.mdx"
+      "file": "02-find-your-customer.mdx"
     },
     {
-      "slug": "decide-if-its-worth-building",
-      "title": "Decide if it's worth building",
-      "file": "04-decide-if-its-worth-building.mdx"
+      "slug": "map-the-market",
+      "title": "Map the market",
+      "file": "03-map-the-market.mdx"
     },
     {
-      "slug": "test-demand-without-building",
-      "title": "Test demand without building",
-      "file": "05-test-demand-without-building.mdx"
+      "slug": "explore-distribution",
+      "title": "Explore distribution",
+      "file": "04-explore-distribution.mdx"
     },
     {
-      "slug": "write-your-product-definition",
-      "title": "Write your product definition",
-      "file": "06-write-your-product-definition.mdx"
+      "slug": "shape-the-product",
+      "title": "Shape the product",
+      "file": "05-shape-the-product.mdx"
     },
     {
-      "slug": "name-your-app",
-      "title": "Name your app",
-      "file": "07-name-your-app.mdx"
+      "slug": "test-app-demand",
+      "title": "Test app demand",
+      "file": "06-test-app-demand.mdx"
+    },
+    {
+      "slug": "app-branding-basics",
+      "title": "App branding basics",
+      "file": "07-app-branding-basics.mdx"
+    },
+    {
+      "slug": "whats-next",
+      "title": "What's next",
+      "file": "08-whats-next.mdx"
     }
   ]
 }

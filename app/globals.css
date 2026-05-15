@@ -6,97 +6,13 @@
 
 @import "tailwindcss";
 
-:root {
-  /* Core semantic colors - Light mode */
-  --background: 0 0% 98%;
-  --foreground: 0 0% 9%;
-
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
-
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 3.9%;
-
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 3.9%;
-
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-
-  --primary: 0 0% 9%;
-  --primary-foreground: 0 0% 98%;
-
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
-
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-
-  --ring: 0 0% 3.9%;
-  --radius: 0.5rem;
-}
-
-.dark {
-  /* Core semantic colors - Dark mode */
-  --background: 0 0% 15%; /* #262626 */
-  --foreground: 0 0% 98%;
-
-  --muted: 0 0% 14.9%;
-  --muted-foreground: 0 0% 63.9%;
-
-  --popover: 0 0% 3.9%;
-  --popover-foreground: 0 0% 98%;
-
-  --card: 0 0% 3.9%;
-  --card-foreground: 0 0% 98%;
-
-  --border: 0 0% 14.9%;
-  --input: 0 0% 14.9%;
-
-  --primary: 0 0% 98%;
-  --primary-foreground: 0 0% 9%;
-
-  --secondary: 0 0% 14.9%;
-  --secondary-foreground: 0 0% 98%;
-
-  --accent: 0 0% 14.9%;
-  --accent-foreground: 0 0% 98%;
-
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-
-  --ring: 0 0% 83.1%;
-}
-
-@theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-ring: hsl(var(--ring));
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* The shadcn `:root` / `.dark` block + `@theme inline` bridge that
+   originally lived here (carry-over from the Next.js + shadcn
+   scaffold) has been removed. None of those tokens (--background,
+   --foreground, --muted, --popover, --card, --primary, --secondary,
+   --accent (shadcn flavour), --destructive, --ring, --radius) are
+   referenced by Compass components — every surface uses the
+   Mantle token system declared in the `@theme` block below. */
 
 /* ──────────────────────────────────────────────────────────────
    Mantle design tokens — exact light mirror of the dark theme on
@@ -111,6 +27,15 @@
    ────────────────────────────────────────────────────────────── */
 @theme {
   --spacing: 4px;
+
+  /* Page max-width tokens — mirror the next-gen Mantle `Section`
+     ramp (`max-w-330` / `max-w-240` / `max-w-190` under `--spacing:
+     4px` resolve to the same widths). Defining them as named tokens
+     keeps the symbolic alignment with marketing — call sites use
+     `max-w-page` instead of arbitrary `max-w-[1320px]`. */
+  --max-w-page: 1320px;
+  --max-w-page-narrow: 960px;
+  --max-w-page-x-narrow: 760px;
 
   /* Breakpoints — match Mantle exactly. */
   --breakpoint-xs: 400px;
@@ -133,7 +58,7 @@
   --font-sans:    var(--font-geist-sans, 'Geist'), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono:    var(--font-geist-mono, 'Geist Mono'), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-heading: var(--font-manrope, 'Manrope'), 'Inter var', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-display: 'Geist Pixel Line', var(--font-manrope, 'Manrope'), ui-sans-serif, sans-serif;
+  --font-display: 'Geist Pixel Grid', var(--font-manrope, 'Manrope'), ui-sans-serif, sans-serif;
 
   /* Text scale — px values that match Mantle's RENDERED sizes.
      (Mantle uses rem at a 62.5% root so 1.3rem = 13px; we use a
@@ -217,6 +142,14 @@
   --color-fg-low:    #A2A0B1;
   --color-fg-lower:  #5F5D72;
 
+  /* Dark ink used when foreground text sits on a LIGHT-colored card
+     plate (gold / orange / cyan / warm / green / lime / white / gray
+     accents). Picked once here so every "dark text on a colored
+     surface" recipe shares the same near-black hex — previously
+     reached for as the raw `#0a0810` in `card-accents.ts`,
+     `CompassDetailHero` pills, and the `PILL_CLASS.light` recipe. */
+  --color-card-fg-dark: #0a0810;
+
   /* Surface tiers — Mantle canonical dark-theme ramp.
      `highest` (#1E1C23) is the most prominent / closest surface
      (cards, modals); `lowest` is pure black. */
@@ -249,6 +182,30 @@
   --color-accent-high:   #FFC66E;
   --color-accent-medium: #FFBB53;
   --color-accent-low:    #F5AC3D;
+
+  /* `--manual-accent` is the per-chapter accent token consumed by
+     `compass/styles/{prose,callouts}.css`. ManualShell sets it on
+     `.manual-shell` from `manifest.accent`. Outside a manual scope
+     (callouts demo, embedded callouts in workflows/insights), this
+     root default resolves to the canonical Mantle gold so callouts
+     still render coherently. */
+  --manual-accent:       var(--color-accent-medium);
+  --manual-accent-soft:  color-mix(in srgb, var(--color-accent-medium) 18%, transparent);
+  --manual-accent-glow:  color-mix(in srgb, var(--color-accent-medium) 30%, transparent);
+
+  /* Per-manual cover-series accent tokens. Originally lived in
+     `/public/compass-base.css` as `:root` declarations; moved into
+     `@theme` here so they're available even on routes that don't
+     pull the legacy stylesheet (callouts demo on `/compass/callouts`,
+     embedded callouts inside `/workflows` or `/blog` content, etc.).
+     The 7 covers + their accent assignments are documented in
+     `compass/lib/manuals/content.ts` (MANUAL_COVERS). */
+  --cover-accent-orange: var(--color-orange-high);   /* #FFC66E — Clarity (Manual 0) */
+  --cover-accent-cyan:   var(--color-teal-high);     /* #76E8FF — Shape  (Manual 1) */
+  --cover-accent-lilac:  var(--color-purple-high);   /* #9676FF — Build  (Manual 2) */
+  --cover-accent-warm:   var(--color-mac-yellow);    /* #EFC62A — Launch (Manual 3) */
+  --cover-accent-white:  var(--color-fg-high);       /* #FFFFFF — Operate (Manual 6) */
+  --cover-accent-gold:   var(--color-accent-high);   /* #FFC66E — generic brand gold */
   /* Foreground accent — darker amber tones for TEXT use on the
      light Compass surface. The standard accent ramp above is
      bright gold for solid fills (buttons, M-logo block, card
@@ -272,15 +229,6 @@
      and alt-high; teal/green/mac-* are distinct category colors that
      don't change between themes. These feed per-manual accents,
      callout tints, and any UI surface that picks a color by name. */
-  --color-orange-high: #FFC66E;
-  --color-purple-high: #9676FF;
-  --color-teal-high:   #76E8FF;
-  --color-green-high:  #98FF76;
-  --color-mac-red:     #EE5249;
-  --color-mac-yellow:  #EFC62A;
-  --color-mac-green:   #5CD055;
-
-  /* Category / signal colors — identical to Mantle. */
   --color-orange-high: #FFC66E;
   --color-purple-high: #9676FF;
   --color-teal-high:   #76E8FF;
@@ -340,34 +288,31 @@
    of the dark surface (#0C0A0E).
    ────────────────────────────────────────────────────────────── */
 @layer base {
-  /* Geist Pixel — the Compass display face used on manual covers,
-     the manual ordinal in the hero, and any future "marquee" type
-     treatments. Self-hosted at /public/fonts. Resolved through
-     `--font-display` (declared in @theme above) and Tailwind's
-     `font-display` utility class.
+  /* Geist Pixel Grid — the Compass display face used on manual
+     covers, the manual ordinal in the hero, and any future
+     "marquee" type treatments. Self-hosted at /public/fonts.
+     Resolved through `--font-display` (declared in @theme above)
+     and Tailwind's `font-display` utility class.
 
-     Four variants — only `Geist Pixel Square` ships on disk today
-     (`/public/fonts/GeistPixel-Square.otf`); the Line / Circle /
-     X declarations point at expected paths so the system picks
-     them up automatically as they're added. */
-  @font-face {
-    font-family: "Geist Pixel Line";
-    src: url("/fonts/GeistPixel-Line.otf") format("opentype");
-    font-weight: 100 900;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "Geist Pixel Square";
-    src: url("/fonts/GeistPixel-Square.otf") format("opentype");
-    font-weight: 100 900;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "Geist Pixel Circle";
-    src: url("/fonts/GeistPixel-Circle.otf") format("opentype");
-    font-weight: 100 900;
-    font-display: swap;
-  }
+     **Geist Pixel Grid typeface integration pending** — the font
+     files are not licensed/shipped to `/public/fonts/` yet, so the
+     `--font-display` token currently resolves to Manrope via its
+     fallback chain (`'Geist Pixel Grid', var(--font-manrope),
+     ui-sans-serif, sans-serif`). The visual result on manual
+     chapter H1s + chapter-number kickers is Manrope rendering at
+     `font-display` slots.
+
+     To restore the pixel-art identity:
+       1. Ship the OTF/WOFF2 files to `/public/fonts/`.
+       2. Re-add `@font-face` declarations here pointing at the
+          shipped paths.
+       3. Verify cascade with `getComputedStyle()` on
+          `.manual-section h1`.
+
+     Three earlier `@font-face` declarations pointing at non-
+     existent paths were removed in this pass — they triggered
+     network fetches that 404'd on every page load (visible in dev
+     server logs) and contributed nothing to the rendered output. */
 
   ::selection {
     background-color: var(--color-accent-medium);
@@ -397,9 +342,81 @@
     border-color: var(--color-edge-medium);
   }
 
+  /* Mirror of next-gen `global.css`:
+       *, *::before, *::after { box-sizing: inherit }
+       *                     { box-sizing: border-box }
+     Tailwind's preflight already sets `box-sizing: border-box` on
+     every element, but next-gen restates it inside @layer base so
+     the rule is owned by the layer (and survives any inline reset).
+     Keep parity. */
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+  * {
+    box-sizing: border-box;
+  }
+
+  /* `html` — port of next-gen Mantle marketing-site base styles.
+     `text-[62.5%]` is intentionally NOT applied: the legacy public
+     CSS files (compass-globals.css, compass-manual-base.css) loaded
+     on /compass, /templates, and /manuals/[slug] set their own
+     `html { font-size: 16px }` and use raw `rem` values throughout.
+     Adding 62.5% here would render at one root size on
+     /manuals · /workflows · /blog and another on the legacy-CSS
+     routes. The type scale is encoded in px (see --text-* tokens
+     above) so the rendered pixels match next-gen even without the
+     62.5% trick. Switch to `font-size: 62.5%` once the legacy
+     stylesheets are retired (Astro migration). */
+  html {
+    background-color: var(--color-surface-medium);
+    color: var(--color-fg-medium);
+    box-sizing: border-box;
+    height: 100%;
+    height: -webkit-fill-available;
+    scroll-behavior: smooth;
+  }
+
+  /* Anchor / code / details — mirrors next-gen base resets. Without
+     these, anchors carry the browser-default underline (was
+     suppressed everywhere on a class-by-class basis), `<code>`
+     falls back to UA monospace, and `<details>` shows the native
+     disclosure triangle. */
+  a {
+    text-decoration: none;
+  }
+  code {
+    font-family: var(--font-mono);
+  }
+  details > summary {
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Pointer affordance on interactive controls — mirrors next-gen. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
   hr {
     border-color: var(--color-edge-medium);
   }
+}
+
+/* Mobile menu scroll lock — mirrors next-gen `global.css`. When the
+   mobile nav `<details>` panel opens (`CompassHeader.tsx` mobile
+   drawer), set `html.mobile-nav-open` on the root element to freeze
+   page scroll. Currently the Compass mobile drawer uses the browser-
+   native `details/summary` toggle, so this rule only activates if a
+   future drawer adds the class. Kept for parity. */
+html.mobile-nav-open,
+html.mobile-nav-open body {
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 
@@ -418,6 +435,131 @@
        chapter accent overrides
      • `compass/styles/index.css`    — entry point that imports both
    ────────────────────────────────────────────────────────────── */
+
+/* ──────────────────────────────────────────────────────────────
+   Site header — chrome surface
+   ──────────────────────────────────────────────────────────────
+
+   Ported byte-for-byte from the next-gen Mantle marketing site's
+   `#header` rules (`src/styles/global.css`). The header is rendered
+   by `CompassHeader.tsx` as a fixed-position bar at the top of the
+   viewport. Lives in globals.css (not compass/styles) because it
+   is true global chrome — applies to every Compass route including
+   top-level ones (`/manuals`, `/workflows`, `/blog`) whose layouts
+   don't pull in the Compass-specific stylesheet.
+
+   Behaviour:
+     • <1024px (mobile/tablet): solid `surface-medium` background,
+       no hide-on-scroll. Drawer pattern handles nav.
+     • ≥1024px (desktop): transparent over the hero, fades to
+       `surface-low` on hover, when scrolled past 80px, and while
+       scrolling. Hides (translate-y −100%) while scrolling down,
+       reveals while scrolling up. Body classes
+       (`scrolled-past-threshold`, `scrolled-down`) are toggled by
+       the scroll effect inside `CompassHeader.tsx`.
+   ────────────────────────────────────────────────────────────── */
+
+#header {
+  z-index: 50;
+}
+
+@media (max-width: 1023px) {
+  #header {
+    background-color: var(--color-surface-medium);
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Manual chapter paper canvas
+   ──────────────────────────────────────────────────────────────
+
+   Manual pages (`<main class="manual-shell">` rendered by
+   `ManualShell.tsx`) swap the body from the canonical Compass dark
+   surface to a paper-white canvas with a subtle SVG noise overlay.
+   The `body:has(.manual-shell)` selector scopes the swap so non-
+   manual routes stay on the dark surface.
+
+   Ported from `/public/compass-manual.css` so the legacy stylesheet
+   (which also had conflicting `.manual-section table / p / h2`
+   rules that overrode `compass/styles/prose.css`) can be retired
+   from the manual route layout. Now this single rule provides the
+   paper feel and `prose.css` provides every prose decision.
+   ────────────────────────────────────────────────────────────── */
+
+/* Paper-white body background + grain overlay RETIRED. Manual
+   chapter routes now run on the canonical dark Mantle surface
+   (`bg-surface-medium`, set on the article column itself by
+   `ManualShell.tsx`). The article column, TOC sidebar, and brand
+   rail all carry their own dark surfaces; the body's color is no
+   longer visible anywhere in the manual layout, so the paper canvas
+   + multiply-blend grain that gave the previous "editorial paper"
+   feel were dropped along with the `.compass-light-theme` scope on
+   `<article>`. Add a per-manual dark variant here only if a future
+   manual surface needs body-level chrome again. */
+
+@media (min-width: 1024px) {
+  /* Header chrome reacts to scroll in two ways:
+       1. Background tint deepens as you scroll past the hero
+          (`scrolled-past-threshold`).
+       2. The PRIMARY ROW (Mantle marketing nav) slides up out of
+          view as you scroll DOWN; it slides back on scroll UP. The
+          SECONDARY ROW (Compass section nav) always stays visible
+          inside the header — readers scrolling through content still
+          have the section switcher at the top of the viewport.
+     Earlier the rule translated the entire `#header` up on
+     scroll-down, which hid the section nav too. Targeting only
+     `[data-primary-row]` preserves the secondary row's sticky
+     behaviour. */
+  #header {
+    transition-property: background-color;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  /* `:hover` background-darken on the fixed header was retired —
+     it created a flicker when the cursor crossed the header band
+     during a scroll, and the deeper `surface-low` shade clashed
+     with the scrolled state below. The scroll-past-threshold +
+     scrolled-down rules below still drive the same darken so the
+     visual signal that the user is past the hero remains. */
+  body.scrolled-past-threshold #header,
+  body.scrolled-down #header {
+    background-color: var(--color-surface-low);
+  }
+  body.scrolled-down #header [data-primary-row] {
+    transform: translateY(-100%);
+  }
+  /* When the user scrolls DOWN past the threshold, the primary row
+     translates up out of view (rule above), and this rule slides
+     the secondary row up by the primary row's height (72px on
+     desktop — `md:py-[26px]` × 2 + content) so it lands at the top
+     of the viewport, taking primary's slot. Vercel Docs / Stripe
+     Docs pattern. On scroll-up the body class clears and both rows
+     transition back to their original positions. `transition-
+     transform` is set on `[data-secondary-row]` itself in
+     `CompassHeader` so the slide animates smoothly in both
+     directions. */
+  body.scrolled-down #header [data-secondary-row] {
+    transform: translateY(-72px);
+  }
+  /* Once the user scrolls past the threshold (the secondary row
+     takes the primary row's slot at the top of the viewport),
+     expand the Compass logomark slot from width 0 → 6.5rem. The
+     `<Link data-compass-mark>` element wraps an `<img>` SVG with
+     `overflow-hidden` on the slot, so the logo art is clipped while
+     the slot is narrower than its intrinsic width — the resulting
+     reveal reads as a slide-in from the left. `gap-8` on the parent
+     `<nav>` then carries the section tabs to the right of the
+     logomark automatically; no separate transform is needed. */
+  body.scrolled-down #header [data-secondary-row] [data-compass-mark] {
+    /* 10rem clears the full 192×36 SVG at `h-7` (≈149px) plus a
+       trailing margin so the wordmark doesn't kiss the first tab.
+       Was 6.5rem, which clipped the trailing "Compass" glyphs. */
+    width: 10rem;
+    margin-right: 0;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
 
 /* ──────────────────────────────────────────────────────────────
    Mantle's noise + ambient-glow utilities, ported as-is. The
@@ -481,6 +623,19 @@
 }
 
 [data-footer-ambient] {
+  /* Scope a brighter ambient so the wash actually reads on Compass.
+     The canonical `--color-ambient` is `#241819` (dark warm brown) —
+     on Mantle marketing it shows because the layout sets
+     `--bg-ambient-color` higher up the cascade. Compass doesn't
+     thread `[data-bg-fx-scope]` onto its body, so the gradient
+     fell back to the dark `#241819` and mixed into invisibility
+     against the `surface-low` footer (#08070A). Pinning the
+     element-local override to the Mantle accent gold (`#FFBB53`)
+     restores the warm wash without affecting any other consumer of
+     `--color-ambient`. Opacity stays modest (50% mix + radial
+     fade) so the glow reads as warm light, not a wash of color. */
+  --color-ambient: var(--color-accent-medium);
+
   z-index: 1;
   position: absolute;
   bottom: -100vh;
@@ -494,7 +649,7 @@
     ellipse at center,
     color-mix(
       in oklch,
-      var(--bg-ambient-color, var(--color-ambient)) 50%,
+      var(--bg-ambient-color, var(--color-ambient)) 22%,
       transparent
     )
     0%,
@@ -532,13 +687,22 @@
     border-color: var(--color-edge-medium);
   }
 
-  /* Body — was painting `hsl(var(--background))` / `hsl(var(--foreground))`
-     (shadcn light defaults), so any pixel a Compass component
-     didn't explicitly cover leaked light grey / near-black through.
-     Switch to Mantle canonical (dark surface + white text). */
+  /* Body — port of next-gen Mantle `body` recipe (bg-surface-medium,
+     text-base, antialiased, h-full, leading-normal).
+     Body color stays `--color-fg-high` (#FFFFFF) here — next-gen
+     uses `--color-fg-medium` (#E2E1EB) but Compass components were
+     all authored against a white-on-dark default; switching the
+     fallback to grey would shift the "uncovered pixel" color across
+     every surface. Per-component contrast (`text-fg-medium`,
+     `text-fg-low`) still resolves to the canonical Mantle ramp. */
   body {
     background-color: var(--color-surface-medium);
     color: var(--color-fg-high);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 

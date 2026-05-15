@@ -22,18 +22,18 @@
       "file": "02-who-this-is-for.mdx"
     },
     {
-      "slug": "can-you-build-a-real-business",
-      "title": "Can this be a real business?",
-      "file": "03-can-you-build-a-real-business.mdx"
+      "slug": "build-a-real-app-business",
+      "title": "Can your app become a real business?",
+      "file": "03-build-a-real-app-business.mdx"
     },
     {
-      "slug": "youre-not-just-a-builder",
-      "title": "You're a founder now",
-      "file": "04-youre-not-just-a-builder.mdx"
+      "slug": "builder-to-founder",
+      "title": "From builder to founder",
+      "file": "04-builder-to-founder.mdx"
     },
     {
       "slug": "how-to-use-this-guide",
-      "title": "How to use this guide",
+      "title": "How to use Compass",
       "file": "05-how-to-use-this-guide.mdx"
     }
   ]

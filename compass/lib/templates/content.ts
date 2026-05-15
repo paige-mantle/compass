@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { cache } from "react";
 import matter from "gray-matter";
 
 const CONTENT_ROOT = path.join(process.cwd(), "compass", "content", "templates");
@@ -53,18 +54,36 @@ export type TemplateCodeBlock = {
 export type TemplateFrontmatter = {
   title: string;
   slug: string;
-  description: string;
+  /* Renamed from `description` → `summary` to match the rest of the
+     Compass content models (workflows, insights, manual sections all
+     use `summary`). Reduces the "which field do I use?" cognitive
+     load when authoring new content. Old MDX files using
+     `description:` need to be migrated — there are only 2 today. */
+  summary: string;
+  /* SEO overrides — when set, override auto-generated meta in
+     `app/templates/[slug]/page.tsx`. Same shape as
+     `WorkflowFrontmatter`'s SEO block; populated from the May SEO
+     spreadsheet ("Recommended meta title" / "Meta description" /
+     "OG title" / "OG description"). */
+  metaTitle?: string;
+  metaDescription?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   /** Listing card eyebrow — usually the manual / collection name. */
   ribbon?: string;
   /** Card-block accent — one of the Compass canonical accent names.
    *  Source of truth in `compass/lib/card-accents.ts`. Shared with
    *  method cards + manual covers — same name = same color. */
   blockColor?:
-    | "gold"
-    | "cyan"
-    | "lilac"
-    | "warm"
-    | "red"
+    | "accent"
+    | "accent-alt"
+    | "orange"
+    | "purple"
+    | "teal"
+    | "green"
+    | "mac-red"
+    | "mac-yellow"
+    | "mac-green"
     | "white"
     | "black"
     | "graphite"
@@ -78,6 +97,17 @@ export type TemplateFrontmatter = {
       pills. Distinct from category/format/tools because templates
       often want a denser content-label list. */
   tags?: string[];
+
+  /** Mantle product modules this template touches — rendered as
+      chips in the hero meta card's "Systems" row (e.g. Customers,
+      Email + messaging, Automations, Analytics). Mirrors the
+      `systems` field on workflows so the two surfaces share one
+      meta schema. */
+  systems?: string[];
+
+  /** Free-form "Estimated time" meta — rendered in its own
+      labelled row in the hero meta card (e.g. "15 min"). */
+  estimatedTime?: string;
 
   /** Authoring + provenance (mirrors frameworks). */
   author?: string;
@@ -118,7 +148,10 @@ export type LoadedTemplate = {
 
 /* ─── Loaders ──────────────────────────────────────────────── */
 
-export async function listTemplates(): Promise<TemplateMeta[]> {
+/* Memoized via `cache()` so `generateStaticParams` + `loadTemplate`
+   don't double-scan the filesystem per render. Matches the workflows
+   + insights loaders. */
+export const listTemplates = cache(async (): Promise<TemplateMeta[]> => {
   let entries: string[];
   try {
     entries = await fs.readdir(CONTENT_ROOT);
@@ -136,7 +169,7 @@ export async function listTemplates(): Promise<TemplateMeta[]> {
   }
   items.sort((a, b) => a.title.localeCompare(b.title));
   return items;
-}
+});
 
 export async function loadTemplate(
   slug: string

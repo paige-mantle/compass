@@ -19,7 +19,7 @@
    selection), and the `.compass-light-theme` scope live in
    `app/globals.css` — those affect every page, not just Compass.
 
-   `--gold` is set per-chapter on `.manual-shell` by
+   `--manual-accent` is set per-chapter on `.manual-shell` by
    `ManualShell.tsx` from `manifest.accent`; for non-manual Compass
    surfaces (methods, templates, insights, home), it falls through
    to the canonical `--color-accent-medium` (#FFBB53). Chapter

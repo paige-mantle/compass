@@ -90,28 +90,48 @@ export function CompassSectionNav({
             aria-current={active ? "page" : undefined}
             className={[
               "inline-flex flex-1 items-start gap-1.5 whitespace-nowrap",
-              "px-[18px] py-[18px] no-underline",
+              /* Padding tightened from 18px → 12px vertical / 20px
+                 horizontal so the nav row reads as a section divider,
+                 not a primary CTA bar. Old recipe gave each tab a
+                 ~64px row height which dominated the layout. */
+              "px-5 py-3 no-underline",
               "border-r border-edge-medium last:border-r-0",
-              /* Tracking-tight (-0.025em) matches every other Compass
-                 hero / section title. Use the named utility instead of
-                 an arbitrary value so any tracking-scale change in the
-                 @theme block propagates here. */
-              "font-heading text-[28px] font-medium tracking-tight leading-none",
+              /* `text-2xl` (24px) replaces the previous arbitrary
+                 `text-[28px]` — uses the canonical theme scale so any
+                 future type-ramp change propagates. Tracking-tight
+                 matches every other Compass section title; leading-
+                 none keeps the row compact. */
+              "font-heading text-2xl font-medium tracking-tight leading-none",
               "transition-colors duration-150",
               active
                 ? "text-fg-high"
                 /* Inactive tabs: white text, hover to gold — matches
                    the next-gen `.site-nav > a { color: #fff }` +
                    `.site-nav > a:hover { color: var(--gold) }` recipe
-                   used on every Mantle marketing page. Previously
-                   `text-accent-fg-medium` (#8A3E00, deep orange)
-                   diverged from the rest of the Mantle nav system. */
+                   used on every Mantle marketing page. */
                 : "text-fg-high hover:text-accent",
             ].join(" ")}
           >
             <span>{item.label}</span>
             {item.count != null ? (
-              <span className="mt-1 self-start font-mono text-[11px] text-accent-fg-medium">
+              /* Count badge — mono digit in a soft accent-tinted
+                 pill (`bg-accent/10` backplate, `text-accent`
+                 number). Earlier the count rendered as a tiny
+                 brown-amber superscript using `text-accent-fg-medium`
+                 (#8A3E00) which read as nearly invisible on the
+                 dark hero canvas. Promoted to the canonical Mantle
+                 brand gold (`text-accent` = #FFBB53) with a
+                 translucent pill chrome — same visual recipe as the
+                 Retool resource-nav count badges. */
+              <span
+                className="
+                  ml-1 inline-flex items-center justify-center
+                  min-w-5 h-5 px-1.5
+                  rounded-full bg-accent/10
+                  font-mono text-xxs leading-none text-accent
+                  self-center
+                "
+              >
                 {item.count}
               </span>
             ) : null}

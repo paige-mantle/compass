@@ -1,40 +1,89 @@
-import { CompassLayout } from "@/compass/components/shared/CompassLayout";
-import { CompassIndexHero } from "@/compass/components/shared/CompassIndexHero";
-import { CompassSectionNav } from "@/compass/components/shared/CompassSectionNav";
-import { CompassNewsletter } from "@/compass/components/shared/CompassNewsletter";
+import { CompassListingPage } from "@/compass/components/shared/CompassListingPage";
 import { WorkflowCardGrid } from "@/compass/components/workflows/WorkflowCardGrid";
 import { listWorkflows } from "@/compass/lib/workflows/content";
+import { SITE_ORIGIN } from "@/compass/lib/seo";
+
+/* SEO copy from the May spreadsheet. */
+const TITLE = "AI Workflows for App Builders | Mantle Compass";
+const DESCRIPTION =
+  "Guided AI workflows for validating ideas, improving onboarding, planning campaigns, and running better app systems.";
+const OG_TITLE = "AI workflows for app builders";
+const OG_DESCRIPTION =
+  "Guided workflows for validating ideas, improving onboarding, planning campaigns, and running better app systems.";
+const CANONICAL = `${SITE_ORIGIN}/workflows`;
 
 export const metadata = {
-  title: "Workflows for app builders",
-  description:
-    "Guided workflows for validating ideas, shaping products, making better decisions, and growing your app business.",
-  alternates: { canonical: "/workflows" },
+  /* `absolute` bypasses the `%s | Mantle Compass` template in the
+     root layout — the spreadsheet title already includes the brand. */
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
+  alternates: { canonical: CANONICAL },
+  openGraph: {
+    type: "website",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+    url: CANONICAL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+  },
 };
 
 /**
- * /workflows — listing index for the methods section.
- * Migrated from `public/mantle-compass-frameworks.html` (filename
- * still says "frameworks" — that was the old section name before
- * Methods). Same chrome / hero / section nav as the other Compass
- * listing pages; only the grid is unique.
+ * /workflows — listing index for the workflows section.
+ * Uses `<CompassListingPage>` so chrome (hero, section nav,
+ * newsletter footer) is shared with every other Compass index.
+ * Only the grid is unique.
  */
-export default async function MethodsIndexPage() {
+export default async function WorkflowsIndexPage() {
   const methods = await listWorkflows();
 
+  /* `CollectionPage` + `BreadcrumbList` JSON-LD per the May SEO
+     sheet. Mirrors the rich-results recipe Google + Bing use to
+     surface curated collections of Article children. */
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "AI Workflows for App Builders",
+    description:
+      "Guided AI workflows for validating ideas, improving onboarding, planning campaigns, and running better app systems.",
+    url: CANONICAL,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: methods.map((m, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: m.title,
+        url: `${SITE_ORIGIN}/workflows/${m.slug}`,
+      })),
+    },
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Mantle Compass", item: `${SITE_ORIGIN}/compass` },
+      { "@type": "ListItem", position: 2, name: "Workflows", item: CANONICAL },
+    ],
+  };
+
   return (
-    <CompassLayout showFooterCta={false}>
-      <div className="mx-auto w-full max-w-[1320px] px-6 max-[720px]:px-5">
-        <CompassIndexHero
-          heading="Workflows"
-          description="Skills and prompts to help you build, grow, and run your product business with AI."
-        />
-        <CompassSectionNav currentPath="/workflows" />
-        <div className="mt-14 max-[720px]:mt-10">
-          <WorkflowCardGrid methods={methods} />
-        </div>
-      </div>
-      <CompassNewsletter />
-    </CompassLayout>
+    <CompassListingPage
+      heading="Workflows"
+      description="AI-assisted workflows for validating ideas, improving onboarding, planning campaigns, and running better app systems."
+      currentPath="/workflows"
+    >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <WorkflowCardGrid methods={methods} />
+    </CompassListingPage>
   );
 }
