@@ -230,8 +230,13 @@ export function CompassDetailShell({
               `lg:py-12` keeps the code panel breathing inside the
               section, but the section itself sits flush with the CTA
               below it. */}
+          {/* Body grid — the inner page-width container does NOT
+              carry the closing hairline anymore; we render a
+              full-bleed `<hr>` after the grid so the divider
+              between content and the MantleFooter CTA spans the
+              full viewport width, not just `max-w-page`. */}
           <div
-            className={`${containerInner} grid items-start border-b border-edge-medium ${bodyGridClasses}`}
+            className={`${containerInner} grid items-start ${bodyGridClasses}`}
             style={{ gridTemplateColumns: layout.grid }}
           >
             {/* Left article column. For `rail="code"` at lg+, the
@@ -284,6 +289,19 @@ export function CompassDetailShell({
               {rightRail}
             </aside>
           </div>
+          {/* Full-bleed hairline closes the body section and sits
+              flush against the MantleFooter's gradient transition
+              strip + CTA band below. Renders as an `<hr>` so it
+              spans the viewport edge-to-edge (the `<div>` above is
+              constrained to `max-w-page`, so a `border-b` on it
+              left the divider stranded inside the page gutter).
+              `m-0 h-px` strips the browser default
+              `<hr>` margins; `border-0 bg-edge-medium` recolors it
+              to the canonical edge token. */}
+          <hr
+            aria-hidden="true"
+            className="m-0 h-px w-full border-0 bg-edge-medium"
+          />
         </article>
       </div>
     </CompassLayout>

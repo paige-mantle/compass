@@ -8,6 +8,7 @@ import { CodeBlocks } from "@/compass/components/workflows/CodeBlocks";
 import { PreviewTabs } from "@/compass/components/workflows/PreviewTabs";
 import { PairsWith, PairItem } from "@/compass/components/workflows/PairsWith";
 import { Chips, Chip } from "@/compass/components/workflows/Chips";
+import { BestFor } from "@/compass/components/workflows/BestFor";
 import {
   RelatedCards,
   RelatedCard,
@@ -45,6 +46,7 @@ const frameworkMdxComponents = {
   PairItem,
   Chips,
   Chip,
+  BestFor,
   RelatedCards,
   RelatedCard,
   // Callout family — same recipes available across every Compass

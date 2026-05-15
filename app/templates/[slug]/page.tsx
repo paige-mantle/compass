@@ -7,6 +7,7 @@ import { CodeFence } from "@/compass/components/shared/CodeFence";
 import { CodeBlocks } from "@/compass/components/workflows/CodeBlocks";
 import { PreviewTabs } from "@/compass/components/workflows/PreviewTabs";
 import { PairsWith, PairItem } from "@/compass/components/workflows/PairsWith";
+import { BestFor } from "@/compass/components/workflows/BestFor";
 import {
   RelatedCards,
   RelatedCard,
@@ -36,6 +37,7 @@ const templateMdxComponents = {
   pre: CodeFence,
   PairsWith,
   PairItem,
+  BestFor,
   RelatedCards,
   RelatedCard,
   Note: Callout,
@@ -161,7 +163,11 @@ export default async function TemplatePage({
       title={loaded.meta.title}
       summary={loaded.meta.summary}
       authors={authors}
-      verified
+      /* `verified` (the "Mantle Official" shield eyebrow) is
+         intentionally NOT set right now — we're not surfacing the
+         official-template badge on detail pages until the design
+         pass lands. Restore by adding `verified` (and optionally
+         `verifiedLabel="Mantle Official"`) when ready. */
       worksWith={worksWith}
       systems={loaded.meta.systems}
       estimatedTime={loaded.meta.estimatedTime}

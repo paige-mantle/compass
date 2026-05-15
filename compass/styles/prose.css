@@ -96,16 +96,19 @@
   }
 
   /* Workflow / template / compass-content section headings —
-     tighter editorial scale than manuals + insights. Recipe now
-     uses Tailwind utility classes via `@apply` (resolved through
-     the `@reference` at the top of this file) so every value
-     tracks the canonical scale tokens automatically. Spacing
-     tightened from the previous `mt-8 mb-1.5` to `mt-4 mb-1`
-     so the section break reads as a confident step, not a chasm.
-     Letter-spacing keeps the `-0.01em` editorial bump (no exact
-     Tailwind class matches Compass's tracking ramp). */
+     tighter editorial scale than manuals + insights. Explicit
+     longhand `margin` (24px top / 4px bottom) instead of `@apply
+     mt-4 mb-1` so the override beats the base h2 rule above
+     (which uses shorthand `margin`) deterministically in cascade
+     order — `@apply` expansion was rendering as `mt-10` (40px)
+     in dev, leaving too much air above each section heading on
+     workflow/template pages. The 24px top reads as a confident
+     section break, 4px bottom keeps the heading clinging to its
+     body copy. */
   .workflow-content h2, .compass-content h2 {
-    @apply text-xl leading-tight mt-4 mb-1;
+    font-size: var(--text-xl);
+    line-height: 1.25;
+    margin: 24px 0 4px;
     letter-spacing: -0.01em;
   }
   .manual-section h3, .workflow-content h3, .insight-content h3, .compass-content h3 {
@@ -124,12 +127,14 @@
   .manual-section p, .workflow-content p, .insight-content p, .compass-content p {
     font-size: var(--text-md);
     line-height: var(--leading-looser);
-    /* Paragraph gap tightened from `1.25em` (~21px on text-md / ~20px
-       on text-base) to a fixed `12px`. Matches the new headline-to-body
-       rhythm (h2 → text is 6px; p → p is 12px; section breaks via h2
-       top margin handle the larger separations). Reads as a dense
-       editorial column rather than a loose copy block. */
-    margin: 0 0 12px;
+    /* Paragraph gap further tightened from 12px → 8px. The previous
+       12px still felt loose against the tightened h2 → body rhythm
+       (h2 mb 4px, then 12px between paragraphs read as a "stair
+       step" out from the heading). 8px keeps the column dense — the
+       eye stays anchored to the section while still seeing clear
+       paragraph breaks. Section breaks come from h2 top margin
+       (24-40px depending on surface), not paragraph spacing. */
+    margin: 0 0 8px;
   }
 
   /* Detail-page body copy — `text-base` (16px) + `leading-loose`

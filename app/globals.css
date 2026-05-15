@@ -551,13 +551,20 @@ html.mobile-nav-open body {
      `<nav>` then carries the section tabs to the right of the
      logomark automatically; no separate transform is needed. */
   body.scrolled-down #header [data-secondary-row] [data-compass-mark] {
-    /* 10rem clears the full 192×36 SVG at `h-7` (≈149px) plus a
+    /* 12.5rem clears the full 192×36 SVG at `h-9` (192px wide) plus
        trailing margin so the wordmark doesn't kiss the first tab.
-       Was 6.5rem, which clipped the trailing "Compass" glyphs. */
-    width: 10rem;
+       `transition-delay: 220ms` holds the slide-in until the primary
+       row has finished translating up (200ms duration + 20ms
+       safety) — the brand mark only appears AFTER the Mantle logo
+       above has cleared, never overlapping two logos in the same
+       visual slot. The default state in the JSX has no delay, so
+       the reverse direction (scrolling up) hides the mark
+       immediately — only this open direction waits. */
+    width: 12.5rem;
     margin-right: 0;
     opacity: 1;
     pointer-events: auto;
+    transition-delay: 220ms;
   }
 }
 

@@ -154,9 +154,18 @@ export function CompassHeader({
           scroll-up the body class clears and this row slides back
           into view. Docs-site pattern (Vercel / Stripe / Cloudflare
           docs use the same model). */}
+      {/* Primary row carries the divider between primary + secondary
+          on its bottom edge. Tied to the primary row (not the
+          secondary's top) so the border translates up with the row
+          when `body.scrolled-down` fires — once the primary slides
+          out, its border goes with it, and the secondary lands at
+          the top of the viewport with a single clean hairline below
+          it. The reverse (border-t on the secondary) leaves a
+          stranded hairline at the top of the viewport when the
+          secondary "catches" the primary's slot. */}
       <div
         data-primary-row
-        className="bg-surface-medium transition-transform duration-200 ease-out"
+        className="bg-surface-medium border-b border-edge-medium transition-transform duration-200 ease-out"
       >
         <nav
           className="mx-auto w-full max-w-page px-4 py-4 sm:px-6 md:px-8 lg:py-0"
@@ -409,19 +418,30 @@ export function CompassHeader({
                    beside the first tab even with `w-0`). The scrolled
                    state below clears the negative margin so the
                    logomark sits with a normal `gap-8` from the
-                   first tab. */
+                   first tab. Transition tuned long-and-smooth (350ms
+                   cubic-bezier) so the slide-in reads as a deliberate
+                   reveal, not an instant pop. Default `transition-
+                   delay: 0` so the reverse direction (scrolling back
+                   up) hides the mark immediately — only the OPEN
+                   direction is delayed (handled in globals.css). */
                 "w-0 -mr-8 opacity-0 pointer-events-none",
-                "transition-[width,margin,opacity] duration-200 ease-out",
+                "transition-[width,margin,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
               ].join(" ")}
             >
-              {/* Logo SVG is 192×36 (5.33:1). `h-7` = 28px tall →
-                  ~149px wide. The scrolled-down slot in `globals.css`
-                  opens to 10rem (160px) so the full wordmark fits
-                  flush without clipping at the trailing edge. */}
+              {/* Logo SVG is 192×36 (5.33:1). `h-9` = 36px tall →
+                  ~192px wide. Bumped from `h-7` so the "Mantle
+                  Compass" wordmark inside the canvas renders at the
+                  same visual scale as the Mantle wordmark in the
+                  primary row above — the longer two-word mark has
+                  more glyphs sharing the same SVG canvas, so its
+                  per-glyph height at h-7 was about 60% of the
+                  primary's. The scrolled-down slot in `globals.css`
+                  opens to 12.5rem (200px) so the wider wordmark
+                  fits flush without clipping at the trailing edge. */}
               <img
                 src="/compass-logo-color-white.svg"
                 alt=""
-                className="block h-7 w-auto max-w-none"
+                className="block h-9 w-auto max-w-none"
               />
             </Link>
             {COMPASS_NAV_ITEMS.map((item) => {

@@ -160,22 +160,29 @@ function TabbedBlocks({ blocks }: { blocks: WorkflowCodeBlock[] }) {
               onClick={() => setActive(i)}
               type="button"
               className={[
-                "group flex items-center justify-between gap-3",
+                /* Number on the LEFT (sequence-tabs spec). Filename
+                   reads after the index so the prompt-order is the
+                   primary cue and the filename qualifies it. */
+                "group flex items-center gap-3",
                 "px-4 py-3 text-left",
                 "border-r border-edge-medium last:border-r-0",
-                /* Active tab: accent top-bar (`border-t-2 border-accent`)
-                   + lifted `surface-higher` background + full-strength
-                   ink. Inactive: transparent top-bar + `surface-high`
-                   surface + muted ink that hovers to full strength. */
-                "border-t-2 transition-colors duration-150 cursor-pointer",
+                /* Active tab: accent BOTTOM bar (`border-b-2
+                   border-b-accent`) lining up with the strip's
+                   hairline below. `-mb-px` pulls the tab's bottom
+                   edge 1px below its natural baseline so the 2px
+                   accent border overlaps the parent's 1px hairline
+                   — visually replaces it for the active tab while
+                   the inactive tabs let the hairline show through.
+                   Lifted `surface-higher` background + full-strength
+                   ink. Inactive: transparent bottom bar +
+                   `surface-high` surface + muted ink that hovers to
+                   full strength. */
+                "border-b-2 -mb-px transition-colors duration-150 cursor-pointer",
                 isActive
-                  ? "border-t-accent bg-surface-higher text-fg-high"
-                  : "border-t-transparent bg-surface-high text-fg-medium hover:bg-surface-higher hover:text-fg-high",
+                  ? "border-b-accent bg-surface-higher text-fg-high"
+                  : "border-b-transparent bg-surface-high text-fg-medium hover:bg-surface-higher hover:text-fg-high",
               ].join(" ")}
             >
-              <span className="font-heading text-sm font-medium leading-tight truncate">
-                {b.filename}
-              </span>
               <span
                 className={[
                   "font-mono text-xxs tracking-wider tabular-nums shrink-0",
@@ -183,6 +190,9 @@ function TabbedBlocks({ blocks }: { blocks: WorkflowCodeBlock[] }) {
                 ].join(" ")}
               >
                 {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="font-heading text-sm font-medium leading-tight truncate">
+                {b.filename}
               </span>
             </button>
           );
