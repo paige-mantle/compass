@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { CompassListingPage } from "@/compass/components/shared/CompassListingPage";
 import { CompassPromptHeading } from "@/compass/components/shared/CompassPromptHeading";
-import { ManualRowList } from "@/compass/components/manuals/ManualRowList";
+import { ManualsHomeSection } from "@/compass/components/manuals/ManualsHomeSection";
 import { InsightCardGrid } from "@/compass/components/insights/InsightCardGrid";
 import { MANUAL_COVERS } from "@/compass/lib/manuals/content";
 import { listInsights } from "@/compass/lib/insights/content";
@@ -75,11 +75,13 @@ export default async function CompassHomePage() {
       eyebrow="Mantle"
       eyebrowHref="/"
     >
-      {/* Manual row list — editorial introduction to the manuals.
-          The rows have generous internal padding (py-12) so the
-          shell's `mt-14` top margin doesn't compound into an
-          oversized gap above. */}
-      <ManualRowList covers={MANUAL_COVERS} />
+      {/* Manuals home section — left-side editorial header +
+          right-side stacked manual rows. First 2 manuals
+          (Clarity + Shape) are live; the 3rd (Build) renders
+          with the coming-soon overlay. Replaces the older flat
+          `<ManualRowList>` — see `ManualsHomeSection.tsx` for the
+          full recipe + comments. */}
+      <ManualsHomeSection covers={MANUAL_COVERS} />
 
       {/* "Browse all manuals →" affordance below the row list so
           readers know the catalog page exists. Mirrors the
