@@ -42,24 +42,36 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
       {/* Left column — section header. Sticky on lg+ so the heading
           stays in view while the reader scrolls the manual rows on
           the right; on mobile the column collapses to normal flow
-          above the rows. */}
+          above the rows.
+          Staggered entrance: `data-compass-enter` keys into the
+          shared keyframes recipe in `globals.css` — eyebrow lands
+          first, H2 lands at the 80ms step, the right-column rows
+          continue the stagger from index 3 onward. Honours
+          `prefers-reduced-motion`. */}
       <div className="lg:col-span-4 lg:sticky lg:top-[calc(var(--header-h,72px)+24px)] lg:self-start">
         {/* Compact eyebrow pill — sits above the H2 as a small
             editorial label. Matches the canonical
             `<CompassPromptHeading>` recipe so it lines up with
             every other Compass eyebrow on the page. */}
-        <div className="mb-4">
+        <div className="mb-4" data-compass-enter="1">
           <CompassPromptHeading text="Compass manuals" color="accent" />
         </div>
-        <h2 className="m-0 font-heading text-4xl md:text-5xl font-normal leading-[1.05] tracking-tight text-fg-high max-w-[14ch]">
+        <h2
+          data-compass-enter="2"
+          className="m-0 font-heading text-4xl md:text-5xl font-normal leading-[1.05] tracking-tight text-fg-high max-w-[14ch]"
+        >
           Operating manuals to do XYZ
         </h2>
       </div>
 
-      {/* Right column — stacked manual rows. */}
+      {/* Right column — stacked manual rows. Each row continues the
+          staggered entrance from index 3 onward so the eye travels
+          left → right → down the stack. */}
       <div className="lg:col-span-8 flex flex-col gap-6">
-        {featured.map((cover) => (
-          <ManualRow key={cover.slug} cover={cover} />
+        {featured.map((cover, i) => (
+          <div key={cover.slug} data-compass-enter={String(i + 3)}>
+            <ManualRow cover={cover} />
+          </div>
         ))}
       </div>
     </section>

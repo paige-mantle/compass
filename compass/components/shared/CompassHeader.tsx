@@ -441,20 +441,19 @@ export function CompassHeader({
                 "transition-[width,margin,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
               ].join(" ")}
             >
-              {/* Logo SVG is 192×36 (5.33:1). `h-9` = 36px tall →
-                  ~192px wide. Bumped from `h-7` so the "Mantle
-                  Compass" wordmark inside the canvas renders at the
-                  same visual scale as the Mantle wordmark in the
-                  primary row above — the longer two-word mark has
-                  more glyphs sharing the same SVG canvas, so its
-                  per-glyph height at h-7 was about 60% of the
-                  primary's. The scrolled-down slot in `globals.css`
-                  opens to 12.5rem (200px) so the wider wordmark
-                  fits flush without clipping at the trailing edge. */}
+              {/* Logo SVG is 192×36 (5.33:1). `h-8` = 32px tall →
+                  ~171px wide. Stepped down from `h-9` (36px) per
+                  design pass — the secondary row is the
+                  wayfinding strip, not the primary brand surface,
+                  so the wordmark sits a notch quieter than the
+                  Mantle mark in the primary row above (which stays
+                  at the next-gen-canonical 36px). The scrolled-
+                  down slot in `globals.css` opens to 11rem (176px)
+                  to fit `h-8` + trailing margin. */}
               <img
                 src="/compass-logo-color-white.svg"
                 alt=""
-                className="block h-9 w-auto max-w-none"
+                className="block h-8 w-auto max-w-none"
               />
             </Link>
             {COMPASS_NAV_ITEMS.map((item) => {

@@ -334,6 +334,22 @@
       0 0 0 5px var(--color-accent-high);
   }
 
+  /* Form inputs opt OUT of the stacked global focus ring above.
+     Search bars + newsletter signups + future text inputs are
+     wrapped in a `<label>` that draws its own focus-within
+     treatment (border + subtle ring on the container) — the
+     global double-ring rendered as a loud accent halo INSIDE the
+     parent label which read as a visual bug. Buttons + links keep
+     the global ring for keyboard a11y; inputs delegate the focus
+     affordance to the wrapping label. `input[type="checkbox"]` +
+     `[type="radio"]` are left ALONE — they don't sit inside a
+     custom wrapper and need the global ring. */
+  input:not([type="checkbox"]):not([type="radio"]):focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    box-shadow: none;
+  }
+
   *,
   ::after,
   ::before,
@@ -551,16 +567,14 @@ html.mobile-nav-open body {
      `<nav>` then carries the section tabs to the right of the
      logomark automatically; no separate transform is needed. */
   body.scrolled-down #header [data-secondary-row] [data-compass-mark] {
-    /* 12.5rem clears the full 192×36 SVG at `h-9` (192px wide) plus
-       trailing margin so the wordmark doesn't kiss the first tab.
-       `transition-delay: 520ms` holds the slide-in until the primary
-       row has finished translating up (500ms duration + 20ms
-       safety) — the brand mark only appears AFTER the Mantle logo
-       above has cleared, never overlapping two logos in the same
-       visual slot. The default state in the JSX has no delay, so
-       the reverse direction (scrolling up) hides the mark
-       immediately — only this open direction waits. */
-    width: 12.5rem;
+    /* 11rem clears the full 192×36 SVG at `h-8` (≈171px) plus a
+       small trailing margin so the wordmark doesn't kiss the first
+       tab. Was 12.5rem when the logomark sat at `h-9`; stepped
+       down with the logo. `transition-delay: 520ms` holds the
+       slide-in until the primary row has finished translating up
+       (500ms duration + 20ms safety) — the brand mark only appears
+       AFTER the Mantle logo has cleared. */
+    width: 11rem;
     margin-right: 0;
     opacity: 1;
     pointer-events: auto;
@@ -681,6 +695,49 @@ html.mobile-nav-open body {
   50% {
     transform: rotate(2deg) scale(1.05);
     opacity: 1;
+  }
+}
+
+/* Compass entrance animation — applied opt-in via the
+   `data-compass-enter` attribute. The numeric value drives the
+   stagger order (1, 2, 3, …). Each step adds 80ms of delay so a
+   four-element stack reveals across ~320ms after the page paints.
+
+   Treatment is intentionally subtle: 700ms duration, an 8px
+   translate-up, `cubic-bezier(0.16, 1, 0.3, 1)` ease-out so the
+   motion lands without bouncing. `backwards` fill mode pins the
+   opening state during the delay window so the elements aren't
+   visible at full opacity for one frame before the animation
+   starts.
+
+   Honours `prefers-reduced-motion` — the animation collapses to a
+   zero-duration no-op so the elements paint at their final state
+   on systems that opt out of motion. */
+@keyframes compass-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-compass-enter] {
+  animation: compass-fade-in-up 700ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+[data-compass-enter="1"] { animation-delay: 0ms; }
+[data-compass-enter="2"] { animation-delay: 80ms; }
+[data-compass-enter="3"] { animation-delay: 160ms; }
+[data-compass-enter="4"] { animation-delay: 240ms; }
+[data-compass-enter="5"] { animation-delay: 320ms; }
+[data-compass-enter="6"] { animation-delay: 400ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-compass-enter] {
+    animation: none;
   }
 }
 

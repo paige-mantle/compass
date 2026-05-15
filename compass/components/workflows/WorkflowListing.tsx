@@ -7,20 +7,26 @@ import { CompassFilterTabs } from "../shared/CompassFilterTabs";
 import { WorkflowCardGrid } from "./WorkflowCardGrid";
 
 /**
- * Client wrapper around `<WorkflowCardGrid />` that adds a search
- * input + tag-filter pill group. The server route renders the full
- * list of workflows once; this component filters in the browser so
- * filter changes are instant and the URL stays clean.
+ * Client wrapper around `<WorkflowCardGrid />` that adds a tag-filter
+ * pill group + search input. The server route renders the full list
+ * of workflows once; this component filters in the browser so filter
+ * changes are instant and the URL stays clean.
  *
- * Filter options are derived from the union of frontmatter `tags`
- * across the input list, capped at the 6 most common tags so the
- * pill group fits one row at typical viewport widths. "All" is
- * always the first option and the default.
+ * Filter options come in two layers:
+ *   • "All" — default, no filter.
+ *   • "Mantle" — workflows with `mantleOfficial` set / defaulted to
+ *     `true` (Mantle-authored recipes). Community-submitted recipes
+ *     (`mantleOfficial: false`) drop out.
+ *   • Tag pills — derived from the union of frontmatter `tags`,
+ *     capped at the 5 most common so the row fits comfortably
+ *     alongside the search input at typical viewport widths.
  *
  * Search matches against title + summary + tags (case-insensitive
  * substring). Combined with the active tag filter — both must
  * pass for a card to render.
  */
+const MANTLE_FILTER_ID = "__mantle__";
+
 export function WorkflowListing({ methods }: { methods: WorkflowMeta[] }) {
   // Derive filter options from the input list once per render.
   const filterOptions = useMemo(() => deriveFilterOptions(methods), [methods]);
@@ -30,7 +36,9 @@ export function WorkflowListing({ methods }: { methods: WorkflowMeta[] }) {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return methods.filter((m) => {
-      if (activeFilter !== "all") {
+      if (activeFilter === MANTLE_FILTER_ID) {
+        if (m.mantleOfficial === false) return false;
+      } else if (activeFilter !== "all") {
         const tags = m.tags ?? [];
         if (!tags.includes(activeFilter)) return false;
       }
@@ -49,17 +57,13 @@ export function WorkflowListing({ methods }: { methods: WorkflowMeta[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Search + filter row — search input on the left, filter
-          pills on the right at lg+; stacked on mobile. */}
+      {/* Filter pills on the LEFT, compact search input on the
+          RIGHT. Was reversed (search-left/filter-right) — moved
+          per design pass so the primary scoping affordance
+          (filter tabs) anchors the row and the optional fuzzy
+          search sits as a secondary input. Stacks on mobile;
+          filters first, search beneath. */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="w-full lg:max-w-[420px]">
-          <CompassSearch
-            value={query}
-            onChange={setQuery}
-            placeholder="Search workflows…"
-            ariaLabel="Search workflows"
-          />
-        </div>
         {filterOptions.length > 1 ? (
           <CompassFilterTabs
             options={filterOptions}
@@ -67,7 +71,15 @@ export function WorkflowListing({ methods }: { methods: WorkflowMeta[] }) {
             onChange={setActiveFilter}
             ariaLabel="Filter workflows by tag"
           />
-        ) : null}
+        ) : <span aria-hidden="true" />}
+        <div className="w-full lg:max-w-[280px]">
+          <CompassSearch
+            value={query}
+            onChange={setQuery}
+            placeholder="Search workflows…"
+            ariaLabel="Search workflows"
+          />
+        </div>
       </div>
 
       {/* Empty state — when search + filter combine to no matches,
@@ -105,7 +117,19 @@ function deriveFilterOptions(
   }
   const top = [...tally.entries()]
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 6)
+    /* Trim to 5 tag pills (was 6) so the row fits next to the
+       new "Mantle" filter + comfortably beside the search box. */
+    .slice(0, 5)
     .map(([tag]) => ({ id: tag, label: tag }));
-  return [{ id: "all", label: "All" }, ...top];
+  /* "Mantle" filter — workflows with `mantleOfficial !== false`
+     (the default). Lets readers scope to first-party Mantle
+     recipes vs. the full mixed list. Sits at index 1, right after
+     "All", so it reads as the canonical "trusted" filter. The
+     special-case id (MANTLE_FILTER_ID) is matched in the wrapper
+     above; doesn't collide with any real tag string. */
+  return [
+    { id: "all", label: "All" },
+    { id: MANTLE_FILTER_ID, label: "Mantle" },
+    ...top,
+  ];
 }

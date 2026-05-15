@@ -39,10 +39,11 @@ export function CompassSearch({
     <label
       className="
         group/search relative flex w-full items-center gap-2
-        rounded-lg border border-edge-medium bg-surface-higher
-        pl-3 pr-3 py-2.5
-        transition-colors duration-150
+        rounded-md border border-edge-medium bg-surface-higher
+        pl-2.5 pr-2.5 py-1.5
+        transition-[border-color,box-shadow] duration-150
         focus-within:border-edge-high
+        focus-within:shadow-[0_0_0_3px_color-mix(in_oklch,var(--color-accent-medium)_18%,transparent)]
       "
     >
       <Search

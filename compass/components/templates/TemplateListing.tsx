@@ -46,15 +46,9 @@ export function TemplateListing({ templates }: { templates: TemplateMeta[] }) {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Filter pills on the LEFT, compact search input on the
+          RIGHT — same layout as `<WorkflowListing>`. */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="w-full lg:max-w-[420px]">
-          <CompassSearch
-            value={query}
-            onChange={setQuery}
-            placeholder="Search templates…"
-            ariaLabel="Search templates"
-          />
-        </div>
         {filterOptions.length > 1 ? (
           <CompassFilterTabs
             options={filterOptions}
@@ -62,7 +56,15 @@ export function TemplateListing({ templates }: { templates: TemplateMeta[] }) {
             onChange={setActiveFilter}
             ariaLabel="Filter templates by tag"
           />
-        ) : null}
+        ) : <span aria-hidden="true" />}
+        <div className="w-full lg:max-w-[280px]">
+          <CompassSearch
+            value={query}
+            onChange={setQuery}
+            placeholder="Search templates…"
+            ariaLabel="Search templates"
+          />
+        </div>
       </div>
 
       {filtered.length === 0 ? (
