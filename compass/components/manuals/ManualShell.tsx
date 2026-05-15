@@ -282,16 +282,19 @@ export function ManualShell({
               className="block h-full w-full object-cover"
             />
           </Link>
-          {/* Brand-rail title — Geist Pixel Square display face,
-              uppercase. Matches the manual cover-grid title
-              treatment so the rail and the cover plate share one
-              pixel-grid identity. Was `font-heading text-2xl` in
-              title case; pulled into the same display recipe used
-              on the chapter-number eyebrow + cover poster. */}
+          {/* Brand-rail title — Manrope display face at `text-4xl`
+              in title case. Was `font-display` (Geist Pixel Square)
+              + `uppercase text-2xl` — pulled back to the editorial
+              Manrope ramp at a bigger size so the manual name
+              reads as a proper noun ("Clarity", "Shape") rather
+              than a pixel-grid label. Pixel-grid identity stays on
+              the cover-grid poster + the chapter ordinal eyebrow;
+              the rail anchors the chapter with the same display
+              face the H1 column uses. */}
           <span
             className="
-              mt-10 mb-6 whitespace-nowrap font-display uppercase
-              text-2xl font-normal tracking-tight leading-none
+              mt-10 mb-6 whitespace-nowrap font-heading
+              text-4xl font-normal tracking-tight leading-none
             "
             style={{
               writingMode: "vertical-rl",
@@ -547,7 +550,16 @@ export function ManualShell({
                       text-fg-high
                     "
                   >
-                    {current.isIntro ? manifest.title : current.title}
+                    {/* H1 priority:
+                          1. `section.heroTitle` (optional manifest
+                             override — e.g. Shape's intro renders
+                             "Shape your app idea" while the sidebar
+                             entry stays compact "Overview").
+                          2. Intro fallback: `manifest.title`
+                             ("Clarity" / "Shape").
+                          3. Chapter fallback: `current.title`. */}
+                    {current.heroTitle
+                      ?? (current.isIntro ? manifest.title : current.title)}
                   </h1>
                 </div>
 

@@ -24,9 +24,19 @@ export type BreadcrumbSegment = { label: string; href: string };
 export function Breadcrumb({ segments }: { segments: BreadcrumbSegment[] }) {
   if (segments.length === 0) return null;
   return (
+    /* Color resolves through `var(--manual-accent, var(--color-
+       accent))` — on manual pages the `ManualShell` root sets
+       `--manual-accent` to the manual's identity color (orange for
+       Clarity, purple for Shape, etc.) and the breadcrumb adopts
+       that color across the chevron + every link. On workflow /
+       template / insight surfaces `--manual-accent` is unset so the
+       fallback `--color-accent` (#FFBB53, Mantle gold) renders —
+       same as before this change. Inner links use `text-current`
+       so they inherit the wrapper color; hover steps to the same
+       hue at lower alpha via `hover:opacity-80`. */
     <nav
       aria-label="Breadcrumb"
-      className="flex items-center gap-2 text-accent leading-loose"
+      className="flex items-center gap-2 leading-loose text-[color:var(--manual-accent,var(--color-accent))]"
     >
       <BreadcrumbChevron />
       <ol className="m-0 flex list-none flex-wrap items-center gap-2 p-0">
@@ -34,7 +44,7 @@ export function Breadcrumb({ segments }: { segments: BreadcrumbSegment[] }) {
           <li key={seg.href} className="flex items-center gap-2">
             <Link
               href={seg.href}
-              className="font-mono text-xs font-medium uppercase tracking-wider leading-loose text-accent hover:text-accent-low transition-colors duration-150 no-underline"
+              className="font-mono text-xs font-medium uppercase tracking-wider leading-loose text-current hover:opacity-80 transition-opacity duration-150 no-underline"
             >
               {seg.label}
             </Link>

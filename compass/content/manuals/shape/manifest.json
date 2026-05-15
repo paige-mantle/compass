@@ -8,6 +8,7 @@
     {
       "slug": "",
       "title": "Overview",
+      "heroTitle": "Shape your app idea",
       "isIntro": true,
       "file": "00-shape.mdx"
     },

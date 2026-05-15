@@ -11,6 +11,15 @@ export type ManualSection = {
   file: string;
   /** Optional one-liner injected under the section heading. */
   summary?: string;
+  /** Optional H1 override for the manual hero. When set, the
+   *  `ManualShell` hero renders `heroTitle` as the H1 instead of
+   *  falling back to `manifest.title` (intro) / `section.title`
+   *  (chapters). Sidebar nav + breadcrumb keep the canonical
+   *  `title` so wayfinding doesn't drift. Used for intro sections
+   *  whose hero wants a longer editorial phrase
+   *  ("Shape your app idea") while the sidebar entry stays
+   *  compact ("Overview"). */
+  heroTitle?: string;
 };
 
 export type ManualManifest = {

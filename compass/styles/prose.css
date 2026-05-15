@@ -45,7 +45,17 @@
     font-family: var(--font-sans);
     font-size: var(--text-md);
     line-height: var(--leading-looser);
-    color: var(--color-fg-high);
+    /* Body ink softened from `--color-fg-high` (#FFFFFF, pure white)
+       to `--color-fg-medium` (#E2E1EB, ~93% white) — matches the
+       next-gen Mantle body recipe. Pure white on the
+       `surface-medium` (#0C0A0E) plate was hard to read for long
+       stretches; the half-shade softening keeps high contrast
+       (~14:1) while pulling the body off the brightest tier so
+       headings still lead. Headings carry an explicit
+       `color: var(--color-fg-high)` on their own rule below so
+       they stay full white — only body copy / list items / table
+       cells inherit the softer ink. */
+    color: var(--color-fg-medium);
   }
 
   /* Headings — medium weight Manrope, relaxed tracking so the heading
