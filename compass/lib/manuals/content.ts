@@ -140,13 +140,18 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     manifestTitle: "Clarity",
     coverTitle: "Clarity",
     ordinal: "00",
-    /* Was `accent: "gold"` (= `#FFC66E`). The `gold` slot was
-       retired in the card-accent rename — it duplicated `orange`
-       byte-for-byte. Migrated to `orange` so the cover still
-       renders the same hex; `accent` is now reserved for the
-       Mantle Official workflow plate (`#FFBB53`, the darker
-       official gold). */
-    accent: "orange",
+    /* Clarity wears the canonical Mantle brand gold (`accent` →
+       `--color-accent` = #FFBB53, the darker "Mantle Official"
+       hue). Was `accent: "orange"` (= `--color-orange-high` =
+       #FFC66E, a lighter warm gold) which read as muted next to
+       the brand gold on Mantle marketing. Promoting to `accent`
+       lines the first manual up with the brand mark visually —
+       same gold as the Mantle logo + the canonical eyebrow ramp
+       across Compass. (The Mantle Official workflow plate also
+       uses this hue; that's a feature, not a conflict — Clarity
+       is the brand's flagship manual, so the gold reinforces the
+       primary identity surface.) */
+    accent: "accent",
     motif: "vanishing-grid",
     comingSoon: false,
     summary:

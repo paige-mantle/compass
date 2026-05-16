@@ -214,16 +214,14 @@ export function CompassHeader({
                       href={page.href}
                       target={page.external ? "_blank" : undefined}
                       rel={page.external ? "noopener noreferrer" : undefined}
-                      /* Link vertical padding shrunk from
-                         `md:py-[26px]` (mirroring next-gen's
-                         `md:py-6.5` = 26px → 72px primary row)
-                         to `md:py-5` (20px → 60px primary row).
-                         Compass's primary row carries fewer
-                         affordances than next-gen's marketing
-                         nav (no megamenu, no announcement bar),
-                         so the tighter row reads as the right
-                         register here. */
-                      className="flex items-center no-underline sm:px-3 py-2 md:py-5 text-sm cursor-pointer list-none text-fg-medium hover:text-fg-high"
+                      /* Link vertical padding shrunk again from
+                         `md:py-5` (20px → 60px row) to `md:py-4`
+                         (16px → ~52px primary row). Compass primary
+                         is just the marketing nav passthrough; the
+                         secondary section-switcher row carries the
+                         editorial weight underneath, so the primary
+                         can sit even quieter than next-gen's 72px. */
+                      className="flex items-center no-underline sm:px-3 py-2 md:py-4 text-sm cursor-pointer list-none text-fg-medium hover:text-fg-high"
                     >
                       <span className="leading-5">{page.title}</span>
                     </Link>

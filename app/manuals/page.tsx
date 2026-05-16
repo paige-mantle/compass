@@ -72,7 +72,7 @@ export default function ManualsIndexPage() {
 
   return (
     <CompassListingPage
-      heading="Manuals"
+      heading="Operating manuals"
       description="Step-by-step manuals for shaping, building, launching, monetizing, growing, and operating an app business."
       currentPath="/manuals"
     >
