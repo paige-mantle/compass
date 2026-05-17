@@ -3,6 +3,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { compassMdxOptions } from "@/compass/lib/mdx-options";
 import { CompassLayout } from "@/compass/components/shared/CompassLayout";
 import { ManualShell } from "@/compass/components/manuals/ManualShell";
+import { ManualShellV2 } from "@/compass/components/manuals/ManualShellV2";
 import { mdxComponents } from "@/compass/components/manuals/mdx-components";
 import {
   getManualManifest,
@@ -52,25 +53,26 @@ export default async function ManualSectionPage({
 
   const [articleLd, breadcrumbLd] = buildSectionJsonLd(loaded);
 
+  /* See `app/manuals/[slug]/page.tsx` for the v2 routing
+     rationale — keep this filter in lockstep with the intro
+     page so a chapter never accidentally switches layouts. */
+  const useV2 = loaded.manifest.slug === "shape";
+  const Shell = useV2 ? ManualShellV2 : ManualShell;
   return (
     <CompassLayout
       surface="manual"
-      showHeader={false}
+      showHeader={useV2}
+      hideSecondaryNav
       showBackgroundFx={false}
-      showFooterCta={false}
+      showFooterCta={useV2}
     >
-      <ManualShell
+      <Shell
         manifest={loaded.manifest}
         current={loaded.section}
         currentIndex={loaded.index}
         prev={loaded.prev}
         next={loaded.next}
         summary={(loaded.frontmatter as { summary?: string }).summary}
-        /* Shape chapters use the v2 white-article-column layout —
-           see `ManualShell.tsx` for the full recipe. Keep this
-           filter in lockstep with the intro-page filter in
-           `app/manuals/[slug]/page.tsx`. */
-        variant={loaded.manifest.slug === "shape" ? "v2" : "v1"}
       >
         <script
           type="application/ld+json"
@@ -85,7 +87,7 @@ export default async function ManualSectionPage({
           components={mdxComponents}
           options={compassMdxOptions}
         />
-      </ManualShell>
+      </Shell>
     </CompassLayout>
   );
 }

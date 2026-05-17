@@ -3,6 +3,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { compassMdxOptions } from "@/compass/lib/mdx-options";
 import { CompassLayout } from "@/compass/components/shared/CompassLayout";
 import { ManualShell } from "@/compass/components/manuals/ManualShell";
+import { ManualShellV2 } from "@/compass/components/manuals/ManualShellV2";
 import { mdxComponents } from "@/compass/components/manuals/mdx-components";
 import { listManuals, loadSection } from "@/compass/lib/manuals/content";
 import {
@@ -39,26 +40,31 @@ export default async function ManualIntroPage({
 
   const [articleLd, breadcrumbLd] = buildSectionJsonLd(loaded);
 
+  /* Shape manual demos the boxed v2 layout — a centered card on
+     the dark Compass canvas, dark sidebar TOC + white article
+     column inside the card. Every other manual stays on the
+     edge-to-edge v1 layout. Switch additional manuals over by
+     adding their slug to the comparison below. */
+  const useV2 = loaded.manifest.slug === "shape";
+  const Shell = useV2 ? ManualShellV2 : ManualShell;
   return (
     <CompassLayout
       surface="manual"
-      showHeader={false}
+      /* v2 shows the global Compass header above the card; v1
+         hides the header (the brand rail at the left viewport
+         edge is the manual's chrome). */
+      showHeader={useV2}
+      hideSecondaryNav
       showBackgroundFx={false}
-      showFooterCta={false}
+      showFooterCta={useV2}
     >
-      <ManualShell
+      <Shell
         manifest={loaded.manifest}
         current={loaded.section}
         currentIndex={loaded.index}
         prev={loaded.prev}
         next={loaded.next}
         summary={(loaded.frontmatter as { summary?: string }).summary}
-        /* Shape manual demos the v2 layout — white article column
-           on dark Compass canvas (see `ManualShell.tsx` for the
-           full v2 recipe). Every other manual keeps the default
-           v1 dark column. Switch additional manuals over by
-           adding their slug to the comparison below. */
-        variant={loaded.manifest.slug === "shape" ? "v2" : "v1"}
       >
         <script
           type="application/ld+json"
@@ -73,7 +79,7 @@ export default async function ManualIntroPage({
           components={mdxComponents}
           options={compassMdxOptions}
         />
-      </ManualShell>
+      </Shell>
     </CompassLayout>
   );
 }
