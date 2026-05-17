@@ -408,9 +408,15 @@ export function ManualShell({
                 {currentIndex + 1} / {manifest.sections.length}
               </span>
             </div>
+            {/* Progress fill — the INNER div carries its own
+                `rounded-full` (was inheriting just the track's
+                `overflow-hidden` clip, which only rounded its LEFT
+                edge against the track and left a square right edge
+                at any width < 100%). Pill-shaped on both ends now,
+                matching the track. */}
             <div className="h-1 overflow-hidden rounded-full bg-edge-medium">
               <div
-                className="h-full bg-[var(--manual-accent)] transition-[width] duration-200"
+                className="h-full rounded-full bg-[var(--manual-accent)] transition-[width] duration-200"
                 style={{
                   width: `${((currentIndex + 1) / manifest.sections.length) * 100}%`,
                 }}
@@ -449,22 +455,19 @@ export function ManualShell({
               cluster on left col-span-7, subheading on right
               col-span-5. Stacks on mobile. */}
           {/* Chapter hero — DARK surface with a 6px white dot-grid
-              texture only. Ambient `--manual-accent` blooms were
-              retired per design pass: the two faded color washes
-              were reading as a tinted vignette rather than warm
-              light, which muddied the legibility of the title
-              column on the left + made the dark plate feel
-              uncommitted. The dot grid + the accent-tinted cover
-              illustration on the right carry the manual identity
-              now. Hero padding `pt-8 md:pt-10 pb-6 md:pb-8` (mobile
-              `pt-6 pb-5`). */}
+              texture. Padding pinned to `pt-14 md:pt-20 pb-12
+              md:pb-14` to match `CompassIndexHero` +
+              `CompassDetailHero` so every Compass hero across the
+              site shares the same vertical rhythm; a previous pass
+              tightened to `pt-8 md:pt-10` which read as missing
+              top padding next to the standard hero recipe. */}
           <div
             className="
               relative z-[1] block overflow-hidden
               border-b border-edge-medium
               bg-surface-medium
-              px-4 sm:px-6 md:px-8 pt-8 md:pt-10 pb-6 md:pb-8
-              max-[720px]:pt-6 max-[720px]:pb-5
+              px-4 sm:px-6 md:px-8 pt-14 md:pt-20 pb-12 md:pb-14
+              max-[720px]:pb-8
             "
             style={{
               backgroundImage:
@@ -600,7 +603,17 @@ export function ManualShell({
               closer to the body content. `flex-1` lets the section
               grow to push prev/next to the article column bottom
               when a chapter is shorter than the viewport. */}
-          <section className="manual-section mx-auto w-full max-w-[56ch] flex-1 px-6 pt-12 pb-4 max-[720px]:px-5 max-[720px]:pt-8 max-[720px]:pb-4">
+          {/* Content column max-width bumped `max-w-[56ch]` →
+              `max-w-[68ch]`. The tighter 56ch ran the prose as a
+              narrow editorial ribbon next to the wide manual rail
+              + TOC sidebar combined width; 68ch gives the column
+              enough room for tables + callouts + code fences to
+              breathe at the prose width without hitting the
+              sidebar gutter. Body still stays inside comfortable
+              reading-line territory (typographers recommend
+              45-75 characters per line; 68ch is the upper-middle
+              of that range). */}
+          <section className="manual-section mx-auto w-full max-w-[68ch] flex-1 px-6 pt-12 pb-4 max-[720px]:px-5 max-[720px]:pt-8 max-[720px]:pb-4">
             {children}
 
             {/* Share section — sits at the end of the chapter body
