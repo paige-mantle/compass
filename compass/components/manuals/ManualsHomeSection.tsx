@@ -55,17 +55,17 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
             `<CompassPromptHeading>` recipe so it lines up with
             every other Compass eyebrow on the page. */}
         <div className="mb-4" data-compass-enter="1">
-          <CompassPromptHeading text="Compass manuals" color="accent" />
+          <CompassPromptHeading text="Operating Manuals" color="accent" />
         </div>
         <h2
           data-compass-enter="2"
-          className="m-0 font-heading text-4xl md:text-5xl font-normal leading-[1.05] tracking-tight text-fg-high max-w-[18ch]"
+          className="m-0 font-heading text-4xl md:text-5xl font-normal leading-[1.05] tracking-tight text-fg-high max-w-[22ch]"
         >
           Manuals for sharper product decisions
         </h2>
         <p
           data-compass-enter="2"
-          className="m-0 mt-4 max-w-[38ch] font-sans text-base leading-loose text-fg-medium"
+          className="m-0 mt-4 max-w-[48ch] font-sans text-base leading-loose text-fg-medium"
         >
           Deep-dive manuals for product, growth, and operations
           decisions that get harder as your app scales.

@@ -114,7 +114,7 @@ export default async function CompassHomePage() {
               side-by-side row with the heading on the left + button
               on the right). Vertical stack reads as one editorial
               cluster: kicker → H2 → subhead → CTA. */}
-          <div className="mb-10 flex flex-col gap-3 max-w-[40ch]">
+          <div className="mb-10 flex flex-col gap-3 max-w-[52ch]">
             <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
               Workflows for building with AI
             </h2>
@@ -154,7 +154,7 @@ export default async function CompassHomePage() {
           </div>
           {/* Same vertical stack as the Workflows section above
               (kicker → H2 → subhead → CTA). */}
-          <div className="mb-10 flex flex-col gap-3 max-w-[40ch]">
+          <div className="mb-10 flex flex-col gap-3 max-w-[52ch]">
             <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
               Notes on building app businesses
             </h2>
