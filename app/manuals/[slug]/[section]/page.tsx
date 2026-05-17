@@ -66,6 +66,11 @@ export default async function ManualSectionPage({
         prev={loaded.prev}
         next={loaded.next}
         summary={(loaded.frontmatter as { summary?: string }).summary}
+        /* Shape chapters use the v2 white-article-column layout —
+           see `ManualShell.tsx` for the full recipe. Keep this
+           filter in lockstep with the intro-page filter in
+           `app/manuals/[slug]/page.tsx`. */
+        variant={loaded.manifest.slug === "shape" ? "v2" : "v1"}
       >
         <script
           type="application/ld+json"

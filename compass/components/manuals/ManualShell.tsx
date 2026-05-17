@@ -175,6 +175,7 @@ export function ManualShell({
   prev,
   next,
   summary,
+  variant = "v1",
   children,
 }: {
   manifest: ManualManifest;
@@ -185,6 +186,25 @@ export function ManualShell({
   /** Hero subheading — pulled from chapter MDX frontmatter
       (`summary` field). Falls back to a placeholder. */
   summary?: string;
+  /**
+   * Layout variant.
+   *
+   *   • `"v1"` (default) — canonical dark Compass surface across
+   *     the whole article column. Hero + body + prev/next all
+   *     render on `bg-surface-medium` with light ink.
+   *   • `"v2"` — flipped: the outer canvas + brand rail + sidebar
+   *     stay dark, but the article column wraps in
+   *     `.compass-light-theme` (defined in `app/globals.css`) so
+   *     every surface / fg / edge token inside the article column
+   *     flips to the light-theme value — white surfaces, dark
+   *     ink, low-alpha black edges. Reads as a "page within a
+   *     page" — the manual chapter sits on a white card centered
+   *     in the dark Compass canvas. Cover illustrations + brand-
+   *     accent eyebrows + callouts keep the manual's
+   *     `--manual-accent` color, so identity carries through.
+   *     Demo'd on Shape manual chapters; Clarity stays on v1.
+   */
+  variant?: "v1" | "v2";
   children: ReactNode;
 }) {
   /* Look up the cover-grid entry for this manual to get the SVG
@@ -439,7 +459,26 @@ export function ManualShell({
             surfaces. Prose / fg / edge tokens stay on their
             dark-theme values; the hero gets the colored cover plate
             on top of that dark canvas as a deliberate accent. */}
-        <article className="relative bg-surface-medium flex min-h-[calc(100vh-50px)] flex-col">
+        {/* Article column.
+            • v1 — dark `surface-medium` plate across the whole
+              column. Body inherits the canonical Compass dark
+              theme.
+            • v2 — wraps the column in `.compass-light-theme`
+              (defined in `app/globals.css`) so every surface /
+              fg / edge token inside the column flips to the
+              light-theme value. The hero stays on
+              `bg-surface-medium` (now WHITE in the light scope),
+              prose ink switches to dark, edges become low-alpha
+              black. Outer canvas + brand rail + sidebar stay
+              dark — they live OUTSIDE this wrapper. */}
+        <article
+          className={[
+            "relative bg-surface-medium flex min-h-[calc(100vh-50px)] flex-col",
+            variant === "v2" ? "compass-light-theme" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
           {/* Chapter title + subheading.
               Was a wrapping `<header>` element that also carried a
               date + copy/share top-bar — removed in the cleanup pass.

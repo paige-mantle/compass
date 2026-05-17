@@ -49,7 +49,7 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
           first, H2 lands at the 80ms step, the right-column rows
           continue the stagger from index 3 onward. Honours
           `prefers-reduced-motion`. */}
-      <div className="lg:col-span-6 lg:sticky lg:top-[calc(var(--header-h,44px)+24px)] lg:self-start">
+      <div className="lg:col-span-5 lg:sticky lg:top-[calc(var(--header-h,44px)+24px)] lg:self-start">
         {/* Compact eyebrow pill — sits above the H2 as a small
             editorial label. Matches the canonical
             `<CompassPromptHeading>` recipe so it lines up with
@@ -87,7 +87,7 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
       {/* Right column — stacked manual rows. Each row continues the
           staggered entrance from index 3 onward so the eye travels
           left → right → down the stack. */}
-      <div className="lg:col-span-6 flex flex-col gap-6">
+      <div className="lg:col-span-7 flex flex-col gap-6">
         {featured.map((cover, i) => (
           <div key={cover.slug} data-compass-enter={String(i + 3)}>
             <ManualRow cover={cover} />

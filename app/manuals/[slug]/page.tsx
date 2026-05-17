@@ -53,6 +53,12 @@ export default async function ManualIntroPage({
         prev={loaded.prev}
         next={loaded.next}
         summary={(loaded.frontmatter as { summary?: string }).summary}
+        /* Shape manual demos the v2 layout — white article column
+           on dark Compass canvas (see `ManualShell.tsx` for the
+           full v2 recipe). Every other manual keeps the default
+           v1 dark column. Switch additional manuals over by
+           adding their slug to the comparison below. */
+        variant={loaded.manifest.slug === "shape" ? "v2" : "v1"}
       >
         <script
           type="application/ld+json"
