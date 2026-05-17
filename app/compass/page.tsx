@@ -3,7 +3,7 @@ import { CompassPromptHeading } from "@/compass/components/shared/CompassPromptH
 import { CompassButton } from "@/compass/components/shared/CompassButton";
 import { ManualsHomeSection } from "@/compass/components/manuals/ManualsHomeSection";
 import { InsightCardGrid } from "@/compass/components/insights/InsightCardGrid";
-import { WorkflowCardGrid } from "@/compass/components/workflows/WorkflowCardGrid";
+import { WorkflowCardSlider } from "@/compass/components/workflows/WorkflowCardSlider";
 import { MANUAL_COVERS } from "@/compass/lib/manuals/content";
 import { listInsights } from "@/compass/lib/insights/content";
 import { listWorkflows } from "@/compass/lib/workflows/content";
@@ -73,7 +73,7 @@ export default async function CompassHomePage() {
 
   return (
     <CompassListingPage
-      heading="Compass is the learning layer"
+      heading="Compass"
       description="Manuals, workflows, and templates for app teams using AI to build, grow, and operate better."
       currentPath="/compass"
       /* Eyebrow trails up to the parent Mantle ecosystem.
@@ -91,20 +91,9 @@ export default async function CompassHomePage() {
           full recipe + comments. */}
       <ManualsHomeSection covers={MANUAL_COVERS} />
 
-      {/* "Browse all manuals →" affordance — outline-button recipe
-          (`<CompassButton>` default tone) matches the next-gen
-          marketing-site pattern where the secondary CTA always reads
-          as a bordered chip with a right chevron. Same recipe used
-          on the View-all links in the Workflows + Insights sections
-          below so the three home sections share one CTA shape. */}
-      <div className="mt-8 mb-4 flex justify-end">
-        <CompassButton
-          href="/manuals"
-          icon={{ icon: "ArrowRight", position: "right" }}
-        >
-          Browse all manuals
-        </CompassButton>
-      </div>
+      {/* "Browse all manuals" CTA now sits inside
+          `<ManualsHomeSection>` directly under the subhead — see
+          the component for the wiring. */}
 
       {featuredWorkflows.length > 0 ? (
         /* Featured workflows — same section recipe as the insights
@@ -121,24 +110,28 @@ export default async function CompassHomePage() {
           <div className="mb-4">
             <CompassPromptHeading text="Workflows" color="accent" />
           </div>
-          <div className="mb-6 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
-            <div className="flex flex-col gap-3 max-w-[36ch]">
-              <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
-                AI workflows for real app work
-              </h2>
-              <p className="m-0 font-sans text-base leading-loose text-fg-medium">
-                Reusable AI workflows that give teams more leverage
-                without lowering the bar.
-              </p>
+          {/* Section header — CTA stacked UNDER the subhead (was a
+              side-by-side row with the heading on the left + button
+              on the right). Vertical stack reads as one editorial
+              cluster: kicker → H2 → subhead → CTA. */}
+          <div className="mb-10 flex flex-col gap-3 max-w-[40ch]">
+            <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
+              Workflows for building with AI
+            </h2>
+            <p className="m-0 font-sans text-base leading-loose text-fg-medium">
+              Reusable AI workflows that give teams more leverage
+              without lowering the bar.
+            </p>
+            <div className="mt-3">
+              <CompassButton
+                href="/workflows"
+                icon={{ icon: "ArrowRight", position: "right" }}
+              >
+                View all workflows
+              </CompassButton>
             </div>
-            <CompassButton
-              href="/workflows"
-              icon={{ icon: "ArrowRight", position: "right" }}
-            >
-              View all workflows
-            </CompassButton>
           </div>
-          <WorkflowCardGrid methods={featuredWorkflows} />
+          <WorkflowCardSlider methods={featuredWorkflows} />
         </section>
       ) : null}
 
@@ -159,22 +152,24 @@ export default async function CompassHomePage() {
           <div className="mb-4">
             <CompassPromptHeading text="Insights" color="accent" />
           </div>
-          <div className="mb-6 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
-            <div className="flex flex-col gap-3 max-w-[36ch]">
-              <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
-                Notes on building app businesses
-              </h2>
-              <p className="m-0 font-sans text-base leading-loose text-fg-medium">
-                Essays and commentary on product, growth, AI, and the
-                operating layer behind modern app companies.
-              </p>
+          {/* Same vertical stack as the Workflows section above
+              (kicker → H2 → subhead → CTA). */}
+          <div className="mb-10 flex flex-col gap-3 max-w-[40ch]">
+            <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
+              Notes on building app businesses
+            </h2>
+            <p className="m-0 font-sans text-base leading-loose text-fg-medium">
+              Essays and commentary on product, growth, AI, and the
+              operating layer behind modern app companies.
+            </p>
+            <div className="mt-3">
+              <CompassButton
+                href="/blog"
+                icon={{ icon: "ArrowRight", position: "right" }}
+              >
+                View all insights
+              </CompassButton>
             </div>
-            <CompassButton
-              href="/blog"
-              icon={{ icon: "ArrowRight", position: "right" }}
-            >
-              View all insights
-            </CompassButton>
           </div>
           <InsightCardGrid insights={latestInsights} />
         </section>

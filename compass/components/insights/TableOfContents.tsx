@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { CompassPromptHeading } from "../shared/CompassPromptHeading";
 
 type Heading = { depth: 2 | 3; id: string; text: string };
 
@@ -38,9 +39,16 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
 
   return (
     <nav aria-label="Jump to section">
-      <h2 className="mb-4 font-heading text-xl font-normal tracking-tight text-fg-high">
-        Jump to section
-      </h2>
+      {/* TOC label styled as the canonical Compass eyebrow
+          (`<CompassPromptHeading>` — chevron + mono uppercase
+          accent-gold label). Was an `<h2>` in heading-scale
+          font-heading; the TOC is wayfinding chrome, not a
+          content section, so the eyebrow register reads correctly
+          and matches every other "Section / Filter / Eyebrow"
+          label across Compass. */}
+      <div className="mb-4">
+        <CompassPromptHeading text="Jump to section" color="accent" />
+      </div>
       <ol className="m-0 flex list-none flex-col gap-3 p-0">
         {topLevel.map((h) => {
           const active = activeId === h.id;

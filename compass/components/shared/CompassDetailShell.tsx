@@ -275,10 +275,10 @@ export function CompassDetailShell({
                 rail === "code"
                   ? [
                       "flex flex-col",
-                      "lg:sticky lg:top-[calc(var(--header-h,52px)+16px)] lg:self-start",
-                      "lg:max-h-[calc(100dvh-var(--header-h,52px)-32px)] lg:overflow-hidden",
+                      "lg:sticky lg:top-[calc(var(--header-h,44px)+16px)] lg:self-start",
+                      "lg:max-h-[calc(100dvh-var(--header-h,44px)-32px)] lg:overflow-hidden",
                     ].join(" ")
-                  : "sticky top-[calc(var(--header-h,52px)+16px)] self-start space-y-6",
+                  : "sticky top-[calc(var(--header-h,44px)+16px)] self-start space-y-6",
                 railDesktopOrderClass,
                 railStaticClass,
                 railMobileOrderClass,

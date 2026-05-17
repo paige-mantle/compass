@@ -40,7 +40,11 @@ export function MetaDot() {
   return (
     <span
       aria-hidden="true"
-      className="mx-1.5 inline-block align-middle text-base leading-none text-fg-lower"
+      /* Size bumped `text-base` (16px) → `text-xl` (20px) so the
+         dot reads as a clear visual separator at meta-row scale.
+         The previous half-step felt indistinguishable from a
+         period at certain font weights. */
+      className="mx-1.5 inline-block align-middle text-xl leading-none text-fg-lower"
     >
       ·
     </span>

@@ -558,7 +558,7 @@ html.mobile-nav-open body {
     /* Translate up by the primary row's height (now 60px after the
        nav-link `py` was tightened `md:py-[26px]` → `md:py-5`). Was
        `-72px` for the old 72px primary. */
-    transform: translateY(-52px);
+    transform: translateY(-44px);
   }
   /* Once the user scrolls past the threshold (the secondary row
      takes the primary row's slot at the top of the viewport),

@@ -6,6 +6,7 @@ import {
 } from "../../lib/card-accents";
 import type { ManualCoverEntry } from "../../lib/manuals/content";
 import { CompassPromptHeading } from "../shared/CompassPromptHeading";
+import { CompassButton } from "../shared/CompassButton";
 
 /**
  * `<ManualsHomeSection />` — manuals showcase on the `/compass` home.
@@ -48,7 +49,7 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
           first, H2 lands at the 80ms step, the right-column rows
           continue the stagger from index 3 onward. Honours
           `prefers-reduced-motion`. */}
-      <div className="lg:col-span-4 lg:sticky lg:top-[calc(var(--header-h,52px)+24px)] lg:self-start">
+      <div className="lg:col-span-6 lg:sticky lg:top-[calc(var(--header-h,44px)+24px)] lg:self-start">
         {/* Compact eyebrow pill — sits above the H2 as a small
             editorial label. Matches the canonical
             `<CompassPromptHeading>` recipe so it lines up with
@@ -69,12 +70,24 @@ export function ManualsHomeSection({ covers }: { covers: ManualCoverEntry[] }) {
           Deep-dive manuals for product, growth, and operations
           decisions that get harder as your app scales.
         </p>
+        {/* "Browse all manuals →" CTA sits directly under the
+            subhead inside the left column (was a separate row
+            below the section). Subhead → button stays on one
+            editorial vertical rhythm. */}
+        <div data-compass-enter="2" className="mt-6">
+          <CompassButton
+            href="/manuals"
+            icon={{ icon: "ArrowRight", position: "right" }}
+          >
+            Browse all manuals
+          </CompassButton>
+        </div>
       </div>
 
       {/* Right column — stacked manual rows. Each row continues the
           staggered entrance from index 3 onward so the eye travels
           left → right → down the stack. */}
-      <div className="lg:col-span-8 flex flex-col gap-6">
+      <div className="lg:col-span-6 flex flex-col gap-6">
         {featured.map((cover, i) => (
           <div key={cover.slug} data-compass-enter={String(i + 3)}>
             <ManualRow cover={cover} />

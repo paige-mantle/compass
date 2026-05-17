@@ -106,8 +106,8 @@ export function CompassLayout({
   const headerOffsetClass = !showHeader
     ? ""
     : hideSecondaryNav
-      ? "pt-16 lg:pt-[52px]"
-      : "pt-16 lg:pt-[100px]";
+      ? "pt-16 lg:pt-[44px]"
+      : "pt-16 lg:pt-[92px]";
   return (
     <div
       data-layout-bg-fx=""
