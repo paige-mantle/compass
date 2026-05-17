@@ -24,9 +24,11 @@ import { FOOTER_CATEGORIES, footerLinkHref } from "../../lib/footer-data";
  *      pages have.
  *
  *   3. Closing CTA band — gold eyebrow ("30-day free trial...") +
- *      H1-scale heading ("Grow your business with Mantle") +
- *      supporting body + primary button. Same copy as marketing
- *      site so users see one consistent ecosystem close.
+ *      H1-scale heading ("Run the business behind your app with
+ *      Mantle") + supporting body + primary button. Aligned to
+ *      Compass's editorial voice — the marketing site uses a
+ *      slightly different "Grow your business with Mantle"
+ *      phrasing; if these diverge further, sync via this file.
  *
  *   4. 5-column link grid (Mantle Core / Advanced / Pro / Resources /
  *      Legal) — sourced from `compass/lib/footer-data.ts`. External
@@ -85,7 +87,7 @@ export function MantleFooter() {
                 {/* H1-scale heading (rendered as `<h2>` because the
                     page already has its own `<h1>` above). */}
                 <h2 className={`m-0 ${COMPASS_H1_CLASS}`}>
-                  Grow your business with Mantle
+                  Run the business behind your app with Mantle
                 </h2>
                 <p className="m-0 max-w-[60ch] font-sans text-lg leading-loose text-fg-low">
                   Mantle Core is free for new apps. Pay only when your app

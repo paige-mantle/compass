@@ -155,7 +155,7 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     motif: "vanishing-grid",
     comingSoon: false,
     summary:
-      "Most apps fail before the first line of code. Clarity is for builders who want to know — before they ship — whether what they're making can actually be a business.",
+      "Understand what AI has changed, what it did not fix, and what it takes to build an app people actually use, trust, and pay for.",
   },
   {
     slug: "shape",
@@ -167,7 +167,7 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     motif: "nested-ovals",
     comingSoon: false,
     summary:
-      "An idea isn't a product. Shape walks you through positioning, demand, and the smallest first version that lets you find out if you're right.",
+      "Turn a rough direction into a clear product strategy: problem, customer, demand, positioning, and a useful MVP.",
   },
   {
     /* The next four manuals (Build through Operate) are roadmap
@@ -187,7 +187,7 @@ export const MANUAL_COVERS: ManualCoverEntry[] = [
     motif: "circuit-path",
     comingSoon: true,
     summary:
-      "Get the first version out the door. Stack choices, AI-native workflows, and the moves that make a one-person team feel like ten.",
+      "Make better build decisions across stack, workflows, scope, and systems without adding unnecessary complexity.",
   },
   {
     slug: "launch",

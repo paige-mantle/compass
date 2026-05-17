@@ -73,15 +73,15 @@ export default async function CompassHomePage() {
 
   return (
     <CompassListingPage
-      heading="Mantle Compass"
-      description="Manuals, workflows, templates, and essays for app builders turning AI-built products into real businesses."
+      heading="Compass is the learning layer"
+      description="Manuals, workflows, and templates for app teams using AI to build, grow, and operate better."
       currentPath="/compass"
-      /* Eyebrow trails up to the Mantle marketing site. Listing
-         pages use eyebrow="Compass" linking back here; the home's
-         eyebrow points one level higher so the editorial trail
-         reads MANTLE → MANTLE COMPASS → [section] → [page]. */
-      eyebrow="Mantle"
-      eyebrowHref="/"
+      /* Eyebrow trails up to the parent Mantle ecosystem.
+         "Mantle Compass" — full brand label sits above the H1 so
+         the editorial trail reads MANTLE COMPASS → [section] →
+         [page]; clicking it returns to this home. */
+      eyebrow="Mantle Compass"
+      eyebrowHref="/compass"
     >
       {/* Manuals home section — left-side editorial header +
           right-side stacked manual rows. First 2 manuals
@@ -122,12 +122,13 @@ export default async function CompassHomePage() {
             <CompassPromptHeading text="Workflows" color="accent" />
           </div>
           <div className="mb-6 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
-            <div className="flex flex-col gap-3 max-w-[34ch]">
+            <div className="flex flex-col gap-3 max-w-[36ch]">
               <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
-                Practical workflows for your stack
+                AI workflows for real app work
               </h2>
               <p className="m-0 font-sans text-base leading-loose text-fg-medium">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Drop-in prompts your team can run today with the audience signal, exclusions, and output structure baked in.
+                Reusable AI workflows that give teams more leverage
+                without lowering the bar.
               </p>
             </div>
             <CompassButton
@@ -159,12 +160,13 @@ export default async function CompassHomePage() {
             <CompassPromptHeading text="Insights" color="accent" />
           </div>
           <div className="mb-6 flex items-end justify-between gap-6 max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-4">
-            <div className="flex flex-col gap-3 max-w-[34ch]">
+            <div className="flex flex-col gap-3 max-w-[36ch]">
               <h2 className="m-0 font-heading text-3xl font-medium tracking-tight leading-tight text-fg-high md:text-4xl">
-                What our team is saying
+                Notes on building app businesses
               </h2>
               <p className="m-0 font-sans text-base leading-loose text-fg-medium">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Founder essays and commentary on building, shipping, and running an app business in the AI era.
+                Essays and commentary on product, growth, AI, and the
+                operating layer behind modern app companies.
               </p>
             </div>
             <CompassButton
